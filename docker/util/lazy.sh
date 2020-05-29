@@ -9,8 +9,8 @@
 # 例如 ubuntu@122.51.199.160
 REMOTE=ubuntu@122.51.199.160
 # 请设置本地SSH私钥文件id_rsa路径
-# 例如 /home/litemall/id_rsa
-ID_RSA=/d/00/cloud/litemall.txt
+# 例如 /home/golfworld/id_rsa
+ID_RSA=/d/00/cloud/golfworld.txt
 
 if test -z "$REMOTE"
 then
@@ -26,15 +26,15 @@ fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR/../.. || exit 2
-LITEMALL_HOME=$PWD
-echo "LITEMALL_HOME $LITEMALL_HOME"
+golfworld_HOME=$PWD
+echo "golfworld_HOME $golfworld_HOME"
 
 # 项目打包
-cd $LITEMALL_HOME || exit 2
+cd $golfworld_HOME || exit 2
 ./docker/util/package.sh
 
 # 上传云服务器
-cd $LITEMALL_HOME || exit 2
+cd $golfworld_HOME || exit 2
 scp -i $ID_RSA -r  ./docker $REMOTE:/home/ubuntu/
 
 # 远程登录云服务器并执行reset脚本

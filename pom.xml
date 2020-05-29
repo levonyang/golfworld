@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.linlinjava</groupId>
-    <artifactId>litemall</artifactId>
+    <groupId>org</groupId>
+    <artifactId>golfworld</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
 
@@ -20,39 +20,39 @@
     </properties>
 
     <modules>
-        <module>litemall-core</module>
-        <module>litemall-db</module>
-        <module>litemall-wx-api</module>
-        <module>litemall-admin-api</module>
-        <module>litemall-all</module>
-        <module>litemall-all-war</module>
+        <module>golfworld-core</module>
+        <module>golfworld-db</module>
+        <module>golfworld-wx-api</module>
+        <module>golfworld-admin-api</module>
+        <module>golfworld-all</module>
+        <module>golfworld-all-war</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.linlinjava</groupId>
-                <artifactId>litemall-core</artifactId>
+                <groupId>org</groupId>
+                <artifactId>golfworld-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.linlinjava</groupId>
-                <artifactId>litemall-db</artifactId>
+                <groupId>org</groupId>
+                <artifactId>golfworld-db</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.linlinjava</groupId>
-                <artifactId>litemall-wx-api</artifactId>
+                <groupId>org</groupId>
+                <artifactId>golfworld-wx-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.linlinjava</groupId>
-                <artifactId>litemall-admin-api</artifactId>
+                <groupId>org</groupId>
+                <artifactId>golfworld-admin-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.linlinjava</groupId>
-                <artifactId>litemall-all</artifactId>
+                <groupId>org</groupId>
+                <artifactId>golfworld-all</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

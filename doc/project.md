@@ -281,7 +281,7 @@ Spring Boot技术栈参考以下文档或者项目：
 
 如图所示，当前开发阶段的方案：
 
-* MySQL数据访问地址`jdbc:mysql://localhost:3306/litemall`
+* MySQL数据访问地址`jdbc:mysql://localhost:3306/golfworld`
 * litemall-wx-api后端服务地址`http://localhost:8080/wx`，数据则来自MySQL
 * litemall-admin-api后端服务地址`http://localhost:8080/admin`,数据则来自MySQL
 * litemall-admin前端访问地址`http://localhost:9527`, 数据来自litemall-admin-api
@@ -468,20 +468,20 @@ flush privilege
 ```
     <logger name="org.mybatis" level="ERROR" />
     <logger name="org.springframework" level="ERROR" />
-    <logger name="org.linlinjava.litemall.core" level="DEBUG" />
-    <logger name="org.linlinjava.litemall.db" level="DEBUG" />
-    <logger name="org.linlinjava.litemall.admin" level="DEBUG" />
-    <logger name="org.linlinjava.litemall.wx" level="DEBUG" />
-    <logger name="org.linlinjava.litemall" level="DEBUG" />
+    <logger name="org.golfworld.core" level="DEBUG" />
+    <logger name="org.golfworld.db" level="DEBUG" />
+    <logger name="org.golfworld.admin" level="DEBUG" />
+    <logger name="org.golfworld.wx" level="DEBUG" />
+    <logger name="org.golfworld" level="DEBUG" />
 ```
 
 具体如何配置，请自行学习Spring Boot的日志配置和logback日志配置。
 
-`org.linlinjava.litemall.core`定义litemall-core模块的日志级别
-`org.linlinjava.litemall.db`定义litemall-db模块的日志级别
-`org.linlinjava.litemall.wx`定义litemall-wx-api模块的日志级别
-`org.linlinjava.litemall.admin`定义litemall-admin-api模块的日志级别
-`org.linlinjava.litemall`而定义litemall所有后端模块的日志级别
+`org.golfworld.core`定义litemall-core模块的日志级别
+`org.golfworld.db`定义litemall-db模块的日志级别
+`org.golfworld.wx`定义litemall-wx-api模块的日志级别
+`org.golfworld.admin`定义litemall-admin-api模块的日志级别
+`org.golfworld`而定义litemall所有后端模块的日志级别
 
 当然，如果开发者这里启动litemall后端模块级别是DEBUG时，可能会发现并没有很多日志，
 这是因为代码内部没有写很多日志，开发者可以根据需要添加。
@@ -499,7 +499,7 @@ flush privilege
 spring:
   datasource:
     druid:
-      url:  jdbc:mysql://localhost:3306/litemall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false
+      url:  jdbc:mysql://localhost:3306/golfworld?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false
       driver-class-name:  com.mysql.jdbc.Driver
       username:  litemall
       password:  litemall123456
