@@ -34,13 +34,13 @@ Page({
       });
 
       let that = this;
-      util.request(api.UserIndex).then(function(res) {
-        if (res.errno === 0) {
-          that.setData({
-            order: res.data.order
-          });
-        }
-      });
+      // util.request(api.UserIndex).then(function(res) {
+      //   if (res.errno === 0) {
+      //     that.setData({
+      //       order: res.data.order
+      //     });
+      //   }
+      // });
     }
 
   },
@@ -65,8 +65,9 @@ Page({
       } catch (e) {
 
       }
+      console.log('login success')
       wx.navigateTo({
-        url: "/pages/ucenter/order/order"
+        url: "/pages/ucenter/index/index"
       });
     } else {
       wx.navigateTo({

@@ -1,35 +1,54 @@
 <view class="container">
-
     <!--    <view class="profile-info" bindtap="goLogin">-->
     <!--        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>-->
     <!--        <view class="info">-->
     <!--            <text class="name">{{userInfo.nickName}}</text>-->
     <!--        </view>-->
     <!--    </view>-->
-
-    <view class="profile-info" bindtap="goLogin">
-
-        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-        <text class="name">{{userInfo.nickName}}</text>
+    <image src="/static/images/my-background.png" class="header_background1"></image>
+    <image class="profile_img_bg" src="/static/images/profile_image_background.png"></image>
+    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <view class="profile">
+        <view wx:if="{{!hasLogin}}" class="profile_login" bindtap="goLogin">授权登录</view>
+        <view class="vip_score">
+            <view>
+                VIPGOlF积分
+            </view>
+        </view>
+        <view class="profile_info">
+            <view class="user_info_item left_border">
+                <view>1</view>
+                <view>关注</view>
+            </view>
+            <view class="user_info_item left_border">
+                <view>2</view>
+                <view>收藏的清单</view>
+            </view>
+            <view class="user_info_item">
+                <view>3</view>
+                <view>足迹</view>
+            </view>
+        </view>
     </view>
 
+    <!--    <view class="center_menu">-->
     <view class="user_area">
         <view class="user_row">
             <view class="user_column user_column_border">
                 <view class="user_column_item_text">我的消息</view>
-                <image class="user_column_item_image" src="/static/images/my@selected.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@notification.png"></image>
             </view>
             <view class="user_column user_column_border">
                 <view class="user_column_item_text">我的动态</view>
-                <image class="user_column_item_image" src="/static/images/my@selected.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@news.png"></image>
             </view>
             <view class="user_column user_column_border">
                 <view class="user_column_item_text">我的球包</view>
-                <image class="user_column_item_image" src="/static/images/my@selected.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@golfbag.png"></image>
             </view>
             <view class="user_column">
                 <view class="user_column_item_text">我的众测</view>
-                <image class="user_column_item_image" src="/static/images/my@selected.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@testing.png"></image>
             </view>
         </view>
     </view>
@@ -38,11 +57,11 @@
         <view class="user_row">
             <view class="user_column user_column_border">
                 <view class="user_column_item_text">问题反馈</view>
-                <image class="user_column_item_image" src="/static/images/my@selected.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@feedback.png"></image>
             </view>
             <view class="user_column">
                 <view class="user_column_item_text">关于我们</view>
-                <image class="user_column_item_image" src="/static/images/my@selected.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@home1.png"></image>
             </view>
         </view>
     </view>
@@ -51,10 +70,11 @@
         <view class="user_row">
             <view class="user_column">
                 <view class="user_column_item_text">消息设置</view>
-                <image class="user_column_item_image" src="/static/images/my@selected.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@setting.png"></image>
             </view>
         </view>
     </view>
+    <!--        </view>-->
     <!--  <view class='user_area'>-->
     <!--    <view class='user_row' bindtap='goOrder'>-->
     <!--      <view class='user_row_left'>我的订单</view>-->

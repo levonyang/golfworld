@@ -64,9 +64,9 @@
       },
       {
         "pagePath": "pages/catalog/catalog",
-        "iconPath": "static/images/category.png",
-        "selectedIconPath": "static/images/category@selected.png",
-        "text": "详情"
+        "iconPath": "static/images/review.png",
+        "selectedIconPath": "static/images/review@selected.png",
+        "text": "测评"
       },
       {
         "pagePath": "pages/ucenter/index/index",
