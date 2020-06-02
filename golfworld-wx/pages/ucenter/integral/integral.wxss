@@ -1,0 +1,119 @@
+
+.card_background {
+    padding: 30rpx;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+    height: 500rpx;
+    border-radius: 20%;
+}
+
+.card {
+    position: absolute;
+    top: 60rpx;
+    left: 80rpx;
+}
+
+.explanation {
+    display: flex;
+    flex-direction: row;
+    color: #f2f2f2;
+}
+
+.explanation image {
+    margin-left: 16rpx;
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.scored {
+    font-size: 50rpx;
+    font-weight: bold;
+    position: relative;
+    top: 30rpx;
+}
+
+.logon {
+    position: relative;
+    top: 170rpx;
+    width: 100rpx;
+    height: 30rpx;
+}
+
+.list {
+    top: 40rpx;
+    background-color: white;
+    /*position: relative;*/
+    /*top: 300rpx;*/
+    /*height: 100%;*/
+}
+
+.title {
+    /*padding: 30rpx;*/
+    font-weight: bold;
+}
+
+.item {
+    font-size: 26rpx;
+}
+
+.date {
+    margin-top: 10rpx;
+    color: #999;
+    font-size: 26rpx;
+}
+
+.golden_text {
+    color: #c37209 !important;
+}
+
+.grey {
+    background: red !important;
+}
+
+.popup_table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50rpx;
+    width: 600rpx;
+    height: 900rpx;
+}
+.popup_table_tile{
+    font-size: 30rpx;
+    font-weight: bold;
+}
+.table {
+    margin-top:50rpx ;
+    border: 1px solid #dadada;
+    border-right: 0;
+    border-bottom: 0;
+    width: 98%;
+    height: 80%;
+}
+
+.tr {
+    background-color: #ffff;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.th, .td {
+    padding: 10px;
+    border-bottom: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    text-align: center;
+    width: 100%
+}
+
+.th {
+    font-weight: 400;
+    background-color: #f8f8f8
+}
+.overlay {
+   background-color: #acacac;
+}
+
+

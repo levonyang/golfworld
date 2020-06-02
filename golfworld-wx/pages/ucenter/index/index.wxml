@@ -10,22 +10,23 @@
     <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
     <view class="profile">
         <view wx:if="{{!hasLogin}}" class="profile_login" bindtap="goLogin">授权登录</view>
-        <view class="vip_score">
+        <view class="vip_score"  bindtap="goMember">
+            <image src="/static/images/my@vip.png"></image>
             <view>
-                VIPGOlF积分
+                VIPGOlF积分 100 >
             </view>
         </view>
         <view class="profile_info">
-            <view class="user_info_item left_border">
+            <view bindtap="goAttention" class="user_info_item left_border">
                 <view>1</view>
                 <view>关注</view>
             </view>
-            <view class="user_info_item left_border">
-                <view>2</view>
+            <view bindtap="goCollect"  class="user_info_item left_border">
+                <view>1</view>
                 <view>收藏的清单</view>
             </view>
-            <view class="user_info_item">
-                <view>3</view>
+            <view bindtap="goFootprint" class="user_info_item">
+                <view>1</view>
                 <view>足迹</view>
             </view>
         </view>
@@ -34,15 +35,15 @@
     <!--    <view class="center_menu">-->
     <view class="user_area">
         <view class="user_row">
-            <view class="user_column user_column_border">
+            <view class="user_column bottom_border ">
                 <view class="user_column_item_text">我的消息</view>
                 <image class="user_column_item_image" src="/static/images/my@notification.png"></image>
             </view>
-            <view class="user_column user_column_border">
+            <view class="user_column bottom_border">
                 <view class="user_column_item_text">我的动态</view>
                 <image class="user_column_item_image" src="/static/images/my@news.png"></image>
             </view>
-            <view class="user_column user_column_border">
+            <view class="user_column bottom_border ">
                 <view class="user_column_item_text">我的球包</view>
                 <image class="user_column_item_image" src="/static/images/my@golfbag.png"></image>
             </view>
@@ -55,13 +56,13 @@
 
     <view class="user_area">
         <view class="user_row">
-            <view class="user_column user_column_border">
-                <view class="user_column_item_text">问题反馈</view>
+            <view bindtap="goFeedback" class="user_column bottom_border ">
+                <view class="user_column_item_text" >问题反馈</view>
                 <image class="user_column_item_image" src="/static/images/my@feedback.png"></image>
             </view>
             <view class="user_column">
                 <view class="user_column_item_text">关于我们</view>
-                <image class="user_column_item_image" src="/static/images/my@home1.png"></image>
+                <image class="user_column_item_image" src="/static/images/my@aboutus.png"></image>
             </view>
         </view>
     </view>

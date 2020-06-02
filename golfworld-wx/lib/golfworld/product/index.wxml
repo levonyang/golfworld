@@ -1,0 +1,27 @@
+this is  product
+<product class="custom-class product">
+  <view class="">
+    <view class="product__thumb" bind:tap="">
+      <image
+        src="{{ url }}"
+        class="product__img thumb-class"
+      />
+    </view>
+
+    <view class="product__content">
+      <view wx:if="{{ title }}" class="product__title title-class">{{ title }}</view>
+      <slot wx:else name="title" />
+<!--      <view wx:if="{{ desc }}" class="product__desc desc-class">{{ desc }}</view>-->
+      <slot  name="rating" />
+
+      <view class="product__bottom">
+        <view class="product__article">{{ article }} 文章</view>
+        <view class="product__review">{{ review}}  点评</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="product__footer">
+    <slot name="footer" />
+  </view>
+</product>

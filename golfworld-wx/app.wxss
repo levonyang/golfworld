@@ -1,19 +1,38 @@
 /**app.wxss**/
 
 .container {
-  box-sizing: border-box;
-  background-color: #f4f4f4;
-  font-family: PingFangSC-Light, helvetica, 'Heiti SC';
+    /*height: 100%;*/
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    font-family: PingFangSC-Light, helvetica, 'Heiti SC';
 }
 
 view, image, text, navigator {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 view, text {
-  font-family: PingFangSC-Light, helvetica, 'Heiti SC';
-  font-size: 29rpx;
-  color: #333;
+    font-family: PingFangSC-Light, helvetica, 'Heiti SC';
+    font-size: 29rpx;
+    color: #333;
+}
+
+.grey_text {
+    color: #999;
+}
+
+.golden_text {
+    color: #c37209
+}
+
+.bottom_border {
+    border-bottom: 1px solid #f4f4f4;
+}
+.empty_background{
+    display: block;
+    margin-top: 180rpx;
+    margin-left: auto;
+    margin-right: auto;
 }

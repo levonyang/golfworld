@@ -1,0 +1,37 @@
+<wxs src="../../wxs/utils.wxs" module="utils"/>
+
+<view class="custom-class van-product">
+    <view class="{{ utils.bem('product__header', { center: centered }) }}">
+        <view class="van-product__thumb" bind:tap="onClickThumb">
+            <image
+                    wx:if="{{ thumb }}"
+                    src="{{ thumb }}"
+                    mode="{{ thumbMode }}"
+                    lazy-load="{{ lazyLoad }}"
+                    class="van-product__img thumb-class"
+            />
+        </view>
+
+        <view class="van-product__content">
+            <view wx:if="{{ title }}" class="van-product__title title-class">{{ title }}</view>
+            <slot wx:else name="title"/>
+
+            <view class="van-product_rate">
+                <van-rate
+                        value="{{ 3.5 }}"
+                        size="{{ 19 }}"
+                        allow-half
+                        void-color="#eee"
+                        void-icon="star"
+                        bind:change="onChange"
+                />
+            </view>
+            <view class="product_status">
+                <view class="product__status_item">{{ article }} 1 文章</view>
+                <view class="product__status_item">{{ review}} 2 点评</view>
+            </view>
+        </view>
+    </view>
+
+
+</view>

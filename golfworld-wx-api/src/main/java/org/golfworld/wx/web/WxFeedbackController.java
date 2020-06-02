@@ -50,12 +50,11 @@ public class WxFeedbackController {
             feedback.setPicUrls(new String[0]);
         }
 
-        // 测试手机号码是否正确
-        String mobile = feedback.getMobile();
-        if (StringUtils.isEmpty(mobile)) {
+        String contact= feedback.getContact();
+        if (StringUtils.isEmpty(contact)) {
             return ResponseUtil.badArgument();
         }
-        if (!RegexUtil.isMobileExact(mobile)) {
+        if (!RegexUtil.isMobileExact(contact) && !RegexUtil.isEmail(contact)) {
             return ResponseUtil.badArgument();
         }
         return null;

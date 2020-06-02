@@ -72,13 +72,26 @@ page {
 .profile_login {
     position: relative;
     top: 180rpx;
-    font-size: 30prx;
+    font-size: 30 prx;
     font-weight: bold;
 }
 
 .vip_score {
+    display: flex;
+    flex-direction: row;
     position: relative;
     top: 200rpx;
+}
+
+.vip_score image {
+    margin: 12rpx;
+    line-height: 30rpx;
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.vip_score view {
+    color: #c37209 !important;
 }
 
 
@@ -87,7 +100,7 @@ page {
     position: relative;
     display: flex;
     width: 100%;
-    justify-content:space-around;
+    justify-content: space-around;
 }
 
 .user_info_item {
@@ -95,10 +108,11 @@ page {
     align-items: center;
     display: flex;
     justify-content: center;
-    flex-direction:column;
+    flex-direction: column;
     width: 100%;
 }
-.left_border{
+
+.left_border {
     border-right: 1px solid #f4f4f4;
 }
 
@@ -147,9 +161,7 @@ page {
 }
 
 
-.user_column_border {
-    border-bottom: 1px solid #f4f4f4;
-}
+
 
 .user_column_icon {
     z-index: 900;

@@ -1,0 +1,59 @@
+<view class="container">
+    <image src="/static/images/my@card.png" class="card_background"></image>
+    <view class="card">
+        <view class="explanation" bindtap="showExplanation">
+            <view class="grey_text">积分说明</view>
+            <image src="/static/images/my@vipexplaination.png"></image>
+        </view>
+        <view class="scored">100</view>
+        <image class="logon" src="/static/images/logo.png"></image>
+    </view>
+
+    <van-cell title-class="title" bindtap="showOrHide" title="积分记录" is-link value="全部"
+              arrow-direction="{{show?'down':'up'}}" border="{{ false }}"/>
+    <view wx:if="{{show}}">
+        <van-cell title-class="item" value-class="golden_text" title="系统奖励_历史使用累计积分" value="+100" size="large"
+                  label="2020.2.13"/>
+    </view>
+
+
+</view>
+<van-popup overlay-style="overlay" round show="{{ showPopup }}"  custom-style="popup" closeable   bind:close="onClose"   >
+    <view class="popup_table">
+        <view class="popup_table_tile">积分说明</view>
+        <view class="table">
+            <view class="tr">
+                <view class="th">行为</view>
+                <view class="th">积分</view>
+            </view>
+            <view class="tr">
+                <view class="td">参与回复</view>
+                <view class="td">+1</view>
+            </view>
+             <view class="tr">
+                <view class="td">参与众测</view>
+                <view class="td">+10</view>
+            </view>
+             <view class="tr">
+                <view class="td">获取精选</view>
+                <view class="td">+30</view>
+            </view> <view class="tr">
+                <view class="td">获取置顶</view>
+                <view class="td">+50</view>
+            </view>
+             <view class="tr">
+                <view class="td">获取众测资格</view>
+                <view class="td">+100</view>
+            </view>
+             <view class="tr">
+                <view class="td">创建清单</view>
+                <view class="td">+20</view>
+            </view>
+             <view class="tr">
+                <view class="td">其他奖励</view>
+                <view class="td">+∞</view>
+            </view>
+        </view>
+    </view>
+</van-popup>
+

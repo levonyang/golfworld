@@ -172,7 +172,7 @@ export default {
   computed: {
     headers() {
       return {
-        'X-Litemall-Admin-Token': getToken()
+        'X-Admin-Token': getToken()
       }
     }
   },

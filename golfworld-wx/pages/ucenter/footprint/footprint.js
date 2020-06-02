@@ -5,15 +5,16 @@ var app = getApp();
 
 Page({
   data: {
+    empty: false,
     footprintList: [],
     page: 1,
     limit: 10,
     totalPages: 1
   },
   getFootprintList() {
-    wx.showLoading({
-      title: '加载中...',
-    });
+    // wx.showLoading({
+    //   title: '加载中...',
+    // });
     let that = this;
     util.request(api.FootprintList, {
       page: that.data.page,

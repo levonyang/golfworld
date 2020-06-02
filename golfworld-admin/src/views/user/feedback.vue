@@ -16,11 +16,13 @@
 
       <el-table-column align="center" label="用户名" prop="username"/>
 
-      <el-table-column align="center" label="手机号码" prop="mobile"/>
+      <el-table-column align="center" label="联系方式" prop="contact"/>
 
       <el-table-column align="center" label="反馈类型" prop="feedType"/>
 
       <el-table-column align="center" label="反馈内容" prop="content"/>
+
+      <el-table-column align="center" label="允许48H内联系" prop="allowContactIn48H"/>
 
       <el-table-column align="center" label="反馈图片" prop="picUrls">
         <template slot-scope="scope">

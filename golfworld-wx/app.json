@@ -1,13 +1,15 @@
 {
   "pages": [
     "pages/ucenter/index/index",
+    "pages/ucenter/feedback/feedback",
+    "pages/ucenter/attention/attention",
+    "pages/ucenter/integral/integral",
     "pages/index/index",
     "pages/catalog/catalog",
     "pages/newGoods/newGoods",
     "pages/hotGoods/hotGoods",
     "pages/ucenter/address/address",
     "pages/ucenter/addressAdd/addressAdd",
-    "pages/ucenter/feedback/feedback",
     "pages/ucenter/footprint/footprint",
     "pages/ucenter/order/order",
     "pages/ucenter/orderDetail/orderDetail",
@@ -94,7 +96,12 @@
     "van-tag": "./lib/vant-weapp/tag/index",
     "van-icon": "./lib/vant-weapp/icon/index",
     "van-checkbox": "./lib/vant-weapp/checkbox/index",
-    "van-steps": "./lib/vant-weapp/steps/index"
+    "van-steps": "./lib/vant-weapp/steps/index",
+    "van-grid": "./lib/vant-weapp/grid/index",
+    "van-grid-item": "./lib/vant-weapp/grid-item/index",
+    "van-card": "./lib/vant-weapp/card/index",
+    "van-product": "./lib/vant-weapp/golfworld/product/index",
+    "van-rate": "./lib/vant-weapp/rate/index"
   },
   "sitemapLocation": "sitemap.json"
 }
