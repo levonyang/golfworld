@@ -296,22 +296,30 @@ CREATE TABLE `coupon_user` (
 DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `feedback` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
-  `username` varchar(63) NOT NULL DEFAULT '' COMMENT '用户名称',
-  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
-  `feed_type` varchar(63) NOT NULL DEFAULT '' COMMENT '反馈类型',
-  `content` varchar(1023) NOT NULL COMMENT '反馈内容',
-  `status` int(3) NOT NULL DEFAULT '0' COMMENT '状态',
-  `has_picture` tinyint(1) DEFAULT '0' COMMENT '是否含有图片',
-  `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表，采用JSON数组格式',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`),
-  KEY `id_value` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='意见反馈表';
+-- auto-generated definition
+create table feedback
+(
+    id                   int auto_increment
+        primary key,
+    user_id              int         default 0  not null comment '用户表的用户ID',
+    username             varchar(63) default '' not null comment '用户名称',
+    contact              varchar(30) default '' not null comment '联系方式',
+    feed_type            varchar(63) default '' not null comment '反馈类型',
+    content              varchar(1023)          not null comment '反馈内容',
+    status               int(3)      default 0  not null comment '状态',
+    has_picture          tinyint(1)  default 0  null comment '是否含有图片',
+    pic_urls             varchar(1023)          null comment '图片地址列表，采用JSON数组格式',
+    add_time             datetime               null comment '创建时间',
+    update_time          datetime               null comment '更新时间',
+    deleted              tinyint(1)  default 0  null comment '逻辑删除',
+    allow_contact_in_48h varchar(5)             null comment '方便在48H内联系'
+)
+    comment '意见反馈表' charset = utf8mb4;
+
+create index id_value
+    on feedback (status);
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

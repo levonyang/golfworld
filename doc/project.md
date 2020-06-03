@@ -1,8 +1,8 @@
-# 1 litemall系统
+# 1 golfoworld系统
 
 ## 1.1 简介
 
-litemall是一个简单的商场系统，基于现有的开源项目，重新实现一个完整的前后端项目，包含小程序客户端、移动客户端和网页管理端。
+golfoworld包含小程序客户端,网页管理端。
 
 ![](./pics/project/project-structure.png)
 
@@ -11,35 +11,30 @@ litemall是一个简单的商场系统，基于现有的开源项目，重新实
 
 * 基础系统子系统(platform)
 
-  由数据库、litemall-core模块、litemall-db模块和litemall-all模块组成;
+  由数据库、golfoworld-core模块、golfoworld-db模块和golfoworld-all模块组成;
 
-* 小商场子系统(wxmall，即weixin mall)
+* 小程序子系统(wxmall，即weixin mall)
 
-  由litemall-wx-api模块、litemall-wx模块和renard-wx模块组成；
+  由golfoworld-wx-api模块、golfoworld-wx模块和renard-wx模块组成；
 
-* 轻商城子系统(mobmall，即mobile mall)
-
-  由litemall-wx-api模块和litemall-vue模块组成。
-  注意，目前这里移动商城子系统的后端和小商场子系统是一样的。
-    
 * 管理后台子系统(admin)
 
-  由litemall-admin-api模块和litemall-admin模块组成。
+  由golfoworld-admin-api模块和golfoworld-admin模块组成。
 
 而九个模块的开发设计到三种技术栈：
 
 * Spring Boot技术栈
 
-  采用IDEA开发工具，开发litemall-core、litemall-db、litemall-admin-api、
-  litemall-wx-api和litemall-all共五个模块；
+  采用IDEA开发工具，开发golfoworld-core、golfoworld-db、golfoworld-admin-api、
+  golfoworld-wx-api和golfoworld-all共五个模块；
   
 * miniprogram（微信小程序）技术栈
 
-  采用微信小程序开发工具，开发litemall-wx模块和renard-wx模块；
+  采用微信小程序开发工具，开发golfoworld-wx模块；
   
 * Vue技术栈
 
-  采用VSC开发工具，开发litemall-admin模块和litemall-vue模块。
+  采用VSC开发工具，开发golfoworld-admin模块和golfoworld-vue模块。
 
 ### 1.1.1 项目特点
 
@@ -54,10 +49,7 @@ litemall是一个简单的商场系统，基于现有的开源项目，重新实
 * 性能方面，没有涉及内存数据库缓存功能，而是完全依赖MySQL;
 * 对象存储服务方面，支持本地存储和第三方云存储方案。
 * 消息通知方面，支持邮件通知、第三方云短信通知和微信模板通知；
-* 部署方便，支持多服务部署和一键部署脚本；
-* 文档全面，虽然还在开发中，但是规划中文档和代码注释一定会完成，帮助开发者理解项目。
 
-总之，目前的系统只是为了学习技术和业务而开发的一个简单商场原型系统。虽然缺失很多企业级功能，但是是完整和合理的原型系统。
 
 注意：
 > 以上特点并不一定是优点。
@@ -66,30 +58,8 @@ litemall是一个简单的商场系统，基于现有的开源项目，重新实
 
 从业务功能上，目前由六个业务模块组成：
 
-* 会员业务模块
-* 商场业务模块
-* 商品业务模块
-* 推广业务模块
-* 系统业务模块
-* 配置业务模块
+### 1.2.1 小程序功能
 
-### 1.2.1 小商城功能
-
-* 首页
-* 专题列表、专题详情
-* 分类列表、分类详情
-* 品牌列表、品牌详情
-* 新品首发、人气推荐
-* 团购
-* 搜索
-* 商品详情
-* 商品评价列表、商品评价
-* 购物车
-* 下单
-* 个人
-* 订单列表、订单详情、订单售后
-* 地址列表、地址添加、地址删除
-* 收藏、足迹、关于
 
 ### 1.2.2 轻商城功能
 
@@ -98,18 +68,6 @@ litemall是一个简单的商场系统，基于现有的开源项目，重新实
 以下是准备完成的功能：
 
 * 首页
-* 专题列表、专题详情
-* 分类列表、分类详情
-* 品牌列表、品牌详情
-* 新品首发、人气推荐
-* 团购
-* 搜索
-* 商品详情
-* 商品评价列表、商品评价
-* 购物车
-* 下单
-* 个人
-* 订单列表、订单详情
 * 地址列表、地址添加、地址删除
 * 收藏、足迹、关于
 
@@ -122,40 +80,6 @@ litemall是一个简单的商场系统，基于现有的开源项目，重新实
   * 会员足迹
   * 搜索历史
   * 意见反馈
-* 商城管理
-  * 行政区域
-  * 品牌制造商
-  * 订单管理
-  * 商品类目
-  * 通用问题
-  * 关键词
-  * 渠道管理（待定）
-* 商品管理
-  * 商品列表
-  * 商品上架
-  * 商品编辑
-  * 用户评论
-* 推广管理
-  * 广告管理
-  * 专题管理
-  * 团购规则
-  * 团购活动
-* 系统管理
-  * 管理员
-  * 通知管理
-  * 对象存储
-  * 权限管理
-  * 定时任务（待定）
-  * 操作日志
-* 配置管理
-  * 商场配置
-  * 小程序配置
-  * 运费配置
-  * 订单配置
-* 统计报表
-  * 用户统计
-  * 订单统计
-  * 商品统计
 * 个人
   * 通知中心
   * 密码修改
@@ -234,7 +158,7 @@ Spring Boot技术栈参考以下文档或者项目：
     
 ### 1.3.2 项目阶段
 
-接下来，从项目的开发、部署（测试）和上线三个阶段介绍litemall。
+接下来，从项目的开发、部署（测试）和上线三个阶段介绍golfoworld。
 
 ![](./pics/project/stage.png)
 
@@ -243,7 +167,6 @@ Spring Boot技术栈参考以下文档或者项目：
 * dev
 
 即develop或者development, 这里指开发阶段，通常代码是直接在本地编译、运行和测试。
-此外，这里服务访问地址通常是localhost。这里的“用户”主要是指开发者本身。
 
 * dep
 
@@ -261,19 +184,8 @@ Spring Boot技术栈参考以下文档或者项目：
 调整，例如采用反向代理屏蔽内部实际项目结构。此外，最大的不同应该是上线环境下要使用域名和80端口，
 而部署阶段则更为自由。
 
-其次，需要明确的是，这里划分三种阶段不是简单的文档说明，还直接影响项目本身的行为
-和代码编译结果，因此开发者需要清晰的了解；
-
 最后，其实dep和prod不存在先后关系。例如，如果开发者已经存在域名和生产环境，可以直接
 跳过dep阶段，而直接部署在线上环境中。因此有些时候，这里部署和上线是一个阶段。
-
-当然，这里仍然建议先dep后prod，是因为对于第一次开发而言，先dep阶段可以避免对域名、https证书等非业务相关工作的干扰。
-
-此外，有些业务功能（例如微信支付）必须是域名访问，那么开发和部署阶段可以先采用模拟或跳过的形式，
-先不开发和测试这样业务功能，等其他功能开发完毕和部署测试成功以后，再来开发这些线上环境才能
-运行的功能，此时会有一个好的基础。
-
-接下来，分别从开发阶段、部署阶段和上线阶段三种阶段，分别介绍不同的方案实践要点。
 
 ## 1.4 开发方案
 
@@ -282,10 +194,10 @@ Spring Boot技术栈参考以下文档或者项目：
 如图所示，当前开发阶段的方案：
 
 * MySQL数据访问地址`jdbc:mysql://localhost:3306/golfworld`
-* litemall-wx-api后端服务地址`http://localhost:8080/wx`，数据则来自MySQL
-* litemall-admin-api后端服务地址`http://localhost:8080/admin`,数据则来自MySQL
-* litemall-admin前端访问地址`http://localhost:9527`, 数据来自litemall-admin-api
-* litemall-wx没有前端访问地址，而是直接在微信小程序工具上编译测试开发，最终会部署到微信官方平台（即不需要自己部署web服务器），而数据则来自litemall-wx-api
+* golfoworld-wx-api后端服务地址`http://localhost:8080/wx`，数据则来自MySQL
+* golfoworld-admin-api后端服务地址`http://localhost:8080/admin`,数据则来自MySQL
+* golfoworld-admin前端访问地址`http://localhost:9527`, 数据来自golfoworld-admin-api
+* golfoworld-wx没有前端访问地址，而是直接在微信小程序工具上编译测试开发，最终会部署到微信官方平台（即不需要自己部署web服务器），而数据则来自golfoworld-wx-api
 
 
 ### 1.4.1 数据库
@@ -295,23 +207,23 @@ Spring Boot技术栈参考以下文档或者项目：
 1. 安装MySQL;
 
 2. 创建数据库、用户权限、数据库表和测试数据;
-   数据库文件存放在litemall-db/sql文件夹中，请开发者在MySQL中
+   数据库文件存放在golfoworld-db/sql文件夹中，请开发者在MySQL中
    按照顺序运行以下脚本:
-   * litemall_schema.sql，用于创建数据库、用户和权限;
-   * litemall_table.sql，用于创建表;
-   * litemall_data.sql，用于导入测试数据。
+   * schema.sql，用于创建数据库、用户和权限;
+   * golfoworld_table.sql，用于创建表;
+   * golfoworld_data.sql，用于导入测试数据。
 
 注意：
 > 建议采用命令行或者MySQL Workbench。如果采用Navicat可能导入失败。
 
-如果开发者运行litemall_schema.sql失败，可以打开该文件：
+如果开发者运行golfoworld_schema.sql失败，可以打开该文件：
 ```
-drop database if exists litemall;
-drop user if exists 'litemall'@'%';
-create database litemall default character set utf8mb4 collate utf8mb4_unicode_ci;
-use litemall;
-create user 'litemall'@'%' identified by 'litemall123456';
-grant all privileges on litemall.* to 'litemall'@'%';
+drop database if exists golfoworld;
+drop user if exists 'golfoworld'@'%';
+create database golfoworld default character set utf8mb4 collate utf8mb4_unicode_ci;
+use golfoworld;
+create user 'golfoworld'@'%' identified by 'golfoworld123456';
+grant all privileges on golfoworld.* to 'golfoworld'@'%';
 flush privilege
 ```
 可以看到几个命令，用于创建数据库、用户和访问权限，因此开发者可以利用
@@ -330,7 +242,7 @@ flush privilege
 
    例如：
    ```
-   cd litemall
+   cd golfoworld
    mvn install
    ```
    
@@ -342,25 +254,25 @@ flush privilege
 
    例如：
    ```
-   cd litemall
+   cd golfoworld
    mvn compile
    ```
 
-   此时可以看到，litemall-wx-api等模块多了target文件夹，里面是编译出的文件。
+   此时可以看到，golfoworld-wx-api等模块多了target文件夹，里面是编译出的文件。
    
    或者采用IDEA的Maven插件编译本项目，点击`compile`
    
    如果采用IDEA也可以跳过当前步骤，直接步骤8（因为运行时会自动编译再运行）。
    
-8. 采用Maven命令运行本项目的litemall-all
+8. 采用Maven命令运行本项目的golfoworld-all
 
    例如：
    ```
-   cd litemall/litemall-all
+   cd golfoworld/golfoworld-all
    mvn spring-boot:run
    ```
    
-   如果采用IDEA，则litemall-all模块的Application类
+   如果采用IDEA，则golfoworld-all模块的Application类
    右键` Run Application.main()`方式运行该模块,
    
    ![](./pics/project/idea-run-all.png)
@@ -370,22 +282,13 @@ flush privilege
     http://localhost:8080/wx/index/index
     http://localhost:8080/admin/index/index
     ```
-    如果出现JSON数据，则litemall-all模块运行正常。
-    
-注意：
-> 1. 上述步骤中，既介绍了Maven命令方式，也介绍了IDEA方式，
->    但是建议开发者开发阶段采用IDEA。
-> 2. 上述步骤只是一种实践方式，开发者可不拘泥于这些步骤，多实践。
->    当然，如果开发者不采用这里步骤而出现问题，请自行解决。
-> 3. 开发者使用IDEA导入项目或者运行项目时可能会出现**软件卡顿**的现象，这通常是litemall-admin或者litemall-vue的
->    node_modules文件夹内自动下载了大量的依赖库，当IDEA尝试索引该文件夹内的大量文件时
->    则出现IDEA卡顿的现象，具体解决方式可以参见[FAQ](./FAQ.md)
+    如果出现JSON数据，则golfoworld-all模块运行正常。
 
 ### 1.4.3 微信小程序开发环境
 
 1. 安装微信小程序开发工具；
-2. 导入本项目的litemall-wx模块(或者renard-wx模块)文件夹；
-3. 编译前，请确定litemall-all模块已经运行，而litemall-wx模块的config文件夹中的api.js已经设置正确的后端数据服务地址；
+2. 导入本项目的golfoworld-wx模块(或者renard-wx模块)文件夹；
+3. 编译前，请确定golfoworld-all模块已经运行，而golfoworld-wx模块的config文件夹中的api.js已经设置正确的后端数据服务地址；
 4. 点击`编译`，如果出现数据和图片，则运行正常
 
 注意：
@@ -398,7 +301,7 @@ flush privilege
 2. 安装依赖库
     
     ```
-    cd litemall/litemall-admin
+    cd golfoworld/golfoworld-admin
     npm install -g cnpm --registry=https://registry.npm.taobao.org
     cnpm install
     ```
@@ -411,9 +314,9 @@ flush privilege
     然后，打开浏览器，输入`http://localhost:9527`。
     如果出现管理后台登录页面，则表明管理后台的前端运行正常；
     
-4. 请确定litemall-all模块已经运行，然后点击`登录`，如果能够成功登录，则表明管理后台的前端和后端对接成功，运行正常。
+4. 请确定golfoworld-all模块已经运行，然后点击`登录`，如果能够成功登录，则表明管理后台的前端和后端对接成功，运行正常。
 
-本项目采用VSC（Visual Studio Code）开发litemall-admin模块，开发者也可以采用其他熟悉的IDE。
+本项目采用VSC（Visual Studio Code）开发golfoworld-admin模块，开发者也可以采用其他熟悉的IDE。
 
 ### 1.4.5 项目配置
 
@@ -422,16 +325,16 @@ flush privilege
 
 **项目配置结构**
 
-1. 管理后台前端，即litemall-admin模块，配置文件在litemall-admin中，存在三个配置文件`env.development`,`env.deployment`
+1. 管理后台前端，即golfoworld-admin模块，配置文件在golfoworld-admin中，存在三个配置文件`env.development`,`env.deployment`
 和`.env.production`。这里面配置信息都是一样，最主要的配置是`VUE_APP_BASE_API`，即管理后台的服务根地址。
 
    * 开发阶段，开发者运行命令`cnpm run dev`，这里就会采用`env.development`配置文件；
    * 部署阶段，当开发者运行命令`cnpm run build:dep`，这里就会采用`env.deployment`配置文件；
    * 上线阶段，当开发者运行命令`cnpm run build:prod`，这里就会采用`.env.production`配置文件。
 
-2. 小商场前端，即litemall-wx模块，配置文件是`litemall-wx/project.config.json`和`litemall-wx/api.js`。
+2. 小程序前端，即golfoworld-wx模块，配置文件是`golfoworld-wx/project.config.json`和`golfoworld-wx/api.js`。
 这里面最主要的配置信息是`project.config.json`中的`appid`，开发者需要设置自己申请的appid；
-以及`apis.js`中的`WxApiRoot`，即小商场服务根地址。
+以及`apis.js`中的`WxApiRoot`，即小程序服务根地址。
 
     ```
     // 本机开发时使用
@@ -445,11 +348,11 @@ flush privilege
 
     ```
 
-3. 管理后台后端和小商城后端，即多个Spring Boot模块，配置文件是每个模块的`litemall-xx/src/main/java/resources`的
+3. 管理后台后端和小程序后端，即多个Spring Boot模块，配置文件是每个模块的`golfoworld-xx/src/main/java/resources`的
 `application.yml`和`application-xx.yml`配置文件。这里会发现每个模块都会有两个配置文件，但是实际上当前模块的配置信息
 都是在`application-xx.yml`文件中，而`application.yml`文件仅仅用于引入其他模块的配置文件。
 
-   例如litemall-all模块的`application.yml`的内容是
+   例如golfoworld-all模块的`application.yml`的内容是
    ```
     spring:
         profiles:
@@ -457,14 +360,14 @@ flush privilege
         message:
             encoding: UTF-8
     ```
-    因此启动litemall-all模块时，程序首先加载litemall-all的`application.yml`，然后通过`spring.profiles.active`信息
+    因此启动golfoworld-all模块时，程序首先加载golfoworld-all的`application.yml`，然后通过`spring.profiles.active`信息
     再次依次加载`application-db.yml`,`application-core.yml`,`application-admin.yml`和`application.yml-wx`四个配置文件。
     
 这里后端服务模块的配置如下所示。
 
 #### 1.4.5.1 日志配置
 
-如果开发者启动litemall-all模块，则需要配置该模块的`logback-spring.xml`文件
+如果开发者启动golfoworld-all模块，则需要配置该模块的`logback-spring.xml`文件
 ```
     <logger name="org.mybatis" level="ERROR" />
     <logger name="org.springframework" level="ERROR" />
@@ -477,22 +380,22 @@ flush privilege
 
 具体如何配置，请自行学习Spring Boot的日志配置和logback日志配置。
 
-`org.golfworld.core`定义litemall-core模块的日志级别
-`org.golfworld.db`定义litemall-db模块的日志级别
-`org.golfworld.wx`定义litemall-wx-api模块的日志级别
-`org.golfworld.admin`定义litemall-admin-api模块的日志级别
-`org.golfworld`而定义litemall所有后端模块的日志级别
+`org.golfworld.core`定义golfoworld-core模块的日志级别
+`org.golfworld.db`定义golfoworld-db模块的日志级别
+`org.golfworld.wx`定义golfoworld-wx-api模块的日志级别
+`org.golfworld.admin`定义golfoworld-admin-api模块的日志级别
+`org.golfworld`而定义golfoworld所有后端模块的日志级别
 
-当然，如果开发者这里启动litemall后端模块级别是DEBUG时，可能会发现并没有很多日志，
+当然，如果开发者这里启动golfoworld后端模块级别是DEBUG时，可能会发现并没有很多日志，
 这是因为代码内部没有写很多日志，开发者可以根据需要添加。
 
 注意：
-> 如果开发者独立启动litemall-wx-api模块，那么则需要配置litemall-wx-api模块的
+> 如果开发者独立启动golfoworld-wx-api模块，那么则需要配置golfoworld-wx-api模块的
 > 日志配置方式。
 
 #### 1.4.5.2 数据库连接配置
 
-在litemall-db模块的`application-db.yml`文件中配置数据库连接和druid：
+在golfoworld-db模块的`application-db.yml`文件中配置数据库连接和druid：
 
 ```
 
@@ -501,8 +404,8 @@ spring:
     druid:
       url:  jdbc:mysql://localhost:3306/golfworld?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false
       driver-class-name:  com.mysql.jdbc.Driver
-      username:  litemall
-      password:  litemall123456
+      username:  golfoworld
+      password:  golfoworld123456
       initial-size:  10
       max-active:  50
       min-idle:  10
@@ -520,10 +423,10 @@ spring:
 #### 1.4.5.3 微信登录配置
 
 微信登录需要配置两个地方，
-首先是小商场前端litemall-wx模块（或renard-wx模块）中`project.config.json`文件的appid
-其次是小商场后端litemall-core模块的`application-core.yml`文件：
+首先是小程序前端golfoworld-wx模块（或renard-wx模块）中`project.config.json`文件的appid
+其次是小程序后端golfoworld-core模块的`application-core.yml`文件：
 ```bash
-litemall:
+golfoworld:
   wx:
     app-id: wxa5b486c6b918ecfb
     app-secret: e04004829d4c383b4db7769d88dfbca1
@@ -532,14 +435,14 @@ litemall:
 这里的`app-id`和`app-secret`需要开发者在[微信公众平台](https://mp.weixin.qq.com/)注册获取。
 
 注意
-> 这里开发者可能会疑惑：小商场后端应该配置在litemall-wx-api模块的`application-wx.yml`文件更合适。
-> 这里放置在`application-core.yml`文件中是因为litemall-core模块也依赖小程序appid配置信息。
+> 这里开发者可能会疑惑：小程序后端应该配置在golfoworld-wx-api模块的`application-wx.yml`文件更合适。
+> 这里放置在`application-core.yml`文件中是因为golfoworld-core模块也依赖小程序appid配置信息。
 
 #### 1.4.5.4 微信支付配置
 
-在litemall-core模块的`application-core.yml`文件中配置微信支付：
+在golfoworld-core模块的`application-core.yml`文件中配置微信支付：
 ```
-litemall:
+golfoworld:
   wx:
     mch-id: 111111
     mch-key: xxxxxx
@@ -550,15 +453,15 @@ litemall:
 
 而这里的`notify-url`则应该是项目上线以后微信支付回调地址，当微信支付成功或者失败，
 微信商户平台将向回调地址发生成功或者失败的数据，因此需要确保该地址是
-litemall-wx-api模块的WxOrderController类的payNotify方法所服务的API地址。
+golfoworld-wx-api模块的WxOrderController类的payNotify方法所服务的API地址。
 
 开发阶段可以采用一些技术实现临时外网地址映射本地，开发者可以百度关键字“微信 内网穿透”自行学习。
 
 #### 1.4.5.5 邮件通知配置
 
-在litemall-core模块的`application-core.yml`文件中配置邮件通知服务：
+在golfoworld-core模块的`application-core.yml`文件中配置邮件通知服务：
 ```
-litemall:
+golfoworld:
   notify:
     mail:
       # 邮件通知配置,邮箱一般用于接收业务通知例如收到新的订单，sendto 定义邮件接收者，通常为商城运营人员
@@ -580,14 +483,14 @@ litemall:
 以后可能需要继续优化扩展。当然，如果不需要邮件通知订单信息，可以默认关闭即可。
 
 验证配置成功：
-当配置好信息以后，开发者可以运行litemall-core模块的`MailTest`测试类，
+当配置好信息以后，开发者可以运行golfoworld-core模块的`MailTest`测试类，
 独立发送邮件，然后登录邮箱查看邮件是否成功接收。
 
 #### 1.4.5.6 短信通知配置
 
-在litemall-core模块的`application-core.yml`文件中配置短信通知服务：
+在golfoworld-core模块的`application-core.yml`文件中配置短信通知服务：
 ```
-litemall:
+golfoworld:
   notify:
     # 短消息模版通知配置
     # 短信息用于通知客户，例如发货短信通知，注意配置格式；template-name，template-templateId 请参考 NotifyType 枚举值
@@ -596,7 +499,7 @@ litemall:
       # 如果是腾讯云短信，则设置active的值tencent
       # 如果是阿里云短信，则设置active的值aliyun
       active: tencent
-      sign: litemall
+      sign: golfoworld
       template:
         - name: paySucceed
           templateId: 156349
@@ -626,7 +529,7 @@ litemall:
 以后可能需要继续优化扩展。
 
 验证配置成功：
-当配置好信息以后，开发者可以litemall-core模块的`SmsTest`测试类中设置手机号和
+当配置好信息以后，开发者可以golfoworld-core模块的`SmsTest`测试类中设置手机号和
 模板所需要的参数值，独立启动`SmsTest`测试类发送短信，然后查看手机是否成功接收短信。
 
 短信模板参数命名：
@@ -644,9 +547,9 @@ litemall:
 
 物流配置是查询商品物流信息，这里主要是基于[第三方快递鸟服务](http://www.kdniao.com/api-track)。
 
-在litemall-core模块的`application-core.yml`文件中配置快递鸟物流服务：
+在golfoworld-core模块的`application-core.yml`文件中配置快递鸟物流服务：
 ```
-litemall:
+golfoworld:
   notify:
   # 快鸟物流查询配置
   express:
@@ -688,10 +591,10 @@ litemall:
 快递鸟平台中的appId和appKey。
 
 应用场景：
-小商场查询订单详情时，如果商品已发货，小商城后端会返回详细物流信息。
+小程序查询订单详情时，如果商品已发货，小程序后端会返回详细物流信息。
 
 验证配置成功：
-当配置好信息以后，开发者可以litemall-core模块的`ExpressTest`测试类中设置快递公司编码和
+当配置好信息以后，开发者可以golfoworld-core模块的`ExpressTest`测试类中设置快递公司编码和
 真实测试快递单号，独立启动`ExpressTest`测试类查询物流信息。
 
 注意：
@@ -702,12 +605,12 @@ litemall:
 
 对象存储，即存储和下载文件。
 
-在litemall-core模块的`application-core.yml`文件中配置对象存储服务：
+在golfoworld-core模块的`application-core.yml`文件中配置对象存储服务：
 
 * 本地对象存储配置
 如果开发者采用当前服务器保存上传的文件，则需要配置：
 ```
-litemall:
+golfoworld:
   storage:
     # 当前工作的对象存储模式，分别是local、aliyun、tencent、qiniu
     active: local
@@ -725,7 +628,7 @@ litemall:
 * 阿里云对象存储配置
 
 ```
-litemall:
+golfoworld:
   storage:
     # 当前工作的对象存储模式，分别是local、aliyun、tencent、qiniu
     active: aliyun
@@ -733,7 +636,7 @@ litemall:
       endpoint: oss-cn-shenzhen.aliyuncs.com
       accessKeyId: 111111
       accessKeySecret: xxxxxx
-      bucketName: litemall
+      bucketName: golfoworld
 ```
 
 配置方式：
@@ -743,7 +646,7 @@ litemall:
 * 腾讯云对象存储配置
 
 ```
-litemall:
+golfoworld:
   storage:
     # 当前工作的对象存储模式，分别是local、aliyun、tencent、qiniu
     active: tencent
@@ -753,7 +656,7 @@ litemall:
       secretId: 111111
       secretKey: xxxxxx
       region: xxxxxx
-      bucketName: litemall
+      bucketName: golfoworld
 ```
 
 配置方式：
@@ -763,7 +666,7 @@ litemall:
 * 七牛云对象存储配置
 
 ```
-litemall:
+golfoworld:
   storage:
     # 当前工作的对象存储模式，分别是local、aliyun、tencent、qiniu
     active: qiniu
@@ -772,7 +675,7 @@ litemall:
       endpoint: http://pd5cb6ulu.bkt.clouddn.com
       accessKey: 111111
       secretKey: xxxxxx
-      bucketName: litemall
+      bucketName: golfoworld
 ```
 
 配置方式：
@@ -792,25 +695,25 @@ litemall:
 
 其次，需要明确的是各模块之间的关系：
   
-  * litemall-wx-api模块会包含litemall-core模块和litemall-db模块，部署在服务器中
-  * litemall-admin-api模块会包含litemall-core模块和litemall-db模块，部署在服务器中
-  * litemall-all模块则会包装litemall-wx-api模块和litemall-admin-api模块；
-  * litemall-wx模块部署在微信开发者工具中，此外数据API地址指向litemall-wx-api所在服务qi地址
-  * litemall-admin编译出的静态文件放在web服务器或者tomcat服务器，此外服务器地址设置指向3中litemall-admin-api所在地址
+  * golfoworld-wx-api模块会包含golfoworld-core模块和golfoworld-db模块，部署在服务器中
+  * golfoworld-admin-api模块会包含golfoworld-core模块和golfoworld-db模块，部署在服务器中
+  * golfoworld-all模块则会包装golfoworld-wx-api模块和golfoworld-admin-api模块；
+  * golfoworld-wx模块部署在微信开发者工具中，此外数据API地址指向golfoworld-wx-api所在服务qi地址
+  * golfoworld-admin编译出的静态文件放在web服务器或者tomcat服务器，此外服务器地址设置指向3中golfoworld-admin-api所在地址
   
 最后，**如果项目部署云服务器，则根据开发者的部署环境在以下文件中或代码中修改相应的配置。**
 
 1. MySQL数据库设置合适的用户名和密码信息；
 2. 后端服务模块设置合适的配置信息；
-3. 小商场前端litemall-wx模块`config/api.js`的`WxApiRoot`设置小商场后端服务的服务地址；
-4. 管理后台前端litemall-admin模块`.env.deployment`中的`VUE_APP_BASE_API`设置管理后台后端服务的服务地址。
+3. 小程序前端golfoworld-wx模块`config/api.js`的`WxApiRoot`设置小程序后端服务的服务地址；
+4. 管理后台前端golfoworld-admin模块`.env.deployment`中的`VUE_APP_BASE_API`设置管理后台后端服务的服务地址。
 
 实际上，最终的部署方案是灵活的：
 
-* 可以是同一云服务器中安装一个Spring Boot服务，同时提供litemall-admin、litemall-admin-api和litemall-wx-api三种服务
-* 可以单一云服务器中仅安装一个tomcat/nginx服务器部署litemall-admin静态页面分发服务，
+* 可以是同一云服务器中安装一个Spring Boot服务，同时提供golfoworld-admin、golfoworld-admin-api和golfoworld-wx-api三种服务
+* 可以单一云服务器中仅安装一个tomcat/nginx服务器部署golfoworld-admin静态页面分发服务，
   然后部署两个Spring Boot的后端服务；
-* 也可以把litemall-admin静态页面托管第三方cdn，然后开发者部署两个后端服务
+* 也可以把golfoworld-admin静态页面托管第三方cdn，然后开发者部署两个后端服务
 * 当然，甚至多个服务器，采用集群式并发提供服务。
 
 注意
@@ -893,28 +796,28 @@ sudo mysql_secure_installation
 
 1. 在服务器或者开发机打包项目到deploy；
     ```
-    cd litemall
-    cat ./litemall-db/sql/litemall_schema.sql > ./deploy/db/litemall.sql
-    cat ./litemall-db/sql/litemall_table.sql >> ./deploy/db/litemall.sql
-    cat ./litemall-db/sql/litemall_data.sql >> ./deploy/db/litemall.sql
+    cd golfoworld
+    cat ./golfoworld-db/sql/golfoworld_schema.sql > ./deploy/db/golfoworld.sql
+    cat ./golfoworld-db/sql/golfoworld_table.sql >> ./deploy/db/golfoworld.sql
+    cat ./golfoworld-db/sql/golfoworld_data.sql >> ./deploy/db/golfoworld.sql
     
-    cd ./litemall-admin
+    cd ./golfoworld-admin
     cnpm install
     cnpm run build:dep
     
     cd ..
     mvn clean package
-    cp -f ./litemall-all/target/litemall-all-*-exec.jar ./deploy/litemall/litemall.jar
+    cp -f ./golfoworld-all/target/golfoworld-all-*-exec.jar ./deploy/golfoworld/golfoworld.jar
     ```
     
     这里脚本的作用是：
     
     1. 把数据库文件拷贝到deploy/db文件夹；
-    2. 编译litemall-admin项目；
-    3. 编译litemall-all模块，同时把litemall-admin编译得到的静态文件拷贝到
-       litemall-all模块的static目录。
+    2. 编译golfoworld-admin项目；
+    3. 编译golfoworld-all模块，同时把golfoworld-admin编译得到的静态文件拷贝到
+       golfoworld-all模块的static目录。
        
-2. 修改litemall文件夹下面的*.yml外部配置文件，当litemall-all模块启动时会
+2. 修改golfoworld文件夹下面的*.yml外部配置文件，当golfoworld-all模块启动时会
     加载外部配置文件，而覆盖默认jar包内部的配置文件。
     例如，配置文件中一些地方需要设置成远程服务器的IP地址
     
@@ -924,10 +827,10 @@ sudo mysql_secure_installation
 存放远程服务器运行的脚本，包括deploy.sh脚本和reset.sh脚本
 
 * db
-存放litemall数据库文件
+存放golfoworld数据库文件
 
-* litemall
-存放远程服务器运行的代码，包括litemall-all二进制可执行包和litemall外部配置文件
+* golfoworld
+存放远程服务器运行的代码，包括golfoworld-all二进制可执行包和golfoworld外部配置文件
 
 * util
 存放开发服务器运行的脚本，包括package.sh脚本和lazy.sh脚本。
@@ -936,16 +839,16 @@ sudo mysql_secure_installation
 #### 1.5.1.5 项目部署
 
 1. 远程服务器环境（MySQL和JDK1.8）已经安装好，请确保云服务器的安全组已经允许相应的端口。
-2. 导入db/litemall.sql
+2. 导入db/golfoworld.sql
     ```bash
     cd /home/ubuntu/deploy/db
-    mysql -h localhost -u $ROOT -p$PASSWORD < litemall.sql
+    mysql -h localhost -u $ROOT -p$PASSWORD < golfoworld.sql
     ```
 3. 启动服务
     ```bash
-    sudo service litemall stop
-    sudo ln -f -s /home/ubuntu/deploy/litemall/litemall.jar /etc/init.d/litemall
-    sudo service litemall start
+    sudo service golfoworld stop
+    sudo ln -f -s /home/ubuntu/deploy/golfoworld/golfoworld.jar /etc/init.d/golfoworld
+    sudo service golfoworld start
     ```
 4. 测试是否部署成功(xxx.xxx.xxx.xxx是云服务器IP）：
     ```
@@ -956,7 +859,7 @@ sudo mysql_secure_installation
 
 注意：
 > 开发者访问以上三个地址都能成功，但是管理后台点击登录时会报错网络连接不成功。
-> 这里很可能是开发者litemall-admin模块的`config/dep.env.js`或者`condig/prod.env.js`
+> 这里很可能是开发者golfoworld-admin模块的`config/dep.env.js`或者`condig/prod.env.js`
 > 没有设置正确的管理后台后端地址，例如这里的`http://xxx.xxx.xxx.xxx:8080/admin`
 
 #### 1.5.1.6 deploy部署脚本
@@ -989,7 +892,7 @@ sudo mysql_secure_installation
 
 总结，当开发者设置好配置信息以后，可以在本地运行lazy.sh脚本自动一键部署:
 ```bash
-cd litemall
+cd golfoworld
 ./deploy/util/lazy.sh
 ```
 
@@ -1005,13 +908,13 @@ cd litemall
 
 ### 1.5.3 集群式云部署方案
 
-由于本项目是面向微小型企业的小商城系统，因此预期的分布式部署方案是
+由于本项目是面向微小型企业的小程序系统，因此预期的分布式部署方案是
 
 1. 专门的云数据库部署数据
 2. 专门的云存储方案
 3. 专门的CDN分发管理后台的静态文件
 4. 一台云服务器部署管理后台的后端服务
-5. 一台或多台云服务器部署小商场的后端服务
+5. 一台或多台云服务器部署小程序的后端服务
 
 虽然由于环境原因没有正式测试过，但是这种简单的集群式场景应该是可行的。
 在1.5.2节中所演示的三个服务是独立的，因此延伸到这里分布式是非常容易的。
@@ -1025,7 +928,7 @@ cd litemall
 在1.5节部署方案中，我们介绍了多种部署的方案，但是实际上这些方案都不能立即用于正式环境：
 
 1. 正式环境需要域名和HTTPS证书
-2. 小商场的小程序端对服务器域名存在接入要求。
+2. 小程序的小程序端对服务器域名存在接入要求。
 
 本节采用`www.example.com`域名作为示例。
 
@@ -1035,7 +938,7 @@ cd litemall
 这里列举一种基于1.5.1的单机单服务上线方案，即一个all后端服务，同时提供三种数据：
 * 提供管理后台的前端文件；
 * 提供管理后台前端所需要的数据；
-* 提供小商城前端所需要的数据。
+* 提供小程序前端所需要的数据。
 
 ![](./pics/project/online-deploy.png)
 
@@ -1166,22 +1069,19 @@ http://www.example.com
 注意：
 > 更多配置方法和功能，请开发者自行学习。
 
-### 1.6.3 小商场上线
+### 1.6.3 小程序上线
 
-在1.6.2.3节"反向代理Spring Boot后端"成功以后，其实小商场的后端已经上线成功。
-这里介绍小商场的前端上线过程：
+在1.6.2.3节"反向代理Spring Boot后端"成功以后，其实小程序的后端已经上线成功。
+这里介绍小程序的前端上线过程：
 
 上线之前需要修改代码或者配置文件：
-1. litemall-wx-api模块的WxOrderController类的payNotify方法的链接换成合适的地址。
+1. golfoworld-wx-api模块的WxOrderController类的payNotify方法的链接换成合适的地址。
 
-   注意：
-   > 换成什么地址都可以，但是这里不应该暴露出来。也就是说这个地址是微信商户平台
-   > 和这里的小商场后端服务之间的交互API，对外公开会存在安全隐患。
    
-2. litemall-core模块需要配置application-core.yml
+2. golfoworld-core模块需要配置application-core.yml
 
     ```
-    litemall:
+    golfoworld:
         wx:
             app-id: wxa5b486c6b918ecfb
             app-secret: e04004829d4c383b4db7769d88dfbca1
@@ -1190,9 +1090,9 @@ http://www.example.com
             notify-url: http://www.example.com/wx/order/pay-notify
     ```
     
-    这里的`litemall.wx.notify-url`就是前面开发者自定义的地址。
+    这里的`golfoworld.wx.notify-url`就是前面开发者自定义的地址。
     
-3. litemall-wx模块的`project.config.json`文件调整相应的值，
+3. golfoworld-wx模块的`project.config.json`文件调整相应的值，
    特别是`appid`要设置成开发者申请的appid。
 
 ### 1.6.4 管理后台上线
@@ -1202,24 +1102,15 @@ http://www.example.com
 当然，这里开发者需要自己的线上环境在以下文件中或代码中修改相应的配置。
 
 1. MySQL数据库设置合适的用户名和密码信息；
-2. 管理后台后端服务模块设置合适的配置信息，建议开发者参考deploy/litemall的外部配置文件，
+2. 管理后台后端服务模块设置合适的配置信息，建议开发者参考deploy/golfoworld的外部配置文件，
    这样可以避免开发者对模块内部的开发配置文件造成修改；
-3. 管理后台前端litemall-admin模块`.env.production`中的`VUE_APP_BASE_API`设置管理后台后端服务的服务地址。
+3. 管理后台前端golfoworld-admin模块`.env.production`中的`VUE_APP_BASE_API`设置管理后台后端服务的服务地址。
 
-### 1.6.5 项目评估
 
-本项目只是参考项目，项目代码质量和功能不可能符合开发者的最终需求，
-因此开发者**请务必仔细评估项目代码**。
-
-特别提醒，上线前管理员用户名和密码请更改，不能采用这里的默认值。
-
-### 1.6.6 项目优化
-
-以下是部署方案中出现而在上线方案中可以优化的一些步骤。
 
 #### 1.6.6.1 管理后台前端文件启动优化
 
-litemall-admin编译得到的前端文件在第一次加载时相当耗时，这里需要一些措施来优化启动速度
+golfoworld-admin编译得到的前端文件在第一次加载时相当耗时，这里需要一些措施来优化启动速度
 
 * 静态文件托管CDN
 
@@ -1232,7 +1123,7 @@ litemall-admin编译得到的前端文件在第一次加载时相当耗时，这
 
 #### 1.6.6.2 后端服务内部访问
 
-原来后端服务（包括小商城的后端服务和管理后台的后端服务）可以通过域名或者IP直接对外服务，而这里采用nginx反向代理后可以
+原来后端服务（包括小程序的后端服务和管理后台的后端服务）可以通过域名或者IP直接对外服务，而这里采用nginx反向代理后可以
 通过80端口访问后端服务。因此，会存在这样一种结果：
 * 用户可以https协议的80端口访问后端服务（nginx反向代理）
 * 用户也可以通过http协议的8080访问后端服务（spring boot）
@@ -1243,7 +1134,6 @@ litemall-admin编译得到的前端文件在第一次加载时相当耗时，这
 
 #### 1.6.6.4 nginx优化
 
-建议开发者根据自己业务或架构情况优化。
 
 ### 1.6.7 项目安全
 
@@ -1316,12 +1206,12 @@ litemall-admin编译得到的前端文件在第一次加载时相当耗时，这
 
 当前项目的.gitignore不是单一文件，而是多个模块都存在：
 * deploy/.gitignore
-* litemall-admin/.gitignore
-* litemall-admin-api/.gitignore
-* litemall-core/.gitignore
-* litemall-db/.gitignore
-* litemall-wx-api/.gitignore
-* litemall-all/.gitignore
+* golfoworld-admin/.gitignore
+* golfoworld-admin-api/.gitignore
+* golfoworld-core/.gitignore
+* golfoworld-db/.gitignore
+* golfoworld-wx-api/.gitignore
+* golfoworld-all/.gitignore
 * .gitignore
 
 开发者可以采用单一.gitignore文件。
@@ -1334,7 +1224,7 @@ litemall-admin编译得到的前端文件在第一次加载时相当耗时，这
 
 流程如下：
 1. util脚本是当前开发服务器运行，用来打包项目和上传腾讯云服务器；
-2. 打包项目时，会编译打包项目相关模块到litemall和db文件夹中；
+2. 打包项目时，会编译打包项目相关模块到golfoworld和db文件夹中；
 3. bin脚本是云服务器运行，用来安装数据库、导入数据、启动项目服务。
 
 这里deploy部署方式比较简单不灵活，开发者可以参考开发自己的项目脚本。
@@ -1380,17 +1270,17 @@ litemall-admin编译得到的前端文件在第一次加载时相当耗时，这
 目前后端服务采用Spring Boot多模块方案，结构清晰、易于测试。
 
 但是存在一个问题，即多模块配置依赖。
-例如，litemall-db模块存在数据库配置信息，那么其他模块如何引入
-litemall-db模块的配置信息呢？
+例如，golfoworld-db模块存在数据库配置信息，那么其他模块如何引入
+golfoworld-db模块的配置信息呢？
 
-最简单的方式，就是其他模块把litemall-db模块的配置信息拷贝到自己的
+最简单的方式，就是其他模块把golfoworld-db模块的配置信息拷贝到自己的
 application配置文件中，但是问题就是数据库信息一旦改变则其他模块又要
 再次手动修改，非常不方便。
 
 目前本项目采用一种基于`spring.profiles.active`的方式，细节如下：
-1. litemall-db模块存在application.yml和application-db.yml两个配置文件，
+1. golfoworld-db模块存在application.yml和application-db.yml两个配置文件，
     在application-db.yml配置文件中存放数据库配置信息；
-2. litemall-core模块也存在application.yml和application-core.yml两个配置文件,
+2. golfoworld-core模块也存在application.yml和application-core.yml两个配置文件,
     在application-core.yml配置文件中存放core模块的一些配置信息，而在application.yml
     中存在这样一个配置：
     ```
@@ -1398,16 +1288,16 @@ application配置文件中，但是问题就是数据库信息一旦改变则其
         profiles:
             active: core, db
     ```
-    因此，如果单独启动litemall-core模块，则会先读取application.yml配置文件，然后基于
+    因此，如果单独启动golfoworld-core模块，则会先读取application.yml配置文件，然后基于
     系统会根据`spring.profiles.active`读取application-db.yml和application-core.yml配置文件，
-    因此就会自动读取litemall-db模块的配置文件。
-3. 以此类推，在litemall-all模块中存在application.yml配置文件，其中内容是
+    因此就会自动读取golfoworld-db模块的配置文件。
+3. 以此类推，在golfoworld-all模块中存在application.yml配置文件，其中内容是
     ```
     spring:
         profiles:
             active:  db, core, admin, wx
     ```
-    因此，系统启动litemall-all模块以后，则会先读取application.yml配置文件，然后基于
+    因此，系统启动golfoworld-all模块以后，则会先读取application.yml配置文件，然后基于
     `spring.profiles.active`进一步读取application-db.yml、application-core.yml、
     application-admin.yml和application-wx.yml四个模块的配置文件。
     
@@ -1416,11 +1306,11 @@ application配置文件中，但是问题就是数据库信息一旦改变则其
 
 这里介绍本项目的思路，就是基于Spring Boot的配置加载顺序，采用外部配置文件覆盖jar包内部配置文件。
 1. 开发阶段，系统的配置信息在模块的resources目录配置文件中；
-2. 测试或者部署阶段，系统打包成一个litemall.jar二进制jar包，jar包内部配置文件是之前
-    开发阶段的配置文件，此时在litemall.jar的同级目录创建相同的配置文件，在这些配置文件则
-    保存了测试或者部署阶段的配置信息。启动litemall.jar时，系统会读取当前目录的配置文件，而
+2. 测试或者部署阶段，系统打包成一个golfoworld.jar二进制jar包，jar包内部配置文件是之前
+    开发阶段的配置文件，此时在golfoworld.jar的同级目录创建相同的配置文件，在这些配置文件则
+    保存了测试或者部署阶段的配置信息。启动golfoworld.jar时，系统会读取当前目录的配置文件，而
     不再读取jar包内部的配置文件。
-3. 上线阶段，同样地，在litemall.jar包同级目录创建上线配置文件。
+3. 上线阶段，同样地，在golfoworld.jar包同级目录创建上线配置文件。
 
 此外，这里还可以采用另外一种思路，如下图：
 ![](./pics/project/maven-profile.png)
@@ -1465,13 +1355,13 @@ application配置文件中，但是问题就是数据库信息一旦改变则其
   * 503，业务不支持，即后端虽然定义了接口，但是还没有实现功能；
   * 504，更新数据失效，即后端采用了乐观锁更新，而并发更新时存在数据更新失效；
   * 505，更新数据失败，即后端数据库更新失败（正常情况应该更新成功）。
-* 6xx，管理后台后端业务错误码，具体见litemall-admin-api模块的`AdminResponseCode`类。
-* 7xx，小商城后端业务错误码，具体见litemall-wx-api模块的`WxResponseCode`类。
+* 6xx，管理后台后端业务错误码，具体见golfoworld-admin-api模块的`AdminResponseCode`类。
+* 7xx，小程序后端业务错误码，具体见golfoworld-wx-api模块的`WxResponseCode`类。
 
-需要指出的是，小商场后端可能返回4xx、5xx和6xx错误码；管理后台后端则可能返回4xx、5xx和7xx错误码。
-这样设计原因是方便小商场前端和管理后台前端区别对待。
+需要指出的是，小程序后端可能返回4xx、5xx和6xx错误码；管理后台后端则可能返回4xx、5xx和7xx错误码。
+这样设计原因是方便小程序前端和管理后台前端区别对待。
 
-小商城前端处理后端响应错误码，存在三种处理方式：
+小程序前端处理后端响应错误码，存在三种处理方式：
 * 如果是4xx，说明前端开发者请求后端API时使用方式存在问题。
 例如，后端需要参数“name”，但是前端却没有传值，这个时候后端返回”用户名不对“
 没有任何意义，因为这里前端使用错误。相反，简单地返回“参数不对”反而会及早提醒
@@ -1486,33 +1376,15 @@ application配置文件中，但是问题就是数据库信息一旦改变则其
 * 如果是6xx，则说明是具体业务错误，此时前端需要在业务具体页面显示错误信息即可，同时
 这里也要求后端开发者书写良好友好的业务错误信息，因为会向最终用户显示。
 
-和小商场前端类似，管理后台前端处理后端响应错误码也存在三种类似的处理方式。
+和小程序前端类似，管理后台前端处理后端响应错误码也存在三种类似的处理方式。
 
 注意：
 > 这里的4xx和5xx错误码，和HTTP中的4xx和5xx状态码不是一个概念。
 
-### 1.7.7 TODO
 
-本项目存在一些TODO，**强烈建议**开发者上线前仔细审阅是否存在问题和做相应调整。
-开发者可以使用IDE找到这些TODO。
 
 下面列出一些重要的TODO：
 
 #### 1.7.7.1 微信退款TODO
 
 管理后台管理员点击退款按钮时，管理后台会通过微信退款API请求微信商户平台退款。
-但是从安全角度考虑，**强烈建议**开发者删除微信退款代码，而登录微信商户平台手动退款。
-或者开发者添加安全相关代码，例如实现短信验证码。
-
-见`AdminOrderController`类
-
-再次提醒，本项目不承担任何使用后果。
-
-#### 1.7.7.2 未完善TODO
-
-有些业务只是实现基本功能，因此这里TODO提醒开发者自行思考。
-
-#### 1.7.7.3 重构TODO
-
-有些业务需求不是很清晰，导致实现时可能存在不合理地方，这里TODO提醒
-开发者审阅代码逻辑。

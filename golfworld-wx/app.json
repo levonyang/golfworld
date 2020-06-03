@@ -1,6 +1,7 @@
 {
-  "pages": [
+
     "pages/ucenter/index/index",
+    "pages/ucenter/profile/profile",
     "pages/ucenter/feedback/feedback",
     "pages/ucenter/attention/attention",
     "pages/ucenter/integral/integral",

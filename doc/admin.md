@@ -1,8 +1,8 @@
-# 4 litemall管理后台
+# 4 golfoworld管理后台
 
 项目技术架构：
 
-* 管理后台前端，即litemall-admin模块
+* 管理后台前端，即golfoworld-admin模块
   * vue
   * vuex
   * vue-router
@@ -10,19 +10,11 @@
   * element
   * vue-element-admin 4.2.1
   * 其他，见package.json
-* 管理后台后端, 即litemall-admin-api模块
+* 管理后台后端, 即golfoworld-admin-api模块
   * Spring Boot 2.x
   * Spring MVC
 
-目前存在的问题：
-
-* `缺失`首页中实现一些小组件，同时点击能够跳转相应页面
-* `缺失`支持导出表所有数据
-* `改善`管理员登录页面打开慢，优化速度
-* `改善`地址优化，目前每一次点击都会请求后台，应该缓存已有的数据
-* `改善`vue和vue-element-admin等及时更新
-
-## 4.1 litemall-admin-api
+## 4.1 golfoworld-admin-api
 
 本节介绍管理后台的后台服务模块。
 
@@ -43,24 +35,13 @@
 ### 4.1.3 商场管理服务
 
 商城管理服务进一步分成：
-* 行政区域服务，见AdminRegionController类
-* 品牌制造商服务，见AdminBrandController类
-* 商品类目服务，见AdminCategoryController类
-* 订单管理服务，见AdminOrderController类
-* 通用问题服务，见AdminIssueController类
 * 关键词服务，见AdminKeywordController类
 
 ### 4.1.4 商品管理服务
 
 商品服务，见AdminAdminController类
 
-### 4.1.5 推广管理服务
 
-推广管理服务进一步分成：
-
-* 广告服务，见AdminAdController类
-* 专题服务，见AdminTopicController类
-* 团购服务，见AdminGrouponController类
 
 ### 4.1.6 系统管理服务
 
@@ -96,10 +77,10 @@
 
 #### 4.1.9.1 权限设计
 
-权限控制在数据库层面涉及到三个表`litemall_admin`, `litemall_role`和`litemall_permission`：
-* litemall_admin表中存在roleId字段，保存角色ID数组；
-* litemall_role表记录角色名称和角色介绍；
-* litemall_permission表记录角色所用于的权限值。
+权限控制在数据库层面涉及到三个表`admin`, `role`和`permission`：
+* admin表中存在roleId字段，保存角色ID数组；
+* role表记录角色名称和角色介绍；
+* permission表记录角色所用于的权限值。
 
 权限控制在后端层面通过这三个表可以构建出管理员所属的角色以及所拥有的操作权限。
 当管理员登录以后，访问一些受权限保护的后端地址时，后端会验证当前管理员的操作权限和后端地址需要的操作权限；
@@ -117,26 +98,8 @@
 通常是五个表，user, role, user_role, permission, role_permission。
 
 但是本项目只需要三个表：
-* user_role表的关联关系，可以通过user表的roles字段完成，因此可以省略；
-* permission表省略，这里可能是非常奇怪的做法，但是实际上是可行的。
+* user_role表的关联关系，可以通过user表的roles字段；
 
-很多开源项目的permission表是记录当前系统的所有权限，最终呈现给管理后台的使用者；
-但是数据来源则是开发者或者系统用户来进行数据输入的，但是这样真的合理吗？
-* 开发者开发完系统以后，需要额外在数据库中写入权限相关内容，这样存在独立两个步骤
-  可能不是很好；此外，如果系统升级，完成新的权限，那么如何添加这些权限到数据库也
-  不是很好。
-* 如果开发者设计权限页面，支持系统管理员手动添加新的权限，那样其实也不合适，
-  因为系统管理员可能对系统的权限并不了解，例如url地址所需要的权限。
-  这里很多开源项目都是采取这种方法，但是实际上管理员可能根本不会理解或者使用。
-
-这里本项目参考了[biu](https://github.com/CaiBaoHong/biu)项目中注解的方式，
-系统的所有的权限不是通过数据库中权限表数据获取，而是通过注解自动解析生产当前系统
-所有的权限。而且因为是注解，所以开发者在开发新的权限时，只需要在代码内直接书写，
-不需要再次在数据库中写入。
-
-当然，这里并意味说三个表就好或者五个表就不好，开发者可以按照自己的理解来做。
-
-本项目具体如何实现见下文细节。
 
 ##### 4.1.9.1.2 权限只有一种类型，而不是三种类型
 
@@ -152,7 +115,7 @@
 因此，管理员勾选一个权限以后，后台权限即授权成功，同时前端的菜单权限和按钮权限也自动调整。
 具体实现细节见下文。
 
-后端权限基于shiro来实现，相关代码见litemall-admin-api模块。
+后端权限基于shiro来实现，相关代码见golfoworld-admin-api模块。
 
 ##### 4.1.9.2 基本配置
 
@@ -265,25 +228,17 @@ public class Permission {
 当然，需要指出的是，这里利用注解方式可以不需要在数据库中保存权限信息，
 但是在灵活性方面可能也会有问题。
 
-### 4.1.10 定时任务
 
-job子包存在以下定时任务：
-* OrderJob类
-  * checkOrderUnpaid
-  * checkOrderUnconfirm
-  * checkOrderComment
-* CouponJob类
-  * checkCouponExpired
 
 注意：
 > 虽然定时任务放在AdminOrderController类中，但是可能这里不是很合适，
 > 以后需要调整或者完善。
 
-## 4.2 litemall-admin
+## 4.2 golfoworld-admin
 
 本章介绍管理后台的前端模块。
 
-litemall-admin模块的代码基于[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+golfoworld-admin模块的代码基于[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
 
 
 #### 4.2.1 前端权限
@@ -392,10 +347,6 @@ element的`el-button`组件声明了操作权限是`GET /admin/ad/list'`。
 
 ##### 4.1.1.5 权限局限性
 
-前端权限这里的代码调整旨在解决一些认为不合理的地方，但是实际上也同时带来了
-一定的局限性或者限制。
-
-这里列出一些可能的问题，开发者可以自己审阅或者重新设计代码。
 
 ## 4.3 开发新组件
 

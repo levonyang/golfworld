@@ -8,6 +8,5 @@
 * [数据库](./database.md)
 * [1. 系统架构](./project.md)
 * [2. 基础系统](./platform.md)
-* [3. 小商场](./wxmall.md)
+* [3. 小程序](./wx.md)
 * [4. 管理后台](./admin.md)
-* [5. 轻商城](./mobmall.md)

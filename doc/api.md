@@ -4,8 +4,6 @@
 
 注意：
 > 1. 以下API部分基于nideshop开源项目的API设计；
-> 2. 以下API是参考API，可能不是很合理，欢迎开发者交流。
-> 3. 接口文档处于开发中，如果发现接口描述和接口实际不对应，欢迎PR或者报告。
 
 ## 1 前后端接口规范
 
@@ -223,7 +221,7 @@ list是对象数组，total是总的数量。
 
 访问受保护商场API采用自定义`X-wx-Token`头部
 
-1. 小商城（或轻商场）前端访问小商城后端登录API`/wx/auth/login`
+1. 前端访问登录API`/wx/auth/login`
 
         POST /wx/auth/login
     

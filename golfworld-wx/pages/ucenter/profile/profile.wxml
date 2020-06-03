@@ -1,0 +1,50 @@
+<van-field
+        value="{{ username }}"
+        label="头像"
+        bind:click-icon="onClickIcon"
+        size="large"
+        readonly
+/>
+
+<van-field
+        value="{{ password }}"
+        label="昵称"
+        clearable
+        size="large"
+/>
+
+<van-field
+        value="{{ password }}"
+        label="简介"
+        placeholder="请输入密码"
+        size="large"
+/>
+
+<van-field
+        value="{{ password }}"
+        label="职业"
+        placeholder="填写职业信息"
+        size="large"
+/>
+<van-field
+        value="{{ password }}"
+        label="手机"
+        size="large"
+        readonly
+        use-button-slot
+>
+    <van-button  round slot="button" size="small" type="default" >
+        点击授权
+    </van-button>
+</van-field>
+
+<van-field
+        value="{{ password }}"
+        label="收货地址"
+        size="large"
+        readonly
+        use-button-slot >
+    <van-button round slot="button" size="small" type="default" >
+        开启通讯录地址授权
+    </van-button >
+</van-field>

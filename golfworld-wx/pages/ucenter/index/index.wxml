@@ -5,10 +5,14 @@
     <!--            <text class="name">{{userInfo.nickName}}</text>-->
     <!--        </view>-->
     <!--    </view>-->
-    <image src="/static/images/my-background.png" class="header_background1"></image>
-    <image class="profile_img_bg" src="/static/images/profile_image_background.png"></image>
-    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <image src="/static/images/my-background.png"  class="header_background1"></image>
+    <image class="profile_img_bg"   src="/static/images/profile_image_background.png" ></image>
+    <image class="avatar"  src="{{userInfo.avatarUrl}}"></image>
     <view class="profile">
+        <view wx:if="{{hasLogin}}" bindtap="goProfile" class="description" >
+            <view>简介</view>
+            <van-icon name="edit" custom-style="edit_icon" size="35rpx" />
+        </view>
         <view wx:if="{{!hasLogin}}" class="profile_login" bindtap="goLogin">授权登录</view>
         <view class="vip_score"  bindtap="goMember">
             <image src="/static/images/my@vip.png"></image>

@@ -7,7 +7,7 @@ Page({
     data: {
         userInfo: {
             nickName: '点击登录',
-            avatarUrl: '/static/images/my.png'
+            avatarUrl: ''
         },
         order: {
             unpaid: 0,
@@ -55,6 +55,13 @@ Page({
         if (!this.data.hasLogin) {
             wx.navigateTo({
                 url: "/pages/auth/login/login"
+            });
+        }
+    },
+    goProfile(){
+           if (this.data.hasLogin) {
+            wx.navigateTo({
+                url: "/pages/ucenter/profile/profile"
             });
         }
     },
