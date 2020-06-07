@@ -1,5 +1,5 @@
 {
-
+  "pages": [
     "pages/ucenter/index/index",
     "pages/ucenter/profile/profile",
     "pages/ucenter/feedback/feedback",
@@ -14,8 +14,6 @@
     "pages/ucenter/footprint/footprint",
     "pages/ucenter/order/order",
     "pages/ucenter/orderDetail/orderDetail",
-    "pages/ucenter/couponList/couponList",
-    "pages/ucenter/couponSelect/couponSelect",
     "pages/ucenter/collect/collect",
     "pages/auth/login/login",
     "pages/auth/accountLogin/accountLogin",

@@ -26,11 +26,11 @@ public class QiniuStorageTest {
 
     @Test
     public void test() throws IOException {
-        String test = getClass().getClassLoader().getResource("litemall.png").getFile();
+        String test = getClass().getClassLoader().getResource("golfworld.png").getFile();
         File testFile = new File(test);
-        qiniuStorage.store(new FileInputStream(test), testFile.length(), "image/png", "litemall.png");
-        Resource resource = qiniuStorage.loadAsResource("litemall.png");
-        String url = qiniuStorage.generateUrl("litemall.png");
+        qiniuStorage.store(new FileInputStream(test), testFile.length(), "image/png", "golfworld.png");
+        Resource resource = qiniuStorage.loadAsResource("golfworld.png");
+        String url = qiniuStorage.generateUrl("golfworld.png");
         logger.info("test file " + test);
         logger.info("store file " + resource.getURI());
         logger.info("generate url " + url);

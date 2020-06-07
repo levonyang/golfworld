@@ -1,5 +1,7 @@
 package org.golfworld.wx.dto;
 
+import org.golfworld.db.domain.User;
+
 public class UserInfo {
     private String nickName;
     private String avatarUrl;
@@ -8,6 +10,44 @@ public class UserInfo {
     private String city;
     private String language;
     private Byte gender;
+    private String mobile;
+    private String desc;
+    private String profession;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    private String address;
+
 
     public String getCountry() {
         return country;
@@ -63,5 +103,15 @@ public class UserInfo {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public UserInfo build(User user){
+        this.setAvatarUrl(user.getAvatar());
+        this.setNickName(user.getNickname());
+        this.setMobile(user.getMobile());
+        this.setProfession(user.getProfession());
+        this.setDesc(user.getDesc());
+        this.setGender(user.getGender());
+        return this ;
     }
 }

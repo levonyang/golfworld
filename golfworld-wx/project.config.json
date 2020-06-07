@@ -29,7 +29,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.11.1",
-	"appid": "wx207d00182e978864",
+	"bottom_borderd": "wx32af01c2bc67600f",
 	"projectname": "litemall-wx",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

@@ -7,21 +7,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.notify.NotifyService;
 import org.golfworld.core.notify.NotifyType;
-import org.golfworld.core.util.CharUtil;
-import org.golfworld.core.util.JacksonUtil;
-import org.golfworld.core.util.RegexUtil;
-import org.golfworld.core.util.ResponseUtil;
+import org.golfworld.core.util.*;
 import org.golfworld.core.util.bcrypt.BCryptPasswordEncoder;
 import org.golfworld.db.domain.User;
 import org.golfworld.db.service.CouponAssignService;
 import org.golfworld.db.service.UserService;
 import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.dto.UserInfo;
-import org.golfworld.wx.dto.UserToken;
 import org.golfworld.wx.dto.WxLoginInfo;
 import org.golfworld.wx.service.CaptchaCodeManager;
 import org.golfworld.wx.service.UserTokenManager;
-import org.golfworld.core.util.IpUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -95,8 +91,11 @@ public class WxAuthController {
 
         // userInfo
         UserInfo userInfo = new UserInfo();
-        userInfo.setNickName(username);
+        userInfo.setNickName(user.getNickname());
         userInfo.setAvatarUrl(user.getAvatar());
+        userInfo.setDesc(user.getDesc());
+        userInfo.setProfession(user.getProfession());
+        userInfo.setAddress(user.getAddress());
 
         // token
         String token = UserTokenManager.generateToken(user.getId());
@@ -164,6 +163,13 @@ public class WxAuthController {
             }
         }
 
+        if (user != null) {
+            userInfo.setMobile(user.getMobile());
+            userInfo.setAddress(user.getAddress());
+            userInfo.setProvince(user.getProfession());
+            userInfo.setDesc(user.getDesc());
+        }
+
         // token
         String token = UserTokenManager.generateToken(user.getId());
 
@@ -176,7 +182,7 @@ public class WxAuthController {
 
     /**
      * 请求注册验证码
-     *
+     * <p>
      * TODO
      * 这里需要一定机制防止短信验证码被滥用
      *
@@ -268,7 +274,7 @@ public class WxAuthController {
         String openId = "";
         // 非空，则是小程序注册
         // 继续验证openid
-        if(!StringUtils.isEmpty(wxCode)) {
+        if (!StringUtils.isEmpty(wxCode)) {
             try {
                 WxMaJscode2SessionResult result = this.wxService.getUserService().getSessionInfo(wxCode);
                 openId = result.getOpenid();
@@ -312,8 +318,12 @@ public class WxAuthController {
 
         // userInfo
         UserInfo userInfo = new UserInfo();
-        userInfo.setNickName(username);
+        userInfo.setNickName(user.getNickname());
         userInfo.setAvatarUrl(user.getAvatar());
+        userInfo.setMobile(user.getMobile());
+        userInfo.setAddress(user.getAddress());
+        userInfo.setProfession(user.getProfession());
+        userInfo.setDesc(user.getDesc());
 
         // token
         String token = UserTokenManager.generateToken(user.getId());
@@ -326,7 +336,7 @@ public class WxAuthController {
 
     /**
      * 请求验证码
-     *
+     * <p>
      * TODO
      * 这里需要一定机制防止短信验证码被滥用
      *
@@ -335,7 +345,7 @@ public class WxAuthController {
      */
     @PostMapping("captcha")
     public Object captcha(@LoginUser Integer userId, @RequestBody String body) {
-        if(userId == null){
+        if (userId == null) {
             return ResponseUtil.unlogin();
         }
         String phoneNumber = JacksonUtil.parseString(body, "mobile");
@@ -431,7 +441,7 @@ public class WxAuthController {
      */
     @PostMapping("resetPhone")
     public Object resetPhone(@LoginUser Integer userId, @RequestBody String body, HttpServletRequest request) {
-        if(userId == null){
+        if (userId == null) {
             return ResponseUtil.unlogin();
         }
         String password = JacksonUtil.parseString(body, "password");
@@ -484,29 +494,44 @@ public class WxAuthController {
      */
     @PostMapping("profile")
     public Object profile(@LoginUser Integer userId, @RequestBody String body, HttpServletRequest request) {
-        if(userId == null){
+        if (userId == null) {
             return ResponseUtil.unlogin();
         }
         String avatar = JacksonUtil.parseString(body, "avatar");
         Byte gender = JacksonUtil.parseByte(body, "gender");
-        String nickname = JacksonUtil.parseString(body, "nickname");
+        String nickname = JacksonUtil.parseString(body, "nickName");
+        String address = JacksonUtil.parseString(body, "address");
+        String profession = JacksonUtil.parseString(body, "profession");
+        String desc = JacksonUtil.parseString(body, "desc");
+//        String mobile = JacksonUtil.parseString(body, "mobile");
 
         User user = userService.findById(userId);
-        if(!StringUtils.isEmpty(avatar)){
+        if (!StringUtils.isEmpty(avatar)) {
             user.setAvatar(avatar);
         }
-        if(gender != null){
+        if (gender != null) {
             user.setGender(gender);
         }
-        if(!StringUtils.isEmpty(nickname)){
+        if (!StringUtils.isEmpty(nickname)) {
             user.setNickname(nickname);
         }
+        if (!StringUtils.isEmpty(address)) {
+            user.setAddress(address);
+        }
+        if (!StringUtils.isEmpty(desc)) {
+            user.setDesc(desc);
+        }
+        if (!StringUtils.isEmpty(profession)) {
+            user.setProfession(profession);
+        }
 
+        UserInfo userInfo = new UserInfo();
+        userInfo.build(user);
         if (userService.updateById(user) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
 
-        return ResponseUtil.ok();
+        return ResponseUtil.ok(userInfo);
     }
 
     /**
@@ -518,19 +543,22 @@ public class WxAuthController {
      */
     @PostMapping("bindPhone")
     public Object bindPhone(@LoginUser Integer userId, @RequestBody String body) {
-    	if (userId == null) {
+        if (userId == null) {
             return ResponseUtil.unlogin();
         }
-    	User user = userService.findById(userId);
+        User user = userService.findById(userId);
         String encryptedData = JacksonUtil.parseString(body, "encryptedData");
         String iv = JacksonUtil.parseString(body, "iv");
         WxMaPhoneNumberInfo phoneNumberInfo = this.wxService.getUserService().getPhoneNoInfo(user.getSessionKey(), encryptedData, iv);
-        String phone = phoneNumberInfo.getPhoneNumber();
-        user.setMobile(phone);
+        String mobile = phoneNumberInfo.getPhoneNumber();
+        user.setMobile(mobile);
         if (userService.updateById(user) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
-        return ResponseUtil.ok();
+
+        Map<Object, Object> result = new HashMap<Object, Object>();
+        result.put("mobile", mobile);
+        return ResponseUtil.ok(result);
     }
 
     @PostMapping("logout")

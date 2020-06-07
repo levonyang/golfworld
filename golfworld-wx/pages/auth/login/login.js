@@ -31,7 +31,7 @@ Page({
     }
 
     user.checkLogin().catch(() => {
-
+      console.log(e.detail.userInfo)
       user.loginByWeixin(e.detail.userInfo).then(res => {
         app.globalData.hasLogin = true;
 

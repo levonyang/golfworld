@@ -21,6 +21,6 @@ public class CoreConfigTest {
     @Test
     public void test() {
         // 测试获取application-core.yml配置信息
-        logger.info(environment.getProperty("litemall.express.appId"));
+        logger.info(environment.getProperty("application.express.appId"));
     }
 }

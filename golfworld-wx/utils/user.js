@@ -26,18 +26,20 @@ function checkSession() {
  */
 function login() {
     return new Promise(function (resolve, reject) {
-        wx.login({
-            success: function (res) {
-                if (res.code) {
-                    resolve(res);
-                } else {
-                    reject(res);
+        wx.login( {
+                lang: 'zh_CN',
+                success: function (res) {
+                    if (res.code) {
+                        console.log(res)
+                        resolve(res);
+                    } else {
+                        reject(res);
+                    }
+                },
+                fail: function (err) {
+                    reject(err);
                 }
-            },
-            fail: function (err) {
-                reject(err);
-            }
-        });
+            });
     });
 }
 
@@ -45,7 +47,6 @@ function login() {
  * 调用微信登录
  */
 function loginByWeixin(userInfo) {
-    console.log('lg wx')
     return new Promise(function (resolve, reject) {
         return login().then((res) => {
             //登录远程服务器

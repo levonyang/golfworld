@@ -1,50 +1,60 @@
-<van-field
-        value="{{ username }}"
-        label="头像"
-        bind:click-icon="onClickIcon"
-        size="large"
-        readonly
-/>
+<view class="avatar bottom_border">
+    <label>头像</label>
+    <image class="image" src="{{userInfo.avatarUrl}}"></image>
+</view>
 
 <van-field
-        value="{{ password }}"
+        value="{{userInfo.nickName}}"
         label="昵称"
+        bind:input="inputNickName"
         clearable
+        input-align="right"
         size="large"
 />
 
 <van-field
-        value="{{ password }}"
+        value="{{userInfo.desc}}"
+        bind:input="inputDesc"
         label="简介"
         placeholder="填写简介信息"
+        input-align="right"
         size="large"
 />
 
 <van-field
-        value="{{ password }}"
+        value="{{userInfo.profession}}"
+        bind:input="inputProfession"
         label="职业"
         placeholder="填写职业信息"
+        input-align="right"
         size="large"
 />
 <van-field
-        value="{{ password }}"
+        value="{{userInfo.mobile}}"
         label="手机"
         size="large"
+        input-align="right"
         readonly
         use-button-slot
 >
-    <van-button  round slot="button" size="small" type="default" >
+    <van-button wx:if="{{userInfo.mobile == undefined || userInfo.mobile === ''}}"
+                open-type="getPhoneNumber"
+                bindgetphonenumber="getPhoneNumber" round slot="button" size="small" type="default">
         点击授权
     </van-button>
 </van-field>
-
 <van-field
-        value="{{ password }}"
+        value="{{userInfo.address}}"
         label="收货地址"
+        input-align="right"
         size="large"
         readonly
-        use-button-slot >
-    <van-button round slot="button" size="small" type="default" >
+        use-button-slot>
+    <van-button wx:if="{{userInfo.address == undefined || userInfo.address ==''}}" bind:click="authAddress" round slot="button" size="small" type="default">
         开启通讯录地址授权
-    </van-button >
+    </van-button>
+
 </van-field>
+<view class="save">
+    <van-button type="primary"  bind:click="save" size="small" color="#9a9ba1">保存</van-button>
+</view>
