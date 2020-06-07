@@ -16,20 +16,21 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: golfworld123456
     restart: always
-  golfworld:
-    build:
-      context: golfworld
-      dockerfile: Dockerfile
-    container_name: golfworld
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./golfworld/storage:/storage
-      - ./golfworld/logs:/logs
-      - ./golfworld/backup:/backup
-      - /etc/localtime:/etc/localtime
-    environment:
-      - TZ=Asia/Shanghai
-    depends_on:
-      - mysql57
-    restart: always
+#  golfworld:
+#    image: golfworld:${tag}
+#    build:
+#      context: golfworld
+#      dockerfile: Dockerfile
+#    container_name: golfworld
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./golfworld/storage:/storage
+#      - ./golfworld/logs:/logs
+#      - ./golfworld/backup:/backup
+#      - /etc/localtime:/etc/localtime
+#    environment:
+#      - TZ=Asia/Shanghai
+#    depends_on:
+#      - mysql57
+#    restart: always

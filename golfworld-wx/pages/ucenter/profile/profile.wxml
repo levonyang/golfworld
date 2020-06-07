@@ -16,7 +16,7 @@
 <van-field
         value="{{ password }}"
         label="简介"
-        placeholder="请输入密码"
+        placeholder="填写简介信息"
         size="large"
 />
 
