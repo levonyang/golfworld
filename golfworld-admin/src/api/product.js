@@ -1,40 +1,40 @@
 import request from '@/utils/request'
 
-export function listGoods(query) {
+export function listProduct(query) {
   return request({
-    url: '/goods/list',
+    url: '/product/list',
     method: 'get',
     params: query
   })
 }
 
-export function deleteGoods(data) {
+export function deleteProduct(data) {
   return request({
-    url: '/goods/delete',
+    url: '/product/delete',
     method: 'post',
     data
   })
 }
 
-export function publishGoods(data) {
+export function publishProduct(data) {
   return request({
-    url: '/goods/create',
+    url: '/product/create',
     method: 'post',
     data
   })
 }
 
-export function detailGoods(id) {
+export function detailProduct(id) {
   return request({
-    url: '/goods/detail',
+    url: '/product/detail',
     method: 'get',
     params: { id }
   })
 }
 
-export function editGoods(data) {
+export function editProduct(data) {
   return request({
-    url: '/goods/update',
+    url: '/product/update',
     method: 'post',
     data
   })
@@ -42,7 +42,7 @@ export function editGoods(data) {
 
 export function listCatAndBrand() {
   return request({
-    url: '/goods/catAndBrand',
+    url: '/product/catAndBrand',
     method: 'get'
   })
 }

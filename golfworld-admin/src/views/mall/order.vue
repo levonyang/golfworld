@@ -70,9 +70,9 @@
             <span>（地址）{{ orderDetail.order.address }}</span>
           </el-form-item>
           <el-form-item label="商品信息">
-            <el-table :data="orderDetail.orderGoods" border fit highlight-current-row>
-              <el-table-column align="center" label="商品名称" prop="goodsName" />
-              <el-table-column align="center" label="商品编号" prop="goodsSn" />
+            <el-table :data="orderDetail.orderProduct" border fit highlight-current-row>
+              <el-table-column align="center" label="商品名称" prop="productName" />
+              <el-table-column align="center" label="商品编号" prop="productSn" />
               <el-table-column align="center" label="货品规格" prop="specifications" />
               <el-table-column align="center" label="货品价格" prop="price" />
               <el-table-column align="center" label="货品数量" prop="number" />
@@ -86,7 +86,7 @@
           <el-form-item label="费用信息">
             <span>
               (实际费用){{ orderDetail.order.actualPrice }}元 =
-              (商品总价){{ orderDetail.order.goodsPrice }}元 +
+              (商品总价){{ orderDetail.order.productPrice }}元 +
               (快递费用){{ orderDetail.order.freightPrice }}元 -
               (优惠减免){{ orderDetail.order.couponPrice }}元 -
               (积分减免){{ orderDetail.order.integralPrice }}元
@@ -224,7 +224,7 @@ export default {
       orderDetail: {
         order: {},
         user: {},
-        orderGoods: []
+        orderProduct: []
       },
       shipForm: {
         orderId: undefined,

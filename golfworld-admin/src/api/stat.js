@@ -16,9 +16,9 @@ export function statOrder(query) {
   })
 }
 
-export function statGoods(query) {
+export function statProduct(query) {
   return request({
-    url: '/stat/goods',
+    url: '/stat/product',
     method: 'get',
     params: query
   })

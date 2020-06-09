@@ -6,9 +6,9 @@ import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.util.JacksonUtil;
 import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.Footprint;
-import org.golfworld.db.domain.Goods;
+import org.golfworld.db.domain.Product;
 import org.golfworld.db.service.FootprintService;
-import org.golfworld.db.service.GoodsService;
+import org.golfworld.db.service.ProductService;
 import org.golfworld.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +32,7 @@ public class WxFootprintController {
     @Autowired
     private FootprintService footprintService;
     @Autowired
-    private GoodsService goodsService;
+    private ProductService productService;
 
     /**
      * 删除用户足迹
@@ -88,14 +88,14 @@ public class WxFootprintController {
         for (Footprint footprint : footprintList) {
             Map<String, Object> c = new HashMap<String, Object>();
             c.put("id", footprint.getId());
-            c.put("goodsId", footprint.getGoodsId());
+            c.put("productId", footprint.getProductId());
             c.put("addTime", footprint.getAddTime());
 
-            Goods goods = goodsService.findById(footprint.getGoodsId());
-            c.put("name", goods.getName());
-            c.put("brief", goods.getBrief());
-            c.put("picUrl", goods.getPicUrl());
-            c.put("retailPrice", goods.getRetailPrice());
+            Product product = productService.findById(footprint.getProductId());
+            c.put("name", product.getName());
+            c.put("brief", product.getBrief());
+            c.put("picUrl", product.getPicUrl());
+//            c.put("retailPrice", product.getRetailPrice());
 
             footprintVoList.add(c);
         }

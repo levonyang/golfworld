@@ -5,11 +5,10 @@ import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.system.SystemConfig;
 import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.Category;
-import org.golfworld.db.domain.Goods;
+import org.golfworld.db.domain.Product;
 import org.golfworld.db.service.*;
 import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.service.HomeCacheManager;
-import org.golfworld.wx.service.WxGrouponRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +35,7 @@ public class WxHomeController {
     private AdService adService;
 
     @Autowired
-    private GoodsService goodsService;
+    private ProductService productService;
 
     @Autowired
     private BrandService brandService;
@@ -47,11 +46,6 @@ public class WxHomeController {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private WxGrouponRuleService grouponService;
-
-    @Autowired
-    private CouponService couponService;
 
     private final static ArrayBlockingQueue<Runnable> WORK_QUEUE = new ArrayBlockingQueue<>(9);
 
@@ -87,58 +81,44 @@ public class WxHomeController {
 
         Callable<List> channelListCallable = () -> categoryService.queryChannel();
 
-        Callable<List> couponListCallable;
-        if(userId == null){
-            couponListCallable = () -> couponService.queryList(0, 3);
-        } else {
-            couponListCallable = () -> couponService.queryAvailableList(userId,0, 3);
-        }
 
 
-        Callable<List> newGoodsListCallable = () -> goodsService.queryByNew(0, SystemConfig.getNewLimit());
+        Callable<List> newProductListCallable = () -> productService.queryByNew(0, SystemConfig.getNewLimit());
 
-        Callable<List> hotGoodsListCallable = () -> goodsService.queryByHot(0, SystemConfig.getHotLimit());
+        Callable<List> hotProductListCallable = () -> productService.queryByHot(0, SystemConfig.getHotLimit());
 
         Callable<List> brandListCallable = () -> brandService.query(0, SystemConfig.getBrandLimit());
 
         Callable<List> topicListCallable = () -> topicService.queryList(0, SystemConfig.getTopicLimit());
 
-        //团购专区
-        Callable<List> grouponListCallable = () -> grouponService.queryList(0, 5);
 
-        Callable<List> floorGoodsListCallable = this::getCategoryList;
+        Callable<List> floorProductListCallable = this::getCategoryList;
 
         FutureTask<List> bannerTask = new FutureTask<>(bannerListCallable);
         FutureTask<List> channelTask = new FutureTask<>(channelListCallable);
-        FutureTask<List> couponListTask = new FutureTask<>(couponListCallable);
-        FutureTask<List> newGoodsListTask = new FutureTask<>(newGoodsListCallable);
-        FutureTask<List> hotGoodsListTask = new FutureTask<>(hotGoodsListCallable);
+        FutureTask<List> newProductListTask = new FutureTask<>(newProductListCallable);
+        FutureTask<List> hotProductListTask = new FutureTask<>(hotProductListCallable);
         FutureTask<List> brandListTask = new FutureTask<>(brandListCallable);
         FutureTask<List> topicListTask = new FutureTask<>(topicListCallable);
-        FutureTask<List> grouponListTask = new FutureTask<>(grouponListCallable);
-        FutureTask<List> floorGoodsListTask = new FutureTask<>(floorGoodsListCallable);
+        FutureTask<List> floorProductListTask = new FutureTask<>(floorProductListCallable);
 
         executorService.submit(bannerTask);
         executorService.submit(channelTask);
-        executorService.submit(couponListTask);
-        executorService.submit(newGoodsListTask);
-        executorService.submit(hotGoodsListTask);
+        executorService.submit(newProductListTask);
+        executorService.submit(hotProductListTask);
         executorService.submit(brandListTask);
         executorService.submit(topicListTask);
-        executorService.submit(grouponListTask);
-        executorService.submit(floorGoodsListTask);
+        executorService.submit(floorProductListTask);
 
         Map<String, Object> entity = new HashMap<>();
         try {
             entity.put("banner", bannerTask.get());
             entity.put("channel", channelTask.get());
-            entity.put("couponList", couponListTask.get());
-            entity.put("newGoodsList", newGoodsListTask.get());
-            entity.put("hotGoodsList", hotGoodsListTask.get());
+            entity.put("newProductList", newProductListTask.get());
+            entity.put("hotProductList", hotProductListTask.get());
             entity.put("brandList", brandListTask.get());
             entity.put("topicList", topicListTask.get());
-            entity.put("grouponList", grouponListTask.get());
-            entity.put("floorGoodsList", floorGoodsListTask.get());
+            entity.put("floorProductList", floorProductListTask.get());
             //缓存数据
             HomeCacheManager.loadData(HomeCacheManager.INDEX, entity);
         }
@@ -160,18 +140,18 @@ public class WxHomeController {
                 l2List.add(catL2.getId());
             }
 
-            List<Goods> categoryGoods;
+            List<Product> categoryProduct;
             if (l2List.size() == 0) {
-                categoryGoods = new ArrayList<>();
+                categoryProduct = new ArrayList<>();
             } else {
-                categoryGoods = goodsService.queryByCategory(l2List, 0, SystemConfig.getCatlogMoreLimit());
+                categoryProduct = productService.queryByCategory(l2List, 0, SystemConfig.getCatlogMoreLimit());
             }
 
-            Map<String, Object> catGoods = new HashMap<>();
-            catGoods.put("id", catL1.getId());
-            catGoods.put("name", catL1.getName());
-            catGoods.put("goodsList", categoryGoods);
-            categoryList.add(catGoods);
+            Map<String, Object> catProduct = new HashMap<>();
+            catProduct.put("id", catL1.getId());
+            catProduct.put("name", catL1.getName());
+            catProduct.put("productList", categoryProduct);
+            categoryList.add(catProduct);
         }
         return categoryList;
     }

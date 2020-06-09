@@ -3,8 +3,8 @@
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.goodsId" clearable class="filter-item" style="width: 160px;" placeholder="请输入商品ID" />
-      <el-input v-model="listQuery.goodsSn" clearable class="filter-item" style="width: 160px;" placeholder="请输入商品编号" />
+      <el-input v-model="listQuery.productId" clearable class="filter-item" style="width: 160px;" placeholder="请输入商品ID" />
+      <el-input v-model="listQuery.productSn" clearable class="filter-item" style="width: 160px;" placeholder="请输入商品编号" />
       <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 160px;" placeholder="请输入商品名称" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
@@ -18,7 +18,7 @@
         <template slot-scope="props">
           <el-form label-position="left" class="table-expand">
             <el-form-item label="商品编号">
-              <span>{{ props.row.goodsSn }}</span>
+              <span>{{ props.row.productSn }}</span>
             </el-form-item>
             <el-form-item label="宣传画廊">
               <img v-for="pic in props.row.gallery" :key="pic" :src="pic" class="gallery">
@@ -62,7 +62,7 @@
       <el-table-column align="center" label="详情" prop="detail">
         <template slot-scope="scope">
           <el-dialog :visible.sync="detailDialogVisible" title="商品详情">
-            <div class="goods-detail-box" v-html="goodsDetail" />
+            <div class="product-detail-box" v-html="productDetail" />
           </el-dialog>
           <el-button type="primary" size="mini" @click="showDetail(scope.row.detail)">查看</el-button>
         </template>
@@ -123,18 +123,18 @@
     width: 80px;
     margin-right: 10px;
   }
-  .goods-detail-box img {
+  .product-detail-box img {
     width: 100%;
   }
 </style>
 
 <script>
-import { listGoods, deleteGoods } from '@/api/goods'
+import { listProduct, deleteProduct } from '@/api/product'
 import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'GoodsList',
+  name: 'ProductList',
   components: { BackToTop, Pagination },
   data() {
     return {
@@ -144,12 +144,12 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        goodsSn: undefined,
+        productSn: undefined,
         name: undefined,
         sort: 'add_time',
         order: 'desc'
       },
-      goodsDetail: '',
+      productDetail: '',
       detailDialogVisible: false,
       downloadLoading: false
     }
@@ -160,7 +160,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      listGoods(this.listQuery).then(response => {
+      listProduct(this.listQuery).then(response => {
         this.list = response.data.data.list
         this.total = response.data.data.total
         this.listLoading = false
@@ -175,17 +175,17 @@ export default {
       this.getList()
     },
     handleCreate() {
-      this.$router.push({ path: '/goods/create' })
+      this.$router.push({ path: '/product/create' })
     },
     handleUpdate(row) {
-      this.$router.push({ path: '/goods/edit', query: { id: row.id }})
+      this.$router.push({ path: '/product/edit', query: { id: row.id }})
     },
     showDetail(detail) {
-      this.goodsDetail = detail
+      this.productDetail = detail
       this.detailDialogVisible = true
     },
     handleDelete(row) {
-      deleteGoods(row).then(response => {
+      deleteProduct(row).then(response => {
         this.$notify.success({
           title: '成功',
           message: '删除成功'
@@ -203,7 +203,7 @@ export default {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['商品ID', '商品编号', '名称', '专柜价格', '当前价格', '是否新品', '是否热品', '是否在售', '首页主图', '宣传图片列表', '商品介绍', '详细介绍', '商品图片', '商品单位', '关键字', '类目ID', '品牌商ID']
-        const filterVal = ['id', 'goodsSn', 'name', 'counterPrice', 'retailPrice', 'isNew', 'isHot', 'isOnSale', 'listPicUrl', 'gallery', 'brief', 'detail', 'picUrl', 'goodsUnit', 'keywords', 'categoryId', 'brandId']
+        const filterVal = ['id', 'productSn', 'name', 'counterPrice', 'retailPrice', 'isNew', 'isHot', 'isOnSale', 'listPicUrl', 'gallery', 'brief', 'detail', 'picUrl', 'productUnit', 'keywords', 'categoryId', 'brandId']
         excel.export_json_to_excel2(tHeader, this.list, filterVal, '商品信息')
         this.downloadLoading = false
       })

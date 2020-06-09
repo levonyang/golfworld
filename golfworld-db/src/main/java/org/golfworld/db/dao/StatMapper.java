@@ -8,5 +8,5 @@ public interface StatMapper {
 
     List<Map> statOrder();
 
-    List<Map> statGoods();
+    List<Map> statProduct();
 }

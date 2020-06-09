@@ -10,7 +10,6 @@ import org.golfworld.core.notify.NotifyType;
 import org.golfworld.core.util.*;
 import org.golfworld.core.util.bcrypt.BCryptPasswordEncoder;
 import org.golfworld.db.domain.User;
-import org.golfworld.db.service.CouponAssignService;
 import org.golfworld.db.service.UserService;
 import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.dto.UserInfo;
@@ -48,9 +47,7 @@ public class WxAuthController {
 
     @Autowired
     private NotifyService notifyService;
-
-    @Autowired
-    private CouponAssignService couponAssignService;
+;
 
     /**
      * 账号登录
@@ -152,8 +149,7 @@ public class WxAuthController {
 
             userService.add(user);
 
-            // 新用户发送注册优惠券
-            couponAssignService.assignForRegister(user.getId());
+
         } else {
             user.setLastLoginTime(LocalDateTime.now());
             user.setLastLoginIp(IpUtil.getIpAddr(request));
@@ -313,8 +309,7 @@ public class WxAuthController {
         user.setLastLoginIp(IpUtil.getIpAddr(request));
         userService.add(user);
 
-        // 给新用户发送注册优惠券
-        couponAssignService.assignForRegister(user.getId());
+
 
         // userInfo
         UserInfo userInfo = new UserInfo();

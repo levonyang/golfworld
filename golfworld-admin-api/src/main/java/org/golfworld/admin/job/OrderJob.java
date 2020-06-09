@@ -22,15 +22,8 @@ public class OrderJob {
     private final Log logger = LogFactory.getLog(OrderJob.class);
 
     @Autowired
-    private OrderGoodsService orderGoodsService;
-    @Autowired
     private OrderService orderService;
-    @Autowired
-    private GoodsProductService productService;
-    @Autowired
-    private GrouponService grouponService;
-    @Autowired
-    private GrouponRulesService rulesService;
+
 
     /**
      * 自动确认订单
@@ -79,11 +72,11 @@ public class OrderJob {
             order.setComments((short) 0);
             orderService.updateWithOptimisticLocker(order);
 
-            List<OrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
-            for (OrderGoods orderGoods : orderGoodsList) {
-                orderGoods.setComment(-1);
-                orderGoodsService.updateById(orderGoods);
-            }
+//            List<OrderProduct> orderProductList = orderProductService.queryByOid(order.getId());
+//            for (OrderProduct orderProduct : orderProductList) {
+//                orderProduct.setComment(-1);
+//                orderProductService.updateById(orderProduct);
+//            }
         }
 
         logger.info("系统结束任务检查订单是否已经超期未评价");

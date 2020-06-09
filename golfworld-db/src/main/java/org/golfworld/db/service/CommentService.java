@@ -16,7 +16,7 @@ public class CommentService {
     @Resource
     private CommentMapper commentMapper;
 
-    public List<Comment> queryGoodsByGid(Integer id, int offset, int limit) {
+    public List<Comment> queryProductByGid(Integer id, int offset, int limit) {
         CommentExample example = new CommentExample();
         example.setOrderByClause(Comment.Column.addTime.desc());
         example.or().andValueIdEqualTo(id).andTypeEqualTo((byte) 0).andDeletedEqualTo(false);

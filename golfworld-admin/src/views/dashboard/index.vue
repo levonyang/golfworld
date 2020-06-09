@@ -9,7 +9,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">用户数量</div>
-            <count-to :start-val="0" :end-val="userTotal" :duration="2600" class="card-panel-num"/>
+            <count-to :start-val="0" :end-val="userTotal" :duration="2600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -20,7 +20,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">商品数量</div>
-            <count-to :start-val="0" :end-val="goodsTotal" :duration="3000" class="card-panel-num"/>
+            <count-to :start-val="0" :end-val="productTotal" :duration="3000" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -31,7 +31,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">货品数量</div>
-            <count-to :start-val="0" :end-val="productTotal" :duration="3200" class="card-panel-num"/>
+            <count-to :start-val="0" :end-val="productTotal" :duration="3200" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -42,7 +42,7 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">订单数量</div>
-            <count-to :start-val="0" :end-val="orderTotal" :duration="3600" class="card-panel-num"/>
+            <count-to :start-val="0" :end-val="orderTotal" :duration="3600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       userTotal: 0,
-      goodsTotal: 0,
+      productTotal: 0,
       productTotal: 0,
       orderTotal: 0
     }
@@ -69,7 +69,7 @@ export default {
   created() {
     info().then(response => {
       this.userTotal = response.data.data.userTotal
-      this.goodsTotal = response.data.data.goodsTotal
+      this.productTotal = response.data.data.productTotal
       this.productTotal = response.data.data.productTotal
       this.orderTotal = response.data.data.orderTotal
     })

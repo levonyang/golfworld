@@ -30,12 +30,12 @@ public class AdminFootprintController {
     @RequiresPermissions("admin:footprint:list")
     @RequiresPermissionsDesc(menu = {"用户管理", "用户足迹"}, button = "查询")
     @GetMapping("/list")
-    public Object list(String userId, String goodsId,
+    public Object list(String userId, String productId,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @OrderValidateInterface @RequestParam(defaultValue = "desc") String order) {
-        List<Footprint> footprintList = footprintService.querySelective(userId, goodsId, page, limit, sort,
+        List<Footprint> footprintList = footprintService.querySelective(userId, productId, page, limit, sort,
                 order);
         return ResponseUtil.okList(footprintList);
     }

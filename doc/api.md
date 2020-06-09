@@ -22,7 +22,7 @@
 
 或者
     
-    GET /goods/list?page=1&limit=10
+    GET /product/list?page=1&limit=10
 
 #### 1.1.2 POST更新
     
@@ -37,7 +37,7 @@
 
 或者    
     
-    POST /goods/star
+    POST /product/star
     {
         id: 1
     }
@@ -48,7 +48,7 @@
 
 例如
 
-    GET /goods/list?page=1&limit=10&sort=add_time&order=desc
+    GET /product/list?page=1&limit=10&sort=add_time&order=desc
     
 本项目的通用分页请求参数统一传递四个：
 
@@ -744,7 +744,7 @@ API应该存在版本控制，以保证兼容性。
     {
       "errno": 0,
       "data": {
-        "newGoodsList": [
+        "newProductList": [
           {
             "id": 1181000,
             "name": "母亲节礼物-舒适安睡组合",
@@ -956,7 +956,7 @@ API应该存在版本控制，以保证兼容性。
             "floorPrice": 29.00
           }
         ],
-        "hotGoodsList": [
+        "hotProductList": [
           {
             "id": 1152008,
             "name": "魔兽世界 部落 护腕 一只",
@@ -1052,10 +1052,10 @@ API应该存在版本控制，以保证兼容性。
             "picUrl": "https://yanxuan.nosdn.127.net/14924199099661697.jpg"
           }
         ],
-        "floorGoodsList": [
+        "floorProductList": [
           {
             "name": "居家",
-            "goodsList": [
+            "productList": [
               {
                 "id": 1110016,
                 "name": "天然硅胶宠物除毛按摩刷",
@@ -1101,7 +1101,7 @@ API应该存在版本控制，以保证兼容性。
           },
           {
             "name": "餐厨",
-            "goodsList": [
+            "productList": [
               {
                 "id": 1023003,
                 "name": "100年传世珐琅锅 全家系列",
@@ -1147,7 +1147,7 @@ API应该存在版本控制，以保证兼容性。
           },
           {
             "name": "饮食",
-            "goodsList": [
+            "productList": [
               {
                 "id": 1045000,
                 "name": "绿茶蛋黄酥 200克/4枚入",
@@ -1193,7 +1193,7 @@ API应该存在版本控制，以保证兼容性。
           },
           {
             "name": "配件",
-            "goodsList": [
+            "productList": [
               {
                 "id": 1085019,
                 "name": "20寸 纯PC“铝框”（非全铝）登机箱",
@@ -1258,7 +1258,7 @@ API应该存在版本控制，以保证兼容性。
     
 接口链接
 
-    GET /wx/goods/list
+    GET /wx/product/list
 
 请求参数
     
@@ -1420,7 +1420,7 @@ API应该存在版本控制，以保证兼容性。
     
 接口链接
 
-    GET /wx/goods/detail
+    GET /wx/product/detail
 
 请求参数
     
@@ -1437,7 +1437,7 @@ API应该存在版本控制，以保证兼容性。
             "valueList": [
               {
                 "id": 231,
-                "goodsId": 1152008,
+                "productId": 1152008,
                 "specification": "规格",
                 "value": "标准",
                 "picUrl": "",
@@ -1494,7 +1494,7 @@ API应该存在版本控制，以保证兼容性。
         "productList": [
           {
             "id": 232,
-            "goodsId": 1152008,
+            "productId": 1152008,
             "specifications": [
               "标准"
             ],
@@ -1508,7 +1508,7 @@ API应该存在版本控制，以保证兼容性。
         ],
         "info": {
           "id": 1152008,
-          "goodsSn": "1152008",
+          "productSn": "1152008",
           "name": "魔兽世界 部落 护腕 一只",
           "categoryId": 1032000,
           "brandId": 0,
@@ -1552,7 +1552,7 @@ API应该存在版本控制，以保证兼容性。
     
 接口链接
 
-    GET /wx/goods/related
+    GET /wx/product/related
 
 请求参数
     
@@ -1649,7 +1649,7 @@ API应该存在版本控制，以保证兼容性。
     
 接口链接
 
-    GET /wx/goods/related
+    GET /wx/product/related
 
 请求参数
     
@@ -1666,7 +1666,7 @@ API应该存在版本控制，以保证兼容性。
     
 接口链接
 
-    GET /wx/goods/count
+    GET /wx/product/count
 
 请求参数
     
@@ -1741,12 +1741,12 @@ API应该存在版本控制，以保证兼容性。
             "isGroupin": false,
             "orderSn": "20190509607545",
             "actualPrice": 3989.00,
-            "goodsList": [
+            "productList": [
               {
                 "number": 1,
                 "picUrl": "http://yanxuan.nosdn.127.net/c5be2604c0e4186a4e7079feeb742cee.png",
                 "id": 3,
-                "goodsName": "云端沙发组合",
+                "productName": "云端沙发组合",
                 "specifications": [
                   "标准"
                 ]
@@ -1799,7 +1799,7 @@ API应该存在版本控制，以保证兼容性。
           "actualPrice": 3989.00,
           "mobile": "13811111111",
           "orderStatusText": "未付款",
-          "goodsPrice": 3999.00,
+          "productPrice": 3999.00,
           "couponPrice": 10.00,
           "id": 3,
           "freightPrice": 0.00,
@@ -1813,13 +1813,13 @@ API应该存在版本控制，以保证兼容性。
             "rebuy": false
           }
         },
-        "orderGoods": [
+        "orderProduct": [
           {
             "id": 3,
             "orderId": 3,
-            "goodsId": 1109008,
-            "goodsName": "云端沙发组合",
-            "goodsSn": "1109008",
+            "productId": 1109008,
+            "productName": "云端沙发组合",
+            "productSn": "1109008",
             "productId": 140,
             "number": 1,
             "price": 3999.00,
@@ -2027,12 +2027,12 @@ API应该存在版本控制，以保证兼容性。
 
 接口链接
 
-    GET /wx/order/goods
+    GET /wx/order/product
     
 请求参数
 
     orderId: 订单ID
-    goodsId: 商品ID
+    productId: 商品ID
     
 响应结果
 
@@ -2041,9 +2041,9 @@ API应该存在版本控制，以保证兼容性。
       "data": {
         "id": 4,
         "orderId": 4,
-        "goodsId": 1109008,
-        "goodsName": "云端沙发组合",
-        "goodsSn": "1109008",
+        "productId": 1109008,
+        "productName": "云端沙发组合",
+        "productSn": "1109008",
         "productId": 140,
         "number": 1,
         "price": 3999.00,
@@ -2076,7 +2076,7 @@ API应该存在版本控制，以保证兼容性。
     
 请求参数
 
-    orderGoodsId: 订单商品ID
+    orderProductId: 订单商品ID
     content: 评价内容
     star: 评分，1分至5分
     hasPicture: 是否有评价图片
@@ -2085,7 +2085,7 @@ API应该存在版本控制，以保证兼容性。
 例如
 
     {
-      "orderGoodsId": 4,
+      "orderProductId": 4,
       "content": "不错",
       "star": 5,
       "hasPicture": true,
@@ -2907,7 +2907,7 @@ API应该存在版本控制，以保证兼容性。
             "brief": "酥脆奶香，甜酸回味",
             "picUrl": "http://yanxuan.nosdn.127.net/767b370d07f3973500db54900bcbd2a7.png",
             "addTime": "2019-05-09 10:10:01",
-            "goodsId": 1116011,
+            "productId": 1116011,
             "name": "蔓越莓曲奇 200克",
             "id": 22,
             "retailPrice": 36.00
@@ -2916,7 +2916,7 @@ API应该存在版本控制，以保证兼容性。
             "brief": "MUJI供应商携手打造",
             "picUrl": "http://yanxuan.nosdn.127.net/c5be2604c0e4186a4e7079feeb742cee.png",
             "addTime": "2019-05-09 10:09:49",
-            "goodsId": 1109008,
+            "productId": 1109008,
             "name": "云端沙发组合",
             "id": 21,
             "retailPrice": 3999.00
@@ -2925,7 +2925,7 @@ API应该存在版本控制，以保证兼容性。
             "brief": "酥脆奶香，甜酸回味",
             "picUrl": "http://yanxuan.nosdn.127.net/767b370d07f3973500db54900bcbd2a7.png",
             "addTime": "2019-05-08 22:40:55",
-            "goodsId": 1116011,
+            "productId": 1116011,
             "name": "蔓越莓曲奇 200克",
             "id": 20,
             "retailPrice": 36.00
@@ -2934,7 +2934,7 @@ API应该存在版本控制，以保证兼容性。
             "brief": "MUJI供应商携手打造",
             "picUrl": "http://yanxuan.nosdn.127.net/c5be2604c0e4186a4e7079feeb742cee.png",
             "addTime": "2019-05-07 14:35:41",
-            "goodsId": 1109008,
+            "productId": 1109008,
             "name": "云端沙发组合",
             "id": 19,
             "retailPrice": 3999.00
@@ -3274,13 +3274,13 @@ API应该存在版本控制，以保证兼容性。
           "readCount": "77.7k",
           "picUrl": "https://yanxuan.nosdn.127.net/14918201901050274.jpg",
           "sortOrder": 0,
-          "goods": [],
+          "product": [],
           "addTime": "2018-02-01 00:00:00",
           "updateTime": "2018-02-01 00:00:00",
           "deleted": false,
           "content": ""
         },
-        "goods": []
+        "product": []
       },
       "errmsg": "成功"
     }  
@@ -3321,7 +3321,7 @@ API应该存在版本控制，以保证兼容性。
             "readCount": "35.0k",
             "picUrl": "https://yanxuan.nosdn.127.net/14919007135160213.jpg",
             "sortOrder": 0,
-            "goods": [],
+            "product": [],
             "addTime": "2018-02-01 00:00:00",
             "updateTime": "2018-02-01 00:00:00",
             "deleted": false,
@@ -3335,7 +3335,7 @@ API应该存在版本控制，以保证兼容性。
             "readCount": "33.3k",
             "picUrl": "https://yanxuan.nosdn.127.net/14920623353130483.jpg",
             "sortOrder": 0,
-            "goods": [],
+            "product": [],
             "addTime": "2018-02-01 00:00:00",
             "updateTime": "2018-02-01 00:00:00",
             "deleted": false,
@@ -3349,7 +3349,7 @@ API应该存在版本控制，以保证兼容性。
             "readCount": "57.7k",
             "picUrl": "https://yanxuan.nosdn.127.net/14924199099661697.jpg",
             "sortOrder": 0,
-            "goods": [],
+            "product": [],
             "addTime": "2018-02-01 00:00:00",
             "updateTime": "2018-02-01 00:00:00",
             "deleted": false,
@@ -3363,7 +3363,7 @@ API应该存在版本控制，以保证兼容性。
             "readCount": "125.6k",
             "picUrl": "https://yanxuan.nosdn.127.net/14925200530030186.jpg",
             "sortOrder": 0,
-            "goods": [],
+            "product": [],
             "addTime": "2018-02-01 00:00:00",
             "updateTime": "2018-02-01 00:00:00",
             "deleted": false,

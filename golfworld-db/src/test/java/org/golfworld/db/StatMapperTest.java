@@ -37,8 +37,8 @@ public class StatMapperTest {
     }
 
     @Test
-    public void testGoods() {
-        List<Map> result = statMapper.statGoods();
+    public void testProduct() {
+        List<Map> result = statMapper.statProduct();
         for (Map m : result) {
             m.forEach((k, v) -> System.out.println("key:value = " + k + ":" + v));
         }

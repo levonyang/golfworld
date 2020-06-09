@@ -150,8 +150,8 @@ mybatis数据库访问代码是指dao接口代码、dao数据库XML文件和doma
             return statMapper.statOrder();
         }
 
-        public List<Map> statGoods(){
-            return statMapper.statGoods();
+        public List<Map> statProduct(){
+            return statMapper.statProduct();
         }
     }
     ```
@@ -182,12 +182,12 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 1. 实现JsonStringArrayTypeHandler类；
 2. 在mybatis generator配置文件中，配置需要的字段；
     ```
-        <table tableName="goods">
+        <table tableName="product">
             <columnOverride column="gallery" javaType="java.lang.String[]"
                             typeHandler="org.golfworld.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
     ```
-3. 使用mybatis generator自动生成代码，可以看到LitemallGoods的gallery是`String[]`类型。
+3. 使用mybatis generator自动生成代码，可以看到LitemallProduct的gallery是`String[]`类型。
 
 目前只实现了两个自定义TypeHandler：
 * JsonStringArrayTypeHandler类，实现`String[]`和`varchar`的转换，保存的JSON数据格式是`[string0, string1, ...]`

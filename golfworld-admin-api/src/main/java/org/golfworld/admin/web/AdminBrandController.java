@@ -49,11 +49,6 @@ public class AdminBrandController {
         if (StringUtils.isEmpty(desc)) {
             return ResponseUtil.badArgument();
         }
-
-        BigDecimal price = brand.getFloorPrice();
-        if (price == null) {
-            return ResponseUtil.badArgument();
-        }
         return null;
     }
 

@@ -3,8 +3,7 @@ package org.golfworld.admin.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.util.ResponseUtil;
-import org.golfworld.db.service.GoodsProductService;
-import org.golfworld.db.service.GoodsService;
+import org.golfworld.db.service.ProductService;
 import org.golfworld.db.service.OrderService;
 import org.golfworld.db.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +24,19 @@ public class AdminDashbordController {
     @Autowired
     private UserService userService;
     @Autowired
-    private GoodsService goodsService;
-    @Autowired
-    private GoodsProductService productService;
+    private ProductService productService;
     @Autowired
     private OrderService orderService;
 
     @GetMapping("")
     public Object info() {
         int userTotal = userService.count();
-        int goodsTotal = goodsService.count();
         int productTotal = productService.count();
+//        int productTotal = productService.count();
         int orderTotal = orderService.count();
         Map<String, Integer> data = new HashMap<>();
         data.put("userTotal", userTotal);
-        data.put("goodsTotal", goodsTotal);
+        data.put("productTotal", productTotal);
         data.put("productTotal", productTotal);
         data.put("orderTotal", orderTotal);
 

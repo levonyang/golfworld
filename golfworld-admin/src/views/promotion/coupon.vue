@@ -3,12 +3,12 @@
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入优惠券标题"/>
+      <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入优惠券标题" />
       <el-select v-model="listQuery.type" clearable style="width: 200px" class="filter-item" placeholder="请选择优惠券类型">
-        <el-option v-for="type in typeOptions" :key="type.value" :label="type.label" :value="type.value"/>
+        <el-option v-for="type in typeOptions" :key="type.value" :label="type.label" :value="type.value" />
       </el-select>
       <el-select v-model="listQuery.status" clearable style="width: 200px" class="filter-item" placeholder="请选择优惠券状态">
-        <el-option v-for="type in statusOptions" :key="type.value" :label="type.label" :value="type.value"/>
+        <el-option v-for="type in statusOptions" :key="type.value" :label="type.label" :value="type.value" />
       </el-select>
       <el-button v-permission="['GET /admin/coupon/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button v-permission="['POST /admin/coupon/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
@@ -18,13 +18,13 @@
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
 
-      <el-table-column align="center" label="优惠券ID" prop="id" sortable/>
+      <el-table-column align="center" label="优惠券ID" prop="id" sortable />
 
-      <el-table-column align="center" label="优惠券名称" prop="name"/>
+      <el-table-column align="center" label="优惠券名称" prop="name" />
 
-      <el-table-column align="center" label="介绍" prop="desc"/>
+      <el-table-column align="center" label="介绍" prop="desc" />
 
-      <el-table-column align="center" label="标签" prop="tag"/>
+      <el-table-column align="center" label="标签" prop="tag" />
 
       <el-table-column align="center" label="最低消费" prop="min">
         <template slot-scope="scope">满{{ scope.row.min }}元可用</template>
@@ -38,8 +38,8 @@
         <template slot-scope="scope">{{ scope.row.limit != 0 ? scope.row.limit : "不限" }}</template>
       </el-table-column>
 
-      <el-table-column align="center" label="商品使用范围" prop="goodsType">
-        <template slot-scope="scope">{{ scope.row.goodsType | formatGoodsType }}</template>
+      <el-table-column align="center" label="商品使用范围" prop="productType">
+        <template slot-scope="scope">{{ scope.row.productType | formatProductType }}</template>
       </el-table-column>
 
       <el-table-column align="center" label="优惠券类型" prop="type">
@@ -69,13 +69,13 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item label="优惠券名称" prop="name">
-          <el-input v-model="dataForm.name"/>
+          <el-input v-model="dataForm.name" />
         </el-form-item>
         <el-form-item label="介绍" prop="desc">
-          <el-input v-model="dataForm.desc"/>
+          <el-input v-model="dataForm.desc" />
         </el-form-item>
         <el-form-item label="标签" prop="tag">
-          <el-input v-model="dataForm.tag"/>
+          <el-input v-model="dataForm.tag" />
         </el-form-item>
         <el-form-item label="最低消费" prop="min">
           <el-input v-model="dataForm.min">
@@ -98,7 +98,8 @@
               v-for="type in typeOptions"
               :key="type.value"
               :label="type.label"
-              :value="type.value"/>
+              :value="type.value"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="优惠券数量" prop="total">
@@ -119,24 +120,24 @@
         </el-form-item>
         <el-form-item v-show="dataForm.timeType === 1">
           <el-col :span="11">
-            <el-date-picker v-model="dataForm.startTime" type="datetime" placeholder="选择日期" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"/>
+            <el-date-picker v-model="dataForm.startTime" type="datetime" placeholder="选择日期" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;" />
           </el-col>
           <el-col :span="2" class="line">至</el-col>
           <el-col :span="11">
-            <el-date-picker v-model="dataForm.endTime" type="datetime" placeholder="选择日期" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"/>
+            <el-date-picker v-model="dataForm.endTime" type="datetime" placeholder="选择日期" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;" />
           </el-col>
         </el-form-item>
         <el-form-item label="商品限制范围">
-          <el-radio-group v-model="dataForm.goodsType">
+          <el-radio-group v-model="dataForm.productType">
             <el-radio-button :label="0">全场通用</el-radio-button>
             <el-radio-button :label="1">指定分类</el-radio-button>
             <el-radio-button :label="2">指定商品</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="dataForm.goodsType === 1">
+        <el-form-item v-show="dataForm.productType === 1">
           目前不支持
         </el-form-item>
-        <el-form-item v-show="dataForm.goodsType === 2">
+        <el-form-item v-show="dataForm.productType === 2">
           目前不支持
         </el-form-item>
       </el-form>
@@ -222,10 +223,10 @@ export default {
       }
       return ''
     },
-    formatGoodsType(goodsType) {
-      if (goodsType === 0) {
+    formatProductType(productType) {
+      if (productType === 0) {
         return '全场通用'
-      } else if (goodsType === 1) {
+      } else if (productType === 1) {
         return '指定分类'
       } else {
         return '指定商品'
@@ -268,8 +269,8 @@ export default {
         limit: 1,
         type: 0,
         status: 0,
-        goodsType: 0,
-        goodsValue: [],
+        productType: 0,
+        productValue: [],
         timeType: 0,
         days: 0,
         startTime: null,
@@ -323,8 +324,8 @@ export default {
         limit: 1,
         type: 0,
         status: 0,
-        goodsType: 0,
-        goodsValue: [],
+        productType: 0,
+        productValue: [],
         timeType: 0,
         days: 0,
         startTime: null,

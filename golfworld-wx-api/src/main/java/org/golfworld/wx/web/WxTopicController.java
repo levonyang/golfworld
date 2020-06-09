@@ -5,9 +5,9 @@ import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.core.validator.OrderValidateInterface;
 import org.golfworld.core.validator.Sort;
-import org.golfworld.db.domain.Goods;
+import org.golfworld.db.domain.Product;
 import org.golfworld.db.domain.Topic;
-import org.golfworld.db.service.GoodsService;
+import org.golfworld.db.service.ProductService;
 import org.golfworld.db.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ public class WxTopicController {
     @Autowired
     private TopicService topicService;
     @Autowired
-    private GoodsService goodsService;
+    private ProductService productService;
 
     /**
      * 专题列表
@@ -61,16 +61,16 @@ public class WxTopicController {
     @GetMapping("detail")
     public Object detail(@NotNull Integer id) {
         Topic topic = topicService.findById(id);
-        List<Goods> goods = new ArrayList<>();
-        for (Integer i : topic.getGoods()) {
-            Goods good = goodsService.findByIdVO(i);
+        List<Product> product = new ArrayList<>();
+        for (Integer i : topic.getProduct()) {
+            Product good = productService.findByIdVO(i);
             if (null != good)
-                goods.add(good);
+                product.add(good);
         }
 
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("topic", topic);
-        entity.put("goods", goods);
+        entity.put("product", product);
         return ResponseUtil.ok(entity);
     }
 

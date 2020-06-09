@@ -50,11 +50,11 @@ public class AdminStatController {
         return ResponseUtil.ok(statVo);
     }
 
-    @RequiresPermissions("admin:stat:goods")
+    @RequiresPermissions("admin:stat:product")
     @RequiresPermissionsDesc(menu = {"统计管理", "商品统计"}, button = "查询")
-    @GetMapping("/goods")
-    public Object statGoods() {
-        List<Map> rows = statService.statGoods();
+    @GetMapping("/product")
+    public Object statProduct() {
+        List<Map> rows = statService.statProduct();
         String[] columns = new String[]{"day", "orders", "products", "amount"};
         StatVo statVo = new StatVo();
         statVo.setColumns(columns);

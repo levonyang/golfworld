@@ -9,9 +9,9 @@ import org.golfworld.core.util.JacksonUtil;
 import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.core.validator.OrderValidateInterface;
 import org.golfworld.core.validator.Sort;
-import org.golfworld.db.domain.Goods;
+import org.golfworld.db.domain.Product;
 import org.golfworld.db.domain.Topic;
-import org.golfworld.db.service.GoodsService;
+import org.golfworld.db.service.ProductService;
 import org.golfworld.db.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -34,7 +34,7 @@ public class AdminTopicController {
     @Autowired
     private TopicService topicService;
     @Autowired
-    private GoodsService goodsService;
+    private ProductService productService;
 
     @RequiresPermissions("admin:topic:list")
     @RequiresPermissionsDesc(menu = {"推广管理", "专题管理"}, button = "查询")
@@ -81,16 +81,16 @@ public class AdminTopicController {
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
         Topic topic = topicService.findById(id);
-        Integer[] goodsIds = topic.getGoods();
-        List<Goods> goodsList = null;
-        if (goodsIds == null || goodsIds.length == 0) {
-            goodsList = new ArrayList<>();
+        Integer[] productIds = topic.getProduct();
+        List<Product> productList = null;
+        if (productIds == null || productIds.length == 0) {
+            productList = new ArrayList<>();
         } else {
-            goodsList = goodsService.queryByIds(goodsIds);
+            productList = productService.queryByIds(productIds);
         }
         Map<String, Object> data = new HashMap<>(2);
         data.put("topic", topic);
-        data.put("goodsList", goodsList);
+        data.put("productList", productList);
         return ResponseUtil.ok(data);
     }
 

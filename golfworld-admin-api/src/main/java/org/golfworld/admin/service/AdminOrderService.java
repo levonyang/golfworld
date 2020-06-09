@@ -12,7 +12,6 @@ import org.golfworld.core.util.JacksonUtil;
 import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.Comment;
 import org.golfworld.db.domain.Order;
-import org.golfworld.db.domain.OrderGoods;
 import org.golfworld.db.domain.UserVo;
 import org.golfworld.db.service.*;
 import org.golfworld.db.util.OrderUtil;
@@ -35,11 +34,7 @@ public class AdminOrderService {
     private final Log logger = LogFactory.getLog(AdminOrderService.class);
 
     @Autowired
-    private OrderGoodsService orderGoodsService;
-    @Autowired
     private OrderService orderService;
-    @Autowired
-    private GoodsProductService productService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -60,11 +55,11 @@ public class AdminOrderService {
 
     public Object detail(Integer id) {
         Order order = orderService.findById(id);
-        List<OrderGoods> orderGoods = orderGoodsService.queryByOid(id);
+//        List<OrderProduct> orderProduct = orderProductService.queryByOid(id);
         UserVo user = userService.findUserVoById(order.getUserId());
         Map<String, Object> data = new HashMap<>();
         data.put("order", order);
-        data.put("orderGoods", orderGoods);
+//        data.put("orderProduct", orderProduct);
         data.put("user", user);
 
         return ResponseUtil.ok(data);
@@ -150,14 +145,7 @@ public class AdminOrderService {
         }
 
         // 商品货品数量增加
-        List<OrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
-        for (OrderGoods orderGoods : orderGoodsList) {
-            Integer productId = orderGoods.getProductId();
-            Short number = orderGoods.getNumber();
-            if (productService.addStock(productId, number) == 0) {
-                throw new RuntimeException("商品货品库存增加失败");
-            }
-        }
+
 
         //TODO 发送邮件和短信通知，这里采用异步发送
         // 退款成功通知用户, 例如“您申请的订单退款 [ 单号:{1} ] 已成功，请耐心等待到账。”
@@ -241,7 +229,7 @@ public class AdminOrderService {
         // 删除订单
         orderService.deleteById(orderId);
         // 删除订单商品
-        orderGoodsService.deleteByOrderId(orderId);
+//        orderProductService.deleteByOrderId(orderId);
         logHelper.logOrderSucceed("删除", "订单编号 " + order.getOrderSn());
         return ResponseUtil.ok();
     }

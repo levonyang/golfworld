@@ -44,15 +44,15 @@ public class FootprintService {
         footprintMapper.insertSelective(footprint);
     }
 
-    public List<Footprint> querySelective(String userId, String goodsId, Integer page, Integer size, String sort, String order) {
+    public List<Footprint> querySelective(String userId, String productId, Integer page, Integer size, String sort, String order) {
         FootprintExample example = new FootprintExample();
         FootprintExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(userId)) {
             criteria.andUserIdEqualTo(Integer.valueOf(userId));
         }
-        if (!StringUtils.isEmpty(goodsId)) {
-            criteria.andGoodsIdEqualTo(Integer.valueOf(goodsId));
+        if (!StringUtils.isEmpty(productId)) {
+            criteria.andProductIdEqualTo(Integer.valueOf(productId));
         }
         criteria.andDeletedEqualTo(false);
 

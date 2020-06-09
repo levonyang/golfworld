@@ -12,7 +12,7 @@ public class HomeCacheManager {
     public static final boolean ENABLE = false;
     public static final String INDEX = "index";
     public static final String CATALOG = "catalog";
-    public static final String GOODS = "goods";
+    public static final String GOODS = "product";
 
     private static ConcurrentHashMap<String, Map<String, Object>> cacheDataList = new ConcurrentHashMap<>();
 

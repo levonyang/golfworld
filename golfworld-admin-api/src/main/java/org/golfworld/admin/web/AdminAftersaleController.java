@@ -17,9 +17,8 @@ import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.core.validator.OrderValidateInterface;
 import org.golfworld.core.validator.Sort;
 import org.golfworld.db.domain.Aftersale;
-import org.golfworld.db.domain.GoodsProduct;
+import org.golfworld.db.domain.ProductProduct;
 import org.golfworld.db.domain.Order;
-import org.golfworld.db.domain.OrderGoods;
 import org.golfworld.db.service.*;
 import org.golfworld.db.util.AftersaleConstant;
 import org.golfworld.db.util.OrderUtil;
@@ -43,10 +42,6 @@ public class AdminAftersaleController {
     private AftersaleService aftersaleService;
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private OrderGoodsService orderGoodsService;
-    @Autowired
-    private GoodsProductService goodsProductService;
     @Autowired
     private LogHelper logHelper;
     @Autowired
@@ -212,12 +207,12 @@ public class AdminAftersaleController {
         // 如果是“退货退款”类型的售后，这里退款说明用户的货已经退回，则需要商品货品数量增加
         // 开发者也可以删除一下代码，在其他地方增加商品货品入库操作
         if(aftersale.getType().equals(AftersaleConstant.TYPE_GOODS_REQUIRED)) {
-            List<OrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
-            for (OrderGoods orderGoods : orderGoodsList) {
-                Integer productId = orderGoods.getProductId();
-                Short number = orderGoods.getNumber();
-                goodsProductService.addStock(productId, number);
-            }
+//            List<OrderProduct> orderProductList = orderProductService.queryByOid(orderId);
+//            for (OrderProduct orderProduct : orderProductList) {
+//                Integer productId = orderProduct.getProductId();
+//                Short number = orderProduct.getNumber();
+//                productProductService.addStock(productId, number);
+//            }
         }
 
         // 发送短信通知，这里采用异步发送

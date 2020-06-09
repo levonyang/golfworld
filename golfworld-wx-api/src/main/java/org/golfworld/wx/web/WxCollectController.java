@@ -8,9 +8,9 @@ import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.core.validator.OrderValidateInterface;
 import org.golfworld.core.validator.Sort;
 import org.golfworld.db.domain.Collect;
-import org.golfworld.db.domain.Goods;
+import org.golfworld.db.domain.Product;
 import org.golfworld.db.service.CollectService;
-import org.golfworld.db.service.GoodsService;
+import org.golfworld.db.service.ProductService;
 import org.golfworld.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ public class WxCollectController {
     @Autowired
     private CollectService collectService;
     @Autowired
-    private GoodsService goodsService;
+    private ProductService productService;
 
     /**
      * 用户收藏列表
@@ -65,11 +65,11 @@ public class WxCollectController {
             c.put("type", collect.getType());
             c.put("valueId", collect.getValueId());
 
-            Goods goods = goodsService.findById(collect.getValueId());
-            c.put("name", goods.getName());
-            c.put("brief", goods.getBrief());
-            c.put("picUrl", goods.getPicUrl());
-            c.put("retailPrice", goods.getRetailPrice());
+            Product product = productService.findById(collect.getValueId());
+            c.put("name", product.getName());
+            c.put("brief", product.getBrief());
+            c.put("picUrl", product.getPicUrl());
+//            c.put("retailPrice", product.getRetailPrice());
 
             collects.add(c);
         }

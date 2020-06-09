@@ -110,7 +110,7 @@
 
 ### 3.1.4 商品服务
 
-见WxGoodsController类。
+见WxProductController类。
 
 ### 3.1.5 品牌服务
 
@@ -194,7 +194,7 @@ public class WxAddressController {
 
 这里的代码基于[nideshop-mini-program](https://gitee.com/tumobi/nideshop-mini-program)，但是做了一定的修改：
 
-* 数据属性名称调整，原项目中数据属性名称是下划线法命名（例如goods_id），而这里采用骆驼式命名法（例如goodsId），因此代码中需要进行相应调整；
+* 数据属性名称调整，原项目中数据属性名称是下划线法命名（例如product_id），而这里采用骆驼式命名法（例如productId），因此代码中需要进行相应调整；
 * 代码清理重构，删除了一些目前不必要的文件，梳理一些逻辑功能；
 * BUG修补，修改了一些错误；
 * 功能完善拓展，例如商品立即购买功能、商品评价功能；

@@ -1,3 +1,847 @@
+drop database if exists golfworld;
+drop user if exists 'golfworld'@'%';
+-- 支持emoji：需要mysql数据库参数： character_set_server=utf8mb4
+create database golfworld default character set utf8mb4 collate utf8mb4_unicode_ci;
+use golfworld;
+create user 'golfworld'@'%' identified by 'golfworld123456';
+grant all privileges on golfworld.* to 'golfworld'@'%';
+flush privileges;-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: golfworld
+-- ------------------------------------------------------
+-- Server version	5.7.21-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ad`
+--
+
+DROP TABLE IF EXISTS `ad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(63) NOT NULL DEFAULT '' COMMENT '广告标题',
+  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '所广告的商品页面或者活动页面链接地址',
+  `url` varchar(255) NOT NULL COMMENT '广告宣传图片',
+  `position` tinyint(3) DEFAULT '1' COMMENT '广告位置：1则是首页',
+  `content` varchar(255) DEFAULT '' COMMENT '活动内容',
+  `start_time` datetime DEFAULT NULL COMMENT '广告开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '广告结束时间',
+  `enabled` tinyint(1) DEFAULT '0' COMMENT '是否启动',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `enabled` (`enabled`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='广告表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(63) NOT NULL DEFAULT '' COMMENT '收货人名称',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
+  `province` varchar(63) NOT NULL COMMENT '行政区域表的省ID',
+  `city` varchar(63) NOT NULL COMMENT '行政区域表的市ID',
+  `county` varchar(63) NOT NULL COMMENT '行政区域表的区县ID',
+  `address_detail` varchar(127) NOT NULL DEFAULT '' COMMENT '详细收货地址',
+  `area_code` char(6) DEFAULT NULL COMMENT '地区编码',
+  `postal_code` char(6) DEFAULT NULL COMMENT '邮政编码',
+  `tel` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号码',
+  `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否默认地址',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='收货地址表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `admin`
+--
+
+DROP TABLE IF EXISTS `admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(63) NOT NULL DEFAULT '' COMMENT '管理员名称',
+  `password` varchar(63) NOT NULL DEFAULT '' COMMENT '管理员密码',
+  `last_login_ip` varchar(63) DEFAULT '' COMMENT '最近一次登录IP地址',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最近一次登录时间',
+  `avatar` varchar(255) DEFAULT '''' COMMENT '头像图片',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `role_ids` varchar(127) DEFAULT '[]' COMMENT '角色列表',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `aftersale`
+--
+
+DROP TABLE IF EXISTS `aftersale`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `aftersale` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `aftersale_sn` varchar(63) DEFAULT NULL COMMENT '售后编号',
+  `order_id` int(11) NOT NULL COMMENT '订单ID',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `type` smallint(6) DEFAULT '0' COMMENT '售后类型，0是未收货退款，1是已收货（无需退货）退款，2用户退货退款',
+  `reason` varchar(31) DEFAULT '' COMMENT '退款原因',
+  `amount` decimal(10,2) DEFAULT '0.00' COMMENT '退款金额',
+  `pictures` varchar(1023) DEFAULT '[]' COMMENT '退款凭证图片链接数组',
+  `comment` varchar(511) DEFAULT '' COMMENT '退款说明',
+  `status` smallint(6) DEFAULT '0' COMMENT '售后状态，0是可申请，1是用户已申请，2是管理员审核通过，3是管理员退款成功，4是管理员审核拒绝，5是用户已取消',
+  `handle_time` datetime DEFAULT NULL COMMENT '管理员操作时间',
+  `add_time` datetime DEFAULT NULL COMMENT '添加时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '售后编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='售后表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `brand`
+--
+
+DROP TABLE IF EXISTS `brand`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `brand` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商名称',
+  `desc` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商简介',
+  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商页的品牌商图片',
+  `sort_order` tinyint(3) DEFAULT '50',
+  `floor_price` decimal(10,2) DEFAULT '0.00' COMMENT '品牌商的商品低价，仅用于页面展示',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1046003 DEFAULT CHARSET=utf8mb4 COMMENT='品牌商表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `cart`
+--
+
+DROP TABLE IF EXISTS `cart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL COMMENT '用户表的用户ID',
+  `product_id` int(11) DEFAULT NULL COMMENT '商品表的商品ID',
+  `product_sn` varchar(63) DEFAULT NULL COMMENT '商品编号',
+  `product_name` varchar(127) DEFAULT NULL COMMENT '商品名称',
+  `product_id` int(11) DEFAULT NULL COMMENT '商品货品表的货品ID',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '商品货品的价格',
+  `number` smallint(5) DEFAULT '0' COMMENT '商品货品的数量',
+  `specifications` varchar(1023) DEFAULT NULL COMMENT '商品规格值列表，采用JSON数组格式',
+  `checked` tinyint(1) DEFAULT '1' COMMENT '购物车中商品是否选择状态',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品图片或者商品货品图片',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='购物车商品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(63) NOT NULL DEFAULT '' COMMENT '类目名称',
+  `keywords` varchar(1023) NOT NULL DEFAULT '' COMMENT '类目关键字，以JSON数组格式',
+  `desc` varchar(255) DEFAULT '' COMMENT '类目广告语介绍',
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父类目ID',
+  `icon_url` varchar(255) DEFAULT '' COMMENT '类目图标',
+  `pic_url` varchar(255) DEFAULT '' COMMENT '类目图片',
+  `level` varchar(255) DEFAULT 'L1',
+  `sort_order` tinyint(3) DEFAULT '50' COMMENT '排序',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`pid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1036007 DEFAULT CHARSET=utf8mb4 COMMENT='类目表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `collect`
+--
+
+DROP TABLE IF EXISTS `collect`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `collect` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
+  `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是商品ID；如果type=1，则是专题ID',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '收藏类型，如果type=0，则是商品ID；如果type=1，则是专题ID',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `product_id` (`value_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收藏表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是商品评论；如果是type=1，则是专题评论。',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '评论类型，如果type=0，则是商品评论；如果是type=1，则是专题评论；',
+  `content` varchar(1023) NOT NULL COMMENT '评论内容',
+  `admin_content` varchar(511) NOT NULL COMMENT '管理员回复内容',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
+  `has_picture` tinyint(1) DEFAULT '0' COMMENT '是否含有图片',
+  `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表，采用JSON数组格式',
+  `star` smallint(6) DEFAULT '1' COMMENT '评分， 1-5',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `id_value` (`value_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `coupon`
+--
+
+DROP TABLE IF EXISTS `coupon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coupon` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(63) NOT NULL COMMENT '优惠券名称',
+  `desc` varchar(127) DEFAULT '' COMMENT '优惠券介绍，通常是显示优惠券使用限制文字',
+  `tag` varchar(63) DEFAULT '' COMMENT '优惠券标签，例如新人专用',
+  `total` int(11) NOT NULL DEFAULT '0' COMMENT '优惠券数量，如果是0，则是无限量',
+  `discount` decimal(10,2) DEFAULT '0.00' COMMENT '优惠金额，',
+  `min` decimal(10,2) DEFAULT '0.00' COMMENT '最少消费金额才能使用优惠券。',
+  `limit` smallint(6) DEFAULT '1' COMMENT '用户领券限制数量，如果是0，则是不限制；默认是1，限领一张.',
+  `type` smallint(6) DEFAULT '0' COMMENT '优惠券赠送类型，如果是0则通用券，用户领取；如果是1，则是注册赠券；如果是2，则是优惠券码兑换；',
+  `status` smallint(6) DEFAULT '0' COMMENT '优惠券状态，如果是0则是正常可用；如果是1则是过期; 如果是2则是下架。',
+  `product_type` smallint(6) DEFAULT '0' COMMENT '商品限制类型，如果0则全商品，如果是1则是类目限制，如果是2则是商品限制。',
+  `product_value` varchar(1023) DEFAULT '[]' COMMENT '商品限制值，product_type如果是0则空集合，如果是1则是类目集合，如果是2则是商品集合。',
+  `code` varchar(63) DEFAULT NULL COMMENT '优惠券兑换码',
+  `time_type` smallint(6) DEFAULT '0' COMMENT '有效时间限制，如果是0，则基于领取时间的有效天数days；如果是1，则start_time和end_time是优惠券有效期；',
+  `days` smallint(6) DEFAULT '0' COMMENT '基于领取时间的有效天数days。',
+  `start_time` datetime DEFAULT NULL COMMENT '使用券开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '使用券截至时间',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券信息及规则表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `coupon_user`
+--
+
+DROP TABLE IF EXISTS `coupon_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coupon_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `coupon_id` int(11) NOT NULL COMMENT '优惠券ID',
+  `status` smallint(6) DEFAULT '0' COMMENT '使用状态, 如果是0则未使用；如果是1则已使用；如果是2则已过期；如果是3则已经下架；',
+  `used_time` datetime DEFAULT NULL COMMENT '使用时间',
+  `start_time` datetime DEFAULT NULL COMMENT '有效期开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '有效期截至时间',
+  `order_id` int(11) DEFAULT NULL COMMENT '订单ID',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券用户使用表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
+  `username` varchar(63) NOT NULL DEFAULT '' COMMENT '用户名称',
+  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
+  `feed_type` varchar(63) NOT NULL DEFAULT '' COMMENT '反馈类型',
+  `content` varchar(1023) NOT NULL COMMENT '反馈内容',
+  `status` int(3) NOT NULL DEFAULT '0' COMMENT '状态',
+  `has_picture` tinyint(1) DEFAULT '0' COMMENT '是否含有图片',
+  `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表，采用JSON数组格式',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `id_value` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='意见反馈表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `footprint`
+--
+
+DROP TABLE IF EXISTS `footprint`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `footprint` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '浏览商品ID',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户浏览足迹表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
+  `category_id` int(11) DEFAULT '0' COMMENT '商品所属类目ID',
+  `brand_id` int(11) DEFAULT '0',
+  `gallery` varchar(1023) DEFAULT NULL COMMENT '商品宣传图片列表，采用JSON数组格式',
+  `keywords` varchar(255) DEFAULT '' COMMENT '商品关键字，采用逗号间隔',
+  `brief` varchar(255) DEFAULT '' COMMENT '商品简介',
+  `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
+  `sort_order` smallint(4) DEFAULT '100',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品页面商品图片',
+  `share_url` varchar(255) DEFAULT NULL COMMENT '商品分享海报',
+  `is_new` tinyint(1) DEFAULT '0' COMMENT '是否新品首发，如果设置则可以在新品首发页面展示',
+  `is_hot` tinyint(1) DEFAULT '0' COMMENT '是否人气推荐，如果设置则可以在人气推荐页面展示',
+  `unit` varchar(31) DEFAULT '’件‘' COMMENT '商品单位，例如件、盒',
+  `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '专柜价格',
+  `retail_price` decimal(10,2) DEFAULT '100000.00' COMMENT '零售价格',
+  `detail` text COMMENT '商品详细介绍，是富文本格式',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `product_sn` (`product_sn`),
+  KEY `cat_id` (`category_id`),
+  KEY `brand_id` (`brand_id`),
+  KEY `sort_order` (`sort_order`)
+) ENGINE=InnoDB AUTO_INCREMENT=1181004 DEFAULT CHARSET=utf8mb4 COMMENT='商品基本信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_attribute`
+--
+
+DROP TABLE IF EXISTS `product_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_attribute` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `attribute` varchar(255) NOT NULL COMMENT '商品参数名称',
+  `value` varchar(255) NOT NULL COMMENT '商品参数值',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=877 DEFAULT CHARSET=utf8mb4 COMMENT='商品参数表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_product`
+--
+
+DROP TABLE IF EXISTS `product_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `specifications` varchar(1023) NOT NULL COMMENT '商品规格值列表，采用JSON数组格式',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品货品价格',
+  `number` int(11) NOT NULL DEFAULT '0' COMMENT '商品货品数量',
+  `url` varchar(125) DEFAULT NULL COMMENT '商品货品图片',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8mb4 COMMENT='商品货品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_specification`
+--
+
+DROP TABLE IF EXISTS `product_specification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_specification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `specification` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格名称',
+  `value` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格值',
+  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格图片',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8mb4 COMMENT='商品规格表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `groupon`
+--
+
+DROP TABLE IF EXISTS `groupon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groupon` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL COMMENT '关联的订单ID',
+  `groupon_id` int(11) DEFAULT '0' COMMENT '如果是开团用户，则groupon_id是0；如果是参团用户，则groupon_id是团购活动ID',
+  `rules_id` int(11) NOT NULL COMMENT '团购规则ID，关联groupon_rules表ID字段',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `share_url` varchar(255) DEFAULT NULL COMMENT '团购分享图片地址',
+  `creator_user_id` int(11) NOT NULL COMMENT '开团用户ID',
+  `creator_user_time` datetime DEFAULT NULL COMMENT '开团时间',
+  `status` smallint(6) DEFAULT '0' COMMENT '团购活动状态，开团未支付则0，开团中则1，开团失败则2',
+  `add_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购活动表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `groupon_rules`
+--
+
+DROP TABLE IF EXISTS `groupon_rules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groupon_rules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL COMMENT '商品表的商品ID',
+  `product_name` varchar(127) NOT NULL COMMENT '商品名称',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品图片或者商品货品图片',
+  `discount` decimal(63,0) NOT NULL COMMENT '优惠金额',
+  `discount_member` int(11) NOT NULL COMMENT '达到优惠条件的人数',
+  `expire_time` datetime DEFAULT NULL COMMENT '团购过期时间',
+  `status` smallint(6) DEFAULT '0' COMMENT '团购规则状态，正常上线则0，到期自动下线则1，管理手动下线则2',
+  `add_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购规则表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `issue`
+--
+
+DROP TABLE IF EXISTS `issue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issue` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question` varchar(255) DEFAULT NULL COMMENT '问题标题',
+  `answer` varchar(255) DEFAULT NULL COMMENT '问题答案',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='常见问题表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `keyword`
+--
+
+DROP TABLE IF EXISTS `keyword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `keyword` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(127) NOT NULL DEFAULT '' COMMENT '关键字',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '关键字的跳转链接',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是热门关键字',
+  `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是默认关键字',
+  `sort_order` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='关键字表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `log`
+--
+
+DROP TABLE IF EXISTS `log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '管理员',
+  `ip` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '管理员地址',
+  `type` int(11) DEFAULT NULL COMMENT '操作分类',
+  `action` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作动作',
+  `status` tinyint(1) DEFAULT NULL COMMENT '操作状态',
+  `result` varchar(127) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作结果，或者成功消息，或者失败消息',
+  `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '补充信息',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `notice`
+--
+
+DROP TABLE IF EXISTS `notice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(63) DEFAULT NULL COMMENT '通知标题',
+  `content` varchar(511) DEFAULT NULL COMMENT '通知内容',
+  `admin_id` int(11) DEFAULT '0' COMMENT '创建通知的管理员ID，如果是系统内置通知则是0.',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='通知表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `notice_admin`
+--
+
+DROP TABLE IF EXISTS `notice_admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notice_admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `notice_id` int(11) DEFAULT NULL COMMENT '通知ID',
+  `notice_title` varchar(63) DEFAULT NULL COMMENT '通知标题',
+  `admin_id` int(11) DEFAULT NULL COMMENT '接收通知的管理员ID',
+  `read_time` datetime DEFAULT NULL COMMENT '阅读时间，如果是NULL则是未读状态',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='通知管理员表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
+  `order_sn` varchar(63) NOT NULL COMMENT '订单编号',
+  `order_status` smallint(6) NOT NULL COMMENT '订单状态',
+  `aftersale_status` smallint(6) DEFAULT '0' COMMENT '售后状态，0是可申请，1是用户已申请，2是管理员审核通过，3是管理员退款成功，4是管理员审核拒绝，5是用户已取消',
+  `consignee` varchar(63) NOT NULL COMMENT '收货人名称',
+  `mobile` varchar(63) NOT NULL COMMENT '收货人手机号',
+  `address` varchar(127) NOT NULL COMMENT '收货具体地址',
+  `message` varchar(512) NOT NULL DEFAULT '' COMMENT '用户订单留言',
+  `product_price` decimal(10,2) NOT NULL COMMENT '商品总费用',
+  `freight_price` decimal(10,2) NOT NULL COMMENT '配送费用',
+  `coupon_price` decimal(10,2) NOT NULL COMMENT '优惠券减免',
+  `integral_price` decimal(10,2) NOT NULL COMMENT '用户积分减免',
+  `groupon_price` decimal(10,2) NOT NULL COMMENT '团购优惠价减免',
+  `order_price` decimal(10,2) NOT NULL COMMENT '订单费用， = product_price + freight_price - coupon_price',
+  `actual_price` decimal(10,2) NOT NULL COMMENT '实付费用， = order_price - integral_price',
+  `pay_id` varchar(63) DEFAULT NULL COMMENT '微信付款编号',
+  `pay_time` datetime DEFAULT NULL COMMENT '微信付款时间',
+  `ship_sn` varchar(63) DEFAULT NULL COMMENT '发货编号',
+  `ship_channel` varchar(63) DEFAULT NULL COMMENT '发货快递公司',
+  `ship_time` datetime DEFAULT NULL COMMENT '发货开始时间',
+  `refund_amount` decimal(10,2) DEFAULT NULL COMMENT '实际退款金额，（有可能退款金额小于实际支付金额）',
+  `refund_type` varchar(63) DEFAULT NULL COMMENT '退款方式',
+  `refund_content` varchar(127) DEFAULT NULL COMMENT '退款备注',
+  `refund_time` datetime DEFAULT NULL COMMENT '退款时间',
+  `confirm_time` datetime DEFAULT NULL COMMENT '用户确认收货时间',
+  `comments` smallint(6) DEFAULT '0' COMMENT '待评价订单商品数量',
+  `end_time` datetime DEFAULT NULL COMMENT '订单关闭时间',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `order_product`
+--
+
+DROP TABLE IF EXISTS `order_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL DEFAULT '0' COMMENT '订单表的订单ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `product_name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
+  `product_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品货品表的货品ID',
+  `number` smallint(5) NOT NULL DEFAULT '0' COMMENT '商品货品的购买数量',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品货品的售价',
+  `specifications` varchar(1023) NOT NULL COMMENT '商品货品的规格列表',
+  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品货品图片或者商品图片',
+  `comment` int(11) DEFAULT '0' COMMENT '订单商品评论，如果是-1，则超期不能评价；如果是0，则可以评价；如果其他值，则是comment表里面的评论ID。',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单商品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `permission`
+--
+
+DROP TABLE IF EXISTS `permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) DEFAULT NULL COMMENT '角色ID',
+  `permission` varchar(63) DEFAULT NULL COMMENT '权限',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `region`
+--
+
+DROP TABLE IF EXISTS `region`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `region` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '行政区域父ID，例如区县的pid指向市，市的pid指向省，省的pid则是0',
+  `name` varchar(120) NOT NULL DEFAULT '' COMMENT '行政区域名称',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '行政区域类型，如如1则是省， 如果是2则是市，如果是3则是区县',
+  `code` int(11) NOT NULL DEFAULT '0' COMMENT '行政区域编码',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`pid`),
+  KEY `region_type` (`type`),
+  KEY `agency_id` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=3232 DEFAULT CHARSET=utf8mb4 COMMENT='行政区域表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(63) NOT NULL COMMENT '角色名称',
+  `desc` varchar(1023) DEFAULT NULL COMMENT '角色描述',
+  `enabled` tinyint(1) DEFAULT '1' COMMENT '是否启用',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `search_history`
+--
+
+DROP TABLE IF EXISTS `search_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `search_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
+  `keyword` varchar(63) NOT NULL COMMENT '搜索关键字',
+  `from` varchar(63) NOT NULL DEFAULT '' COMMENT '搜索来源，如pc、wx、app',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='搜索历史表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `storage`
+--
+
+DROP TABLE IF EXISTS `storage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `storage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(63) NOT NULL COMMENT '文件的唯一索引',
+  `name` varchar(255) NOT NULL COMMENT '文件名',
+  `type` varchar(20) NOT NULL COMMENT '文件类型',
+  `size` int(11) NOT NULL COMMENT '文件大小',
+  `url` varchar(255) DEFAULT NULL COMMENT '文件访问链接',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `key` (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件存储表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `system`
+--
+
+DROP TABLE IF EXISTS `system`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key_name` varchar(255) NOT NULL COMMENT '系统配置名',
+  `key_value` varchar(255) NOT NULL COMMENT '系统配置值',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `topic`
+--
+
+DROP TABLE IF EXISTS `topic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT '''' COMMENT '专题标题',
+  `subtitle` varchar(255) DEFAULT '''' COMMENT '专题子标题',
+  `content` text COMMENT '专题内容，富文本格式',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '专题相关商品最低价',
+  `read_count` varchar(255) DEFAULT '1k' COMMENT '专题阅读量',
+  `pic_url` varchar(255) DEFAULT '' COMMENT '专题图片',
+  `sort_order` int(11) DEFAULT '100' COMMENT '排序',
+  `product` varchar(1023) DEFAULT '' COMMENT '专题相关商品，采用JSON数组格式',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `topic_id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 COMMENT='专题表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(63) NOT NULL COMMENT '用户名称',
+  `password` varchar(63) NOT NULL DEFAULT '' COMMENT '用户密码',
+  `gender` tinyint(3) NOT NULL DEFAULT '0' COMMENT '性别：0 未知， 1男， 1 女',
+  `birthday` date DEFAULT NULL COMMENT '生日',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最近一次登录时间',
+  `last_login_ip` varchar(63) NOT NULL DEFAULT '' COMMENT '最近一次登录IP地址',
+  `user_level` tinyint(3) DEFAULT '0' COMMENT '0 普通用户，1 VIP用户，2 高级VIP用户',
+  `nickname` varchar(63) NOT NULL DEFAULT '' COMMENT '用户昵称或网络名称',
+  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号码',
+  `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像图片',
+  `weixin_openid` varchar(63) NOT NULL DEFAULT '' COMMENT '微信登录openid',
+  `session_key` varchar(100) NOT NULL DEFAULT '' COMMENT '微信登录会话KEY',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0 可用, 1 禁用, 2 注销',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-12-16 23:12:57
 --
 -- Host: 127.0.0.1    Database: golfworld
 -- ------------------------------------------------------
@@ -43,6 +887,14 @@ INSERT INTO `admin` VALUES (1,'admin123','$2a$10$.rEfyBb/GURD9P2p0fRg/OAJGloGNDk
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Dumping data for table `aftersale`
+--
+
+LOCK TABLES `aftersale` WRITE;
+/*!40000 ALTER TABLE `aftersale` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aftersale` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping data for table `brand`
@@ -50,10 +902,18 @@ UNLOCK TABLES;
 
 LOCK TABLES `brand` WRITE;
 /*!40000 ALTER TABLE `brand` DISABLE KEYS */;
-INSERT INTO `brand` VALUES (1001000,'MUJI制造商','严选精选了MUJI制造商和生产原料，\n用几乎零利润的价格，剔除品牌溢价，\n让用户享受原品牌的品质生活。','http://yanxuan.nosdn.127.net/1541445967645114dd75f6b0edc4762d.png',2,12.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001002,'内野制造商','严选从世界各地挑选毛巾，最终选择了为日本内野代工的工厂，追求毛巾的柔软度与功能性。品质比肩商场几百元的毛巾。','http://yanxuan.nosdn.127.net/8ca3ce091504f8aa1fba3fdbb7a6e351.png',10,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001003,'Adidas制造商','严选找到为Adidas等品牌制造商，\n选取优质原材料，与厂方一起设计，\n为你提供好的理想的运动装备。','http://yanxuan.nosdn.127.net/335334d0deaff6dc3376334822ab3a2f.png',30,49.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001007,'优衣库制造商','严选找到日本知名服装UNIQLO的制造商，\n选取优质长绒棉和精梳工艺，\n与厂方一起设计，为你提供理想的棉袜。','http://yanxuan.nosdn.127.net/0d72832e37e7e3ea391b519abbbc95a3.png',12,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001008,'膳魔师制造商','严选深入保温行业内部，\n找到德国膳魔师制造商的代工厂。\n同样的品质，却有更优的价格。','http://yanxuan.nosdn.127.net/5fd51e29b9459dae7df8040c8219f241.png',40,45.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001010,'星巴克制造商','严选寻访全国保温杯制造企业，\n最终找到高端咖啡品牌星巴克的制造商，\n专注保温杯生产20年，品质与颜值兼备。','http://yanxuan.nosdn.127.net/5668bc50f2f2e551891044525710dc84.png',34,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001012,'Wedgwood制造商','严选寻访英国皇室御用陶瓷Wedgwood制造商，\n制模到成品，历经25道工序、7次检验、3次烧制，\n你看不见的地方，我们也在坚持。','http://yanxuan.nosdn.127.net/68940e8e23f96dbeb3548d943d83d5e4.png',21,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001013,'Royal Doulton制造商','严选深入英国最大骨瓷品牌Royal Doulton制造商， \n顶级英国瓷器的代名词，广受世界皇室喜爱。\n每件瓷器，都有自己的故事。','http://yanxuan.nosdn.127.net/0de643a02043fd9680b11e21c452adaa.png',47,24.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001015,'日本KEYUCA制造商','KEYUCA是日本餐具及料理用具品牌，\n遵循极简原木风，高端餐具体验。\n严选的餐具正是来自这一品牌制造商。','http://yanxuan.nosdn.127.net/9b85b45f23da558be101dbcc273b1d6d.png',49,14.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001016,'爱慕制造商','150家样品比对筛选，20家工厂深入走访，\n严选最终选定高端内衣爱慕制造商，\n20年品质保证，为你打造天然舒适的衣物。','http://yanxuan.nosdn.127.net/5104f84110eac111968c63c18ebd62c0.png',9,35.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001020,'Ralph Lauren制造商','我们与Ralph Lauren Home的制造商成功接洽，掌握先进的生产设备，传承品牌工艺和工序。追求生活品质的你，值得拥有。','http://yanxuan.nosdn.127.net/9df78eb751eae2546bd3ee7e61c9b854.png',20,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001037,'新秀丽制造商','严选为制作品质与颜值兼具的箱包，\n选定新秀丽、CK、Rio等品牌合作的制造商，\n拥有国内先进流水线20余条，实力保障品质。','http://yanxuan.nosdn.127.net/80dce660938931956ee9a3a2b111bd37.jpg',5,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001038,'Coach制造商','严选为制作高品质高颜值皮具配件，\n由Coach、MK等品牌制造商生产，\n由严选360度全程监制，给你带来优质皮具。','http://yanxuan.nosdn.127.net/1b1cc16135fd8467d40983f75f644127.png',3,49.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001039,'MK制造商','严选为制造高品质的皮具，\n选择Michael Kors品牌合作的制造工厂，\n18年专业皮具生产经验，手工至美，品质保证。','http://yanxuan.nosdn.127.net/fc9cd1309374f7707855de80522fb310.jpg',17,79.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001045,'罗莱制造商','严选团队为打造吸湿透气柔软的蚕丝被，\n从蚕茧原材到温感性能，多次甄选测试\n选择罗莱制造商工厂，手工处理，优质舒适。','http://yanxuan.nosdn.127.net/14122a41a4985d23e1a172302ee818e9.png',45,699.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1003000,'Carters制造商','来自Carters大牌代工厂生产，\n严选纯天然材料，无荧光不添加，\nITS安心标志权威检测，安全护航。','http://yanxuan.nosdn.127.net/efe9131599ced0297213e6ec67eb2174.png',41,19.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1005001,'Goody制造商','严选深入美国百年发饰品牌Goody制造商，\n确保每把梳子做工精湛，养护头皮。\n戴安娜王妃的最爱，你也能拥有。','http://yanxuan.nosdn.127.net/7c918f37de108f3687d69b39daab34eb.png',48,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1006000,'范思哲制造商','严选找寻意大利奢侈品牌范思哲Versace的制造商，\n致力于为用户带来精致、优雅、时尚的皮包，\n传承独特美感，体验品质生活。','http://yanxuan.nosdn.127.net/c80ae035387495a61a4515906205efff.png',18,99.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1008000,'WPC制造商','严选寻找日本雨伞品牌W.P.C制造商，\n采用严谨工艺以及环保材料，\n沉淀15年行业经验，打造精致雨具。','http://yanxuan.nosdn.127.net/c4e97cc87186ce17f9316f3ba39e220c.png',22,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1010001,'竹宝堂制造商','严选走访河北、安徽等制刷基地，\n选定竹宝堂、丝芙兰等品牌的制造商，\n严格把关生产与质检，与您一同追求美的生活。','http://yanxuan.nosdn.127.net/61b0b7ae4f0163422009defbceaa41ad.jpg',39,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1010002,'资生堂制造商','发现美，成为美，是女性一生的追求。\n严选找寻资生堂代工厂，打造天然美妆产品，\n致力于带来更多美的体验和享受。','http://yanxuan.nosdn.127.net/5449236b80d1e678dedee2f626cd67c4.png',19,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1015000,'NITORI制造商','宠物是人类最温情的陪伴，\n严选找寻日本最大家居品牌NITORI制造商，\n每一个脚印，都是为了更好地关怀你的TA','http://yanxuan.nosdn.127.net/6f3d310601b18610553c675e0e14d107.png',43,69.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1016002,'HUGO BOSS制造商','严选深入德国知名奢侈品HUGO BOSS的制造商，\n开发睡衣、睡袍、休闲裤等轻奢品质家居服，\n希望你在家的每一天都优雅精致。','http://yanxuan.nosdn.127.net/70ada9877b2efa82227437af3231fe50.png',11,45.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1018000,'Sperry制造商','严选团队对比多家硫化鞋制造商产品质量，\n走访多个制鞋工厂，最终选定Sperry品牌制造商，\n为你提供一双舒适有型的高品质帆布鞋。','http://yanxuan.nosdn.127.net/2eb12d84037346441088267432da31c4.png',32,199.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1021000,'Marc Jacobs制造商','严选寻访独立设计品牌Marc Jacobs的制造商，\n严格选材，细究纺织与生产的细节，多次打磨，\n初心不忘，为你带来优雅高档的服饰配件。','http://yanxuan.nosdn.127.net/c8dac4eb1a458d778420ba520edab3d0.png',24,69.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1022000,'UGG制造商','为寻找优质的皮毛一体雪地靴，\n严选走访多家雪地靴制造商，对比工艺，\n甄选UGG认可的代工厂，只为足下的优雅舒适。','http://yanxuan.nosdn.127.net/4d2a3dea7e0172ae48e8161f04cfa045.jpg',29,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1022001,'Palladium制造商','严选探访多个制鞋大厂，选定Palladium制造商，\n对比工艺选材，找到传承多年的制鞋配方，\n只为制作一款高品质休闲鞋。','http://yanxuan.nosdn.127.net/3480f2a4026c60eb4921f0aa3facbde8.png',31,249.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1023000,'PetitBateau小帆船制造商','为打造适合宝宝的婴童服装，\n严选团队寻找PetitBateau小帆船的品牌制造商，\n无荧光剂，国家A类标准，让宝宝穿的放心。','http://yanxuan.nosdn.127.net/1a11438598f1bb52b1741e123b523cb5.jpg',25,36.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024000,'WMF制造商','严选找寻德国百年高端厨具WMF的制造商，\n选择拥有14年经验的不锈钢生产工厂，\n为你甄选事半功倍的优质厨具。','http://yanxuan.nosdn.127.net/2018e9ac91ec37d9aaf437a1fd5d7070.png',8,9.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024001,'OBH制造商','严选寻找OBH品牌的制造商，打造精致厨具，\n韩国独资工厂制造，严格质检，品质雕琢\n力求为消费者带来全新的烹饪体验。','http://yanxuan.nosdn.127.net/bf3499ac17a11ffb9bb7caa47ebef2dd.png',42,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024003,'Stoneline制造商','严选找寻德国经典品牌Stoneline的制造商，\n追踪工艺，考量细节，亲自试用，\n为你甄选出最合心意的锅具和陶瓷刀，下厨如神。','http://yanxuan.nosdn.127.net/3a44ae7db86f3f9b6e542720c54cc349.png',28,9.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024006,'KitchenAid制造商','严选寻访KitchenAid品牌的制造商，\n采用德国LFGB认证食品级专用不锈钢，\n欧式简约设计，可靠安心，尽享下厨乐趣。','http://yanxuan.nosdn.127.net/e11385bf29d1b3949435b80fcd000948.png',46,98.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1025000,'Timberland制造商','为制作优质时尚的工装鞋靴，\n严选团队深入探访国内外制靴大厂，选择Timberland制造商，\n工厂拥有15年制鞋历史，专业品质有保证。','http://yanxuan.nosdn.127.net/6dcadb0791b33aa9fd00380b44fa6645.png',37,359.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1025001,'Kenneth Cole制造商','为出品优质格调的商务鞋靴，\n严选团队选择Kenneth Cole品牌合作的制造商，\n一切努力，只为打造高品质鞋靴。','http://yanxuan.nosdn.127.net/236322546c6860e1662ab147d6b0ba2f.jpg',7,349.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1026000,'CK制造商','严选寻访Calvin Klein品牌的制造商，\n深入世界领带第一生产地，设计与品质并重，\n致力于给消费者带来优质典雅的服饰用品。','http://yanxuan.nosdn.127.net/658f09b7ec522d31742b47b914d64338.png',1,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1026001,'Under Armour制造商','严选为甄选优质好袜，走访东北、新疆等产袜基地，\n最终选定Under Armour品牌的合作制造商，\n从原料、工艺、品质多维度筛选监制，保证好品质。','http://yanxuan.nosdn.127.net/4e93ea29b1d06fabfd24ba68a9b20a34.jpg',35,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1028000,'Gucci制造商','严选为设计一款优雅时尚的品质礼帽，\n找寻拥有10来年经验的大型毛毡帽厂商合作，\n坚持打造好设计、好工艺、好材质的潮流礼帽。','http://yanxuan.nosdn.127.net/278869cad9bf5411ffc18982686b88fb.jpg',23,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1028003,'Burberry制造商','为打造时尚舒适的童装系列，\n严选选择Burberry制造商，优化版型配色\n英伦风情融入经典格纹，百搭优雅气质款。','http://yanxuan.nosdn.127.net/07af01e281c7e0b912d162d611e22c32.jpg',4,99.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1033003,'Armani制造商','严选团队携手国际标准化专业生产厂家，\n厂家长期为Armani、Alexander wang等知名品牌代工，\n专业进口设备，精密质量把控，精于品质居家体验。','http://yanxuan.nosdn.127.net/981e06f0f46f5f1f041d7de3dd3202e6.jpg',26,199.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1033004,'爱马仕集团制造商','严选采用欧洲一线品牌爱马仕的御用香料供应商，\n经过反复配比改良、试香调香、选品定样，\n为你带来独特馥郁的散香体验。','http://yanxuan.nosdn.127.net/d98470dd728fb5a91f7aceade07572b5.png',33,19.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1034001,'Alexander McQueen制造商','为制造精致实用的高品质包包，\n严选团队选择Alexander McQueen制造商，\n严格筛选，带来轻奢优雅体验。','http://yanxuan.nosdn.127.net/db7ee9667d84cbce573688297586699c.jpg',16,69.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1037000,'厚木ATSUGI制造商','严选考究袜子品质，层层把关原料生产，\n携手12年行业生产资质的厚木品牌制造商，\n带来轻盈优雅，舒适显瘦的袜子系列。','http://yanxuan.nosdn.127.net/7df55c408dbac6085ed6c30836c828ac.jpg',27,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1038000,'Birkenstock集团制造商','为打造一双舒适的软木拖鞋，\n严选团队寻找BIRKENSTOCK集团旗下产品制造商，\n360度全程监制，舒适随脚，百搭文艺。','http://yanxuan.nosdn.127.net/05a2ecffb60b77e4c165bd8492e5c22a.jpg',14,59.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1038001,'Nine West制造商','为打造一双优雅舒适的高跟鞋，\n严选选择美国Nine West玖熙品牌的制造商，\n让美丽绽放在足尖。','http://yanxuan.nosdn.127.net/ad4df7848ce450f00483c2d5e9f2bfa7.png',13,219.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1039000,'TEFAL制造商','严选对标国际品质，致力于高品质生活好物，\n执着寻求优质厨房电器供应商，\n携手WMF、Tefal制造商，打造高品质厨具。','http://yanxuan.nosdn.127.net/2b7a07e25a3f3be886a7fb90ba975bb7.png',44,259.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1039001,'京瓷制造商','严选想为你的厨房生活，带来新鲜感和活力，\n深入全国各地，选择日本京瓷等品牌代工厂，\n打造钻石系列厨具，颜值与品质兼具。','http://yanxuan.nosdn.127.net/3dda530605e3ab1c82d5ed30f2489473.png',38,89.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1040000,'Tescom制造商','严选为打造时尚健康的个护电器，\n选择Tescom品牌制造商，全球最大个护电器工厂之一，\n拥有20年经验，出口180多个国家，品质有保障。','http://yanxuan.nosdn.127.net/c17cd65971189fdc28f5bd6b78f657a7.png',15,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1041000,'BCBG制造商','严选从产品源头开始，每道工序质量把关，\n选择美国知名品牌BCBG的制造商合作，\n严谨匠心，致力于优质柔滑的睡衣穿搭产品。','http://yanxuan.nosdn.127.net/b9072023afd3621714fd5c49f140fca8.png',36,99.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1046000,'Police制造商','严选团队选定Police品牌制造商合作，\n有11年眼镜生产资质，兼顾品质与品味，\n为你带来专业时尚的墨镜。','http://yanxuan.nosdn.127.net/66e2cb956a9dd1efc7732bea278e901e.png',6,109.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0);
+INSERT INTO `brand` VALUES (1001000,'MUJI制造商','严选精选了MUJI制造商和生产原料，\n用几乎零利润的价格，剔除品牌溢价，\n让用户享受原品牌的品质生活。','http://yanxuan.nosdn.127.net/1541445967645114dd75f6b0edc4762d.png',2,12.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001002,'内野制造商','严选从世界各地挑选毛巾，最终选择了为日本内野代工的工厂，追求毛巾的柔软度与功能性。品质比肩商场几百元的毛巾。','http://yanxuan.nosdn.127.net/8ca3ce091504f8aa1fba3fdbb7a6e351.png',10,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001003,'Adidas制造商','严选找到为Adidas等品牌制造商，\n选取优质原材料，与厂方一起设计，\n为你提供好的理想的运动装备。','http://yanxuan.nosdn.127.net/335334d0deaff6dc3376334822ab3a2f.png',30,49.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001007,'优衣库制造商','严选找到日本知名服装UNIQLO的制造商，\n选取优质长绒棉和精梳工艺，\n与厂方一起设计，为你提供理想的棉袜。','http://yanxuan.nosdn.127.net/0d72832e37e7e3ea391b519abbbc95a3.png',12,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001008,'膳魔师制造商','严选深入保温行业内部，\n找到德国膳魔师制造商的代工厂。\n同样的品质，却有更优的价格。','http://yanxuan.nosdn.127.net/5fd51e29b9459dae7df8040c8219f241.png',40,45.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001010,'星巴克制造商','严选寻访全国保温杯制造企业，\n最终找到高端咖啡品牌星巴克的制造商，\n专注保温杯生产20年，品质与颜值兼备。','http://yanxuan.nosdn.127.net/5668bc50f2f2e551891044525710dc84.png',34,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001012,'Wedgwood制造商','严选寻访英国皇室御用陶瓷Wedgwood制造商，\n制模到成品，历经25道工序、7次检验、3次烧制，\n你看不见的地方，我们也在坚持。','http://yanxuan.nosdn.127.net/68940e8e23f96dbeb3548d943d83d5e4.png',21,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001013,'Royal Doulton制造商','严选深入英国最大骨瓷品牌Royal Doulton制造商， \n顶级英国瓷器的代名词，广受世界皇室喜爱。\n每件瓷器，都有自己的故事。','http://yanxuan.nosdn.127.net/0de643a02043fd9680b11e21c452adaa.png',47,24.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001015,'日本KEYUCA制造商','KEYUCA是日本餐具及料理用具品牌，\n遵循极简原木风，高端餐具体验。\n严选的餐具正是来自这一品牌制造商。','http://yanxuan.nosdn.127.net/9b85b45f23da558be101dbcc273b1d6d.png',49,14.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001016,'爱慕制造商','150家样品比对筛选，20家工厂深入走访，\n严选最终选定高端内衣爱慕制造商，\n20年品质保证，为你打造天然舒适的衣物。','http://yanxuan.nosdn.127.net/5104f84110eac111968c63c18ebd62c0.png',9,35.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001020,'Ralph Lauren制造商','我们与Ralph Lauren Home的制造商成功接洽，掌握先进的生产设备，传承品牌工艺和工序。追求生活品质的你，值得拥有。','http://yanxuan.nosdn.127.net/9df78eb751eae2546bd3ee7e61c9b854.png',20,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001037,'新秀丽制造商','严选为制作品质与颜值兼具的箱包，\n选定新秀丽、CK、Ricardo等品牌合作的制造商，\n拥有国内先进流水线20余条，实力保障品质。','http://yanxuan.nosdn.127.net/80dce660938931956ee9a3a2b111bd37.jpg',5,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001038,'Coach制造商','严选为制作高品质高颜值皮具配件，\n由Coach、MK等品牌制造商生产，\n由严选360度全程监制，给你带来优质皮具。','http://yanxuan.nosdn.127.net/1b1cc16135fd8467d40983f75f644127.png',3,49.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001039,'MK制造商','严选为制造高品质的皮具，\n选择Michael Kors品牌合作的制造工厂，\n18年专业皮具生产经验，手工至美，品质保证。','http://yanxuan.nosdn.127.net/fc9cd1309374f7707855de80522fb310.jpg',17,79.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1001045,'罗莱制造商','严选团队为打造吸湿透气柔软的蚕丝被，\n从蚕茧原材到温感性能，多次甄选测试\n选择罗莱制造商工厂，手工处理，优质舒适。','http://yanxuan.nosdn.127.net/14122a41a4985d23e1a172302ee818e9.png',45,699.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1003000,'Carters制造商','来自Carters大牌代工厂生产，\n严选纯天然材料，无荧光不添加，\nITS安心标志权威检测，安全护航。','http://yanxuan.nosdn.127.net/efe9131599ced0297213e6ec67eb2174.png',41,19.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1005001,'Goody制造商','严选深入美国百年发饰品牌Goody制造商，\n确保每把梳子做工精湛，养护头皮。\n戴安娜王妃的最爱，你也能拥有。','http://yanxuan.nosdn.127.net/7c918f37de108f3687d69b39daab34eb.png',48,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1006000,'范思哲制造商','严选找寻意大利奢侈品牌范思哲Versace的制造商，\n致力于为用户带来精致、优雅、时尚的皮包，\n传承独特美感，体验品质生活。','http://yanxuan.nosdn.127.net/c80ae035387495a61a4515906205efff.png',18,99.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1008000,'WPC制造商','严选寻找日本雨伞品牌W.P.C制造商，\n采用严谨工艺以及环保材料，\n沉淀15年行业经验，打造精致雨具。','http://yanxuan.nosdn.127.net/c4e97cc87186ce17f9316f3ba39e220c.png',22,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1010001,'竹宝堂制造商','严选走访河北、安徽等制刷基地，\n选定竹宝堂、丝芙兰等品牌的制造商，\n严格把关生产与质检，与您一同追求美的生活。','http://yanxuan.nosdn.127.net/61b0b7ae4f0163422009defbceaa41ad.jpg',39,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1010002,'资生堂制造商','发现美，成为美，是女性一生的追求。\n严选找寻资生堂代工厂，打造天然美妆产品，\n致力于带来更多美的体验和享受。','http://yanxuan.nosdn.127.net/5449236b80d1e678dedee2f626cd67c4.png',19,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1015000,'NITORI制造商','宠物是人类最温情的陪伴，\n严选找寻日本最大家居品牌NITORI制造商，\n每一个脚印，都是为了更好地关怀你的TA','http://yanxuan.nosdn.127.net/6f3d310601b18610553c675e0e14d107.png',43,69.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1016002,'HUGO BOSS制造商','严选深入德国知名奢侈品HUGO BOSS的制造商，\n开发睡衣、睡袍、休闲裤等轻奢品质家居服，\n希望你在家的每一天都优雅精致。','http://yanxuan.nosdn.127.net/70ada9877b2efa82227437af3231fe50.png',11,45.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1018000,'Sperry制造商','严选团队对比多家硫化鞋制造商产品质量，\n走访多个制鞋工厂，最终选定Sperry品牌制造商，\n为你提供一双舒适有型的高品质帆布鞋。','http://yanxuan.nosdn.127.net/2eb12d84037346441088267432da31c4.png',32,199.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1021000,'Marc Jacobs制造商','严选寻访独立设计品牌Marc Jacobs的制造商，\n严格选材，细究纺织与生产的细节，多次打磨，\n初心不忘，为你带来优雅高档的服饰配件。','http://yanxuan.nosdn.127.net/c8dac4eb1a458d778420ba520edab3d0.png',24,69.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1022000,'UGG制造商','为寻找优质的皮毛一体雪地靴，\n严选走访多家雪地靴制造商，对比工艺，\n甄选UGG认可的代工厂，只为足下的优雅舒适。','http://yanxuan.nosdn.127.net/4d2a3dea7e0172ae48e8161f04cfa045.jpg',29,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1022001,'Palladium制造商','严选探访多个制鞋大厂，选定Palladium制造商，\n对比工艺选材，找到传承多年的制鞋配方，\n只为制作一款高品质休闲鞋。','http://yanxuan.nosdn.127.net/3480f2a4026c60eb4921f0aa3facbde8.png',31,249.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1023000,'PetitBateau小帆船制造商','为打造适合宝宝的婴童服装，\n严选团队寻找PetitBateau小帆船的品牌制造商，\n无荧光剂，国家A类标准，让宝宝穿的放心。','http://yanxuan.nosdn.127.net/1a11438598f1bb52b1741e123b523cb5.jpg',25,36.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024000,'WMF制造商','严选找寻德国百年高端厨具WMF的制造商，\n选择拥有14年经验的不锈钢生产工厂，\n为你甄选事半功倍的优质厨具。','http://yanxuan.nosdn.127.net/2018e9ac91ec37d9aaf437a1fd5d7070.png',8,9.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024001,'OBH制造商','严选寻找OBH品牌的制造商，打造精致厨具，\n韩国独资工厂制造，严格质检，品质雕琢\n力求为消费者带来全新的烹饪体验。','http://yanxuan.nosdn.127.net/bf3499ac17a11ffb9bb7caa47ebef2dd.png',42,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024003,'Stoneline制造商','严选找寻德国经典品牌Stoneline的制造商，\n追踪工艺，考量细节，亲自试用，\n为你甄选出最合心意的锅具和陶瓷刀，下厨如神。','http://yanxuan.nosdn.127.net/3a44ae7db86f3f9b6e542720c54cc349.png',28,9.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1024006,'KitchenAid制造商','严选寻访KitchenAid品牌的制造商，\n采用德国LFGB认证食品级专用不锈钢，\n欧式简约设计，可靠安心，尽享下厨乐趣。','http://yanxuan.nosdn.127.net/e11385bf29d1b3949435b80fcd000948.png',46,98.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1025000,'Timberland制造商','为制作优质时尚的工装鞋靴，\n严选团队深入探访国内外制靴大厂，选择Timberland制造商，\n工厂拥有15年制鞋历史，专业品质有保证。','http://yanxuan.nosdn.127.net/6dcadb0791b33aa9fd00380b44fa6645.png',37,359.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1025001,'Kenneth Cole制造商','为出品优质格调的商务鞋靴，\n严选团队选择Kenneth Cole品牌合作的制造商，\n一切努力，只为打造高品质鞋靴。','http://yanxuan.nosdn.127.net/236322546c6860e1662ab147d6b0ba2f.jpg',7,349.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1026000,'CK制造商','严选寻访Calvin Klein品牌的制造商，\n深入世界领带第一生产地，设计与品质并重，\n致力于给消费者带来优质典雅的服饰用品。','http://yanxuan.nosdn.127.net/658f09b7ec522d31742b47b914d64338.png',1,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1026001,'Under Armour制造商','严选为甄选优质好袜，走访东北、新疆等产袜基地，\n最终选定Under Armour品牌的合作制造商，\n从原料、工艺、品质多维度筛选监制，保证好品质。','http://yanxuan.nosdn.127.net/4e93ea29b1d06fabfd24ba68a9b20a34.jpg',35,39.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1028000,'Gucci制造商','严选为设计一款优雅时尚的品质礼帽，\n找寻拥有10来年经验的大型毛毡帽厂商合作，\n坚持打造好设计、好工艺、好材质的潮流礼帽。','http://yanxuan.nosdn.127.net/278869cad9bf5411ffc18982686b88fb.jpg',23,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1028003,'Burberry制造商','为打造时尚舒适的童装系列，\n严选选择Burberry制造商，优化版型配色\n英伦风情融入经典格纹，百搭优雅气质款。','http://yanxuan.nosdn.127.net/07af01e281c7e0b912d162d611e22c32.jpg',4,99.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1033003,'Armani制造商','严选团队携手国际标准化专业生产厂家，\n厂家长期为Armani、Alexander wang等知名品牌代工，\n专业进口设备，精密质量把控，精于品质居家体验。','http://yanxuan.nosdn.127.net/981e06f0f46f5f1f041d7de3dd3202e6.jpg',26,199.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1033004,'爱马仕集团制造商','严选采用欧洲一线品牌爱马仕的御用香料供应商，\n经过反复配比改良、试香调香、选品定样，\n为你带来独特馥郁的散香体验。','http://yanxuan.nosdn.127.net/d98470dd728fb5a91f7aceade07572b5.png',33,19.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1034001,'Alexander McQueen制造商','为制造精致实用的高品质包包，\n严选团队选择Alexander McQueen制造商，\n严格筛选，带来轻奢优雅体验。','http://yanxuan.nosdn.127.net/db7ee9667d84cbce573688297586699c.jpg',16,69.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1037000,'厚木ATSUGI制造商','严选考究袜子品质，层层把关原料生产，\n携手12年行业生产资质的厚木品牌制造商，\n带来轻盈优雅，舒适显瘦的袜子系列。','http://yanxuan.nosdn.127.net/7df55c408dbac6085ed6c30836c828ac.jpg',27,29.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1038000,'Birkenstock集团制造商','为打造一双舒适的软木拖鞋，\n严选团队寻找BIRKENSTOCK集团旗下产品制造商，\n360度全程监制，舒适随脚，百搭文艺。','http://yanxuan.nosdn.127.net/05a2ecffb60b77e4c165bd8492e5c22a.jpg',14,59.90,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1038001,'Nine West制造商','为打造一双优雅舒适的高跟鞋，\n严选选择美国Nine West玖熙品牌的制造商，\n让美丽绽放在足尖。','http://yanxuan.nosdn.127.net/ad4df7848ce450f00483c2d5e9f2bfa7.png',13,219.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1039000,'TEFAL制造商','严选对标国际品质，致力于高品质生活好物，\n执着寻求优质厨房电器供应商，\n携手WMF、Tefal制造商，打造高品质厨具。','http://yanxuan.nosdn.127.net/2b7a07e25a3f3be886a7fb90ba975bb7.png',44,259.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1039001,'京瓷制造商','严选想为你的厨房生活，带来新鲜感和活力，\n深入全国各地，选择日本京瓷等品牌代工厂，\n打造钻石系列厨具，颜值与品质兼具。','http://yanxuan.nosdn.127.net/3dda530605e3ab1c82d5ed30f2489473.png',38,89.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1040000,'Tescom制造商','严选为打造时尚健康的个护电器，\n选择Tescom品牌制造商，全球最大个护电器工厂之一，\n拥有20年经验，出口180多个国家，品质有保障。','http://yanxuan.nosdn.127.net/c17cd65971189fdc28f5bd6b78f657a7.png',15,59.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1041000,'BCBG制造商','严选从产品源头开始，每道工序质量把关，\n选择美国知名品牌BCBG的制造商合作，\n严谨匠心，致力于优质柔滑的睡衣穿搭产品。','http://yanxuan.nosdn.127.net/b9072023afd3621714fd5c49f140fca8.png',36,99.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(1046000,'Police制造商','严选团队选定Police品牌制造商合作，\n有11年眼镜生产资质，兼顾品质与品味，\n为你带来专业时尚的墨镜。','http://yanxuan.nosdn.127.net/66e2cb956a9dd1efc7732bea278e901e.png',6,109.00,'2018-02-01 00:00:00','2018-02-01 00:00:00',0);
 /*!40000 ALTER TABLE `brand` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Dumping data for table `cart`
+--
+
+LOCK TABLES `cart` WRITE;
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping data for table `category`
@@ -84,9 +944,24 @@ INSERT INTO `comment` VALUES (1,1181000,0,'布料很厚实，触感不错，洗�
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Dumping data for table `coupon`
+--
 
+LOCK TABLES `coupon` WRITE;
+/*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
+INSERT INTO `coupon` VALUES (1,'限时满减券','全场通用','无限制',0,5.00,99.00,1,0,0,0,'[]',NULL,0,10,NULL,NULL,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(2,'限时满减券','全场通用','无限制',0,10.00,99.00,1,0,0,0,'[]',NULL,0,10,NULL,NULL,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(3,'新用户优惠券','全场通用','无限制',0,10.00,99.00,1,1,0,0,'[]',NULL,0,10,NULL,NULL,'2018-02-01 00:00:00','2018-02-01 00:00:00',0),(8,'可兑换优惠券','全场通用','仅兑换领券',0,15.00,99.00,1,2,0,0,'[]','DC6FF8SE',0,7,NULL,NULL,'2018-12-23 09:29:57','2018-12-23 09:29:57',0);
+/*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Dumping data for table `coupon_user`
+--
 
+LOCK TABLES `coupon_user` WRITE;
+/*!40000 ALTER TABLE `coupon_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `coupon_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping data for table `feedback`
@@ -132,6 +1007,21 @@ UNLOCK TABLES;
 -- Dumping data for table `product_product`
 --
 
+LOCK TABLES `product_product` WRITE;
+/*!40000 ALTER TABLE `product_product` DISABLE KEYS */;
+INSERT INTO `product_product` VALUES (1,1181000,'[\"1.5m床垫*1+枕头*2\",\"浅杏粉\"]',999.00,100,'http://yanxuan.nosdn.127.net/1f67b1970ee20fd572b7202da0ff705d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(2,1181000,'[\"1.5m床垫*1+枕头*2\",\"玛瑙红\"]',1500.00,198,'quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-11-07 17:14:01',0),(3,1181000,'[\"1.5m床垫*1+枕头*2\",\"烟白灰\"]',1000.00,300,'http://yanxuan.nosdn.127.net/36f64a7161b67e7fb8ea45be32ecfa25.png?quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(4,1181000,'[\"1.8m床垫*1+枕头*2\",\"浅杏粉\"]',1001.00,400,'http://yanxuan.nosdn.127.net/10022c73fa7aa75c2c0d736e96cc56d5.png?quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(5,1181000,'[\"1.8m床垫*1+枕头*2\",\"玛瑙红\"]',2000.00,2,'quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(6,1181000,'[\"1.8m床垫*1+枕头*2\",\"烟白灰\"]',3000.00,0,'http://yanxuan.nosdn.127.net/36f64a7161b67e7fb8ea45be32ecfa25.png?quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(7,1006002,'[\"标准\"]',899.00,100,'http://yanxuan.nosdn.127.net/8ab2d3287af0cefa2cc539e40600621d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(8,1006007,'[\"标准\"]',459.00,100,'http://yanxuan.nosdn.127.net/66425d1ed50b3968fed27c822fdd32e0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(9,1006010,'[\"标准\"]',659.00,100,'http://yanxuan.nosdn.127.net/8fe022126a2789d970f82853be13a5e6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(10,1006013,'[\"标准\"]',699.00,100,'http://yanxuan.nosdn.127.net/583812520c68ca7995b6fac4c67ae2c7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(11,1006014,'[\"标准\"]',1399.00,100,'http://yanxuan.nosdn.127.net/2b537159f0f789034bf8c4b339c43750.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(12,1006051,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/ad5a317216f9da495b144070ecf1f957.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(13,1009009,'[\"标准\"]',1999.00,100,'http://yanxuan.nosdn.127.net/9791006f25e26b2d7c81f41f87ce8619.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(14,1009012,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/a196b367f23ccfd8205b6da647c62b84.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(15,1009013,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/da56fda947d0f430d5f4cf4aba14e679.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(16,1009024,'[\"标准\"]',599.00,100,'http://yanxuan.nosdn.127.net/149dfa87a7324e184c5526ead81de9ad.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(17,1009027,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/71cfd849335c498dee3c54d1eb823c17.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(18,1010000,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/3bec70b85337c3eec182e54380ef7370.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(19,1010001,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/a8b0a5def7d64e411dd98bdfb1fc989b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(20,1011004,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/0984c9388a2c3fd2335779da904be393.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(21,1015007,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/a2045004de8a6225289376ad54317fc8.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(22,1019000,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/77c09feb378814be712741b273d16656.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(23,1019001,'[\"标准\"]',109.00,100,'http://yanxuan.nosdn.127.net/7644803ab19b3e398456aa5a54229363.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(24,1019002,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/0118039f7cda342651595d994ed09567.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(25,1019006,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/60c3707837c97a21715ecc3986a744ce.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(26,1020000,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/819fdf1f635a694166bcfdd426416e8c.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(27,1021000,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/7191f2599c7fe44ed4cff7a76e853154.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(28,1021001,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/fd5a8622ee1a7dfd4b57b938ebf25b24.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(29,1021004,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/654b02045fde802b51d5bbf09a8b75f2.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(30,1021010,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/25d734cc0b2eae8f63f9deb1e4ad5f64.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(31,1022000,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/5350e35e6f22165f38928f3c2c52ac57.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(32,1022001,'[\"标准\"]',349.00,100,'http://yanxuan.nosdn.127.net/bf8faee3b27b480f63b70056597b626d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(33,1023003,'[\"标准\"]',398.00,100,'http://yanxuan.nosdn.127.net/c39d54c06a71b4b61b6092a0d31f2335.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(34,1023012,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/07376e78bf4fb8a5aa8e6a0b1437c3ad.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(35,1023032,'[\"标准\"]',449.00,100,'http://yanxuan.nosdn.127.net/e0b928ada728c140f6965bb41f47407b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(36,1023034,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/715899c65c023bb4973fb0466a5b79d6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(37,1025005,'[\"标准\"]',268.00,100,'http://yanxuan.nosdn.127.net/49e26f00ca4d0ce00f9960d22c936738.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(38,1027004,'[\"标准\"]',249.00,100,'http://yanxuan.nosdn.127.net/6252f53aaf36c072b6678f3d8c635132.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(39,1029005,'[\"标准\"]',959.00,100,'http://yanxuan.nosdn.127.net/25fe52f44853eb45f610846991bc4d9d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(40,1030001,'[\"标准\"]',969.00,100,'http://yanxuan.nosdn.127.net/88dc5d80c6f84102f003ecd69c86e1cf.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(41,1030002,'[\"标准\"]',899.00,100,'http://yanxuan.nosdn.127.net/8b9328496990357033d4259fda250679.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(42,1030003,'[\"标准\"]',1469.00,100,'http://yanxuan.nosdn.127.net/1d1ab099dc0e254c15e57302e78e200b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(43,1030004,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/e84f2e3b3d39cfdc8af5c3954a877aae.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(44,1030005,'[\"标准\"]',899.00,100,'http://yanxuan.nosdn.127.net/86f57132793d3e3c924a7ba529849288.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(45,1030006,'[\"标准\"]',329.00,100,'http://yanxuan.nosdn.127.net/578ffec952eb25ff072d8ea1b676bfd2.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(46,1033000,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/9aab9a0bf4fef8fe3dc8c732bc22d4b7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(47,1035006,'[\"标准\"]',56.00,100,'http://yanxuan.nosdn.127.net/ee92704f3b8323905b51fc647823e6e5.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(48,1036002,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/ffd7efe9d5225dff9f36d5110b027caa.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(49,1036013,'[\"标准\"]',109.00,100,'http://yanxuan.nosdn.127.net/da1bc2c10f7b2e53f2466bd23953b982.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(50,1036016,'[\"标准\"]',109.00,100,'http://yanxuan.nosdn.127.net/513d08057c69fdb7d19cc810e976118d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(51,1037011,'[\"标准\"]',599.00,100,'http://yanxuan.nosdn.127.net/a03ea6f4509439acdafcb7ceba1debe0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(52,1037012,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/ffd2c91c7cf9c6e0f630595f7679b95d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(53,1038004,'[\"标准\"]',359.00,100,'http://yanxuan.nosdn.127.net/4d3d3eaeb872860539d7faa59f9f84e9.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(54,1039051,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/c8ca0600fa7ba11ca8be6a3173dd38c9.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(55,1039056,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/3e14e82a44c3a250af63df4c29c572d0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(56,1043005,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/2a95b16f5b147cab4845641bee738a2e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(57,1044012,'[\"标准\"]',349.00,100,'http://yanxuan.nosdn.127.net/a803c68ea88e3116023b45ac9ea99510.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(58,1045000,'[\"标准\"]',28.00,100,'http://yanxuan.nosdn.127.net/b2adc3fd9b84a289a1be03e8ee400e61.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(59,1046001,'[\"标准\"]',8.90,100,'http://yanxuan.nosdn.127.net/74583e585825ecacb11f7c53d2021e00.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(60,1046002,'[\"标准\"]',9.90,100,'http://yanxuan.nosdn.127.net/eb486cfe807c4fe5696aa59cbcf1f96a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(61,1046044,'[\"标准\"]',349.00,100,'http://yanxuan.nosdn.127.net/2bfecfe58ea3ee0d554f2ed58e9ba30a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(62,1048005,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/ce980c16810a471dffff6aa8d7bac754.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(63,1051000,'[\"标准\"]',180.00,100,'http://yanxuan.nosdn.127.net/e564410546a11ddceb5a82bfce8da43d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(64,1051001,'[\"标准\"]',159.00,100,'http://yanxuan.nosdn.127.net/f53ed57d9e23fda7e24dfd0e0a50c5d1.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(65,1051002,'[\"标准\"]',228.00,100,'http://yanxuan.nosdn.127.net/56f4b4753392d27c0c2ccceeb579ed6f.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(66,1051003,'[\"标准\"]',148.00,100,'http://yanxuan.nosdn.127.net/6a54ccc389afb2459b163245bbb2c978.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(67,1055012,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/3d437c8d68e2ec3f3dd61001bf98f16e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(68,1055016,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/23e0203f1512f33e605f61c28fa03d2d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(69,1055022,'[\"标准\"]',4.90,100,'http://yanxuan.nosdn.127.net/c7c74a96eacb29455dbf557b840eaaf5.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(70,1056002,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/922fdbe007033f7a88f7ebc57c3d1e75.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(71,1057036,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/8a9ee5ba08929cc9e40b973607d2f633.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(72,1064000,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/ebe118f94ddafe82c4a8cd51da6ff183.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(73,1064002,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/48dbfe207b2203ef45055dcc9cedbe60.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(74,1064003,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/58ed94b63b39339e7814f1339013793c.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(75,1064004,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/337da7094c1df295ca0f0b8baa55b2d5.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(76,1064006,'[\"标准\"]',129.00,100,'http://yanxuan.nosdn.127.net/35306b8e65932dd28a5628d0bb44a044.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(77,1064007,'[\"标准\"]',249.00,100,'http://yanxuan.nosdn.127.net/d7bd87f8cc1965b25be33a8aad53812b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(78,1064021,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/c83a3881704094ddd3970099ca77d115.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(79,1064022,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/a9c155e26d09e3c92b623f0472ed674a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(80,1065004,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/05977cf923857db0c44b405bd87b096b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(81,1065005,'[\"标准\"]',249.00,100,'http://yanxuan.nosdn.127.net/18b7be03bba9d01e4285fc443ea65bb1.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(82,1068010,'[\"标准\"]',329.00,100,'http://yanxuan.nosdn.127.net/9ed4ff9642ea9cb776a20560647cd72b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(83,1068011,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/0e4ba6ed44fef8803c243e585b621ab7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(84,1068012,'[\"标准\"]',599.00,100,'http://yanxuan.nosdn.127.net/69145abddddd31ae8878ea7ca7297b4b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(85,1070000,'[\"标准\"]',26.00,100,'http://yanxuan.nosdn.127.net/8392725765cdd57fdae3f173877f4bda.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(86,1071004,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/f0abf2bf11c8d303212e4a0c1106bb73.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(87,1071005,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/07a47d73e2eb53b1a7939219a4e63618.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(88,1071006,'[\"标准\"]',9.90,100,'http://yanxuan.nosdn.127.net/d206e0d15955b4d76431a752f2c94f9f.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(89,1072000,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/87cf3a17ad40bfdcdc3314ea4591a5e8.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(90,1072001,'[\"标准\"]',49.00,100,'http://yanxuan.nosdn.127.net/0e9d5954d7dc2477d9c46b730e05ab42.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(91,1073008,'[\"标准\"]',149.00,100,'http://yanxuan.nosdn.127.net/619e46411ccd62e5c0f16692ee1a85a0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(92,1074001,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/73567265b04a9998f64419186ddd8531.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(93,1075022,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/97ad483a94ed88216a989df83e39cbf0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(94,1075023,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/29bc800b9f1fa551bc3cd47b10e2a799.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(95,1075024,'[\"标准\"]',2399.00,100,'http://yanxuan.nosdn.127.net/ce4a1eb18ea518bf584620632509935f.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(96,1081000,'[\"标准\"]',49.00,100,'http://yanxuan.nosdn.127.net/cc45baafad00405699552c187c64c512.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(97,1081002,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/380cfcd5d8bc22360de089f0b4eb11da.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(98,1083009,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/76e5c820f6bb71a26517ffa01f499871.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(99,1083010,'[\"标准\"]',469.00,100,'http://yanxuan.nosdn.127.net/b9a12d07f8f2d04d662d9340e68e6687.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(100,1084001,'[\"标准\"]',249.00,100,'http://yanxuan.nosdn.127.net/07f682d405c1d2ed343c210ac8f8862a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(101,1084003,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/cf40c167e7054fe184d49f19121f63c7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(102,1085019,'[\"标准\"]',349.00,100,'http://yanxuan.nosdn.127.net/65c955a7a98e84d44ca30bb88a591eac.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(103,1086015,'[\"标准\"]',249.00,100,'http://yanxuan.nosdn.127.net/d5c2ecfe0fb00cdd8b829975bab21a31.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(104,1086023,'[\"标准\"]',19.90,100,'http://yanxuan.nosdn.127.net/121a99e896b3e332c102eb5f6f9b3406.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(105,1086024,'[\"标准\"]',9.90,100,'http://yanxuan.nosdn.127.net/af899cfaa13f515ecb9cf9a33f41370a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(106,1086025,'[\"标准\"]',49.00,100,'http://yanxuan.nosdn.127.net/78eff56b293c8354bc9ac496fc2c5179.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(107,1086026,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/caecdaa37d9cbcff980cee0968911e34.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(108,1086052,'[\"标准\"]',859.00,100,'http://yanxuan.nosdn.127.net/93171a281c4ed272c007a050816e6f6c.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(109,1090004,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/a3a92057f10e5e6e804c19ef495e3dee.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(110,1092001,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/8e35b003ce7895c39eeb073b1f61b1d7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(111,1092005,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/ab1992495e0370f09386d418ad45220d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(112,1092024,'[\"标准\"]',1599.00,100,'http://yanxuan.nosdn.127.net/f245a86dcb9f455217241e437b203926.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(113,1092025,'[\"标准\"]',19.90,100,'http://yanxuan.nosdn.127.net/56a46e9a4832587471c0f9ad7c1b7d85.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(114,1092026,'[\"标准\"]',19.90,100,'http://yanxuan.nosdn.127.net/83433f5a7ef69abda2544a53332a0fad.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(115,1092038,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/1aba9ed9c9160b9ca8e7de58ce4e46b1.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(116,1092039,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/d8c18953bcb05f0b07d6b48e2d159ace.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(117,1093000,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/1a22cc488390b616e75afbbd94db6584.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(118,1093001,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/71fede861c3641d570a89a65ccf4525f.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(119,1093002,'[\"标准\"]',49.00,100,'http://yanxuan.nosdn.127.net/48d95e820628610fcdcda30570d4379c.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(120,1097004,'[\"标准\"]',1699.00,100,'http://yanxuan.nosdn.127.net/54f822e9c542d20566c7f70f90d52ae6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(121,1097005,'[\"标准\"]',1199.00,100,'http://yanxuan.nosdn.127.net/e5fd0724a05387615738173fb8f1570d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(122,1097006,'[\"标准\"]',999.00,100,'http://yanxuan.nosdn.127.net/bcf2a72face2c4221dfdc9b3c97d4062.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(123,1097007,'[\"标准\"]',759.00,100,'http://yanxuan.nosdn.127.net/b6e132180679b0673486145decc89aa3.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(124,1097009,'[\"标准\"]',1599.00,100,'http://yanxuan.nosdn.127.net/e7b68189ef2f77a28110c3fc7ca5a697.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(125,1097011,'[\"标准\"]',3899.00,100,'http://yanxuan.nosdn.127.net/fea36ef2514c904f4f45f1975f37f289.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(126,1097012,'[\"标准\"]',999.00,100,'http://yanxuan.nosdn.127.net/d659d5ce0efaa9baa43abb6e34a1d9fe.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(127,1097013,'[\"标准\"]',2699.00,100,'http://yanxuan.nosdn.127.net/2fa8cb066a356f47a3f0814e99fee7f2.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(128,1097014,'[\"标准\"]',4199.00,100,'http://yanxuan.nosdn.127.net/308184b7b1965470d58b5c92e9bcc4b0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(129,1097016,'[\"标准\"]',2799.00,100,'http://yanxuan.nosdn.127.net/a7e6df722b82ad1b0158adcbdcf30df9.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(130,1097017,'[\"标准\"]',2199.00,100,'http://yanxuan.nosdn.127.net/e16ff61bef76db81090db191b9d5ec15.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(131,1100000,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/15e40cfb6a78f557616814a815685fd4.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(132,1100001,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/a95285853138cbaf56e4ba729f2b8749.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(133,1100002,'[\"标准\"]',189.00,100,'http://yanxuan.nosdn.127.net/edf1945ef594c00920bdc727f4c5c7fd.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(134,1108029,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/fe52cd141b4b330db5627114b0e0e550.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(135,1108030,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/4891e60ff08ceed36d40a754e45e8742.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(136,1108031,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/e13e9697e01339c6cf7479eb81b3fbe2.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(137,1108032,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/b1f9e1f700469f71fe3c4187ef53c99f.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(138,1109004,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/d25b5990f16c6d1ac168a34b7aeca681.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(139,1109005,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/7f508253f65733c7b2af52dd3943ee28.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(140,1109008,'[\"标准\"]',3999.00,100,'http://yanxuan.nosdn.127.net/c5be2604c0e4186a4e7079feeb742cee.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(141,1109034,'[\"标准\"]',129.00,100,'http://yanxuan.nosdn.127.net/c2c96acc680cbadb1787385598e1e593.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(142,1110002,'[\"标准\"]',119.00,100,'http://yanxuan.nosdn.127.net/a7a524512c34d24a4b9762766dd9d0f0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(143,1110003,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/72dfb4bfc1cd1b834c064a9d1d40627d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(144,1110004,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/1ffd5831e63027715445f74a28f8c4ed.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(145,1110007,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/deeb55bb45f94cb236a47d1264e883b8.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(146,1110008,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/255a4888161f9b4fe530cf319f14551d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(147,1110013,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/6eb8d1c37142a5951b6242791c78146b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(148,1110014,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/cb4f78bd887059416c3df485e3f31366.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(149,1110015,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/56da5270172244be56c00fdc8eb24fae.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(150,1110016,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/3bd73b7279a83d1cbb50c0e45778e6d6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(151,1110017,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/534231583f82572398ec84bad425cdaf.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(152,1110018,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/d93aa5d6e7a296101cf4cb72613aeda6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(153,1110019,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/1e7e392b6fc9da99dc112197b7444eec.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(154,1111007,'[\"标准\"]',78.00,100,'http://yanxuan.nosdn.127.net/8d228f767b136a67aaf2cbbf6deb46fa.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(155,1111010,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/ef7efe55839e66993fb604dc3c2d9410.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(156,1113010,'[\"标准\"]',59.00,100,'http://yanxuan.nosdn.127.net/2d0920b51331bb1636330ad8e07d1b97.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(157,1113011,'[\"标准\"]',49.00,100,'http://yanxuan.nosdn.127.net/7a683f68fc988df299b5cfe6273d6fb7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(158,1113019,'[\"标准\"]',208.00,100,'http://yanxuan.nosdn.127.net/ad504bb389039ff35c4cd6ae912be87e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(159,1114011,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/196b5ce11930b4eadaec563cb0406634.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(160,1115023,'[\"标准\"]',1599.00,100,'http://yanxuan.nosdn.127.net/f3d1f0217ed250a37ea807f456351a51.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(161,1115028,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/3d0045e8f43439c7004fae052b2162ed.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(162,1115052,'[\"标准\"]',86.00,100,'http://yanxuan.nosdn.127.net/39dea35a3ea2361e4b054ee2f421af53.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(163,1115053,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/fabf9ac36751a2e1322135c56f1dc338.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(164,1116004,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/14d3a47ccf52815baf6df308be6db5a6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(165,1116005,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/71937456c3cd654f936f619201a79c09.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(166,1116008,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/149a09a391ea5a888debf50b9dc4ed7b.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(167,1116011,'[\"标准\"]',36.00,82,'http://yanxuan.nosdn.127.net/767b370d07f3973500db54900bcbd2a7.png','2018-02-01 00:00:00','2018-11-09 19:23:10',0),(168,1116030,'[\"标准\"]',439.00,100,'http://yanxuan.nosdn.127.net/9d59a22b5aff348b5aba5fc7e451ea4d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(169,1116031,'[\"标准\"]',439.00,100,'http://yanxuan.nosdn.127.net/f88c3dc42f3e4d7da1ded8c1ee6a97ba.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(170,1116032,'[\"标准\"]',3499.00,100,'http://yanxuan.nosdn.127.net/45176a783387751fc07a07f5031dd62c.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(171,1116033,'[\"标准\"]',1399.00,100,'http://yanxuan.nosdn.127.net/f1dbf1d9967c478ee6def81ed40734a2.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(172,1125010,'[\"标准\"]',159.00,100,'http://yanxuan.nosdn.127.net/f82995ccb2a2f6beddd4ad794f5da2a1.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(173,1125011,'[\"标准\"]',139.00,100,'http://yanxuan.nosdn.127.net/be9740b734087f294f59a6560b932bc1.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(174,1125016,'[\"标准\"]',139.00,100,'http://yanxuan.nosdn.127.net/46f3059b020eb3900e9af8e8c1af8a97.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(175,1125017,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/ae63fed274187e3e572043c53fefd836.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(176,1125026,'[\"标准\"]',159.00,100,'http://yanxuan.nosdn.127.net/6308c120c441fd3e47658167ad944156.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(177,1127003,'[\"标准\"]',2599.00,100,'http://yanxuan.nosdn.127.net/6ad1813d123f7a80f84c2cfa5f8c7caf.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(178,1127024,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/0a70f12a712e90d7d93beec4f686fe8e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(179,1127025,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/b2fe79c872a8a7f647264b5e51bcc802.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(180,1127038,'[\"标准\"]',359.00,100,'http://yanxuan.nosdn.127.net/addc278cf9c301dd535791df2e03b2ea.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(181,1127039,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/be64df0a04ade4cfd75bf7d4e8509ecc.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(182,1127047,'[\"标准\"]',29.00,98,'http://yanxuan.nosdn.127.net/6c03ca93d8fe404faa266ea86f3f1e43.png','2018-02-01 00:00:00','2018-11-07 17:38:13',0),(183,1127052,'[\"标准\"]',169.00,100,'http://yanxuan.nosdn.127.net/4f483526cfe3b953f403ae02049df5b9.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(184,1128002,'[\"标准\"]',599.00,100,'http://yanxuan.nosdn.127.net/a1094a808ffb3a52a6cb13565a283d98.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(185,1128010,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/a84e8e6979f00efd9a728ed36b154753.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(186,1128011,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/d6e25ec5b4ad7aa37e077ce751b56f46.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(187,1129015,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/fc11a482efeece9630548d8b350e7f54.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(188,1129016,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/a7c7eec41194e65d64931a2d08ef4f8c.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(189,1130037,'[\"标准\"]',39.00,100,'http://yanxuan.nosdn.127.net/19ecd7c6f6f31219cf75117238d95139.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(190,1130038,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/4d77296e02896675558f1a8a83742132.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(191,1130039,'[\"标准\"]',89.00,100,'http://yanxuan.nosdn.127.net/03c73e1f1ce1d2365e83b3230e507030.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(192,1130041,'[\"标准\"]',109.00,100,'http://yanxuan.nosdn.127.net/442b9d99c0e7f39efd7967e0e5987374.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(193,1130042,'[\"标准\"]',239.00,100,'http://yanxuan.nosdn.127.net/dc9d09334eb201fe9408ed604e549941.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(194,1130049,'[\"标准\"]',429.00,100,'http://yanxuan.nosdn.127.net/d88513f85b3617d734bde93af2c766c9.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(195,1130056,'[\"标准\"]',2299.00,100,'http://yanxuan.nosdn.127.net/56e72b84a9bb66687c003ecdaba73816.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(196,1131017,'[\"标准\"]',259.00,100,'http://yanxuan.nosdn.127.net/2b6e2268ed712f1a336283f013abb7a1.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(197,1134022,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/a2b7489b4a2b1c09b66464cede4dabd7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(198,1134030,'[\"标准\"]',46.00,99,'http://yanxuan.nosdn.127.net/aa49dfe878becf768eddc4c1636643a6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(199,1134032,'[\"标准\"]',49.00,84,'http://yanxuan.nosdn.127.net/8b30eeb17c831eba08b97bdcb4c46a8e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(200,1134036,'[\"标准\"]',38.00,100,'http://yanxuan.nosdn.127.net/9356cc27b22bd47ad43913d13226555f.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(201,1134056,'[\"标准\"]',429.00,100,'http://yanxuan.nosdn.127.net/c29f47f58ba1e3c2ff5a193eec0b11d6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(202,1135000,'[\"标准\"]',359.00,100,'http://yanxuan.nosdn.127.net/53d0309471b570a7e12a3f01ba694491.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(203,1135001,'[\"标准\"]',459.00,100,'http://yanxuan.nosdn.127.net/f82ee85933d6f0cc95382215281d3526.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(204,1135002,'[\"标准\"]',2599.00,100,'http://yanxuan.nosdn.127.net/45548f26cfd0c7c41e0afc3709d48286.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(205,1135050,'[\"标准\"]',179.00,100,'http://yanxuan.nosdn.127.net/366f3f3f0e8971c8cf871e2b55b74ff2.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(206,1135051,'[\"标准\"]',299.00,100,'http://yanxuan.nosdn.127.net/9126151f028a8804026d530836b481cb.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(207,1135052,'[\"标准\"]',259.00,100,'http://yanxuan.nosdn.127.net/63f5da1f5363af43aa91864bf66af48e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(208,1135053,'[\"标准\"]',429.00,100,'http://yanxuan.nosdn.127.net/1f9e34b1aadd14ea0c9c299c530d86ba.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(209,1135054,'[\"标准\"]',559.00,100,'http://yanxuan.nosdn.127.net/30d7daa0824fbb61b6c36175c8203349.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(210,1135055,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/87b6a608b99279ebf1764682e9e5fcec.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(211,1135056,'[\"标准\"]',259.00,100,'http://yanxuan.nosdn.127.net/536246ca4adb77274a94b18bb2f91f47.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(212,1135057,'[\"标准\"]',199.00,100,'http://yanxuan.nosdn.127.net/98c5e80b8e328687ce9c949314ebc41d.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(213,1135058,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/37bc0fa3524a904ac740340fa92bd515.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(214,1135065,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/055eb16f95fe995108dd683f532fda22.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(215,1135072,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/43e57d4208cdc78ac9c088f9b3e798f5.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(216,1135073,'[\"标准\"]',69.00,100,'http://yanxuan.nosdn.127.net/53052b04ae001d289c040e09ea92231c.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(217,1138000,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/ad953e16ad8c33b714e7af941ce8cd56.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(218,1138001,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/dbc5b25b824c3b3d7ff43b56ca35eee9.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(219,1143006,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/2b48feb65954c6739be28d15b9fbfbe3.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(220,1143015,'[\"标准\"]',79.00,100,'http://yanxuan.nosdn.127.net/50e197854e0ada79c37b7215a1574450.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(221,1143016,'[\"标准\"]',319.00,100,'http://yanxuan.nosdn.127.net/e56c6239ee4a641ce2a4565c6babb43e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(222,1143018,'[\"标准\"]',68.00,100,'http://yanxuan.nosdn.127.net/d1fd69cee4990f4de1109baef30efeeb.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(223,1143019,'[\"标准\"]',98.00,100,'http://yanxuan.nosdn.127.net/277b07c1e5e6fb57cf9ca47fcd3903d5.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(224,1143020,'[\"标准\"]',168.00,100,'http://yanxuan.nosdn.127.net/200d4d59763af9a0781cca4a06175de7.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(225,1147045,'[\"标准\"]',599.00,100,'http://yanxuan.nosdn.127.net/5cda4a0c4c4ff9728d03186bd053c9ca.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(226,1147046,'[\"标准\"]',599.00,100,'http://yanxuan.nosdn.127.net/655d718df8107f8e7fd1dc6140e29039.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(227,1147047,'[\"标准\"]',559.00,100,'http://yanxuan.nosdn.127.net/bda805b0a2464b6ec33c18981565e50e.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(228,1147048,'[\"标准\"]',559.00,100,'http://yanxuan.nosdn.127.net/fd7920a2eadd10fa10c0c03959a2abe0.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(229,1151012,'[\"标准\"]',359.00,100,'http://yanxuan.nosdn.127.net/cb65635dbcef42b68ba21433f4948f5a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(230,1151013,'[\"标准\"]',359.00,100,'http://yanxuan.nosdn.127.net/73a8692048f58f15e823b636d7c3bb74.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(231,1152004,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/8c93cef435d888bd79833777df1cd0c2.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(232,1152008,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/203cb83d93606865e3ddde57b69b9e9a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(233,1152009,'[\"标准\"]',29.00,100,'http://yanxuan.nosdn.127.net/ae6d41117717387b82dcaf1dfce0cd97.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(234,1152031,'[\"标准\"]',99.00,100,'http://yanxuan.nosdn.127.net/fd6e78a397bd9e9804116a36f0270b0a.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(235,1152095,'[\"标准\"]',499.00,100,'http://yanxuan.nosdn.127.net/c86b49f635fa141decebabbd0966a6ef.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(236,1152097,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/532836444ae5eaec40b5810ca4f9b1e6.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(237,1152100,'[\"标准\"]',499.00,100,'http://yanxuan.nosdn.127.net/a667c4fbbd9c499c0733539d7e986617.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(238,1152101,'[\"标准\"]',888.00,100,'http://yanxuan.nosdn.127.net/c1c62211a17b71a634fa0c705d11fb42.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(239,1152161,'[\"标准\"]',459.00,100,'http://yanxuan.nosdn.127.net/977401e75113f7c8334c4fb5b4bf6215.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(240,1153006,'[\"标准\"]',1288.00,100,'http://yanxuan.nosdn.127.net/2743921b945a6c71fcdc3c5282a03413.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(241,1155000,'[\"标准\"]',399.00,100,'http://yanxuan.nosdn.127.net/d7d6ef1f1865991077384761b4521dce.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(242,1155015,'[\"标准\"]',12.90,100,'http://yanxuan.nosdn.127.net/66b9f1638c0517d179262f14ed1345f9.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(243,1156006,'[\"标准\"]',699.00,100,'http://yanxuan.nosdn.127.net/ea5b0a572b35089446fba491db7fbbc3.png','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(244,1166008,'[\"标准\"]',459.00,98,'http://yanxuan.nosdn.127.net/615a16e899e01efb780c488df4233f48.png','2018-02-01 00:00:00','2018-11-07 17:14:01',0);
+/*!40000 ALTER TABLE `product_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `product_specification`
+--
+
+LOCK TABLES `product_specification` WRITE;
+/*!40000 ALTER TABLE `product_specification` DISABLE KEYS */;
+INSERT INTO `product_specification` VALUES (1,1181000,'规格','1.5m床垫*1+枕头*2','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(2,1181000,'规格','1.8m床垫*1+枕头*2','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(3,1181000,'颜色','浅杏粉','http://yanxuan.nosdn.127.net/10022c73fa7aa75c2c0d736e96cc56d5.png?quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(4,1181000,'颜色','玛瑙红','http://yanxuan.nosdn.127.net/29442127f431a1a1801c195905319427.png?quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(5,1181000,'颜色','烟白灰','http://yanxuan.nosdn.127.net/36f64a7161b67e7fb8ea45be32ecfa25.png?quality=90&thumbnail=200x200&imageView','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(6,1006002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(7,1006007,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(8,1006010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(9,1006013,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(10,1006014,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(11,1006051,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(12,1009009,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(13,1009012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(14,1009013,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(15,1009024,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(16,1009027,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(17,1010000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(18,1010001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(19,1011004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(20,1015007,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(21,1019000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(22,1019001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(23,1019002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(24,1019006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(25,1020000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(26,1021000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(27,1021001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(28,1021004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(29,1021010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(30,1022000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(31,1022001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(32,1023003,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(33,1023012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(34,1023032,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(35,1023034,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(36,1025005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(37,1027004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(38,1029005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(39,1030001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(40,1030002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(41,1030003,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(42,1030004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(43,1030005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(44,1030006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(45,1033000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(46,1035006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(47,1036002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(48,1036013,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(49,1036016,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(50,1037011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(51,1037012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(52,1038004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(53,1039051,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(54,1039056,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(55,1043005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(56,1044012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(57,1045000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(58,1046001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(59,1046002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(60,1046044,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(61,1048005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(62,1051000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(63,1051001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(64,1051002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(65,1051003,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(66,1055012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(67,1055016,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(68,1055022,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(69,1056002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(70,1057036,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(71,1064000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(72,1064002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(73,1064003,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(74,1064004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(75,1064006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(76,1064007,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(77,1064021,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(78,1064022,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(79,1065004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(80,1065005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(81,1068010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(82,1068011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(83,1068012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(84,1070000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(85,1071004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(86,1071005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(87,1071006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(88,1072000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(89,1072001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(90,1073008,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(91,1074001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(92,1075022,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(93,1075023,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(94,1075024,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(95,1081000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(96,1081002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(97,1083009,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(98,1083010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(99,1084001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(100,1084003,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(101,1085019,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(102,1086015,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(103,1086023,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(104,1086024,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(105,1086025,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(106,1086026,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(107,1086052,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(108,1090004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(109,1092001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(110,1092005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(111,1092024,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(112,1092025,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(113,1092026,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(114,1092038,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(115,1092039,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(116,1093000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(117,1093001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(118,1093002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(119,1097004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(120,1097005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(121,1097006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(122,1097007,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(123,1097009,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(124,1097011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(125,1097012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(126,1097013,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(127,1097014,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(128,1097016,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(129,1097017,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(130,1100000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(131,1100001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(132,1100002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(133,1108029,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(134,1108030,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(135,1108031,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(136,1108032,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(137,1109004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(138,1109005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(139,1109008,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(140,1109034,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(141,1110002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(142,1110003,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(143,1110004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(144,1110007,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(145,1110008,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(146,1110013,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(147,1110014,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(148,1110015,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(149,1110016,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(150,1110017,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(151,1110018,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(152,1110019,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(153,1111007,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(154,1111010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(155,1113010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(156,1113011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(157,1113019,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(158,1114011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(159,1115023,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(160,1115028,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(161,1115052,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(162,1115053,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(163,1116004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(164,1116005,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(165,1116008,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(166,1116011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(167,1116030,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(168,1116031,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(169,1116032,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(170,1116033,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(171,1125010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(172,1125011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(173,1125016,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(174,1125017,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(175,1125026,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(176,1127003,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(177,1127024,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(178,1127025,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(179,1127038,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(180,1127039,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(181,1127047,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(182,1127052,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(183,1128002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(184,1128010,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(185,1128011,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(186,1129015,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(187,1129016,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(188,1130037,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(189,1130038,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(190,1130039,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(191,1130041,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(192,1130042,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(193,1130049,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(194,1130056,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(195,1131017,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(196,1134022,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(197,1134030,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(198,1134032,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(199,1134036,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(200,1134056,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(201,1135000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(202,1135001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(203,1135002,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(204,1135050,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(205,1135051,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(206,1135052,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(207,1135053,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(208,1135054,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(209,1135055,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(210,1135056,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(211,1135057,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(212,1135058,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(213,1135065,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(214,1135072,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(215,1135073,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(216,1138000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(217,1138001,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(218,1143006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(219,1143015,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(220,1143016,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(221,1143018,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(222,1143019,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(223,1143020,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(224,1147045,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(225,1147046,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(226,1147047,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(227,1147048,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(228,1151012,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(229,1151013,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(230,1152004,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(231,1152008,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(232,1152009,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(233,1152031,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(234,1152095,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(235,1152097,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(236,1152100,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(237,1152101,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(238,1152161,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(239,1153006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(240,1155000,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(241,1155015,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(242,1156006,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0),(243,1166008,'规格','标准','','2018-02-01 00:00:00','2018-02-01 00:00:00',0);
+/*!40000 ALTER TABLE `product_specification` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping data for table `groupon`

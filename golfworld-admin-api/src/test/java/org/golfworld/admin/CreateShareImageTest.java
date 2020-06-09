@@ -3,8 +3,8 @@ package org.golfworld.admin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.golfworld.core.qcode.QCodeService;
-import org.golfworld.db.domain.Goods;
-import org.golfworld.db.service.GoodsService;
+import org.golfworld.db.domain.Product;
+import org.golfworld.db.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,11 +17,11 @@ public class CreateShareImageTest {
     @Autowired
     QCodeService qCodeService;
     @Autowired
-    GoodsService litemallGoodsService;
+    ProductService litemallProductService;
 
     @Test
     public void test() {
-        Goods good = litemallGoodsService.findById(1181010);
+        Product good = litemallProductService.findById(1181010);
         qCodeService.createGoodShareImage(good.getId().toString(), good.getPicUrl(), good.getName());
     }
 }

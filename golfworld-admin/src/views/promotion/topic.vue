@@ -225,7 +225,7 @@ export default {
           'picUrl',
           'price',
           'readCount',
-          'goods'
+          'product'
         ]
         excel.export_json_to_excel2(tHeader, this.list, filterVal, '专题信息')
         this.downloadLoading = false

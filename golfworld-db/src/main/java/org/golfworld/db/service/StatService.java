@@ -21,7 +21,7 @@ public class StatService {
         return statMapper.statOrder();
     }
 
-    public List<Map> statGoods() {
-        return statMapper.statGoods();
+    public List<Map> statProduct() {
+        return statMapper.statProduct();
     }
 }

@@ -6,7 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.Comment;
 import org.golfworld.db.service.CommentService;
-import org.golfworld.db.service.GoodsService;
+import org.golfworld.db.service.ProductService;
 import org.golfworld.db.service.TopicService;
 import org.golfworld.db.service.UserService;
 import org.golfworld.wx.annotation.LoginUser;
@@ -38,7 +38,7 @@ public class WxCommentController {
     @Autowired
     private UserInfoService userInfoService;
     @Autowired
-    private GoodsService goodsService;
+    private ProductService productService;
     @Autowired
     private TopicService topicService;
 
@@ -62,7 +62,7 @@ public class WxCommentController {
             return ResponseUtil.badArgument();
         }
         if (type == 0) {
-            if (goodsService.findById(valueId) == null) {
+            if (productService.findById(valueId) == null) {
                 return ResponseUtil.badArgumentValue();
             }
         } else if (type == 1) {

@@ -98,7 +98,7 @@ export default {
         sort: 'add_time',
         order: 'desc'
       },
-      goodsDetail: '',
+      productDetail: '',
       detailDialogVisible: false,
       downloadLoading: false
     }

@@ -3,7 +3,7 @@
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.goodsId" clearable class="filter-item" style="width: 200px;" placeholder="请输入商品编号" />
+      <el-input v-model="listQuery.productId" clearable class="filter-item" style="width: 200px;" placeholder="请输入商品编号" />
       <el-button v-permission="['GET /admin/groupon/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button v-permission="['POST /admin/groupon/create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
       <el-button
@@ -20,9 +20,9 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
       <el-table-column align="center" label="团购规则ID" prop="id" />
 
-      <el-table-column align="center" label="商品ID" prop="goodsId" />
+      <el-table-column align="center" label="商品ID" prop="productId" />
 
-      <el-table-column align="center" min-width="100" label="名称" prop="goodsName" />
+      <el-table-column align="center" min-width="100" label="名称" prop="productName" />
 
       <el-table-column align="center" property="picUrl" label="图片">
         <template slot-scope="scope">
@@ -61,8 +61,8 @@
         label-width="120px"
         style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="商品ID" prop="goodsId">
-          <el-input v-model="dataForm.goodsId" />
+        <el-form-item label="商品ID" prop="productId">
+          <el-input v-model="dataForm.productId" />
         </el-form-item>
         <el-form-item label="团购折扣" prop="discount">
           <el-input v-model="dataForm.discount" />
@@ -111,14 +111,14 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        goodsId: undefined,
+        productId: undefined,
         sort: 'add_time',
         order: 'desc'
       },
       downloadLoading: false,
       dataForm: {
         id: undefined,
-        goodsId: '',
+        productId: '',
         discount: '',
         discountMember: '',
         expireTime: undefined
@@ -135,7 +135,7 @@ export default {
         '提前下线'
       ],
       rules: {
-        goodsId: [{ required: true, message: '商品不能为空', trigger: 'blur' }],
+        productId: [{ required: true, message: '商品不能为空', trigger: 'blur' }],
         discount: [{ required: true, message: '团购折扣不能为空', trigger: 'blur' }],
         discountMember: [{ required: true, message: '团购人数不能为空', trigger: 'blur' }],
         expireTime: [{ required: true, message: '过期时间不能为空', trigger: 'blur' }]
@@ -165,7 +165,7 @@ export default {
     resetForm() {
       this.dataForm = {
         id: undefined,
-        goodsId: '',
+        productId: '',
         discount: '',
         discountMember: '',
         expireTime: undefined

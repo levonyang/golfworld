@@ -16,7 +16,7 @@ import java.util.List;
 public class BrandService {
     @Resource
     private BrandMapper brandMapper;
-    private Column[] columns = new Column[]{Column.id, Column.name, Column.desc, Column.picUrl, Column.floorPrice};
+    private Column[] columns = new Column[]{Column.id, Column.name, Column.desc, Column.picUrl};
 
     public List<Brand> query(Integer page, Integer limit, String sort, String order) {
         BrandExample example = new BrandExample();

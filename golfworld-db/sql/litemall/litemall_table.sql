@@ -146,9 +146,9 @@ DROP TABLE IF EXISTS `litemall_cart`;
 CREATE TABLE `litemall_cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL COMMENT '用户表的用户ID',
-  `goods_id` int(11) DEFAULT NULL COMMENT '商品表的商品ID',
-  `goods_sn` varchar(63) DEFAULT NULL COMMENT '商品编号',
-  `goods_name` varchar(127) DEFAULT NULL COMMENT '商品名称',
+  `product_id` int(11) DEFAULT NULL COMMENT '商品表的商品ID',
+  `product_sn` varchar(63) DEFAULT NULL COMMENT '商品编号',
+  `product_name` varchar(127) DEFAULT NULL COMMENT '商品名称',
   `product_id` int(11) DEFAULT NULL COMMENT '商品货品表的货品ID',
   `price` decimal(10,2) DEFAULT '0.00' COMMENT '商品货品的价格',
   `number` smallint(5) DEFAULT '0' COMMENT '商品货品的数量',
@@ -204,7 +204,7 @@ CREATE TABLE `litemall_collect` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `goods_id` (`value_id`)
+  KEY `product_id` (`value_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收藏表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -251,8 +251,8 @@ CREATE TABLE `litemall_coupon` (
   `limit` smallint(6) DEFAULT '1' COMMENT '用户领券限制数量，如果是0，则是不限制；默认是1，限领一张.',
   `type` smallint(6) DEFAULT '0' COMMENT '优惠券赠送类型，如果是0则通用券，用户领取；如果是1，则是注册赠券；如果是2，则是优惠券码兑换；',
   `status` smallint(6) DEFAULT '0' COMMENT '优惠券状态，如果是0则是正常可用；如果是1则是过期; 如果是2则是下架。',
-  `goods_type` smallint(6) DEFAULT '0' COMMENT '商品限制类型，如果0则全商品，如果是1则是类目限制，如果是2则是商品限制。',
-  `goods_value` varchar(1023) DEFAULT '[]' COMMENT '商品限制值，goods_type如果是0则空集合，如果是1则是类目集合，如果是2则是商品集合。',
+  `product_type` smallint(6) DEFAULT '0' COMMENT '商品限制类型，如果0则全商品，如果是1则是类目限制，如果是2则是商品限制。',
+  `product_value` varchar(1023) DEFAULT '[]' COMMENT '商品限制值，product_type如果是0则空集合，如果是1则是类目集合，如果是2则是商品集合。',
   `code` varchar(63) DEFAULT NULL COMMENT '优惠券兑换码',
   `time_type` smallint(6) DEFAULT '0' COMMENT '有效时间限制，如果是0，则基于领取时间的有效天数days；如果是1，则start_time和end_time是优惠券有效期；',
   `days` smallint(6) DEFAULT '0' COMMENT '基于领取时间的有效天数days。',
@@ -324,7 +324,7 @@ DROP TABLE IF EXISTS `litemall_footprint`;
 CREATE TABLE `litemall_footprint` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '浏览商品ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '浏览商品ID',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
@@ -333,15 +333,15 @@ CREATE TABLE `litemall_footprint` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `litemall_goods`
+-- Table structure for table `litemall_product`
 --
 
-DROP TABLE IF EXISTS `litemall_goods`;
+DROP TABLE IF EXISTS `litemall_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `litemall_goods` (
+CREATE TABLE `litemall_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
+  `product_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
   `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
   `category_id` int(11) DEFAULT '0' COMMENT '商品所属类目ID',
   `brand_id` int(11) DEFAULT '0',
@@ -362,7 +362,7 @@ CREATE TABLE `litemall_goods` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
-  KEY `goods_sn` (`goods_sn`),
+  KEY `product_sn` (`product_sn`),
   KEY `cat_id` (`category_id`),
   KEY `brand_id` (`brand_id`),
   KEY `sort_order` (`sort_order`)
@@ -370,35 +370,35 @@ CREATE TABLE `litemall_goods` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `litemall_goods_attribute`
+-- Table structure for table `litemall_product_attribute`
 --
 
-DROP TABLE IF EXISTS `litemall_goods_attribute`;
+DROP TABLE IF EXISTS `litemall_product_attribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `litemall_goods_attribute` (
+CREATE TABLE `litemall_product_attribute` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
   `attribute` varchar(255) NOT NULL COMMENT '商品参数名称',
   `value` varchar(255) NOT NULL COMMENT '商品参数值',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
-  KEY `goods_id` (`goods_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=877 DEFAULT CHARSET=utf8mb4 COMMENT='商品参数表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `litemall_goods_product`
+-- Table structure for table `litemall_product_product`
 --
 
-DROP TABLE IF EXISTS `litemall_goods_product`;
+DROP TABLE IF EXISTS `litemall_product_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `litemall_goods_product` (
+CREATE TABLE `litemall_product_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
   `specifications` varchar(1023) NOT NULL COMMENT '商品规格值列表，采用JSON数组格式',
   `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品货品价格',
   `number` int(11) NOT NULL DEFAULT '0' COMMENT '商品货品数量',
@@ -407,20 +407,20 @@ CREATE TABLE `litemall_goods_product` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
-  KEY `goods_id` (`goods_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8mb4 COMMENT='商品货品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `litemall_goods_specification`
+-- Table structure for table `litemall_product_specification`
 --
 
-DROP TABLE IF EXISTS `litemall_goods_specification`;
+DROP TABLE IF EXISTS `litemall_product_specification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `litemall_goods_specification` (
+CREATE TABLE `litemall_product_specification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
   `specification` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格名称',
   `value` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格值',
   `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格图片',
@@ -428,7 +428,7 @@ CREATE TABLE `litemall_goods_specification` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
-  KEY `goods_id` (`goods_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8mb4 COMMENT='商品规格表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -465,8 +465,8 @@ DROP TABLE IF EXISTS `litemall_groupon_rules`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `litemall_groupon_rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL COMMENT '商品表的商品ID',
-  `goods_name` varchar(127) NOT NULL COMMENT '商品名称',
+  `product_id` int(11) NOT NULL COMMENT '商品表的商品ID',
+  `product_name` varchar(127) NOT NULL COMMENT '商品名称',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '商品图片或者商品货品图片',
   `discount` decimal(63,0) NOT NULL COMMENT '优惠金额',
   `discount_member` int(11) NOT NULL COMMENT '达到优惠条件的人数',
@@ -476,7 +476,7 @@ CREATE TABLE `litemall_groupon_rules` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `goods_id` (`goods_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购规则表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -598,12 +598,12 @@ CREATE TABLE `litemall_order` (
   `mobile` varchar(63) NOT NULL COMMENT '收货人手机号',
   `address` varchar(127) NOT NULL COMMENT '收货具体地址',
   `message` varchar(512) NOT NULL DEFAULT '' COMMENT '用户订单留言',
-  `goods_price` decimal(10,2) NOT NULL COMMENT '商品总费用',
+  `product_price` decimal(10,2) NOT NULL COMMENT '商品总费用',
   `freight_price` decimal(10,2) NOT NULL COMMENT '配送费用',
   `coupon_price` decimal(10,2) NOT NULL COMMENT '优惠券减免',
   `integral_price` decimal(10,2) NOT NULL COMMENT '用户积分减免',
   `groupon_price` decimal(10,2) NOT NULL COMMENT '团购优惠价减免',
-  `order_price` decimal(10,2) NOT NULL COMMENT '订单费用， = goods_price + freight_price - coupon_price',
+  `order_price` decimal(10,2) NOT NULL COMMENT '订单费用， = product_price + freight_price - coupon_price',
   `actual_price` decimal(10,2) NOT NULL COMMENT '实付费用， = order_price - integral_price',
   `pay_id` varchar(63) DEFAULT NULL COMMENT '微信付款编号',
   `pay_time` datetime DEFAULT NULL COMMENT '微信付款时间',
@@ -625,18 +625,18 @@ CREATE TABLE `litemall_order` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `litemall_order_goods`
+-- Table structure for table `litemall_order_product`
 --
 
-DROP TABLE IF EXISTS `litemall_order_goods`;
+DROP TABLE IF EXISTS `litemall_order_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `litemall_order_goods` (
+CREATE TABLE `litemall_order_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL DEFAULT '0' COMMENT '订单表的订单ID',
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
-  `goods_name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
-  `goods_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
+  `product_name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
+  `product_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
   `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品货品表的货品ID',
   `number` smallint(5) NOT NULL DEFAULT '0' COMMENT '商品货品的购买数量',
   `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品货品的售价',
@@ -648,7 +648,7 @@ CREATE TABLE `litemall_order_goods` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
-  KEY `goods_id` (`goods_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单商品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -785,7 +785,7 @@ CREATE TABLE `litemall_topic` (
   `read_count` varchar(255) DEFAULT '1k' COMMENT '专题阅读量',
   `pic_url` varchar(255) DEFAULT '' COMMENT '专题图片',
   `sort_order` int(11) DEFAULT '100' COMMENT '排序',
-  `goods` varchar(1023) DEFAULT '' COMMENT '专题相关商品，采用JSON数组格式',
+  `product` varchar(1023) DEFAULT '' COMMENT '专题相关商品，采用JSON数组格式',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',

@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `ad`;
 CREATE TABLE `ad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL DEFAULT '' COMMENT '广告标题',
-  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '所广告的商品页面或者活动页面链接地址',
+  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '所广告的产品页面或者活动页面链接地址',
   `url` varchar(255) NOT NULL COMMENT '广告宣传图片',
   `position` tinyint(3) DEFAULT '1' COMMENT '广告位置：1则是首页',
   `content` varchar(255) DEFAULT '' COMMENT '活动内容',
@@ -93,27 +93,7 @@ CREATE TABLE `admin` (
 -- Table structure for table `aftersale`
 --
 
-DROP TABLE IF EXISTS `aftersale`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `aftersale` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `aftersale_sn` varchar(63) DEFAULT NULL COMMENT '售后编号',
-  `order_id` int(11) NOT NULL COMMENT '订单ID',
-  `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `type` smallint(6) DEFAULT '0' COMMENT '售后类型，0是未收货退款，1是已收货（无需退货）退款，2用户退货退款',
-  `reason` varchar(31) DEFAULT '' COMMENT '退款原因',
-  `amount` decimal(10,2) DEFAULT '0.00' COMMENT '退款金额',
-  `pictures` varchar(1023) DEFAULT '[]' COMMENT '退款凭证图片链接数组',
-  `comment` varchar(511) DEFAULT '' COMMENT '退款说明',
-  `status` smallint(6) DEFAULT '0' COMMENT '售后状态，0是可申请，1是用户已申请，2是管理员审核通过，3是管理员退款成功，4是管理员审核拒绝，5是用户已取消',
-  `handle_time` datetime DEFAULT NULL COMMENT '管理员操作时间',
-  `add_time` datetime DEFAULT NULL COMMENT '添加时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '售后编号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='售后表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `brand`
@@ -122,45 +102,27 @@ CREATE TABLE `aftersale` (
 DROP TABLE IF EXISTS `brand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `brand` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商名称',
-  `desc` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商简介',
-  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商页的品牌商图片',
-  `sort_order` tinyint(3) DEFAULT '50',
-  `floor_price` decimal(10,2) DEFAULT '0.00' COMMENT '品牌商的商品低价，仅用于页面展示',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1046003 DEFAULT CHARSET=utf8mb4 COMMENT='品牌商表';
+-- auto-generated definition
+create table brand
+(
+    id          int auto_increment
+        primary key,
+    name        varchar(255)   default ''   not null comment '品牌商名称',
+    `desc`      varchar(255)   default ''   not null comment '品牌商简介',
+    pic_url     varchar(255)   default ''   not null comment '品牌商页的品牌商图片',
+    sort_order  tinyint(3)     default 50   null,
+    add_time    datetime                    null comment '创建时间',
+    update_time datetime                    null comment '更新时间',
+    deleted     tinyint(1)     default 0    null comment '逻辑删除'
+)
+    comment '品牌商表' charset = utf8mb4;
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `cart`
 --
-
-DROP TABLE IF EXISTS `cart`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cart` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL COMMENT '用户表的用户ID',
-  `goods_id` int(11) DEFAULT NULL COMMENT '商品表的商品ID',
-  `goods_sn` varchar(63) DEFAULT NULL COMMENT '商品编号',
-  `goods_name` varchar(127) DEFAULT NULL COMMENT '商品名称',
-  `product_id` int(11) DEFAULT NULL COMMENT '商品货品表的货品ID',
-  `price` decimal(10,2) DEFAULT '0.00' COMMENT '商品货品的价格',
-  `number` smallint(5) DEFAULT '0' COMMENT '商品货品的数量',
-  `specifications` varchar(1023) DEFAULT NULL COMMENT '商品规格值列表，采用JSON数组格式',
-  `checked` tinyint(1) DEFAULT '1' COMMENT '购物车中商品是否选择状态',
-  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品图片或者商品货品图片',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='购物车商品表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `category`
@@ -197,14 +159,14 @@ DROP TABLE IF EXISTS `collect`;
 CREATE TABLE `collect` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
-  `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是商品ID；如果type=1，则是专题ID',
-  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '收藏类型，如果type=0，则是商品ID；如果type=1，则是专题ID',
+  `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是产品ID；如果type=1，则是专题ID',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '收藏类型，如果type=0，则是产品ID；如果type=1，则是专题ID',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `goods_id` (`value_id`)
+  KEY `product_id` (`value_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收藏表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -217,8 +179,8 @@ DROP TABLE IF EXISTS `comment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是商品评论；如果是type=1，则是专题评论。',
-  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '评论类型，如果type=0，则是商品评论；如果是type=1，则是专题评论；',
+  `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，则是产品评论；如果是type=1，则是专题评论。',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '评论类型，如果type=0，则是产品评论；如果是type=1，则是专题评论；',
   `content` varchar(1023) NOT NULL COMMENT '评论内容',
   `admin_content` varchar(511) NOT NULL COMMENT '管理员回复内容',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
@@ -233,61 +195,8 @@ CREATE TABLE `comment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `coupon`
---
 
-DROP TABLE IF EXISTS `coupon`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `coupon` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(63) NOT NULL COMMENT '优惠券名称',
-  `desc` varchar(127) DEFAULT '' COMMENT '优惠券介绍，通常是显示优惠券使用限制文字',
-  `tag` varchar(63) DEFAULT '' COMMENT '优惠券标签，例如新人专用',
-  `total` int(11) NOT NULL DEFAULT '0' COMMENT '优惠券数量，如果是0，则是无限量',
-  `discount` decimal(10,2) DEFAULT '0.00' COMMENT '优惠金额，',
-  `min` decimal(10,2) DEFAULT '0.00' COMMENT '最少消费金额才能使用优惠券。',
-  `limit` smallint(6) DEFAULT '1' COMMENT '用户领券限制数量，如果是0，则是不限制；默认是1，限领一张.',
-  `type` smallint(6) DEFAULT '0' COMMENT '优惠券赠送类型，如果是0则通用券，用户领取；如果是1，则是注册赠券；如果是2，则是优惠券码兑换；',
-  `status` smallint(6) DEFAULT '0' COMMENT '优惠券状态，如果是0则是正常可用；如果是1则是过期; 如果是2则是下架。',
-  `goods_type` smallint(6) DEFAULT '0' COMMENT '商品限制类型，如果0则全商品，如果是1则是类目限制，如果是2则是商品限制。',
-  `goods_value` varchar(1023) DEFAULT '[]' COMMENT '商品限制值，goods_type如果是0则空集合，如果是1则是类目集合，如果是2则是商品集合。',
-  `code` varchar(63) DEFAULT NULL COMMENT '优惠券兑换码',
-  `time_type` smallint(6) DEFAULT '0' COMMENT '有效时间限制，如果是0，则基于领取时间的有效天数days；如果是1，则start_time和end_time是优惠券有效期；',
-  `days` smallint(6) DEFAULT '0' COMMENT '基于领取时间的有效天数days。',
-  `start_time` datetime DEFAULT NULL COMMENT '使用券开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '使用券截至时间',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`),
-  KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券信息及规则表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `coupon_user`
---
-
-DROP TABLE IF EXISTS `coupon_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `coupon_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `coupon_id` int(11) NOT NULL COMMENT '优惠券ID',
-  `status` smallint(6) DEFAULT '0' COMMENT '使用状态, 如果是0则未使用；如果是1则已使用；如果是2则已过期；如果是3则已经下架；',
-  `used_time` datetime DEFAULT NULL COMMENT '使用时间',
-  `start_time` datetime DEFAULT NULL COMMENT '有效期开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '有效期截至时间',
-  `order_id` int(11) DEFAULT NULL COMMENT '订单ID',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券用户使用表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `feedback`
@@ -332,7 +241,7 @@ DROP TABLE IF EXISTS `footprint`;
 CREATE TABLE `footprint` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '浏览商品ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '浏览产品ID',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
@@ -341,156 +250,64 @@ CREATE TABLE `footprint` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `goods`
+-- Table structure for table `product`
 --
 
-DROP TABLE IF EXISTS `goods`;
+DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `goods` (
+-- auto-generated definition
+create table product
+(
+    id            int auto_increment
+        primary key,
+    product_sn    varchar(63)    default ''        not null comment '产品编号',
+    name          varchar(127)   default ''        not null comment '产品名称',
+    category_id   int            default 0         null comment '产品所属类目ID',
+    brand_id      int            default 0         null,
+    gallery       varchar(1023)                    null comment '产品宣传图片列表，采用JSON数组格式',
+    keywords      varchar(255)   default ''        null comment '产品关键字，采用逗号间隔',
+    brief         varchar(255)   default ''        null comment '产品简介',
+    is_on_sale    tinyint(1)     default 1         null comment '是否上架',
+    sort_order    smallint(4)    default 100       null,
+    pic_url       varchar(255)                     null comment '产品页面产品图片',
+    share_url     varchar(255)                     null comment '产品分享海报',
+    is_new        tinyint(1)     default 0         null comment '是否新品首发，如果设置则可以在新品日历展示',
+    is_hot        tinyint(1)     default 0         null comment '是否精选推荐，如果设置则可以在首页精选展示',
+    price  decimal(10, 2) default 100000.00 null comment '市场价格',
+    detail        text                             null comment '产品详细介绍，是富文本格式',
+    release_time      datetime                         null comment '发售时间',
+    add_time      datetime                         null comment '创建时间',
+    update_time   datetime                         null comment '更新时间',
+    deleted       tinyint(1)     default 0         null comment '逻辑删除'
+)
+    comment '产品基本信息表' charset = utf8mb4;
+
+--
+-- Table structure for table `product_attribute`
+--
+
+DROP TABLE IF EXISTS `product_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_attribute` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
-  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
-  `category_id` int(11) DEFAULT '0' COMMENT '商品所属类目ID',
-  `brand_id` int(11) DEFAULT '0',
-  `gallery` varchar(1023) DEFAULT NULL COMMENT '商品宣传图片列表，采用JSON数组格式',
-  `keywords` varchar(255) DEFAULT '' COMMENT '商品关键字，采用逗号间隔',
-  `brief` varchar(255) DEFAULT '' COMMENT '商品简介',
-  `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
-  `sort_order` smallint(4) DEFAULT '100',
-  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品页面商品图片',
-  `share_url` varchar(255) DEFAULT NULL COMMENT '商品分享海报',
-  `is_new` tinyint(1) DEFAULT '0' COMMENT '是否新品首发，如果设置则可以在新品首发页面展示',
-  `is_hot` tinyint(1) DEFAULT '0' COMMENT '是否人气推荐，如果设置则可以在人气推荐页面展示',
-  `unit` varchar(31) DEFAULT '’件‘' COMMENT '商品单位，例如件、盒',
-  `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '专柜价格',
-  `retail_price` decimal(10,2) DEFAULT '100000.00' COMMENT '零售价格',
-  `detail` text COMMENT '商品详细介绍，是富文本格式',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '产品表的产品ID',
+  `attribute` varchar(255) NOT NULL COMMENT '产品参数名称',
+  `value` varchar(255) NOT NULL COMMENT '产品参数值',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
-  KEY `goods_sn` (`goods_sn`),
-  KEY `cat_id` (`category_id`),
-  KEY `brand_id` (`brand_id`),
-  KEY `sort_order` (`sort_order`)
-) ENGINE=InnoDB AUTO_INCREMENT=1181004 DEFAULT CHARSET=utf8mb4 COMMENT='商品基本信息表';
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=877 DEFAULT CHARSET=utf8mb4 COMMENT='产品参数表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `goods_attribute`
---
 
-DROP TABLE IF EXISTS `goods_attribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `goods_attribute` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
-  `attribute` varchar(255) NOT NULL COMMENT '商品参数名称',
-  `value` varchar(255) NOT NULL COMMENT '商品参数值',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`),
-  KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=877 DEFAULT CHARSET=utf8mb4 COMMENT='商品参数表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `goods_product`
---
 
-DROP TABLE IF EXISTS `goods_product`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `goods_product` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
-  `specifications` varchar(1023) NOT NULL COMMENT '商品规格值列表，采用JSON数组格式',
-  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品货品价格',
-  `number` int(11) NOT NULL DEFAULT '0' COMMENT '商品货品数量',
-  `url` varchar(125) DEFAULT NULL COMMENT '商品货品图片',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`),
-  KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8mb4 COMMENT='商品货品表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `goods_specification`
---
 
-DROP TABLE IF EXISTS `goods_specification`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `goods_specification` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
-  `specification` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格名称',
-  `value` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格值',
-  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品规格图片',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`),
-  KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8mb4 COMMENT='商品规格表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `groupon`
---
-
-DROP TABLE IF EXISTS `groupon`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `groupon` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) NOT NULL COMMENT '关联的订单ID',
-  `groupon_id` int(11) DEFAULT '0' COMMENT '如果是开团用户，则groupon_id是0；如果是参团用户，则groupon_id是团购活动ID',
-  `rules_id` int(11) NOT NULL COMMENT '团购规则ID，关联groupon_rules表ID字段',
-  `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `share_url` varchar(255) DEFAULT NULL COMMENT '团购分享图片地址',
-  `creator_user_id` int(11) NOT NULL COMMENT '开团用户ID',
-  `creator_user_time` datetime DEFAULT NULL COMMENT '开团时间',
-  `status` smallint(6) DEFAULT '0' COMMENT '团购活动状态，开团未支付则0，开团中则1，开团失败则2',
-  `add_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购活动表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `groupon_rules`
---
-
-DROP TABLE IF EXISTS `groupon_rules`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `groupon_rules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL COMMENT '商品表的商品ID',
-  `goods_name` varchar(127) NOT NULL COMMENT '商品名称',
-  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品图片或者商品货品图片',
-  `discount` decimal(63,0) NOT NULL COMMENT '优惠金额',
-  `discount_member` int(11) NOT NULL COMMENT '达到优惠条件的人数',
-  `expire_time` datetime DEFAULT NULL COMMENT '团购过期时间',
-  `status` smallint(6) DEFAULT '0' COMMENT '团购规则状态，正常上线则0，到期自动下线则1，管理手动下线则2',
-  `add_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='团购规则表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `issue`
---
 
 DROP TABLE IF EXISTS `issue`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -606,12 +423,12 @@ CREATE TABLE `order` (
   `mobile` varchar(63) NOT NULL COMMENT '收货人手机号',
   `address` varchar(127) NOT NULL COMMENT '收货具体地址',
   `message` varchar(512) NOT NULL DEFAULT '' COMMENT '用户订单留言',
-  `goods_price` decimal(10,2) NOT NULL COMMENT '商品总费用',
+  `product_price` decimal(10,2) NOT NULL COMMENT '产品总费用',
   `freight_price` decimal(10,2) NOT NULL COMMENT '配送费用',
   `coupon_price` decimal(10,2) NOT NULL COMMENT '优惠券减免',
   `integral_price` decimal(10,2) NOT NULL COMMENT '用户积分减免',
   `groupon_price` decimal(10,2) NOT NULL COMMENT '团购优惠价减免',
-  `order_price` decimal(10,2) NOT NULL COMMENT '订单费用， = goods_price + freight_price - coupon_price',
+  `order_price` decimal(10,2) NOT NULL COMMENT '订单费用， = product_price + freight_price - coupon_price',
   `actual_price` decimal(10,2) NOT NULL COMMENT '实付费用， = order_price - integral_price',
   `pay_id` varchar(63) DEFAULT NULL COMMENT '微信付款编号',
   `pay_time` datetime DEFAULT NULL COMMENT '微信付款时间',
@@ -623,7 +440,7 @@ CREATE TABLE `order` (
   `refund_content` varchar(127) DEFAULT NULL COMMENT '退款备注',
   `refund_time` datetime DEFAULT NULL COMMENT '退款时间',
   `confirm_time` datetime DEFAULT NULL COMMENT '用户确认收货时间',
-  `comments` smallint(6) DEFAULT '0' COMMENT '待评价订单商品数量',
+  `comments` smallint(6) DEFAULT '0' COMMENT '待评价订单产品数量',
   `end_time` datetime DEFAULT NULL COMMENT '订单关闭时间',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
@@ -633,31 +450,30 @@ CREATE TABLE `order` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `order_goods`
+-- Table structure for table `order_product`
 --
 
-DROP TABLE IF EXISTS `order_goods`;
+DROP TABLE IF EXISTS `order_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_goods` (
+CREATE TABLE `order_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL DEFAULT '0' COMMENT '订单表的订单ID',
-  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品表的商品ID',
-  `goods_name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
-  `goods_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
-  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品货品表的货品ID',
-  `number` smallint(5) NOT NULL DEFAULT '0' COMMENT '商品货品的购买数量',
-  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品货品的售价',
-  `specifications` varchar(1023) NOT NULL COMMENT '商品货品的规格列表',
-  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品货品图片或者商品图片',
-  `comment` int(11) DEFAULT '0' COMMENT '订单商品评论，如果是-1，则超期不能评价；如果是0，则可以评价；如果其他值，则是comment表里面的评论ID。',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '产品ID',
+  `product_name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `product_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '产品编号',
+  `number` smallint(5) NOT NULL DEFAULT '0' COMMENT '产品货品的购买数量',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '产品货品的售价',
+  `specifications` varchar(1023) NOT NULL COMMENT '产品货品的规格列表',
+  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '产品货品图片或者产品图片',
+  `comment` int(11) DEFAULT '0' COMMENT '订单产品评论，如果是-1，则超期不能评价；如果是0，则可以评价；如果其他值，则是comment表里面的评论ID。',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
-  KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单商品表';
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单产品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -789,11 +605,11 @@ CREATE TABLE `topic` (
   `title` varchar(255) NOT NULL DEFAULT '''' COMMENT '专题标题',
   `subtitle` varchar(255) DEFAULT '''' COMMENT '专题子标题',
   `content` text COMMENT '专题内容，富文本格式',
-  `price` decimal(10,2) DEFAULT '0.00' COMMENT '专题相关商品最低价',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '专题相关产品最低价',
   `read_count` varchar(255) DEFAULT '1k' COMMENT '专题阅读量',
   `pic_url` varchar(255) DEFAULT '' COMMENT '专题图片',
   `sort_order` int(11) DEFAULT '100' COMMENT '排序',
-  `goods` varchar(1023) DEFAULT '' COMMENT '专题相关商品，采用JSON数组格式',
+  `product` varchar(1023) DEFAULT '' COMMENT '专题相关产品，采用JSON数组格式',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
@@ -820,6 +636,9 @@ CREATE TABLE `user` (
   `user_level` tinyint(3) DEFAULT '0' COMMENT '0 普通用户，1 VIP用户，2 高级VIP用户',
   `nickname` varchar(63) NOT NULL DEFAULT '' COMMENT '用户昵称或网络名称',
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号码',
+  	address varchar(100) null,
+	profession varchar(30) null,
+	`desc` varchar(300) null,
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像图片',
   `weixin_openid` varchar(63) NOT NULL DEFAULT '' COMMENT '微信登录openid',
   `session_key` varchar(100) NOT NULL DEFAULT '' COMMENT '微信登录会话KEY',
@@ -830,6 +649,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

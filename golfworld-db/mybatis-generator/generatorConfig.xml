@@ -56,9 +56,8 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="org.golfworld.db.dao"
                              targetProject="src/main/java"/>
         <!--表名-->
-        <table tableName="user">
+        <table tableName="product">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-
     </context>
 </generatorConfiguration>

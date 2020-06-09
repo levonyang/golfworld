@@ -3,10 +3,10 @@
 
     <el-form ref="topic" :rules="rules" :model="topic" status-icon label-position="left" label-width="100px" style="width: 800px; margin-left:50px;">
       <el-form-item label="专题标题" prop="title">
-        <el-input v-model="topic.title"/>
+        <el-input v-model="topic.title" />
       </el-form-item>
       <el-form-item label="专题子标题" prop="subtitle">
-        <el-input v-model="topic.subtitle"/>
+        <el-input v-model="topic.subtitle" />
       </el-form-item>
       <el-form-item label="专题图片" prop="picUrl">
         <el-upload
@@ -15,34 +15,35 @@
           :show-file-list="false"
           :on-success="uploadPicUrl"
           class="avatar-uploader"
-          accept=".jpg,.jpeg,.png,.gif">
+          accept=".jpg,.jpeg,.png,.gif"
+        >
           <img v-if="topic.picUrl" :src="topic.picUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </el-form-item>
       <el-form-item label="专题内容" prop="content">
-        <editor :init="editorInit" v-model="topic.content"/>
+        <editor v-model="topic.content" :init="editorInit" />
       </el-form-item>
       <el-form-item label="商品低价" prop="price">
-        <el-input v-model="topic.price"/>
+        <el-input v-model="topic.price" />
       </el-form-item>
       <el-form-item label="阅读量" prop="readCount">
-        <el-input v-model="topic.readCount"/>
+        <el-input v-model="topic.readCount" />
       </el-form-item>
-      <el-form-item label="专题商品" prop="goods">
+      <el-form-item label="专题商品" prop="product">
         <el-button style="float:right;" size="mini" type="primary" @click="handleCreate()">创建商品</el-button>
 
         <!-- 查询结果 -->
-        <el-table :data="goodsList" border fit highlight-current-row>
+        <el-table :data="productList" border fit highlight-current-row>
 
-          <el-table-column align="center" label="商品ID" prop="id"/>
+          <el-table-column align="center" label="商品ID" prop="id" />
           <el-table-column align="center" property="picUrl" label="图片">
             <template slot-scope="scope">
               <img :src="scope.row.picUrl" width="60">
             </template>
           </el-table-column>
-          <el-table-column align="center" label="商品名称" prop="name"/>
-          <el-table-column align="center" label="商品介绍" prop="brief"/>
+          <el-table-column align="center" label="商品名称" prop="name" />
+          <el-table-column align="center" label="商品介绍" prop="brief" />
           <el-table-column align="center" label="操作" class-name="small-padding fixed-width">
             <template slot-scope="scope">
               <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
@@ -59,18 +60,18 @@
 
     <el-dialog :visible.sync="addVisiable" title="添加商品">
       <div class="search">
-        <el-input v-model="listQuery.goodsSn" clearable class="filter-item" style="width: 200px;" placeholder="请输入商品编号"/>
-        <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入商品名称"/>
+        <el-input v-model="listQuery.productSn" clearable class="filter-item" style="width: 200px;" placeholder="请输入商品编号" />
+        <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入商品名称" />
         <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
         <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="55"/>
-          <el-table-column align="center" label="商品ID" prop="id"/>
+          <el-table-column type="selection" width="55" />
+          <el-table-column align="center" label="商品ID" prop="id" />
           <el-table-column align="center" property="picUrl" label="图片">
             <template slot-scope="scope">
               <img :src="scope.row.picUrl" width="40">
             </template>
           </el-table-column>
-          <el-table-column align="center" label="商品名称" prop="name"/>
+          <el-table-column align="center" label="商品名称" prop="name" />
         </el-table>
         <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
@@ -115,7 +116,7 @@
 
 <script>
 import { readTopic, updateTopic } from '@/api/topic'
-import { listGoods } from '@/api/goods'
+import { listProduct } from '@/api/product'
 import { createStorage, uploadPath } from '@/api/storage'
 import BackToTop from '@/components/BackToTop'
 import Editor from '@tinymce/tinymce-vue'
@@ -130,7 +131,7 @@ export default {
       uploadPath,
       id: 0,
       topic: {},
-      goodsList: [],
+      productList: [],
       addVisiable: false,
       list: [],
       total: 0,
@@ -204,18 +205,18 @@ export default {
       readTopic({ id: this.id })
         .then(response => {
           this.topic = response.data.data.topic
-          this.goodsList = response.data.data.goodsList
+          this.productList = response.data.data.productList
           this.listLoading = false
         })
         .catch(() => {
           this.topic = {}
-          this.goodsList = []
+          this.productList = []
           this.listLoading = false
         })
     },
     getList() {
       this.listLoading = true
-      listGoods(this.listQuery).then(response => {
+      listProduct(this.listQuery).then(response => {
         this.list = response.data.data.list
         this.total = response.data.data.total
         this.listLoading = false
@@ -250,37 +251,37 @@ export default {
       this.addVisiable = true
     },
     confirmAdd() {
-      const newGoodsIds = []
-      const newGoodsList = []
+      const newProductIds = []
+      const newProductList = []
       this.selectedlist.forEach(item => {
         const id = item.id
         let found = false
-        this.topic.goods.forEach(goodsId => {
-          if (id === goodsId) {
+        this.topic.product.forEach(productId => {
+          if (id === productId) {
             found = true
           }
         })
         if (!found) {
-          newGoodsIds.push(id)
-          newGoodsList.push(item)
+          newProductIds.push(id)
+          newProductList.push(item)
         }
       })
 
-      if (newGoodsIds.length > 0) {
-        this.topic.goods = this.topic.goods.concat(newGoodsIds)
-        this.goodsList = this.goodsList.concat(newGoodsList)
+      if (newProductIds.length > 0) {
+        this.topic.product = this.topic.product.concat(newProductIds)
+        this.productList = this.productList.concat(newProductList)
       }
       this.addVisiable = false
     },
     handleDelete(row) {
-      for (var index = 0; index < this.topic.goods.length; index++) {
-        if (row.id === this.topic.goods[index]) {
-          this.topic.goods.splice(index, 1)
+      for (var index = 0; index < this.topic.product.length; index++) {
+        if (row.id === this.topic.product[index]) {
+          this.topic.product.splice(index, 1)
         }
       }
-      for (var index2 = 0; index2 < this.goodsList.length; index2++) {
-        if (row.id === this.goodsList[index2].id) {
-          this.goodsList.splice(index2, 1)
+      for (var index2 = 0; index2 < this.productList.length; index2++) {
+        if (row.id === this.productList[index2].id) {
+          this.productList.splice(index2, 1)
         }
       }
     },
