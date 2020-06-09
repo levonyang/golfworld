@@ -1,8 +1,8 @@
 application:
   # 开发者应该设置成自己的wx相关信息
   wx:
-    app-id: wx32af01c2bc67600f
-    app-secret: 9f06916c279de13a83abc2d26b33572b
+    app-id:
+    app-secret:
     mch-id: 111111
     mch-key: xxxxxx
     notify-url: http://122.51.199.160:8080/wx/order/pay-notify
