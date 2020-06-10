@@ -4,7 +4,7 @@ var api = require('../../config/api.js');
 Page({
   data: {
     navList: [],
-    goodsList: [],
+    productList: [],
     id: 0,
     currentCategory: {},
     scrollLeft: 0,
@@ -36,7 +36,7 @@ Page({
   },
   getCategoryInfo: function() {
     let that = this;
-    util.request(api.GoodsCategory, {
+    util.request(api.ProductCategory, {
         id: this.data.id
       })
       .then(function(res) {
@@ -72,7 +72,7 @@ Page({
               scrollLeft: currentIndex * 60
             });
           }
-          that.getGoodsList();
+          that.getProductList();
 
         } else {
           //显示错误信息
@@ -89,17 +89,17 @@ Page({
   onHide: function() {
     // 页面隐藏
   },
-  getGoodsList: function() {
+  getProductList: function() {
     var that = this;
 
-    util.request(api.GoodsList, {
+    util.request(api.ProductList, {
         categoryId: that.data.id,
         page: that.data.page,
         limit: that.data.limit
       })
       .then(function(res) {
         that.setData({
-          goodsList: res.data.list,
+          productList: res.data.list,
         });
       });
   },

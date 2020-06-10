@@ -1,14 +1,14 @@
 <view class="container">
   <view class="post-comment">
-    <view class="goods">
+    <view class="product">
       <view class="img">
-        <image src="{{orderGoods.picUrl}}"></image>
+        <image src="{{orderProduct.picUrl}}"></image>
       </view>
       <view class="info">
         <view class="t">
-          <text class="name">{{orderGoods.goodsName}} x{{orderGoods.number}}</text>
+          <text class="name">{{orderProduct.productName}} x{{orderProduct.number}}</text>
         </view>
-        <view class="attr">{{orderGoods.goodsSpecificationValues}}</view>
+        <view class="attr">{{orderProduct.productSpecificationValues}}</view>
       </view>
     </view>
     <view class="rater">

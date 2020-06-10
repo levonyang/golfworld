@@ -128,7 +128,7 @@
   padding-top: 150rpx;
 }
 
-.sv-goods {
+.sv-product {
   width: 100%;
   height: auto;
   padding-left: 30rpx;
@@ -136,7 +136,7 @@
   margin-top: 20rpx;
 }
 
-.topic-goods .h {
+.topic-product .h {
   height: 93rpx;
   line-height: 93rpx;
   width: 720rpx;
@@ -144,7 +144,7 @@
   border-bottom: 1px solid #d9d9d9;
 }
 
-.topic-goods .h .t {
+.topic-product .h .t {
   display: block;
   float: left;
   width: 50%;
@@ -152,14 +152,14 @@
   color: #333;
 }
 
-.topic-goods .b .item {
+.topic-product .b .item {
   border-top: 1px solid #d9d9d9;
   margin: 0 20rpx;
   height: 244rpx;
   width: 710rpx;
 }
 
-.topic-goods .b .img {
+.topic-product .b .img {
   margin-top: 12rpx;
   margin-right: 12rpx;
   float: left;
@@ -167,7 +167,7 @@
   height: 220rpx;
 }
 
-.topic-goods .b .right {
+.topic-product .b .right {
   float: left;
   height: 244rpx;
   width: 476rpx;
@@ -175,7 +175,7 @@
   flex-flow: row nowrap;
 }
 
-.topic-goods .b .text {
+.topic-product .b .text {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
@@ -185,7 +185,7 @@
   width: 476rpx;
 }
 
-.topic-goods .b .name {
+.topic-product .b .name {
   float: left;
   width: 330rpx;
   display: block;
@@ -194,7 +194,7 @@
   font-size: 30rpx;
 }
 
-.topic-goods .b .desc {
+.topic-product .b .desc {
   width: 476rpx;
   display: block;
   color: #999;
@@ -202,7 +202,7 @@
   font-size: 25rpx;
 }
 
-.topic-goods .b .price {
+.topic-product .b .price {
   width: 476rpx;
   display: flex;
   color: #b4282d;

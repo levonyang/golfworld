@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/admin/topic")
-@Validated
+//@RestController
+//@RequestMapping("/admin/topic")
+//@Validated
 public class AdminTopicController {
     private final Log logger = LogFactory.getLog(AdminTopicController.class);
 

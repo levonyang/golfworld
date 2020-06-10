@@ -48,7 +48,7 @@ Page({
     let index = event.currentTarget.dataset.index;
     let iindex = event.currentTarget.dataset.iindex;
     let footprintId = this.data.footprintList[index][iindex].id;
-    let goodsId = this.data.footprintList[index][iindex].goodsId;
+    let productId = this.data.footprintList[index][iindex].productId;
     var touchTime = that.data.touchEnd - that.data.touchStart;
     console.log(touchTime);
     //如果按下时间大于350为长按  
@@ -81,7 +81,7 @@ Page({
       });
     } else {
       wx.navigateTo({
-        url: '/pages/goods/goods?id=' + goodsId,
+        url: '/pages/product/product?id=' + productId,
       });
     }
 

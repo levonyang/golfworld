@@ -11,31 +11,31 @@ page, .container {
   background: #fff;
 }
 
-.post-comment .goods {
+.post-comment .product {
   display: flex;
   align-items: center;
   height: 199rpx;
   margin-left: 31.25rpx;
 }
 
-.post-comment .goods .img {
+.post-comment .product .img {
   height: 145.83rpx;
   width: 145.83rpx;
   background: #f4f4f4;
 }
 
-.post-comment .goods .img image {
+.post-comment .product .img image {
   height: 145.83rpx;
   width: 145.83rpx;
 }
 
-.post-comment .goods .info {
+.post-comment .product .info {
   height: 145.83rpx;
   flex: 1;
   padding-left: 20rpx;
 }
 
-.post-comment .goods .name {
+.post-comment .product .name {
   margin-top: 30rpx;
   display: block;
   height: 44rpx;
@@ -44,7 +44,7 @@ page, .container {
   font-size: 30rpx;
 }
 
-.post-comment .goods .number {
+.post-comment .product .number {
   display: block;
   height: 37rpx;
   line-height: 37rpx;
@@ -52,7 +52,7 @@ page, .container {
   font-size: 25rpx;
 }
 
-.post-comment .goods .status {
+.post-comment .product .status {
   width: 105rpx;
   color: #b4282d;
   font-size: 25rpx;

@@ -196,7 +196,7 @@ page {
   border-bottom: none;
 }
 
-.goods-items {
+.product-items {
   margin-top: 20rpx;
   width: 100%;
   height: auto;
@@ -206,7 +206,7 @@ page {
   margin-bottom: 120rpx;
 }
 
-.goods-items .item {
+.product-items .item {
   height: 192rpx;
   padding-right: 31.25rpx;
   display: flex;
@@ -214,33 +214,33 @@ page {
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.goods-items .item.no-border {
+.product-items .item.no-border {
   border-bottom: none;
 }
 
-.goods-items .item:last-child {
+.product-items .item:last-child {
   border-bottom: none;
 }
 
-.goods-items .img {
+.product-items .img {
   height: 145.83rpx;
   width: 145.83rpx;
   background-color: #f4f4f4;
   margin-right: 20rpx;
 }
 
-.goods-items .img image {
+.product-items .img image {
   height: 145.83rpx;
   width: 145.83rpx;
 }
 
-.goods-items .info {
+.product-items .info {
   flex: 1;
   height: 145.83rpx;
   padding-top: 5rpx;
 }
 
-.goods-items .t {
+.product-items .t {
   height: 33rpx;
   line-height: 33rpx;
   margin-bottom: 10rpx;
@@ -249,18 +249,18 @@ page {
   color: #333;
 }
 
-.goods-items .t .name {
+.product-items .t .name {
   display: block;
   float: left;
 }
 
-.goods-items .t .number {
+.product-items .t .number {
   display: block;
   float: right;
   text-align: right;
 }
 
-.goods-items .m {
+.product-items .m {
   height: 29rpx;
   overflow: hidden;
   line-height: 29rpx;
@@ -269,7 +269,7 @@ page {
   color: #666;
 }
 
-.goods-items .b {
+.product-items .b {
   height: 41rpx;
   overflow: hidden;
   line-height: 41rpx;

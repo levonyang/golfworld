@@ -1,10 +1,10 @@
 package org.golfworld.db.service;
 
 import com.github.pagehelper.PageHelper;
-import org.golfworld.db.dao.GoodsMapper;
-import org.golfworld.db.domain.Goods;
-import org.golfworld.db.domain.Goods.Column;
-import org.golfworld.db.domain.GoodsExample;
+import org.golfworld.db.dao.ProductMapper;
+import org.golfworld.db.domain.Product;
+import org.golfworld.db.domain.Product.Column;
+import org.golfworld.db.domain.ProductExample;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,10 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class GoodsService {
-    Column[] columns = new Column[]{Column.id, Column.name, Column.brief, Column.picUrl, Column.isHot, Column.isNew, Column.counterPrice, Column.retailPrice};
+public class ProductService {
+    Column[] columns = new Column[]{Column.id, Column.name, Column.brief, Column.picUrl, Column.isHot, Column.isNew};
     @Resource
-    private GoodsMapper goodsMapper;
+    private ProductMapper productMapper;
 
     /**
      * 获取热卖商品
@@ -27,13 +27,13 @@ public class GoodsService {
      * @param limit
      * @return
      */
-    public List<Goods> queryByHot(int offset, int limit) {
-        GoodsExample example = new GoodsExample();
+    public List<Product> queryByHot(int offset, int limit) {
+        ProductExample example = new ProductExample();
         example.or().andIsHotEqualTo(true).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
         example.setOrderByClause("add_time desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return productMapper.selectByExampleSelective(example, columns);
     }
 
     /**
@@ -43,13 +43,13 @@ public class GoodsService {
      * @param limit
      * @return
      */
-    public List<Goods> queryByNew(int offset, int limit) {
-        GoodsExample example = new GoodsExample();
+    public List<Product> queryByNew(int offset, int limit) {
+        ProductExample example = new ProductExample();
         example.or().andIsNewEqualTo(true).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
         example.setOrderByClause("add_time desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return productMapper.selectByExampleSelective(example, columns);
     }
 
     /**
@@ -60,13 +60,13 @@ public class GoodsService {
      * @param limit
      * @return
      */
-    public List<Goods> queryByCategory(List<Integer> catList, int offset, int limit) {
-        GoodsExample example = new GoodsExample();
+    public List<Product> queryByCategory(List<Integer> catList, int offset, int limit) {
+        ProductExample example = new ProductExample();
         example.or().andCategoryIdIn(catList).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
         example.setOrderByClause("add_time  desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return productMapper.selectByExampleSelective(example, columns);
     }
 
 
@@ -78,20 +78,20 @@ public class GoodsService {
      * @param limit
      * @return
      */
-    public List<Goods> queryByCategory(Integer catId, int offset, int limit) {
-        GoodsExample example = new GoodsExample();
+    public List<Product> queryByCategory(Integer catId, int offset, int limit) {
+        ProductExample example = new ProductExample();
         example.or().andCategoryIdEqualTo(catId).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
         example.setOrderByClause("add_time desc");
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return productMapper.selectByExampleSelective(example, columns);
     }
 
 
-    public List<Goods> querySelective(Integer catId, Integer brandId, String keywords, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
-        GoodsExample example = new GoodsExample();
-        GoodsExample.Criteria criteria1 = example.or();
-        GoodsExample.Criteria criteria2 = example.or();
+    public List<Product> querySelective(Integer catId, Integer brandId, String keywords, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
+        ProductExample example = new ProductExample();
+        ProductExample.Criteria criteria1 = example.or();
+        ProductExample.Criteria criteria2 = example.or();
 
         if (!StringUtils.isEmpty(catId) && catId != 0) {
             criteria1.andCategoryIdEqualTo(catId);
@@ -124,18 +124,15 @@ public class GoodsService {
 
         PageHelper.startPage(offset, limit);
 
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return productMapper.selectByExampleSelective(example, columns);
     }
 
-    public List<Goods> querySelective(Integer goodsId, String goodsSn, String name, Integer page, Integer size, String sort, String order) {
-        GoodsExample example = new GoodsExample();
-        GoodsExample.Criteria criteria = example.createCriteria();
+    public List<Product> querySelective(Integer productId, String productSn, String name, Integer page, Integer size, String sort, String order) {
+        ProductExample example = new ProductExample();
+        ProductExample.Criteria criteria = example.createCriteria();
 
-        if (goodsId != null) {
-            criteria.andIdEqualTo(goodsId);
-        }
-        if (!StringUtils.isEmpty(goodsSn)) {
-            criteria.andGoodsSnEqualTo(goodsSn);
+        if (productId != null) {
+            criteria.andIdEqualTo(productId);
         }
         if (!StringUtils.isEmpty(name)) {
             criteria.andNameLike("%" + name + "%");
@@ -147,7 +144,7 @@ public class GoodsService {
         }
 
         PageHelper.startPage(page, size);
-        return goodsMapper.selectByExampleWithBLOBs(example);
+        return productMapper.selectByExampleWithBLOBs(example);
     }
 
     /**
@@ -156,10 +153,10 @@ public class GoodsService {
      * @param id
      * @return
      */
-    public Goods findById(Integer id) {
-        GoodsExample example = new GoodsExample();
+    public Product findById(Integer id) {
+        ProductExample example = new ProductExample();
         example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-        return goodsMapper.selectOneByExampleWithBLOBs(example);
+        return productMapper.selectOneByExampleWithBLOBs(example);
     }
 
     /**
@@ -168,10 +165,10 @@ public class GoodsService {
      * @param id
      * @return
      */
-    public Goods findByIdVO(Integer id) {
-        GoodsExample example = new GoodsExample();
+    public Product findByIdVO(Integer id) {
+        ProductExample example = new ProductExample();
         example.or().andIdEqualTo(id).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
-        return goodsMapper.selectOneByExampleSelective(example, columns);
+        return productMapper.selectOneByExampleSelective(example, columns);
     }
 
 
@@ -181,24 +178,24 @@ public class GoodsService {
      * @return
      */
     public Integer queryOnSale() {
-        GoodsExample example = new GoodsExample();
+        ProductExample example = new ProductExample();
         example.or().andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
-        return (int) goodsMapper.countByExample(example);
+        return (int) productMapper.countByExample(example);
     }
 
-    public int updateById(Goods goods) {
-        goods.setUpdateTime(LocalDateTime.now());
-        return goodsMapper.updateByPrimaryKeySelective(goods);
+    public int updateById(Product product) {
+        product.setUpdateTime(LocalDateTime.now());
+        return productMapper.updateByPrimaryKeySelective(product);
     }
 
     public void deleteById(Integer id) {
-        goodsMapper.logicalDeleteByPrimaryKey(id);
+        productMapper.logicalDeleteByPrimaryKey(id);
     }
 
-    public void add(Goods goods) {
-        goods.setAddTime(LocalDateTime.now());
-        goods.setUpdateTime(LocalDateTime.now());
-        goodsMapper.insertSelective(goods);
+    public void add(Product product) {
+        product.setAddTime(LocalDateTime.now());
+        product.setUpdateTime(LocalDateTime.now());
+        productMapper.insertSelective(product);
     }
 
     /**
@@ -207,15 +204,15 @@ public class GoodsService {
      * @return
      */
     public int count() {
-        GoodsExample example = new GoodsExample();
+        ProductExample example = new ProductExample();
         example.or().andDeletedEqualTo(false);
-        return (int) goodsMapper.countByExample(example);
+        return (int) productMapper.countByExample(example);
     }
 
     public List<Integer> getCatIds(Integer brandId, String keywords, Boolean isHot, Boolean isNew) {
-        GoodsExample example = new GoodsExample();
-        GoodsExample.Criteria criteria1 = example.or();
-        GoodsExample.Criteria criteria2 = example.or();
+        ProductExample example = new ProductExample();
+        ProductExample.Criteria criteria1 = example.or();
+        ProductExample.Criteria criteria2 = example.or();
 
         if (!StringUtils.isEmpty(brandId)) {
             criteria1.andBrandIdEqualTo(brandId);
@@ -238,23 +235,23 @@ public class GoodsService {
         criteria1.andDeletedEqualTo(false);
         criteria2.andDeletedEqualTo(false);
 
-        List<Goods> goodsList = goodsMapper.selectByExampleSelective(example, Column.categoryId);
+        List<Product> productList = productMapper.selectByExampleSelective(example, Column.categoryId);
         List<Integer> cats = new ArrayList<Integer>();
-        for (Goods goods : goodsList) {
-            cats.add(goods.getCategoryId());
+        for (Product product : productList) {
+            cats.add(product.getCategoryId());
         }
         return cats;
     }
 
     public boolean checkExistByName(String name) {
-        GoodsExample example = new GoodsExample();
+        ProductExample example = new ProductExample();
         example.or().andNameEqualTo(name).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
-        return goodsMapper.countByExample(example) != 0;
+        return productMapper.countByExample(example) != 0;
     }
 
-    public List<Goods> queryByIds(Integer[] ids) {
-        GoodsExample example = new GoodsExample();
+    public List<Product> queryByIds(Integer[] ids) {
+        ProductExample example = new ProductExample();
         example.or().andIdIn(Arrays.asList(ids)).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
-        return goodsMapper.selectByExampleSelective(example, columns);
+        return productMapper.selectByExampleSelective(example, columns);
     }
 }

@@ -3,14 +3,14 @@
     <import src="../../lib/wxParse/wxParse.wxml" />
     <template is="wxParse" data="{{wxParseData:topicDetail.nodes}}" />
   </scroll-view>
-  <scroll-view class="sv-goods" wx:if="{{topicGoods.length > 0 }}">
-    <view class="topic-goods">
+  <scroll-view class="sv-product" wx:if="{{topicProduct.length > 0 }}">
+    <view class="topic-product">
       <view class="h">
         <text class="t">专题商品</text>
       </view>
       <view class="b">
-        <view class="item" wx:for="{{topicGoods}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-          <navigator url="/pages/goods/goods?id={{item.id}}">
+        <view class="item" wx:for="{{topicProduct}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+          <navigator url="/pages/product/product?id={{item.id}}">
             <image class="img" src="{{item.picUrl}}" background-size="cover"></image>
             <view class="right">
               <view class="text">

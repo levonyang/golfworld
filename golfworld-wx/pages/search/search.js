@@ -6,7 +6,7 @@ Page({
   data: {
     keywrod: '',
     searchStatus: false,
-    goodsList: [],
+    productList: [],
     helpKeyword: [],
     historyKeyword: [],
     categoryFilter: false,
@@ -73,7 +73,7 @@ Page({
   inputFocus: function() {
     this.setData({
       searchStatus: false,
-      goodsList: []
+      productList: []
     });
 
     if (this.data.keyword) {
@@ -90,9 +90,9 @@ Page({
         console.log('清除成功');
       });
   },
-  getGoodsList: function() {
+  getProductList: function() {
     let that = this;
-    util.request(api.GoodsList, {
+    util.request(api.ProductList, {
       keyword: that.data.keyword,
       page: that.data.page,
       limit: that.data.limit,
@@ -104,7 +104,7 @@ Page({
         that.setData({
           searchStatus: true,
           categoryFilter: false,
-          goodsList: res.data.list,
+          productList: res.data.list,
           filterCategory: res.data.filterCategoryList
         });
       }
@@ -126,10 +126,10 @@ Page({
       keyword: keyword,
       page: 1,
       categoryId: 0,
-      goodsList: []
+      productList: []
     });
 
-    this.getGoodsList();
+    this.getProductList();
   },
   openSortFilter: function(event) {
     let currentId = event.currentTarget.id;
@@ -154,7 +154,7 @@ Page({
           categoryFilter: false
         });
 
-        this.getGoodsList();
+        this.getProductList();
         break;
       default:
         //综合排序
@@ -165,7 +165,7 @@ Page({
           categoryFilter: false,
           categoryId: 0,
         });
-        this.getGoodsList();
+        this.getProductList();
     }
   },
   selectCategory: function(event) {
@@ -185,9 +185,9 @@ Page({
       categoryFilter: false,
       categoryId: currentCategory.id,
       page: 1,
-      goodsList: []
+      productList: []
     });
-    this.getGoodsList();
+    this.getProductList();
   },
   onKeywordConfirm(event) {
     this.getSearchResult(event.detail.value);

@@ -12,18 +12,18 @@
     </van-cell>
   </van-cell-group>
 
-  <view class="order-goods">
+  <view class="order-product">
     <view class="h">
       退款商品
     </view>
-    <view class="goods">
-      <view class="item" wx:for="{{orderGoods}}" wx:key="id">
+    <view class="product">
+      <view class="item" wx:for="{{orderProduct}}" wx:key="id">
         <view class="img">
           <image src="{{item.picUrl}}"></image>
         </view>
         <view class="info">
           <view class="t">
-            <text class="name">{{item.goodsName}}</text>
+            <text class="name">{{item.productName}}</text>
             <text class="number">x{{item.number}}</text>
           </view>
           <view class="attr">{{item.specifications}}</view>
@@ -34,7 +34,7 @@
   </view>
 
   <van-cell-group title="订单明细">
-    <van-cell title="商品总价" value=" ￥{{order.goodsPrice}}元" />
+    <van-cell title="商品总价" value=" ￥{{order.productPrice}}元" />
     <van-cell title="    运费" value=" ￥{{order.freightPrice}}元" />
     <van-cell title="    优惠" value="-￥{{order.couponPrice}}元" />
     <van-cell title="订单实付" value=" ￥{{order.actualPrice}}元" />

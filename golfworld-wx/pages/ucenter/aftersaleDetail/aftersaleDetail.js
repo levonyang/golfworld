@@ -5,7 +5,7 @@ Page({
   data: {
     orderId: 0,
     order: {},
-    orderGoods: [],
+    orderProduct: [],
     aftersale: {},
     statusColumns: ['未申请', '已申请，待审核', '审核通过，待退款', '退款成功', '审核不通过，已拒绝'],
     typeColumns: ['未收货退款', '不退货退款', '退货退款'],
@@ -41,7 +41,7 @@ Page({
 
         that.setData({
           order: res.data.order,
-          orderGoods: res.data.orderGoods,
+          orderProduct: res.data.orderProduct,
           aftersale: res.data.aftersale,
           fileList: _fileList
         });

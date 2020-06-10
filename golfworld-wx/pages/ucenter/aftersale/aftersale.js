@@ -5,7 +5,7 @@ Page({
   data: {
     orderId: 0,
     orderInfo: {},
-    orderGoods: [],
+    orderProduct: [],
     aftersale: {
       pictures: []
     },
@@ -37,7 +37,7 @@ Page({
         console.log(res.data);
         that.setData({
           orderInfo: res.data.orderInfo,
-          orderGoods: res.data.orderGoods,
+          orderProduct: res.data.orderProduct,
           'aftersale.orderId': that.data.orderId,
           'aftersale.amount': res.data.orderInfo.actualPrice - res.data.orderInfo.freightPrice
         });

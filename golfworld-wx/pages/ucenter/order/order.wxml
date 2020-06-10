@@ -28,12 +28,12 @@
         <view class="l">订单编号：{{item.orderSn}}</view>
         <view class="r">{{item.orderStatusText}}</view>
       </view>
-      <view class="goods" wx:for="{{item.goodsList}}" wx:key="id" wx:for-item="gitem">
+      <view class="product" wx:for="{{item.productList}}" wx:key="id" wx:for-item="gitem">
         <view class="img">
           <image src="{{gitem.picUrl}}"></image>
         </view>
         <view class="info">
-          <text class="name">{{gitem.goodsName}}</text>
+          <text class="name">{{gitem.productName}}</text>
           <text class="number">共{{gitem.number}}件商品</text>
         </view>
         <view class="status"></view>

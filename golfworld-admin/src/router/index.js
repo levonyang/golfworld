@@ -1,29 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/views/layout/Layout'
+
+Vue.use(Router)
 
 /** note: Submenu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  **/
 
 /**
-* hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
-* alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
-*                                if not set alwaysShow, only more than one route under the children
-*                                it will becomes nested mode, otherwise not show the root menu
-* redirect: noredirect           if `redirect:noredirect` will no redirect in the breadcrumb
-* name:'router-name'             the name is used by <keep-alive> (must set!!!)
-* meta : {
+ * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
+ * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
+ *                                if not set alwaysShow, only more than one route under the children
+ *                                it will becomes nested mode, otherwise not show the root menu
+ * redirect: noredirect           if `redirect:noredirect` will no redirect in the breadcrumb
+ * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * meta : {
     perms: ['GET /aaa','POST /bbb']     will control the page perms (you can set multiple perms)
     title: 'title'               the name show in submenu and breadcrumb (recommend set)
     icon: 'svg-name'             the icon show in the sidebar,
     noCache: true                if true ,the page will no be cached(default is false)
   }
-**/
+ **/
 export const constantRouterMap = [
   {
     path: '/redirect',
@@ -172,26 +171,7 @@ export const asyncRouterMap = [
           noCache: true
         }
       },
-      {
-        path: 'brand',
-        component: () => import('@/views/mall/brand'),
-        name: 'brand',
-        meta: {
-          perms: ['GET /admin/brand/list', 'POST /admin/brand/create', 'GET /admin/brand/read', 'POST /admin/brand/update', 'POST /admin/brand/delete'],
-          title: '品牌制造商',
-          noCache: true
-        }
-      },
-      {
-        path: 'category',
-        component: () => import('@/views/mall/category'),
-        name: 'category',
-        meta: {
-          perms: ['GET /admin/category/list', 'POST /admin/category/create', 'GET /admin/category/read', 'POST /admin/category/update', 'POST /admin/category/delete'],
-          title: '商品类目',
-          noCache: true
-        }
-      },
+
       {
         path: 'order',
         component: () => import('@/views/mall/order'),
@@ -202,16 +182,16 @@ export const asyncRouterMap = [
           noCache: true
         }
       },
-      {
-        path: 'aftersale',
-        component: () => import('@/views/mall/aftersale'),
-        name: 'aftersale',
-        meta: {
-          perms: ['GET /admin/aftersale/list', 'GET /admin/aftersale/detail', 'POST /admin/order/receive', 'POST /admin/aftersale/complete', 'POST /admin/aftersale/reject'],
-          title: '售后管理',
-          noCache: true
-        }
-      },
+      // {
+      //     path: 'aftersale',
+      //     component: () => import('@/views/mall/aftersale'),
+      //     name: 'aftersale',
+      //     meta: {
+      //         perms: ['GET /admin/aftersale/list', 'GET /admin/aftersale/detail', 'POST /admin/order/receive', 'POST /admin/aftersale/complete', 'POST /admin/aftersale/reject'],
+      //         title: '售后管理',
+      //         noCache: true
+      //     }
+      // },
       {
         path: 'issue',
         component: () => import('@/views/mall/issue'),
@@ -221,17 +201,8 @@ export const asyncRouterMap = [
           title: '通用问题',
           noCache: true
         }
-      },
-      {
-        path: 'keyword',
-        component: () => import('@/views/mall/keyword'),
-        name: 'keyword',
-        meta: {
-          perms: ['GET /admin/keyword/list', 'POST /admin/keyword/create', 'GET /admin/keyword/read', 'POST /admin/keyword/update', 'POST /admin/keyword/delete'],
-          title: '关键词',
-          noCache: true
-        }
       }
+
     ]
   },
 
@@ -246,6 +217,26 @@ export const asyncRouterMap = [
       icon: 'chart'
     },
     children: [
+      {
+        path: 'brand',
+        component: () => import('@/views/product/brand'),
+        name: 'brand',
+        meta: {
+          perms: ['GET /admin/brand/list', 'POST /admin/brand/create', 'GET /admin/brand/read', 'POST /admin/brand/update', 'POST /admin/brand/delete'],
+          title: '品牌制造商',
+          noCache: true
+        }
+      },
+      {
+        path: 'category',
+        component: () => import('@/views/product/category'),
+        name: 'category',
+        meta: {
+          perms: ['GET /admin/category/list', 'POST /admin/category/create', 'GET /admin/category/read', 'POST /admin/category/update', 'POST /admin/category/delete'],
+          title: '产品类目',
+          noCache: true
+        }
+      },
       {
         path: 'list',
         component: () => import('@/views/product/list'),
@@ -284,6 +275,16 @@ export const asyncRouterMap = [
         meta: {
           perms: ['GET /admin/comment/list', 'POST /admin/comment/delete'],
           title: '产品评论',
+          noCache: true
+        }
+      },
+      {
+        path: 'keyword',
+        component: () => import('@/views/product/keyword'),
+        name: 'keyword',
+        meta: {
+          perms: ['GET /admin/keyword/list', 'POST /admin/keyword/create', 'GET /admin/keyword/read', 'POST /admin/keyword/update', 'POST /admin/keyword/delete'],
+          title: '关键词',
           noCache: true
         }
       }
@@ -469,7 +470,7 @@ export const asyncRouterMap = [
         name: 'statProduct',
         meta: {
           perms: ['GET /admin/stat/product'],
-          title: '商品统计',
+          title: '产品统计',
           noCache: true
         },
         hidden: true

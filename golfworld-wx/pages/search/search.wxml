@@ -30,7 +30,7 @@
     </view>
   </view>
 
-  <view class="search-result" wx:if="{{ searchStatus && goodsList.length}}">
+  <view class="search-result" wx:if="{{ searchStatus && productList.length}}">
     <view class="sort">
       <view class="sort-box">
         <view class="item {{currentSortType == 'default' ? 'active' : ''}}" bindtap="openSortFilter" id="defaultSort">
@@ -51,7 +51,7 @@
     </view>
     <view class="cate-item">
       <view class="b">
-        <navigator class="item {{(iindex + 1) % 2 == 0 ? 'item-b' : ''}}" url="/pages/goods/goods?id={{iitem.id}}" wx:for="{{goodsList}}" wx:key="id" wx:for-item="iitem" wx:for-index="iindex">
+        <navigator class="item {{(iindex + 1) % 2 == 0 ? 'item-b' : ''}}" url="/pages/product/product?id={{iitem.id}}" wx:for="{{productList}}" wx:key="id" wx:for-item="iitem" wx:for-index="iindex">
           <image class="img" src="{{iitem.picUrl}}" background-size="cover"></image>
           <text class="name">{{iitem.name}}</text>
           <text class="price">￥{{iitem.retailPrice}}</text>
@@ -60,7 +60,7 @@
     </view>
   </view>
 
-  <view class="search-result-empty" wx:if="{{!goodsList.length && searchStatus}}">
+  <view class="search-result-empty" wx:if="{{!productList.length && searchStatus}}">
     <text class="text">您寻找的商品还未上架</text>
   </view>
 </scroll-view>

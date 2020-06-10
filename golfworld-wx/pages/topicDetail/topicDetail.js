@@ -10,7 +10,7 @@ Page({
     topicList: [],
     commentCount: 0,
     commentList: [],
-    topicGoods: []
+    topicProduct: []
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -25,7 +25,7 @@ Page({
       if (res.errno === 0) {
         that.setData({
           topic: res.data.topic,
-          topicGoods: res.data.goods
+          topicProduct: res.data.product
         });
 
         WxParse.wxParse('topicDetail', 'html', res.data.topic.content, that);

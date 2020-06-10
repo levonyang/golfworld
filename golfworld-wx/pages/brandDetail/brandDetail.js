@@ -8,7 +8,7 @@ Page({
   data: {
     id: 0,
     brand: {},
-    goodsList: [],
+    productList: [],
     page: 1,
     limit: 10
   },
@@ -30,14 +30,14 @@ Page({
           brand: res.data
         });
 
-        that.getGoodsList();
+        that.getProductList();
       }
     });
   },
-  getGoodsList() {
+  getProductList() {
     var that = this;
 
-    util.request(api.GoodsList, {
+    util.request(api.ProductList, {
         brandId: that.data.id,
         page: that.data.page,
         limit: that.data.limit
@@ -45,7 +45,7 @@ Page({
       .then(function(res) {
         if (res.errno === 0) {
           that.setData({
-            goodsList: res.data.list
+            productList: res.data.list
           });
         }
       });

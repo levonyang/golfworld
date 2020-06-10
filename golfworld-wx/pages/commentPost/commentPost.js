@@ -7,7 +7,7 @@ Page({
     orderId: 0,
     type: 0,
     valueId: 0,
-    orderGoods: {},
+    orderProduct: {},
     content: '',
     stars: [0, 1, 2, 3, 4],
     star: 5,
@@ -101,17 +101,17 @@ Page({
       type: options.type,
       valueId: options.valueId
     });
-    this.getOrderGoods();
+    this.getOrderProduct();
   },
-  getOrderGoods: function() {
+  getOrderProduct: function() {
     let that = this;
-    util.request(api.OrderGoods, {
+    util.request(api.OrderProduct, {
       orderId: that.data.orderId,
-      goodsId: that.data.valueId
+      productId: that.data.valueId
     }).then(function(res) {
       if (res.errno === 0) {
         that.setData({
-          orderGoods: res.data,
+          orderProduct: res.data,
         });
       }
     });
@@ -128,7 +128,7 @@ Page({
     }
 
     util.request(api.OrderComment, {
-      orderGoodsId: that.data.orderGoods.id,
+      orderProductId: that.data.orderProduct.id,
       content: that.data.content,
       star: that.data.star,
       hasPicture: that.data.hasPicture,

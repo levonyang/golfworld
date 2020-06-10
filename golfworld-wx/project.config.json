@@ -101,13 +101,13 @@
 				{
 					"id": -1,
 					"name": "人气推荐",
-					"pathName": "pages/hotGoods/hotGoods",
+					"pathName": "pages/hotProduct/hotProduct",
 					"query": ""
 				},
 				{
 					"id": -1,
 					"name": "新品首发",
-					"pathName": "pages/newGoods/newGoods",
+					"pathName": "pages/newProduct/newProduct",
 					"query": ""
 				},
 				{
@@ -131,7 +131,7 @@
 				{
 					"id": 12,
 					"name": "商品",
-					"pathName": "pages/goods/goods",
+					"pathName": "pages/product/product",
 					"query": "id=1181003"
 				},
 				{

@@ -37,7 +37,7 @@ public class AdminProductController {
      * @return
      */
     @RequiresPermissions("admin:product:list")
-    @RequiresPermissionsDesc(menu = {"商品管理", "商品管理"}, button = "查询")
+    @RequiresPermissionsDesc(menu = {"产品管理", "产品管理"}, button = "查询")
     @GetMapping("/list")
     public Object list(Integer productId, String productSn, String name,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -59,7 +59,7 @@ public class AdminProductController {
      * @return
      */
     @RequiresPermissions("admin:product:update")
-    @RequiresPermissionsDesc(menu = {"商品管理", "商品管理"}, button = "编辑")
+    @RequiresPermissionsDesc(menu = {"产品管理", "产品管理"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody ProductAllinone productAllinone) {
         return adminProductService.update(productAllinone);
@@ -72,7 +72,7 @@ public class AdminProductController {
      * @return
      */
     @RequiresPermissions("admin:product:delete")
-    @RequiresPermissionsDesc(menu = {"商品管理", "商品管理"}, button = "删除")
+    @RequiresPermissionsDesc(menu = {"产品管理", "产品管理"}, button = "删除")
     @PostMapping("/delete")
     public Object delete(@RequestBody Product product) {
         return adminProductService.delete(product);
@@ -85,7 +85,7 @@ public class AdminProductController {
      * @return
      */
     @RequiresPermissions("admin:product:create")
-    @RequiresPermissionsDesc(menu = {"商品管理", "商品管理"}, button = "上架")
+    @RequiresPermissionsDesc(menu = {"产品管理", "产品管理"}, button = "上架")
     @PostMapping("/create")
     public Object create(@RequestBody ProductAllinone productAllinone) {
         return adminProductService.create(productAllinone);
@@ -98,7 +98,7 @@ public class AdminProductController {
      * @return
      */
     @RequiresPermissions("admin:product:read")
-    @RequiresPermissionsDesc(menu = {"商品管理", "商品管理"}, button = "详情")
+    @RequiresPermissionsDesc(menu = {"产品管理", "产品管理"}, button = "详情")
     @GetMapping("/detail")
     public Object detail(@NotNull Integer id) {
         return adminProductService.detail(id);

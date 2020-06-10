@@ -32,9 +32,9 @@ import java.util.List;
 
 import static org.golfworld.admin.util.AdminResponseCode.ORDER_REFUND_FAILED;
 
-@RestController
-@RequestMapping("/admin/aftersale")
-@Validated
+//@RestController
+//@RequestMapping("/admin/aftersale")
+//@Validated
 public class AdminAftersaleController {
     private final Log logger = LogFactory.getLog(AdminAftersaleController.class);
 
@@ -50,7 +50,7 @@ public class AdminAftersaleController {
     private NotifyService notifyService;
 
     @RequiresPermissions("admin:aftersale:list")
-    @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "查询")
+    @RequiresPermissionsDesc(menu = {"商城管理", "产品管理管理"}, button = "查询")
     @GetMapping("/list")
     public Object list(Integer orderId, String aftersaleSn, Short status,
                        @RequestParam(defaultValue = "1") Integer page,

@@ -1,6 +1,6 @@
 <view class="container">
   <view class="post-comment">
-    <view class="goods">
+    <view class="product">
       <view class="img">
         <image src="{{topic.picUrl}}"></image>
       </view>

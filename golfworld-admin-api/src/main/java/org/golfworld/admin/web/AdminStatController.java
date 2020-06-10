@@ -37,9 +37,9 @@ public class AdminStatController {
         return ResponseUtil.ok(statVo);
     }
 
-    @RequiresPermissions("admin:stat:order")
-    @RequiresPermissionsDesc(menu = {"统计管理", "订单统计"}, button = "查询")
-    @GetMapping("/order")
+//    @RequiresPermissions("admin:stat:order")
+//    @RequiresPermissionsDesc(menu = {"统计管理", "订单统计"}, button = "查询")
+//    @GetMapping("/order")
     public Object statOrder() {
         List<Map> rows = statService.statOrder();
         String[] columns = new String[]{"day", "orders", "customers", "amount", "pcr"};
@@ -50,9 +50,9 @@ public class AdminStatController {
         return ResponseUtil.ok(statVo);
     }
 
-    @RequiresPermissions("admin:stat:product")
-    @RequiresPermissionsDesc(menu = {"统计管理", "商品统计"}, button = "查询")
-    @GetMapping("/product")
+//    @RequiresPermissions("admin:stat:product")
+//    @RequiresPermissionsDesc(menu = {"统计管理", "商品统计"}, button = "查询")
+//    @GetMapping("/product")
     public Object statProduct() {
         List<Map> rows = statService.statProduct();
         String[] columns = new String[]{"day", "orders", "products", "amount"};

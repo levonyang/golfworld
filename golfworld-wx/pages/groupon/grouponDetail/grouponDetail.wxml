@@ -27,21 +27,21 @@
     </view>
   </view>
 
-  <view class="order-goods">
+  <view class="order-product">
     <view class="h">
       <view class="label">商品信息</view>
     </view>
-    <view class="goods">
-      <view class="item" wx:for="{{orderGoods}}" wx:key="id">
+    <view class="product">
+      <view class="item" wx:for="{{orderProduct}}" wx:key="id">
         <view class="img">
           <image src="{{item.picUrl}}"></image>
         </view>
         <view class="info">
           <view class="t">
-            <text class="name">{{item.goodsName}}</text>
+            <text class="name">{{item.productName}}</text>
             <text class="number">x{{item.number}}</text>
           </view>
-          <view class="attr">{{item.goodsSpecificationValues}}</view>
+          <view class="attr">{{item.productSpecificationValues}}</view>
           <view class="price">￥{{item.retailPrice}}</view>
         </view>
       </view>
@@ -51,7 +51,7 @@
       <view class="total">
         <view class="t">
           <text class="label">商品合计：</text>
-          <text class="txt">￥{{orderInfo.goodsPrice}}</text>
+          <text class="txt">￥{{orderInfo.productPrice}}</text>
         </view>
         <view class="t">
           <text class="label">商品运费：</text>

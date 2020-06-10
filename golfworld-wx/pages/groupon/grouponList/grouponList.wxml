@@ -2,7 +2,7 @@
   <scroll-view class="groupon-list" scroll-y="true" scroll-top="{{scrollTop}}">
 
     <view class="item" wx:for="{{grouponList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-      <navigator url="/pages/goods/goods?id={{item.id}}">
+      <navigator url="/pages/product/product?id={{item.id}}">
         <image class="img" src="{{item.picUrl}}" background-size="cover"></image>
         <view class="right">
           <view class="text">

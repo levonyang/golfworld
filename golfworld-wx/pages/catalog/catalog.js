@@ -8,7 +8,7 @@ Page({
     currentSubCategoryList: {},
     scrollLeft: 0,
     scrollTop: 0,
-    goodsCount: 0,
+    productCount: 0,
     scrollHeight: 0
   },
   onLoad: function(options) {
@@ -34,9 +34,9 @@ Page({
       });
       wx.hideLoading();
     });
-    util.request(api.GoodsCount).then(function(res) {
+    util.request(api.ProductCount).then(function(res) {
       that.setData({
-        goodsCount: res.data
+        productCount: res.data
       });
     });
 

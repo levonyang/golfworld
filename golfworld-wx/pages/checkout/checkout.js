@@ -5,10 +5,10 @@ var app = getApp();
 
 Page({
   data: {
-    checkedGoodsList: [],
+    checkedProductList: [],
     checkedAddress: {},
     availableCouponLength: 0, // 可用的优惠券数量
-    goodsTotalPrice: 0.00, //商品总价
+    productTotalPrice: 0.00, //商品总价
     freightPrice: 0.00, //快递费
     couponPrice: 0.00, //优惠券的价格
     grouponPrice: 0.00, //团购优惠价格
@@ -38,14 +38,14 @@ Page({
     }).then(function(res) {
       if (res.errno === 0) {
         that.setData({
-          checkedGoodsList: res.data.checkedGoodsList,
+          checkedProductList: res.data.checkedProductList,
           checkedAddress: res.data.checkedAddress,
           availableCouponLength: res.data.availableCouponLength,
           actualPrice: res.data.actualPrice,
           couponPrice: res.data.couponPrice,
           grouponPrice: res.data.grouponPrice,
           freightPrice: res.data.freightPrice,
-          goodsTotalPrice: res.data.goodsTotalPrice,
+          productTotalPrice: res.data.productTotalPrice,
           orderTotalPrice: res.data.orderTotalPrice,
           addressId: res.data.addressId,
           couponId: res.data.couponId,

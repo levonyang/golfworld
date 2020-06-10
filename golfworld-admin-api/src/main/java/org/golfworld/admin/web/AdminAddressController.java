@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/admin/address")
-@Validated
+//@RestController
+//@RequestMapping("/admin/address")
+//@Validated
 public class AdminAddressController {
     private final Log logger = LogFactory.getLog(AdminAddressController.class);
 

@@ -5,7 +5,7 @@ Page({
   data: {
     orderId: 0,
     orderInfo: {},
-    orderGoods: [],
+    orderProduct: [],
     expressInfo: {},
     flag: false,
     handleOption: {}
@@ -46,7 +46,7 @@ Page({
         console.log(res.data);
         that.setData({
           orderInfo: res.data.orderInfo,
-          orderGoods: res.data.orderGoods,
+          orderProduct: res.data.orderProduct,
           handleOption: res.data.orderInfo.handleOption,
           expressInfo: res.data.expressInfo
         });

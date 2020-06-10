@@ -24,11 +24,11 @@ module.exports = {
   AuthRegisterCaptcha: WxApiRoot + 'auth/regCaptcha', //验证码
   AuthBindPhone: WxApiRoot + 'auth/bindPhone', //绑定微信手机号
 
-  GoodsCount: WxApiRoot + 'goods/count', //统计商品总数
-  GoodsList: WxApiRoot + 'goods/list', //获得商品列表
-  GoodsCategory: WxApiRoot + 'goods/category', //获得分类数据
-  GoodsDetail: WxApiRoot + 'goods/detail', //获得商品的详情
-  GoodsRelated: WxApiRoot + 'goods/related', //商品详情页的关联商品（大家都在看）
+  ProductCount: WxApiRoot + 'product/count', //统计商品总数
+  ProductList: WxApiRoot + 'product/list', //获得商品列表
+  ProductCategory: WxApiRoot + 'product/category', //获得分类数据
+  ProductDetail: WxApiRoot + 'product/detail', //获得商品的详情
+  ProductRelated: WxApiRoot + 'product/related', //商品详情页的关联商品（大家都在看）
 
   BrandList: WxApiRoot + 'brand/list', //品牌列表
   BrandDetail: WxApiRoot + 'brand/detail', //品牌详情
@@ -39,7 +39,7 @@ module.exports = {
   CartUpdate: WxApiRoot + 'cart/update', // 更新购物车的商品
   CartDelete: WxApiRoot + 'cart/delete', // 删除购物车的商品
   CartChecked: WxApiRoot + 'cart/checked', // 选择或取消选择商品
-  CartGoodsCount: WxApiRoot + 'cart/goodscount', // 获取购物车商品件数
+  CartProductCount: WxApiRoot + 'cart/productcount', // 获取购物车商品件数
   CartCheckout: WxApiRoot + 'cart/checkout', // 下单前信息确认
 
   CollectList: WxApiRoot + 'collect/list', //收藏列表
@@ -75,7 +75,7 @@ module.exports = {
   OrderRefund: WxApiRoot + 'order/refund', //退款取消订单
   OrderDelete: WxApiRoot + 'order/delete', //删除订单
   OrderConfirm: WxApiRoot + 'order/confirm', //确认收货
-  OrderGoods: WxApiRoot + 'order/goods', // 代评价商品信息
+  OrderProduct: WxApiRoot + 'order/product', // 代评价商品信息
   OrderComment: WxApiRoot + 'order/comment', // 评价订单商品信息
 
   AftersaleSubmit: WxApiRoot + 'aftersale/submit', // 提交售后申请

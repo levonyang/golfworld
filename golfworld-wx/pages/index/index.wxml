@@ -1,1 +1,25 @@
-首页
+<view class="index-header">
+    <van-search
+            value="{{ value }}"
+            shape="round"
+            custom-class="search"
+            field-class="field"
+            input-class="input"
+            background=" #E86E35"
+            placeholder="请输入搜索关键词"
+    />
+</view>
+<view class="page-section page-section-spacing swiper">
+    <swiper indicator-dots="{{indicatorDots}}"
+            autoplay="{{true}}" interval="5000" duration="{{duration}}">
+        <block wx:for="{{background}}" wx:key="*this">
+            <swiper-item>
+                <view class="swiper-item {{item}}"></view>
+            </swiper-item>
+        </block>
+    </swiper>
+</view>
+<van-cell title="新品日历" is-link value="查看更多"/>
+<view></view>
+<view></view>
+<view></view>

@@ -62,11 +62,11 @@ Page({
   onUnload: function() {
     // 页面关闭
   },
-  openGoods(event) {
+  openProduct(event) {
 
     let that = this;
     let index = event.currentTarget.dataset.index;
-    let goodsId = this.data.collectList[index].valueId;
+    let productId = this.data.collectList[index].valueId;
 
     //触摸时间距离页面打开的毫秒数  
     var touchTime = that.data.touchEnd - that.data.touchStart;
@@ -81,7 +81,7 @@ Page({
 
             util.request(api.CollectAddOrDelete, {
               type: that.data.type,
-              valueId: goodsId
+              valueId: productId
             }, 'POST').then(function(res) {
               if (res.errno === 0) {
                 console.log(res.data);
@@ -102,7 +102,7 @@ Page({
     } else {
 
       wx.navigateTo({
-        url: '/pages/goods/goods?id=' + goodsId,
+        url: '/pages/product/product?id=' + productId,
       });
     }
   },
