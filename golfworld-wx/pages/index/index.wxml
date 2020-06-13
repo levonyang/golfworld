@@ -1,25 +1,60 @@
 <view class="index-header">
-    <van-search
-            value="{{ value }}"
-            shape="round"
-            custom-class="search"
-            field-class="field"
-            input-class="input"
-            background=" #E86E35"
-            placeholder="请输入搜索关键词"
-    />
+    <van-search value="{{ value }}" shape="round" custom-class="search" field-class="field" input-class="input"
+                background=" #E86E35" placeholder="请输入搜索关键词"/>
 </view>
-<view class="page-section page-section-spacing swiper">
-    <swiper indicator-dots="{{indicatorDots}}"
-            autoplay="{{true}}" interval="5000" duration="{{duration}}">
-        <block wx:for="{{background}}" wx:key="*this">
-            <swiper-item>
-                <view class="swiper-item {{item}}"></view>
-            </swiper-item>
-        </block>
-    </swiper>
+<swiper previous-margin="70rpx" next-margin="40rpx" class="banner" i3dicator-dots="{{false}}" autoplay="{{true}}"
+        interval="5000" duration="{{duration}}" circular="{{true}}" spaceBetween="40rpx">
+    <block wx:for="{{banner}}" wx:key="*this">
+        <swiper-item url="{{item.url}}">
+            <!--                <image class="image" src="{{item.url}}"/>-->
+            <view style='background:url({{item.url}}) no-repeat;background-size:cover;width:600rpx;height:100%;background-position:center center;  border-radius: 30rpx;'></view>
+        </swiper-item>
+    </block>
+</swiper>
+<van-cell custom-class="new-title" title="新品日历" is-link value="查看更多"/>
+<view class="new-release  grey_background border_radio">
+    <view class="new-release-desc">
+        <view class="new-release-label">
+            <image class="new-release-label-icon" src="/static/images/index@new.png"></image>
+            <label>最新上线</label>
+        </view>
+        <view>TITLEIST TS3 DRIVER</view>
+        <view>简介</view>
+    </view>
+    <view>
+        <image class="new-release-image" src="/static/images/temp/Product1.png"></image>
+    </view>
 </view>
-<van-cell title="新品日历" is-link value="查看更多"/>
-<view></view>
-<view></view>
-<view></view>
+<scroll-view class="scroll-view_H" scroll-x="true" bindscroll="scroll" style="width: 100%">
+    <block wx:for="{{newProduct}}" wx:key="*this">
+        <view id="{{item.id}}" class="scroll-view-item_H">
+            <view style='background:url({{item.picUrl}}) no-repeat;background-size:cover;width:340;height:260rpx;background-position:center center;border-top-left-radius:20rpx;border-top-right-radius:20rpx;'></view>
+            <view class="new-release-talk">
+                <view>新品Talk</view>
+                <image src="/static/images/index@newtalk.png"></image>
+            </view>
+            <view class="new-release-list-desc">
+                <view class="">
+                    <view class="new-release-list-desc-title">{{item.name}}</view>
+                    <view class="new-release-list-desc-wtl">30人想看</view>
+                </view>
+                <view class="new-release-list-desc-like">想看+1</view>
+            </view>
+            <view class="new-release-list-time">
+                <view class="new-release-list-time-title">发布时间</view>
+                <view class="new-release-list-time-desc">
+                    <view class="new-release-list-time-value">1</view>
+                    <label>天后</label>
+                </view>
+            </view>
+
+        </view>
+        <!--                <image class="image" src="{{item.url}}"/>-->
+    </block>
+
+</scroll-view>
+<view>
+
+
+</view>
+

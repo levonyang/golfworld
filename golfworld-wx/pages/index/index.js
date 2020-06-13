@@ -34,6 +34,7 @@ Page({
     getIndexData: function () {
         let that = this;
         util.request(api.IndexUrl).then(function (res) {
+            console.log(res.data)
             if (res.errno === 0) {
                 that.setData({
                     newProduct: res.data.newProductList,
@@ -42,9 +43,7 @@ Page({
                     brands: res.data.brandList,
                     floorProduct: res.data.floorProductList,
                     banner: res.data.banner,
-                    groupons: res.data.grouponList,
                     channel: res.data.channel,
-                    coupon: res.data.couponList
                 });
             }
         });
@@ -119,19 +118,5 @@ Page({
     },
     onUnload: function () {
         // 页面关闭
-    },
-    getCoupon(e) {
-        let couponId = e.currentTarget.dataset.index
-        util.request(api.CouponReceive, {
-            couponId: couponId
-        }, 'POST').then(res => {
-            if (res.errno === 0) {
-                wx.showToast({
-                    title: "领取成功"
-                })
-            } else {
-                util.showErrorToast(res.errmsg);
-            }
-        })
-    },
+    }
 })

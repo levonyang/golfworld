@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@RestController
-@RequestMapping("/admin/issue")
-@Validated
+//@RestController
+//@RequestMapping("/admin/issue")
+//@Validated
 public class AdminIssueController {
     private final Log logger = LogFactory.getLog(AdminIssueController.class);
 
@@ -27,7 +27,7 @@ public class AdminIssueController {
     private IssueService issueService;
 
     @RequiresPermissions("admin:issue:list")
-    @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "查询")
+    @RequiresPermissionsDesc(menu = {"测评管理", "通用问题"}, button = "查询")
     @GetMapping("/list")
     public Object list(String question,
                        @RequestParam(defaultValue = "1") Integer page,
@@ -51,7 +51,7 @@ public class AdminIssueController {
     }
 
     @RequiresPermissions("admin:issue:create")
-    @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "添加")
+    @RequiresPermissionsDesc(menu = {"测评管理", "通用问题"}, button = "添加")
     @PostMapping("/create")
     public Object create(@RequestBody Issue issue) {
         Object error = validate(issue);
@@ -70,7 +70,7 @@ public class AdminIssueController {
     }
 
     @RequiresPermissions("admin:issue:update")
-    @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "编辑")
+    @RequiresPermissionsDesc(menu = {"测评管理", "通用问题"}, button = "编辑")
     @PostMapping("/update")
     public Object update(@RequestBody Issue issue) {
         Object error = validate(issue);
@@ -85,7 +85,7 @@ public class AdminIssueController {
     }
 
     @RequiresPermissions("admin:issue:delete")
-    @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "删除")
+    @RequiresPermissionsDesc(menu = {"测评管理", "通用问题"}, button = "删除")
     @PostMapping("/delete")
     public Object delete(@RequestBody Issue issue) {
         Integer id = issue.getId();

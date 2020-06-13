@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.30, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: golfworld
+-- Host: localhost    Database: 
 -- ------------------------------------------------------
--- Server version	5.7.21-log
+-- Server version	5.7.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `golfworld`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `golfworld` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+USE `golfworld`;
 
 --
 -- Table structure for table `ad`
@@ -64,7 +72,7 @@ CREATE TABLE `address` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='收货地址表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收货地址表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,14 +94,8 @@ CREATE TABLE `admin` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   `role_ids` varchar(127) DEFAULT '[]' COMMENT '角色列表',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `aftersale`
---
-
-
 
 --
 -- Table structure for table `brand`
@@ -102,27 +104,18 @@ CREATE TABLE `admin` (
 DROP TABLE IF EXISTS `brand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
--- auto-generated definition
-create table brand
-(
-    id          int auto_increment
-        primary key,
-    name        varchar(255)   default ''   not null comment '品牌商名称',
-    `desc`      varchar(255)   default ''   not null comment '品牌商简介',
-    pic_url     varchar(255)   default ''   not null comment '品牌商页的品牌商图片',
-    sort_order  tinyint(3)     default 50   null,
-    add_time    datetime                    null comment '创建时间',
-    update_time datetime                    null comment '更新时间',
-    deleted     tinyint(1)     default 0    null comment '逻辑删除'
-)
-    comment '品牌商表' charset = utf8mb4;
-
-
+CREATE TABLE `brand` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商名称',
+  `desc` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商简介',
+  `pic_url` varchar(255) NOT NULL DEFAULT '' COMMENT '品牌商页的品牌商图片',
+  `sort_order` tinyint(3) DEFAULT '50',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1046005 DEFAULT CHARSET=utf8mb4 COMMENT='品牌商表';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `cart`
---
 
 --
 -- Table structure for table `category`
@@ -146,7 +139,7 @@ CREATE TABLE `category` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1036007 DEFAULT CHARSET=utf8mb4 COMMENT='类目表';
+) ENGINE=InnoDB AUTO_INCREMENT=1036013 DEFAULT CHARSET=utf8mb4 COMMENT='类目表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,11 +185,8 @@ CREATE TABLE `comment` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `id_value` (`value_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
+) ENGINE=InnoDB AUTO_INCREMENT=1015 DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-
-
 
 --
 -- Table structure for table `feedback`
@@ -205,30 +195,23 @@ CREATE TABLE `comment` (
 DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
--- auto-generated definition
-create table feedback
-(
-    id                   int auto_increment
-        primary key,
-    user_id              int         default 0  not null comment '用户表的用户ID',
-    username             varchar(63) default '' not null comment '用户名称',
-    contact              varchar(30) default '' not null comment '联系方式',
-    feed_type            varchar(63) default '' not null comment '反馈类型',
-    content              varchar(1023)          not null comment '反馈内容',
-    status               int(3)      default 0  not null comment '状态',
-    has_picture          tinyint(1)  default 0  null comment '是否含有图片',
-    pic_urls             varchar(1023)          null comment '图片地址列表，采用JSON数组格式',
-    add_time             datetime               null comment '创建时间',
-    update_time          datetime               null comment '更新时间',
-    deleted              tinyint(1)  default 0  null comment '逻辑删除',
-    allow_contact_in_48h varchar(5)             null comment '方便在48H内联系'
-)
-    comment '意见反馈表' charset = utf8mb4;
-
-create index id_value
-    on feedback (status);
-
-
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
+  `username` varchar(63) NOT NULL DEFAULT '' COMMENT '用户名称',
+  `contact` varchar(30) NOT NULL DEFAULT '' COMMENT '联系方式',
+  `feed_type` varchar(63) NOT NULL DEFAULT '' COMMENT '反馈类型',
+  `content` varchar(1023) NOT NULL COMMENT '反馈内容',
+  `status` int(3) NOT NULL DEFAULT '0' COMMENT '状态',
+  `has_picture` tinyint(1) DEFAULT '0' COMMENT '是否含有图片',
+  `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表，采用JSON数组格式',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `allow_contact_in_48h` varchar(5) DEFAULT NULL COMMENT '方便在48H内联系',
+  PRIMARY KEY (`id`),
+  KEY `id_value` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='意见反馈表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,68 +229,12 @@ CREATE TABLE `footprint` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户浏览足迹表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户浏览足迹表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `product`
+-- Table structure for table `issue`
 --
-
-DROP TABLE IF EXISTS `product`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
--- auto-generated definition
-create table product
-(
-    id            int auto_increment
-        primary key,
-    product_sn    varchar(63)    default ''        not null comment '产品编号',
-    name          varchar(127)   default ''        not null comment '产品名称',
-    category_id   int            default 0         null comment '产品所属类目ID',
-    brand_id      int            default 0         null,
-    gallery       varchar(1023)                    null comment '产品宣传图片列表，采用JSON数组格式',
-    keywords      varchar(255)   default ''        null comment '产品关键字，采用逗号间隔',
-    brief         varchar(255)   default ''        null comment '产品简介',
-    is_on_sale    tinyint(1)     default 1         null comment '是否上架',
-    sort_order    smallint(4)    default 100       null,
-    pic_url       varchar(255)                     null comment '产品页面产品图片',
-    share_url     varchar(255)                     null comment '产品分享海报',
-    is_new        tinyint(1)     default 0         null comment '是否新品首发，如果设置则可以在新品日历展示',
-    is_hot        tinyint(1)     default 0         null comment '是否精选推荐，如果设置则可以在首页精选展示',
-    price  decimal(10, 2) default 100000.00 null comment '市场价格',
-    detail        text                             null comment '产品详细介绍，是富文本格式',
-    release_time      datetime                         null comment '发售时间',
-    add_time      datetime                         null comment '创建时间',
-    update_time   datetime                         null comment '更新时间',
-    deleted       tinyint(1)     default 0         null comment '逻辑删除'
-)
-    comment '产品基本信息表' charset = utf8mb4;
-
---
--- Table structure for table `product_attribute`
---
-
-DROP TABLE IF EXISTS `product_attribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_attribute` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '产品表的产品ID',
-  `attribute` varchar(255) NOT NULL COMMENT '产品参数名称',
-  `value` varchar(255) NOT NULL COMMENT '产品参数值',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=877 DEFAULT CHARSET=utf8mb4 COMMENT='产品参数表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-
-
-
-
-
 
 DROP TABLE IF EXISTS `issue`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -345,6 +272,24 @@ CREATE TABLE `keyword` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `like`
+--
+
+DROP TABLE IF EXISTS `like`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `like` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
+  `value_id` int(11) NOT NULL DEFAULT '0' COMMENT '如果type=0，unlike. 如果type=1，like ',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户点赞表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `log`
 --
 
@@ -364,7 +309,7 @@ CREATE TABLE `log` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +328,7 @@ CREATE TABLE `notice` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='通知表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -403,7 +348,7 @@ CREATE TABLE `notice_admin` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='通知管理员表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知管理员表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -459,7 +404,7 @@ DROP TABLE IF EXISTS `order_product`;
 CREATE TABLE `order_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL DEFAULT '0' COMMENT '订单表的订单ID',
-  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '产品ID',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '产品表的产品ID',
   `product_name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
   `product_sn` varchar(63) NOT NULL DEFAULT '' COMMENT '产品编号',
   `number` smallint(5) NOT NULL DEFAULT '0' COMMENT '产品货品的购买数量',
@@ -491,7 +436,62 @@ CREATE TABLE `permission` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `category_id` int(11) DEFAULT '0' COMMENT '产品所属类目ID',
+  `brand_id` int(11) DEFAULT '0',
+  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表，采用JSON数组格式',
+  `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
+  `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
+  `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
+  `sort_order` smallint(4) DEFAULT '100',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
+  `share_url` varchar(255) DEFAULT NULL COMMENT '产品分享海报',
+  `is_new` tinyint(1) DEFAULT '0' COMMENT '是否新品首发，如果设置则可以在新品日历展示',
+  `is_hot` tinyint(1) DEFAULT '0' COMMENT '是否精选推荐，如果设置则可以在精选推荐页面展示',
+  `official_price` decimal(10,2) DEFAULT '100000.00' COMMENT '市场价格',
+  `detail` text COMMENT '产品详细介绍，是富文本格式',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `release_time` datetime DEFAULT NULL COMMENT '发售时间',
+  `discount_price` decimal(10,2) DEFAULT '100000.00' COMMENT '折扣价格',
+  PRIMARY KEY (`id`),
+  KEY `cat_id` (`category_id`),
+  KEY `brand_id` (`brand_id`),
+  KEY `sort_order` (`sort_order`)
+) ENGINE=InnoDB AUTO_INCREMENT=1181008 DEFAULT CHARSET=utf8mb4 COMMENT='产品基本信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_attribute`
+--
+
+DROP TABLE IF EXISTS `product_attribute`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_attribute` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '产品表的产品ID',
+  `attribute` varchar(255) NOT NULL COMMENT '产品参数名称',
+  `value` varchar(255) NOT NULL COMMENT '产品参数值',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=885 DEFAULT CHARSET=utf8mb4 COMMENT='产品参数表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -531,7 +531,7 @@ CREATE TABLE `role` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -572,7 +572,7 @@ CREATE TABLE `storage` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `key` (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件存储表';
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COMMENT='文件存储表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -590,7 +590,7 @@ CREATE TABLE `system` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统配置表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -615,7 +615,7 @@ CREATE TABLE `topic` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `topic_id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 COMMENT='专题表';
+) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8mb4 COMMENT='专题表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -636,9 +636,9 @@ CREATE TABLE `user` (
   `user_level` tinyint(3) DEFAULT '0' COMMENT '0 普通用户，1 VIP用户，2 高级VIP用户',
   `nickname` varchar(63) NOT NULL DEFAULT '' COMMENT '用户昵称或网络名称',
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号码',
-  	address varchar(100) null,
-	profession varchar(30) null,
-	`desc` varchar(300) null,
+  `address` varchar(100) DEFAULT NULL,
+  `profession` varchar(30) DEFAULT NULL,
+  `desc` varchar(300) DEFAULT NULL,
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像图片',
   `weixin_openid` varchar(63) NOT NULL DEFAULT '' COMMENT '微信登录openid',
   `session_key` varchar(100) NOT NULL DEFAULT '' COMMENT '微信登录会话KEY',
@@ -648,10 +648,8 @@ CREATE TABLE `user` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -662,4 +660,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-16 23:12:57
+-- Dump completed on 2020-06-13 12:58:38

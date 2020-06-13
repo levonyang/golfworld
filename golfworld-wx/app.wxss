@@ -36,3 +36,9 @@ view, text {
     margin-left: auto;
     margin-right: auto;
 }
+.grey_background{
+    background-color: #f4f4f4
+}
+.border_radio{
+   border-radius: 20rpx;
+}

@@ -169,7 +169,8 @@ export const asyncRouterMap = [
         meta: {
           title: '行政区域',
           noCache: true
-        }
+        },
+      hidden: true
       },
 
       {
@@ -180,7 +181,8 @@ export const asyncRouterMap = [
           perms: ['GET /admin/order/list', 'GET /admin/order/detail', 'POST /admin/order/ship', 'POST /admin/order/refund', 'POST /admin/order/delete', 'POST /admin/order/reply'],
           title: '订单管理',
           noCache: true
-        }
+        },
+        hidden: true
       },
       // {
       //     path: 'aftersale',
@@ -200,7 +202,8 @@ export const asyncRouterMap = [
           perms: ['GET /admin/issue/list', 'POST /admin/issue/create', 'GET /admin/issue/read', 'POST /admin/issue/update', 'POST /admin/issue/delete'],
           title: '通用问题',
           noCache: true
-        }
+        },
+        hidden: true
       }
 
     ]
@@ -429,7 +432,8 @@ export const asyncRouterMap = [
           noCache: true
         }
       }
-    ]
+    ],
+    hidden: true
   },
 
   {
