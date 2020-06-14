@@ -82,10 +82,6 @@ public class AdminProductService {
         if (officialPrice == null) {
             return ResponseUtil.badArgument();
         }
-        BigDecimal discountPrice = product.getDiscountPrice();
-        if (discountPrice == null) {
-            return ResponseUtil.badArgument();
-        }
         return null;
     }
 
