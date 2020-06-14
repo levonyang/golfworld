@@ -102,149 +102,6 @@
       </el-form>
     </el-card>
 
-    <!--    <el-card class="box-card">-->
-    <!--      <h3>商品规格</h3>-->
-    <!--      <el-row :gutter="20" type="flex" align="middle" style="padding:20px 0;">-->
-    <!--        <el-col :span="10">-->
-    <!--          <el-radio-group v-model="multipleSpec" @change="specChanged">-->
-    <!--            <el-radio-button :label="false">默认标准规格</el-radio-button>-->
-    <!--            <el-radio-button :label="true">多规格支持</el-radio-button>-->
-    <!--          </el-radio-group>-->
-    <!--        </el-col>-->
-    <!--        <el-col v-if="multipleSpec" :span="10">-->
-    <!--          <el-button :plain="true" type="primary" @click="handleSpecificationShow">添加</el-button>-->
-    <!--        </el-col>-->
-    <!--      </el-row>-->
-
-    <!--      <el-table :data="specifications">-->
-    <!--        <el-table-column property="specification" label="规格名"/>-->
-    <!--        <el-table-column property="value" label="规格值">-->
-    <!--          <template slot-scope="scope">-->
-    <!--            <el-tag type="primary">-->
-    <!--              {{ scope.row.value }}-->
-    <!--            </el-tag>-->
-    <!--          </template>-->
-    <!--        </el-table-column>-->
-    <!--        <el-table-column property="picUrl" label="规格图片">-->
-    <!--          <template slot-scope="scope">-->
-    <!--            <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="40">-->
-    <!--          </template>-->
-    <!--        </el-table-column>-->
-    <!--        <el-table-column-->
-    <!--          v-if="multipleSpec"-->
-    <!--          align="center"-->
-    <!--          label="操作"-->
-    <!--          width="250"-->
-    <!--          class-name="small-padding fixed-width"-->
-    <!--        >-->
-    <!--          <template slot-scope="scope">-->
-    <!--            <el-button type="danger" size="mini" @click="handleSpecificationDelete(scope.row)">删除</el-button>-->
-    <!--          </template>-->
-    <!--        </el-table-column>-->
-    <!--      </el-table>-->
-
-    <!--      <el-dialog :visible.sync="specVisiable" title="设置规格">-->
-    <!--        <el-form-->
-    <!--          ref="specForm"-->
-    <!--          :rules="rules"-->
-    <!--          :model="specForm"-->
-    <!--          status-icon-->
-    <!--          label-position="left"-->
-    <!--          label-width="100px"-->
-    <!--          style="width: 400px; margin-left:50px;"-->
-    <!--        >-->
-    <!--          <el-form-item label="规格名" prop="specification">-->
-    <!--            <el-input v-model="specForm.specification"/>-->
-    <!--          </el-form-item>-->
-    <!--          <el-form-item label="规格值" prop="value">-->
-    <!--            <el-input v-model="specForm.value"/>-->
-    <!--          </el-form-item>-->
-    <!--          <el-form-item label="规格图片" prop="picUrl">-->
-    <!--            <el-upload-->
-    <!--              :action="uploadPath"-->
-    <!--              :show-file-list="false"-->
-    <!--              :headers="headers"-->
-    <!--              :on-success="uploadSpecPicUrl"-->
-    <!--              class="avatar-uploader"-->
-    <!--              accept=".jpg,.jpeg,.png,.gif"-->
-    <!--            >-->
-    <!--              <img v-if="specForm.picUrl" :src="specForm.picUrl" class="avatar">-->
-    <!--              <i v-else class="el-icon-plus avatar-uploader-icon"/>-->
-    <!--            </el-upload>-->
-    <!--          </el-form-item>-->
-    <!--        </el-form>-->
-    <!--        <div slot="footer" class="dialog-footer">-->
-    <!--          <el-button @click="specVisiable = false">取消</el-button>-->
-    <!--          <el-button type="primary" @click="handleSpecificationAdd">确定</el-button>-->
-    <!--        </div>-->
-    <!--      </el-dialog>-->
-    <!--    </el-card>-->
-
-    <!--    <el-card class="box-card">-->
-    <!--      <h3>商品库存</h3>-->
-    <!--      <el-table :data="products">-->
-    <!--        <el-table-column property="value" label="货品规格">-->
-    <!--          <template slot-scope="scope">-->
-    <!--            <el-tag v-for="tag in scope.row.specifications" :key="tag">-->
-    <!--              {{ tag }}-->
-    <!--            </el-tag>-->
-    <!--          </template>-->
-    <!--        </el-table-column>-->
-    <!--        <el-table-column property="price" width="100" label="货品售价"/>-->
-    <!--        <el-table-column property="number" width="100" label="货品数量"/>-->
-    <!--        <el-table-column property="url" width="100" label="货品图片">-->
-    <!--          <template slot-scope="scope">-->
-    <!--            <img v-if="scope.row.url" :src="scope.row.url" width="40">-->
-    <!--          </template>-->
-    <!--        </el-table-column>-->
-    <!--        <el-table-column align="center" label="操作" width="100" class-name="small-padding fixed-width">-->
-    <!--          <template slot-scope="scope">-->
-    <!--            <el-button type="primary" size="mini" @click="handleProductShow(scope.row)">设置</el-button>-->
-    <!--          </template>-->
-    <!--        </el-table-column>-->
-    <!--      </el-table>-->
-
-    <!--      <el-dialog :visible.sync="productVisiable" title="添加货品">-->
-    <!--        <el-form-->
-    <!--          ref="productForm"-->
-    <!--          :model="productForm"-->
-    <!--          status-icon-->
-    <!--          label-position="left"-->
-    <!--          label-width="100px"-->
-    <!--          style="width: 400px; margin-left:50px;"-->
-    <!--        >-->
-    <!--          <el-form-item label="货品规格列" prop="specifications">-->
-    <!--            <el-tag v-for="tag in productForm.specifications" :key="tag">-->
-    <!--              {{ tag }}-->
-    <!--            </el-tag>-->
-    <!--          </el-form-item>-->
-    <!--          <el-form-item label="货品售价" prop="price">-->
-    <!--            <el-input v-model="productForm.price"/>-->
-    <!--          </el-form-item>-->
-    <!--          <el-form-item label="货品数量" prop="number">-->
-    <!--            <el-input v-model="productForm.number"/>-->
-    <!--          </el-form-item>-->
-    <!--          <el-form-item label="货品图片" prop="url">-->
-    <!--            <el-upload-->
-    <!--              :action="uploadPath"-->
-    <!--              :show-file-list="false"-->
-    <!--              :headers="headers"-->
-    <!--              :on-success="uploadProductUrl"-->
-    <!--              class="avatar-uploader"-->
-    <!--              accept=".jpg,.jpeg,.png,.gif"-->
-    <!--            >-->
-    <!--              <img v-if="productForm.url" :src="productForm.url" class="avatar">-->
-    <!--              <i v-else class="el-icon-plus avatar-uploader-icon"/>-->
-    <!--            </el-upload>-->
-    <!--          </el-form-item>-->
-    <!--        </el-form>-->
-    <!--        <div slot="footer" class="dialog-footer">-->
-    <!--          <el-button @click="productVisiable = false">取消</el-button>-->
-    <!--          <el-button type="primary" @click="handleProductEdit">确定</el-button>-->
-    <!--        </div>-->
-    <!--      </el-dialog>-->
-    <!--    </el-card>-->
-
     <el-card class="box-card">
       <h3>商品参数</h3>
       <el-button type="primary" @click="handleAttributeShow">添加</el-button>
@@ -265,13 +122,13 @@
           status-icon
           label-position="left"
           label-width="100px"
-          style="width: 400px; margin-left:50px;"
+          style="width: 600px; margin-left:50px;"
         >
           <el-form-item label="商品参数名称" prop="attribute">
             <el-input v-model="attributeForm.attribute" />
           </el-form-item>
           <el-form-item label="商品参数值" prop="value">
-            <el-input v-model="attributeForm.value" />
+            <el-input v-model="attributeForm.value" type="textarea" :show-word-limit="true" :maxlength="1000" :rows="7" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -289,7 +146,12 @@
   </div>
 </template>
 
-<style>
+<style >
+  .product-parm-value >>> textarea{
+    min-height: 600px !important;
+    height: 600px !important;
+  }
+
   .el-card {
     margin-bottom: 10px;
   }
@@ -420,7 +282,6 @@ export default {
         })
         this.$router.push({ path: '/product/list' })
       }).catch(response => {
-        console.log(response)
         MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
           confirmButtonText: '确定',
           type: 'error'

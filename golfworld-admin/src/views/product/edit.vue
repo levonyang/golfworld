@@ -129,13 +129,13 @@
           status-icon
           label-position="left"
           label-width="100px"
-          style="width: 400px; margin-left:50px;"
+          style="width: 600px; margin-left:50px;"
         >
           <el-form-item label="商品参数名称" prop="attribute">
             <el-input v-model="attributeForm.attribute" />
           </el-form-item>
           <el-form-item label="商品参数值" prop="value">
-            <el-input v-model="attributeForm.value" />
+            <el-input v-model="attributeForm.value" type="textarea" :show-word-limit="true" :maxlength="1000" :rows="7" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">

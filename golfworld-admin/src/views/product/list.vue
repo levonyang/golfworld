@@ -21,7 +21,7 @@
               <span>{{ props.row.productSn }}</span>
             </el-form-item>
             <el-form-item label="宣传画廊">
-              <img v-for="pic in props.row.gallery" :key="pic" :src="pic" class="gallery">
+              <img v-for="pic in JSON.parse(props.row.gallery)" :key="pic" :src="pic" class="gallery">
             </el-form-item>
             <el-form-item label="商品介绍">
               <span>{{ props.row.brief }}</span>
@@ -68,9 +68,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="市场售价" prop="counterPrice" />
+      <el-table-column align="center" label="市场价" prop="officialPrice" />
 
-      <el-table-column align="center" label="当前价格" prop="retailPrice" />
+      <el-table-column align="center" label="折扣价" prop="discountPrice" />
 
       <el-table-column align="center" label="是否新品" prop="isNew">
         <template slot-scope="scope">
