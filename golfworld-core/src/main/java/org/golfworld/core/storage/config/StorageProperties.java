@@ -108,6 +108,7 @@ public class StorageProperties {
         public void setBucketName(String bucketName) {
             this.bucketName = bucketName;
         }
+
     }
 
     public static class Aliyun {

@@ -43,6 +43,7 @@ public class AdminCategoryController {
             categoryVO.setPicUrl(category.getPicUrl());
             categoryVO.setKeywords(category.getKeywords());
             categoryVO.setName(category.getName());
+            categoryVO.setNameCn(category.getNameCn());
             categoryVO.setLevel(category.getLevel());
 
             List<CategoryVo> children = new ArrayList<>();
@@ -55,6 +56,7 @@ public class AdminCategoryController {
                 subCategoryVo.setPicUrl(subCategory.getPicUrl());
                 subCategoryVo.setKeywords(subCategory.getKeywords());
                 subCategoryVo.setName(subCategory.getName());
+                subCategoryVo.setNameCn(subCategory.getNameCn());
                 subCategoryVo.setLevel(subCategory.getLevel());
 
                 children.add(subCategoryVo);

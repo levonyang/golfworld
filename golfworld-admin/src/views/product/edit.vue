@@ -8,12 +8,12 @@
           <el-input v-model="product.name" />
         </el-form-item>
         <el-form-item label="市场价" prop="officialPrice">
-          <el-input v-model="product.officialPrice" placeholder="0.00">
+          <el-input v-model="product.officialPrice" placeholder="">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="折扣价" prop="discountPrice">
-          <el-input v-model="product.discountPrice" placeholder="0.00">
+          <el-input v-model="product.discountPrice" placeholder="">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
@@ -226,13 +226,12 @@ export default {
       productVisiable: false,
       productForm: {
         id: 0,
-        specifications: [],
-        price: 0.0,
+        discountPrice: null,
         number: 0,
         url: ''
       },
       products: [
-        { id: 0, price: 0.0, number: 0, url: '' }
+        { id: 0, discountPrice: null, number: 0, url: '' }
       ],
       attributeVisiable: false,
       attributeAdd: true,
@@ -302,6 +301,7 @@ export default {
         if (this.product.keywords === '') {
           this.product.keywords = null
         }
+
         this.products = response.data.data.products
         this.attributes = response.data.data.attributes
         this.categoryIds = response.data.data.categoryIds
@@ -331,7 +331,7 @@ export default {
       this.$router.push({ path: '/product/list' })
     },
     handleEdit: function() {
-      this.product.gallery = JSON.stringify(this.product.gallery)
+      this.stringProductGalleryUrl()
       const finalProduct = {
         product: this.product,
         products: this.products,
@@ -351,6 +351,13 @@ export default {
             type: 'error'
           })
         })
+    },
+    stringProductGalleryUrl() {
+      if (this.product.gallery.length > 0) {
+        this.product.gallery = JSON.stringify(this.product.gallery)
+      } else {
+        this.product.gallery = '[]'
+      }
     },
     handleClose(tag) {
       this.keywords.splice(this.keywords.indexOf(tag), 1)

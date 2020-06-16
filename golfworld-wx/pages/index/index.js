@@ -13,7 +13,9 @@ Page({
         vertical: false,
         autoplay: false,
         interval: 2000,
+        selectedChannelId: 1036014,
         duration: 500
+
     },
 
     onShareAppMessage: function () {
@@ -34,7 +36,8 @@ Page({
     getIndexData: function () {
         let that = this;
         util.request(api.IndexUrl).then(function (res) {
-            console.log(res.data)
+            console.log(res)
+            // res.data.channel
             if (res.errno === 0) {
                 that.setData({
                     newProduct: res.data.newProductList,
@@ -106,6 +109,13 @@ Page({
         }
 
         this.getIndexData();
+    },
+    tapChannel: function(e){
+        this.setData(
+            {
+                selectedChannelId:e.currentTarget.dataset.id
+            }
+        )
     },
     onReady: function () {
         // 页面渲染完成

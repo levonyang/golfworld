@@ -5,6 +5,7 @@ import java.util.List;
 public class CategoryVo {
     private Integer id;
     private String name;
+    private String nameCn;
     private String keywords;
     private String desc;
     private String iconUrl;
@@ -74,5 +75,13 @@ public class CategoryVo {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getNameCn() {
+        return nameCn;
+    }
+
+    public void setNameCn(String nameCn) {
+        this.nameCn = nameCn;
     }
 }

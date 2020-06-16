@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,10 +77,6 @@ public class AdminProductService {
             }
         }
 
-        BigDecimal officialPrice = product.getOfficialPrice();
-        if (officialPrice == null) {
-            return ResponseUtil.badArgument();
-        }
         return null;
     }
 
@@ -127,19 +122,6 @@ public class AdminProductService {
             throw new RuntimeException("更新数据失败");
         }
 
-        Integer gid = product.getId();
-//
-//        // 商品规格表litemall_product_specification
-//        for (ProductSpecification specification : specifications) {
-//            // 目前只支持更新规格表的图片字段
-//            if (specification.getUpdateTime() == null) {
-//                specification.setSpecification(null);
-//                specification.setValue(null);
-//                specificationService.updateById(specification);
-//            }
-//        }
-
-
         // 商品参数表product_attribute
         for (ProductAttribute attribute : attributes) {
             if (attribute.getId() == null || attribute.getId().equals(0)) {
@@ -177,13 +159,12 @@ public class AdminProductService {
 
         Product product = productAllinone.getProduct();
         ProductAttribute[] attributes = productAllinone.getAttributes();
-        ProductSpecification[] specifications = productAllinone.getSpecifications();
-        ProductProduct[] products = productAllinone.getProducts();
 
         String name = product.getName();
         if (productService.checkExistByName(name)) {
             return ResponseUtil.fail(GOODS_NAME_EXIST, "商品名已经存在");
         }
+
 
 
         // 商品基本信息表product

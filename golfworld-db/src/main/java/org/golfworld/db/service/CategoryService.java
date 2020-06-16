@@ -15,7 +15,7 @@ import java.util.List;
 public class CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
-    private Category.Column[] CHANNEL = {Category.Column.id, Category.Column.name, Category.Column.iconUrl};
+    private Category.Column[] CHANNEL = {Category.Column.id, Category.Column.name, Category.Column.nameCn,Category.Column.iconUrl};
 
     public List<Category> queryL1WithoutRecommend(int offset, int limit) {
         CategoryExample example = new CategoryExample();
@@ -34,6 +34,12 @@ public class CategoryService {
     public List<Category> queryL1() {
         CategoryExample example = new CategoryExample();
         example.or().andLevelEqualTo("L1").andDeletedEqualTo(false);
+        return categoryMapper.selectByExample(example);
+    }
+
+    public List<Category> queryL2() {
+        CategoryExample example = new CategoryExample();
+        example.or().andLevelEqualTo("L2").andDeletedEqualTo(false);
         return categoryMapper.selectByExample(example);
     }
 
@@ -91,6 +97,7 @@ public class CategoryService {
     public List<Category> queryChannel() {
         CategoryExample example = new CategoryExample();
         example.or().andLevelEqualTo("L1").andDeletedEqualTo(false);
-        return categoryMapper.selectByExampleSelective(example, CHANNEL);
+        List<Category> categories = categoryMapper.selectByExampleSelective(example, CHANNEL);
+        return  categories;
     }
 }

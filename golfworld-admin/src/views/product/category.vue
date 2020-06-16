@@ -13,6 +13,8 @@
 
       <el-table-column align="center" label="类目名" prop="name" />
 
+      <el-table-column align="center" label="类目中文名" prop="nameCn" />
+
       <el-table-column align="center" property="iconUrl" label="类目图标">
         <template slot-scope="scope">
           <img v-if="scope.row.iconUrl" :src="scope.row.iconUrl" width="40">
@@ -48,6 +50,9 @@
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item label="类目名称" prop="name">
           <el-input v-model="dataForm.name" />
+        </el-form-item>
+        <el-form-item label="类目名称" prop="nameCn">
+          <el-input v-model="dataForm.nameCn" />
         </el-form-item>
         <el-form-item label="关键字" prop="keywords">
           <el-input v-model="dataForm.keywords" />
@@ -148,6 +153,7 @@ export default {
       dataForm: {
         id: undefined,
         name: '',
+        nameCn: '',
         keywords: '',
         level: 'L2',
         pid: 0,

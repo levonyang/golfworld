@@ -64,6 +64,7 @@ public class TencentStorage implements Storage {
         this.bucketName = bucketName;
     }
 
+
     private COSClient getCOSClient() {
         if (cosClient == null) {
             // 1 初始化用户身份信息(secretId, secretKey)
@@ -77,7 +78,9 @@ public class TencentStorage implements Storage {
     }
 
     private String getBaseUrl() {
-        return "https://" + bucketName + ".cos." + region + ".myqcloud.com/";
+//        return endpoint;
+        return "https://" + bucketName + ".file.myqcloud.com/";
+        //return "https://" + bucketName + ".cos." + region + ".myqcloud.com/";
     }
 
     @Override

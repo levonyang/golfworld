@@ -8,12 +8,12 @@
           <el-input v-model="product.name" />
         </el-form-item>
         <el-form-item label="市场价" prop="officialPrice">
-          <el-input v-model="product.officialPrice" placeholder="0.00">
+          <el-input v-model="product.officialPrice" placeholder="">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="折扣价" prop="discountPrice">
-          <el-input v-model="product.discountPrice" placeholder="0.00">
+          <el-input v-model="product.discountPrice" placeholder="">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
@@ -217,8 +217,8 @@ export default {
       brandList: [],
       product: { picUrl: '', gallery: [], isHot: false, isNew: true, isOnSale: true },
       productVisiable: false,
-      productForm: { id: 0, price: 0.00, number: 0, url: '' },
-      products: [{ id: 0, price: 0.00, number: 0, url: '' }],
+      productForm: { id: 0, officialPrice: 0.00, discountPrice: null, number: 0, url: '' },
+      products: [{ id: 0, officialPrice: 0.00, discountPrice: null, number: 0, url: '' }],
       attributeVisiable: false,
       attributeForm: { attribute: '', value: '' },
       attributes: [],
@@ -268,7 +268,11 @@ export default {
       this.$router.push({ path: '/product/product' })
     },
     handlePublish: function() {
-      this.product.gallery = JSON.stringify(this.product.gallery)
+      if (this.product.gallery.length > 0) {
+        this.product.gallery = JSON.stringify(this.product.gallery)
+      } else {
+        this.product.gallery = '[]'
+      }
       const finalProduct = {
         product: this.product,
         specifications: this.specifications,

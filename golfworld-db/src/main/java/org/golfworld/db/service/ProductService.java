@@ -185,7 +185,7 @@ public class ProductService {
 
     public int updateById(Product product) {
         product.setUpdateTime(LocalDateTime.now());
-        return productMapper.updateByPrimaryKeySelective(product);
+        return productMapper.updateByPrimaryKey(product);
     }
 
     public void deleteById(Integer id) {

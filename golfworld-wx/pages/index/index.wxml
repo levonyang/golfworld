@@ -25,7 +25,7 @@
         <image class="new-release-image" src="/static/images/temp/Product1.png"></image>
     </view>
 </view>
-<scroll-view class="scroll-view_H" scroll-x="true" bindscroll="scroll" style="width: 100%">
+<scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
     <block wx:for="{{newProduct}}" wx:key="*this">
         <view id="{{item.id}}" class="scroll-view-item_H">
             <view style='background:url({{item.picUrl}}) no-repeat;background-size:cover;width:340;height:260rpx;background-position:center center;border-top-left-radius:20rpx;border-top-right-radius:20rpx;'></view>
@@ -47,14 +47,15 @@
                     <label>天后</label>
                 </view>
             </view>
-
         </view>
-        <!--                <image class="image" src="{{item.url}}"/>-->
     </block>
-
 </scroll-view>
+    <scroll-view class="product-menu" scroll-x="true" style="width: 100%">
+            <block wx:for="{{channel}}" wx:key="*this">
+                <label bindtap="tapChannel" data-id="{{item.id}}" class="product-menu-item {{selectedChannelId==item.id ? 'selectedChannel':'' }}">{{item.nameCn}}</label>
+            </block>
+    </scroll-view>
 <view>
-
-
+   product list
 </view>
 

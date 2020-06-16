@@ -21,7 +21,7 @@
               <span>{{ props.row.productSn }}</span>
             </el-form-item>
             <el-form-item label="宣传画廊">
-              <img v-for="pic in JSON.parse(props.row.gallery)" :key="pic" :src="pic" class="gallery">
+              <img v-for="pic in props.row.gallery" :key="pic" :src="pic" class="gallery">
             </el-form-item>
             <el-form-item label="商品介绍">
               <span>{{ props.row.brief }}</span>
@@ -164,6 +164,10 @@ export default {
         this.list = response.data.data.list
         this.total = response.data.data.total
         this.listLoading = false
+        this.list.forEach((value, index) => {
+          this.list[index].gallery = JSON.parse(value.gallery)
+        })
+        console.log(this.list)
       }).catch(() => {
         this.list = []
         this.total = 0
@@ -185,6 +189,11 @@ export default {
       this.detailDialogVisible = true
     },
     handleDelete(row) {
+      if (row.gallery.length > 0) {
+        row.gallery = JSON.stringify(row.gallery)
+      } else {
+        row.gallery = '[]'
+      }
       deleteProduct(row).then(response => {
         this.$notify.success({
           title: '成功',

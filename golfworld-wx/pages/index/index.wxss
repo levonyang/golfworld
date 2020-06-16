@@ -73,7 +73,7 @@ page {
 }
 
 .scroll-view_H {
-    margin-top: 50rpx;
+    margin-top: 40rpx;
     white-space: nowrap;
 }
 
@@ -148,7 +148,7 @@ page {
 }
 
 .new-release-list-time {
-    /*padding: 20rpx;*/
+    padding: 5rpx;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -157,13 +157,14 @@ page {
     background-color: #595959;
     border-radius: 20rpx;
     width: 100rpx;
-    height: 130rpx;
+    height: 138rpx;
     position: relative;
     top: -350rpx;
     left: 15rpx;
 }
 
 .new-release-list-time-title {
+    color: #d7d2d2;
     font-size: 20rpx;
 }
 
@@ -187,4 +188,18 @@ page {
     font-size: 24rpx;
     color: white;
     writing-mode: vertical-lr;
+}
+
+.product-menu {
+    white-space: nowrap;
+}
+
+.product-menu-item {
+    color: #999;
+    margin: 0 6rpx;
+}
+.selectedChannel{
+   border-bottom: 5rpx #ff9c02 solid ;
+   color: #333;
+
 }
