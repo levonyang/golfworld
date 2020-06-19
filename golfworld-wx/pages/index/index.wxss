@@ -32,12 +32,12 @@ page {
 }
 
 .new-title {
-    top: -30rpx;
+    top: -50rpx;
 }
 
 .new-release {
     padding: 20rpx;
-    margin: 10rpx 30rpx;
+    margin: 0rpx 30rpx;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -82,12 +82,13 @@ page {
 }
 
 .scroll-view-item_H {
+    padding: 0;
     border-radius: 20rpx;
     border: 1px solid #c9c8c8;
     display: inline-block;
     margin: 0rpx 20rpx;
-    width: 340rpx;
-    height: 340rpx;
+    width: 280rpx;
+    height: 280rpx;
 }
 
 .new-release-talk {
@@ -97,9 +98,16 @@ page {
     width: 110rpx;
     height: 30rpx;
     position: relative;
-    top: -18rpx;
+    top: -28rpx;
     display: flex;
     flex-direction: row;
+}
+
+.new-release-list-image {
+    border-top-right-radius: 20rpx;
+    border-top-left-radius: 20rpx;
+    max-width: 276rpx;
+    max-height: 200rpx;
 }
 
 .new-release-talk view {
@@ -115,20 +123,23 @@ page {
 }
 
 .new-release-list-desc {
-    padding: 8rpx;
+    padding: 12rpx;
     position: relative;
     justify-content: space-between;
-    top: -25rpx;
+    top: -35rpx;
     display: flex;
     flex-direction: row;
+}
+.new-release-list-desc-left{
+    /*padding: 0rpx 0rpx 5rpx 3rpx;*/
 }
 
 .new-release-list-desc-title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 230rpx;
-    font-size: 26rpx;
+    width: 96px;
+    font-size: 24rpx;
     font-weight: bold;
 }
 
@@ -140,7 +151,7 @@ page {
     font-size: 20rpx;
     color: white;
     height: 36rpx;
-    margin-top: 16rpx;
+    margin-top: 12rpx;
     line-height: 36rpx;
     padding: 4rpx 8rpx 8rpx 8rpx;
     background-color: #ff9c02;
@@ -157,10 +168,10 @@ page {
     background-color: #595959;
     border-radius: 20rpx;
     width: 100rpx;
-    height: 138rpx;
+    height: 130rpx;
     position: relative;
-    top: -350rpx;
-    left: 15rpx;
+    top: -303rpx;
+    left: 12rpx;
 }
 
 .new-release-list-time-title {
@@ -191,6 +202,7 @@ page {
 }
 
 .product-menu {
+    margin-left: 30rpx;
     white-space: nowrap;
 }
 
@@ -198,8 +210,9 @@ page {
     color: #999;
     margin: 0 6rpx;
 }
-.selectedChannel{
-   border-bottom: 5rpx #ff9c02 solid ;
-   color: #333;
+
+.selectedChannel {
+    border-bottom: 5rpx #ff9c02 solid;
+    color: #333;
 
 }

@@ -74,7 +74,7 @@ public class WxCommentController {
         }
         Boolean hasPicture = comment.getHasPicture();
         if (hasPicture == null || !hasPicture) {
-            comment.setPicUrls(new String[0]);
+            comment.setPicUrls(new String[0].toString());
         }
         return null;
     }

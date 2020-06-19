@@ -3,5 +3,5 @@
   <image class="go_search" bindtap="goSearch" src="/static/images/gosearch.png"></image>
 </view>
         <!--<van-product title="product" thumb="/static/images/temp/product1.png"/>-->
-<van-product title="TITLEEIST TS3 DRIVER" thumb="/static/images/temp/product1.png"/>
+<van-product title="TITLEEIST TS3 DRIVER" isReview="true" thumb="/static/images/temp/product1.png"/>
 

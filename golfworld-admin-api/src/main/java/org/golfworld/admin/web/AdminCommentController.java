@@ -27,12 +27,12 @@ public class AdminCommentController {
     @RequiresPermissions("admin:comment:list")
     @RequiresPermissionsDesc(menu = {"产品管理", "评论管理"}, button = "查询")
     @GetMapping("/list")
-    public Object list(String userId, String valueId,
+    public Object list(String userId, String valueId,byte type,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @OrderValidateInterface @RequestParam(defaultValue = "desc") String order) {
-        List<Comment> commentList = commentService.querySelective(userId, valueId, page, limit, sort, order);
+        List<Comment> commentList = commentService.querySelective(type,userId, valueId, page, limit, sort, order);
         return ResponseUtil.okList(commentList);
     }
 

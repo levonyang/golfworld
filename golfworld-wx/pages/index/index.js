@@ -13,9 +13,10 @@ Page({
         vertical: false,
         autoplay: false,
         interval: 2000,
-        selectedChannelId: 1036014,
-        duration: 500
-
+        selectedChannelId: -1,
+        selectedChannelProduct: [],
+        duration: 500,
+        newReleaseProduct: ''
     },
 
     onShareAppMessage: function () {
@@ -36,9 +37,19 @@ Page({
     getIndexData: function () {
         let that = this;
         util.request(api.IndexUrl).then(function (res) {
-            console.log(res)
-            // res.data.channel
             if (res.errno === 0) {
+                res.data.channel.splice(0, 0, {
+                    id: -1,
+                    nameCn: '精选'
+                })
+                res.data.floorProductList.push({
+                    id: -1,
+                    productList: res.data.hotProductList
+                })
+                if (res.data.newProductList.length > 0) {
+                    var newReleaseProduct = res.data.newProductList[0]
+                }
+                console.log(res.data.newProductList)
                 that.setData({
                     newProduct: res.data.newProductList,
                     hotProduct: res.data.hotProductList,
@@ -47,6 +58,8 @@ Page({
                     floorProduct: res.data.floorProductList,
                     banner: res.data.banner,
                     channel: res.data.channel,
+                    selectedChannelProduct: res.data.hotProductList,
+                    newReleaseProduct: newReleaseProduct
                 });
             }
         });
@@ -110,10 +123,16 @@ Page({
 
         this.getIndexData();
     },
-    tapChannel: function(e){
+    tapChannel: function (e) {
+        let id = e.currentTarget.dataset.id;
+        let selected = this.data.floorProduct.filter(product => product.id == id);
+        let productList = selected[0].productList
+        if (productList == undefined) productList = []
+
         this.setData(
             {
-                selectedChannelId:e.currentTarget.dataset.id
+                selectedChannelId: id,
+                selectedChannelProduct: productList,
             }
         )
     },

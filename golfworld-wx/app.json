@@ -1,9 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/ucenter/collect/collect",
+    "pages/ucenter/feedback/feedback",
     "pages/ucenter/index/index",
     "pages/ucenter/profile/profile",
-    "pages/ucenter/feedback/feedback",
     "pages/ucenter/attention/attention",
     "pages/ucenter/integral/integral",
     "pages/catalog/catalog",
@@ -14,7 +15,6 @@
     "pages/ucenter/footprint/footprint",
     "pages/ucenter/order/order",
     "pages/ucenter/orderDetail/orderDetail",
-    "pages/ucenter/collect/collect",
     "pages/auth/login/login",
     "pages/auth/accountLogin/accountLogin",
     "pages/auth/register/register",
@@ -102,7 +102,8 @@
     "van-rate": "./lib/vant-weapp/rate/index",
     "van-search": "./lib/vant-weapp/search/index",
     "van-col": "./lib/vant-weapp/col/index",
-    "van-row": "./lib/vant-weapp/row/index"
+    "van-row": "./lib/vant-weapp/row/index",
+    "van-image": "./lib/vant-weapp/image/index"
   },
   "sitemapLocation": "sitemap.json"
 }

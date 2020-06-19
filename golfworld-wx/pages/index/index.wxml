@@ -2,12 +2,12 @@
     <van-search value="{{ value }}" shape="round" custom-class="search" field-class="field" input-class="input"
                 background=" #E86E35" placeholder="请输入搜索关键词"/>
 </view>
-<swiper previous-margin="70rpx" next-margin="40rpx" class="banner" i3dicator-dots="{{false}}" autoplay="{{true}}"
+<swiper previous-margin="75rpx" next-margin="40rpx" class="banner" i3dicator-dots="{{false}}" autoplay="{{true}}"
         interval="5000" duration="{{duration}}" circular="{{true}}" spaceBetween="40rpx">
     <block wx:for="{{banner}}" wx:key="*this">
         <swiper-item url="{{item.url}}">
             <!--                <image class="image" src="{{item.url}}"/>-->
-            <view style='background:url({{item.url}}) no-repeat;background-size:cover;width:600rpx;height:100%;background-position:center center;  border-radius: 30rpx;'></view>
+            <view style='background:url({{item.url}}) no-repeat;background-size:cover;width:600rpx;height:280rpx;background-position:center center;  border-radius: 30rpx;'></view>
         </swiper-item>
     </block>
 </swiper>
@@ -18,23 +18,23 @@
             <image class="new-release-label-icon" src="/static/images/index@new.png"></image>
             <label>最新上线</label>
         </view>
-        <view>TITLEIST TS3 DRIVER</view>
-        <view>简介</view>
+        <view>{{newReleaseProduct.name}}</view>
+        <view>{{newReleaseProduct.brief}}</view>
     </view>
     <view>
-        <image class="new-release-image" src="/static/images/temp/Product1.png"></image>
+        <image class="new-release-image" src="{{newReleaseProduct.picUrl}}"></image>
     </view>
 </view>
 <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
     <block wx:for="{{newProduct}}" wx:key="*this">
         <view id="{{item.id}}" class="scroll-view-item_H">
-            <view style='background:url({{item.picUrl}}) no-repeat;background-size:cover;width:340;height:260rpx;background-position:center center;border-top-left-radius:20rpx;border-top-right-radius:20rpx;'></view>
+                <image src="{{item.picUrl}}" class="new-release-list-image" mode="widthFix"></image>
             <view class="new-release-talk">
                 <view>新品Talk</view>
                 <image src="/static/images/index@newtalk.png"></image>
             </view>
             <view class="new-release-list-desc">
-                <view class="">
+                <view class="new-release-list-desc-left">
                     <view class="new-release-list-desc-title">{{item.name}}</view>
                     <view class="new-release-list-desc-wtl">30人想看</view>
                 </view>
@@ -50,12 +50,17 @@
         </view>
     </block>
 </scroll-view>
-    <scroll-view class="product-menu" scroll-x="true" style="width: 100%">
-            <block wx:for="{{channel}}" wx:key="*this">
-                <label bindtap="tapChannel" data-id="{{item.id}}" class="product-menu-item {{selectedChannelId==item.id ? 'selectedChannel':'' }}">{{item.nameCn}}</label>
-            </block>
-    </scroll-view>
+<scroll-view class="product-menu" scroll-x="true" style="width: 100%">
+    <block wx:for="{{channel}}" wx:key="*this">
+        <label bindtap="tapChannel" data-id="{{item.id}}"
+               class="product-menu-item {{selectedChannelId==item.id ? 'selectedChannel':'' }}">{{item.nameCn}}
+        </label>
+    </block>
+</scroll-view>
 <view>
-   product list
+    <view wx:for="{{selectedChannelProduct}}" class="product-list" wx:key="index">
+        <van-product title="TITLEEIST TS3 DRIVER" custom-class="bottom_border" product="{{item}}" isTalking="true"
+                     thumb="/static/images/temp/product1.png"/>
+    </view>
 </view>
 

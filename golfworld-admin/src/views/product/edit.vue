@@ -41,12 +41,14 @@
             :headers="headers"
             :action="uploadPath"
             :show-file-list="false"
+            :on-progress="showPicLoading"
             :on-success="uploadPicUrl"
             class="avatar-uploader"
             accept=".jpg,.jpeg,.png,.gif"
           >
-            <img v-if="product.picUrl" :src="product.picUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon" />
+            <img v-if="showLoading" :src="picLoading" class="loading avatar">
+            <img v-if="product.picUrl && !showLoading" :src="product.picUrl" class="avatar">
+            <i v-if=" !product.picUrl && !showLoading" class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
 
@@ -135,7 +137,13 @@
             <el-input v-model="attributeForm.attribute" />
           </el-form-item>
           <el-form-item label="商品参数值" prop="value">
-            <el-input v-model="attributeForm.value" type="textarea" :show-word-limit="true" :maxlength="1000" :rows="7" />
+            <el-input
+              v-model="attributeForm.value"
+              type="textarea"
+              :show-word-limit="true"
+              :maxlength="1000"
+              :rows="7"
+            />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -200,6 +208,11 @@
     display: flex;
     justify-content: center;
   }
+
+  .loading {
+    max-width: 100%;
+    max-height: 100%;
+  }
 </style>
 
 <script>
@@ -208,6 +221,7 @@ import { createStorage, uploadPath } from '@/api/storage'
 import Editor from '@tinymce/tinymce-vue'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
+import picLoading from '@/assets/loading.gif'
 
 export default {
   name: 'ProductEdit',
@@ -215,6 +229,8 @@ export default {
   data() {
     return {
       uploadPath,
+      showLoading: false,
+      picLoading,
       newKeywordVisible: false,
       newKeyword: '',
       keywords: [],
@@ -327,10 +343,14 @@ export default {
     handleCategoryChange(value) {
       this.product.categoryId = value[value.length - 1]
     },
+    showPicLoading: function() {
+      this.showLoading = true
+    },
     handleCancel: function() {
       this.$router.push({ path: '/product/list' })
     },
     handleEdit: function() {
+      const gallery = this.product.gallery
       this.stringProductGalleryUrl()
       const finalProduct = {
         product: this.product,
@@ -346,6 +366,7 @@ export default {
           this.$router.push({ path: '/product/list' })
         })
         .catch(response => {
+          this.product.gallery = gallery
           MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
             confirmButtonText: '确定',
             type: 'error'
@@ -379,6 +400,7 @@ export default {
       this.newKeyword = ''
     },
     uploadPicUrl: function(response) {
+      this.showLoading = false
       this.product.picUrl = response.data.url
     },
     uploadOverrun: function() {

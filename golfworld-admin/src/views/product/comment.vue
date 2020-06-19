@@ -93,6 +93,9 @@ export default {
         this.list = response.data.data.list
         this.total = response.data.data.total
         this.listLoading = false
+        this.list.forEach((value, index) => {
+          this.list[index].picUrls = JSON.parse(value.picUrls)
+        })
       }).catch(() => {
         this.list = []
         this.total = 0

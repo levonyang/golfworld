@@ -41,10 +41,12 @@
             :action="uploadPath"
             :show-file-list="false"
             :headers="headers"
+            :on-progress="showPicLoading"
             :on-success="uploadPicUrl"
             class="avatar-uploader"
             accept=".jpg,.jpeg,.png,.gif"
           >
+            <img v-if="showLoading" :src="picLoading" class="loading">
             <img v-if="product.picUrl" :src="product.picUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
@@ -128,7 +130,13 @@
             <el-input v-model="attributeForm.attribute" />
           </el-form-item>
           <el-form-item label="商品参数值" prop="value">
-            <el-input v-model="attributeForm.value" type="textarea" :show-word-limit="true" :maxlength="1000" :rows="7" />
+            <el-input
+              v-model="attributeForm.value"
+              type="textarea"
+              :show-word-limit="true"
+              :maxlength="1000"
+              :rows="7"
+            />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -146,10 +154,16 @@
   </div>
 </template>
 
-<style >
-  .product-parm-value >>> textarea{
+<style>
+  .product-parm-value >>> textarea {
     min-height: 600px !important;
     height: 600px !important;
+  }
+
+  .loading {
+    padding-top: 26px;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   .el-card {
@@ -202,6 +216,7 @@ import { createStorage, uploadPath } from '@/api/storage'
 import Editor from '@tinymce/tinymce-vue'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
+import picLoading from '@/assets/loading.gif'
 
 export default {
   name: 'ProductCreate',
@@ -210,6 +225,8 @@ export default {
   data() {
     return {
       uploadPath,
+      showLoading: false,
+      picLoading,
       newKeywordVisible: false,
       newKeyword: '',
       keywords: [],
@@ -233,8 +250,10 @@ export default {
         toolbar: ['searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample', 'hr bullist numlist link image charmap preview anchor pagebreak insertdatetime media table emoticons forecolor backcolor fullscreen'],
         images_upload_handler: function(blobInfo, success, failure) {
           const formData = new FormData()
+          this.showLoading = true
           formData.append('file', blobInfo.blob())
           createStorage(formData).then(res => {
+            this.showLoading = true
             success(res.data.data.url)
           }).catch(() => {
             failure('上传失败，请重新上传')
@@ -267,7 +286,14 @@ export default {
     handleCancel: function() {
       this.$router.push({ path: '/product/product' })
     },
+    showPicLoading: function() {
+      this.showLoading = true
+    },
+    hidePicLoading: function() {
+      this.showLoading = false
+    },
     handlePublish: function() {
+      const gallery = this.product.gallery
       if (this.product.gallery.length > 0) {
         this.product.gallery = JSON.stringify(this.product.gallery)
       } else {
@@ -286,6 +312,7 @@ export default {
         })
         this.$router.push({ path: '/product/list' })
       }).catch(response => {
+        this.product.gallery = gallery
         MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
           confirmButtonText: '确定',
           type: 'error'
@@ -312,6 +339,7 @@ export default {
       this.newKeyword = ''
     },
     uploadPicUrl: function(response) {
+      this.showLoading = false
       this.product.picUrl = response.data.url
     },
     uploadOverrun: function() {

@@ -4,18 +4,15 @@
     <view class="{{ utils.bem('product__header', { center: centered }) }}">
         <view class="van-product__thumb" bind:tap="onClickThumb">
             <image
-                    wx:if="{{ thumb }}"
-                    src="{{ thumb }}"
-                    mode="{{ thumbMode }}"
+                    src="{{ product.picUrl }}"
                     lazy-load="{{ lazyLoad }}"
                     class="van-product__img thumb-class"
             />
         </view>
 
         <view class="van-product__content">
-            <view wx:if="{{ title }}" class="van-product__title title-class">{{ title }}</view>
+            <view wx:if="{{ product.name }}" class="van-product__title title-class">{{ product.name }}</view>
             <slot wx:else name="title"/>
-
             <view class="van-product_rate">
                 <van-rate
                         value="{{ 3.5 }}"
@@ -26,12 +23,22 @@
                         bind:change="onChange"
                 />
             </view>
-            <view class="product_status">
-                <view class="product__status_item">{{ article }} 1 文章</view>
-                <view class="product__status_item">{{ review}} 2 点评</view>
+            <view class="product_status" wx:if="{{isReview}}">
+                <view class="product__status_item">{{ product.talkingAmount }} 文章</view>
+                <view class="product__status_item">{{product.commonAmount}} 点评</view>
+            </view>
+            <view class="" wx:if="{{isTalking}}">
+                <view class="avatar-list">
+                    <block wx:for="{{product.recentTalkUserAvatar}}" wx:key="index">
+                        <view class="avatar-list-item">
+                            <image class="avatar-list-item-image" style="{{'left:'+index*40 +'rpx'}};"
+                                   src="{{item}}"></image>
+                        </view>
+                    </block>
+                    <view class="product-talking"><label style="color: red ;padding-right: 5rpx">{{product.talkingAmount}}</label>正在讨论
+                    </view>
+                </view>
             </view>
         </view>
     </view>
-
-
 </view>

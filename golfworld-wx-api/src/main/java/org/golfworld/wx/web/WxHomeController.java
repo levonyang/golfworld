@@ -7,8 +7,11 @@ import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.Category;
 import org.golfworld.db.domain.Product;
 import org.golfworld.db.service.*;
+import org.golfworld.db.util.CommonTypeConstant;
 import org.golfworld.wx.annotation.LoginUser;
+import org.golfworld.wx.dto.ProductInfo;
 import org.golfworld.wx.service.HomeCacheManager;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 /**
  * 首页服务
@@ -46,6 +50,9 @@ public class WxHomeController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private CommentService commentService;
+
 
     private final static ArrayBlockingQueue<Runnable> WORK_QUEUE = new ArrayBlockingQueue<>(9);
 
@@ -55,7 +62,7 @@ public class WxHomeController {
 
     @GetMapping("/cache")
     public Object cache(@NotNull String key) {
-        if (!key.equals("litemall_cache")) {
+        if (!key.equals("golfworld_cache")) {
             return ResponseUtil.fail();
         }
 
@@ -66,6 +73,7 @@ public class WxHomeController {
 
     /**
      * 首页数据
+     *
      * @param userId 当用户已经登录时，非空。为登录状态为null
      * @return 首页数据
      */
@@ -80,7 +88,6 @@ public class WxHomeController {
         Callable<List> bannerListCallable = () -> adService.queryIndex();
 
         Callable<List> channelListCallable = () -> categoryService.queryChannel();
-
 
 
         Callable<List> newProductListCallable = () -> productService.queryByNew(0, SystemConfig.getNewLimit());
@@ -121,13 +128,26 @@ public class WxHomeController {
             entity.put("floorProductList", floorProductListTask.get());
             //缓存数据
             HomeCacheManager.loadData(HomeCacheManager.INDEX, entity);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             executorService.shutdown();
         }
         return ResponseUtil.ok(entity);
+    }
+
+    private List<Map> getCategoryListByL1() {
+        List<Map> categoryList = new ArrayList<>();
+        List<Category> catL1List = categoryService.queryL1WithoutRecommend(0, SystemConfig.getCatlogListLimit());
+        for (Category catL1 : catL1List) {
+            List<Product> categoryProduct = productService.queryByCategory(catL1.getId(), 0, SystemConfig.getCatlogMoreLimit());
+            Map<String, Object> catProduct = new HashMap<>();
+            catProduct.put("id", catL1.getId());
+            catProduct.put("name", catL1.getName());
+            catProduct.put("productList", categoryProduct);
+            categoryList.add(catProduct);
+        }
+        return categoryList;
     }
 
     private List<Map> getCategoryList() {
@@ -139,25 +159,42 @@ public class WxHomeController {
             for (Category catL2 : catL2List) {
                 l2List.add(catL2.getId());
             }
-
             List<Product> categoryProduct;
             if (l2List.size() == 0) {
                 categoryProduct = new ArrayList<>();
             } else {
                 categoryProduct = productService.queryByCategory(l2List, 0, SystemConfig.getCatlogMoreLimit());
             }
-
+            List<ProductInfo> productInfos = getProductCommonAndTalk(categoryProduct);
             Map<String, Object> catProduct = new HashMap<>();
             catProduct.put("id", catL1.getId());
             catProduct.put("name", catL1.getName());
-            catProduct.put("productList", categoryProduct);
+            catProduct.put("productList", productInfos);
             categoryList.add(catProduct);
         }
         return categoryList;
     }
 
+    private List<ProductInfo> getProductCommonAndTalk(List<Product> categoryProduct) {
+        List<ProductInfo> collect = categoryProduct.stream().map(product -> {
+            ProductInfo productInfo = new ProductInfo();
+            Integer productId = product.getId();
+            BeanUtils.copyProperties(product, productInfo);
+            int commonAmount = commentService.count(CommonTypeConstant.PRODUCT_COMMENT, productId);
+            productInfo.setCommentAmount(commonAmount);
+            float score = commentService.countScore(productId);
+            productInfo.setScore(score);
+            int talkingAmount = commentService.count(CommonTypeConstant.PRODUCT_TALKING, productId);
+            productInfo.setTalkingAmount(talkingAmount);
+            productInfo.setRecentTalkUserAvatar(commentService.getRecentTalkUserAvatar(productId, 5));
+            return productInfo;
+        }).collect(Collectors.toList());
+        return collect;
+    }
+
     /**
      * 商城介绍信息
+     *
      * @return 商城介绍信息
      */
     @GetMapping("/about")

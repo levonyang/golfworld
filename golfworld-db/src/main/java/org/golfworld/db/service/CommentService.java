@@ -4,12 +4,17 @@ import com.github.pagehelper.PageHelper;
 import org.golfworld.db.dao.CommentMapper;
 import org.golfworld.db.domain.Comment;
 import org.golfworld.db.domain.CommentExample;
+import org.golfworld.db.util.CommonTypeConstant;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -32,7 +37,7 @@ public class CommentService {
         } else if (showType == 1) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andHasPictureEqualTo(true).andDeletedEqualTo(false);
         } else {
-            throw new RuntimeException("showType不支持");
+            example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type);
         }
         PageHelper.startPage(offset, limit);
         return commentMapper.selectByExample(example);
@@ -40,13 +45,17 @@ public class CommentService {
 
     public int count(Byte type, Integer valueId, Integer showType) {
         CommentExample example = new CommentExample();
-        if (showType == 0) {
+        if (null ==showType || showType ==0 ){
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         } else if (showType == 1) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andHasPictureEqualTo(true).andDeletedEqualTo(false);
-        } else {
-            throw new RuntimeException("showType不支持");
         }
+        return (int) commentMapper.countByExample(example);
+    }
+
+    public int count(Byte type, Integer valueId) {
+        CommentExample example = new CommentExample();
+        example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         return (int) commentMapper.countByExample(example);
     }
 
@@ -56,18 +65,20 @@ public class CommentService {
         return commentMapper.insertSelective(comment);
     }
 
-    public List<Comment> querySelective(String userId, String valueId, Integer page, Integer size, String sort, String order) {
+    public List<Comment> querySelective(byte type, String valueId, String userId, Integer page, Integer size, String sort, String order) {
         CommentExample example = new CommentExample();
         CommentExample.Criteria criteria = example.createCriteria();
 
-        // type=2 是订单商品回复，这里过滤
-        criteria.andTypeNotEqualTo((byte) 2);
+//        criteria.andTypeNotEqualTo((byte) 2);
 
         if (!StringUtils.isEmpty(userId)) {
             criteria.andUserIdEqualTo(Integer.valueOf(userId));
         }
         if (!StringUtils.isEmpty(valueId)) {
-            criteria.andValueIdEqualTo(Integer.valueOf(valueId)).andTypeEqualTo((byte) 0);
+            criteria.andValueIdEqualTo(Integer.valueOf(valueId));
+        }
+        if (!StringUtils.isEmpty(type)) {
+            criteria.andTypeEqualTo(type);
         }
         criteria.andDeletedEqualTo(false);
 
@@ -89,5 +100,33 @@ public class CommentService {
 
     public int updateById(Comment comment) {
         return commentMapper.updateByPrimaryKeySelective(comment);
+    }
+
+    public float countScore(Integer valueId) {
+        CommentExample example = new CommentExample();
+        example.or().andValueIdEqualTo(valueId).andTypeEqualTo(CommonTypeConstant.PRODUCT_COMMENT).andDeletedEqualTo(false);
+        List<Comment> comments = commentMapper.selectByExample(example);
+        if (comments.isEmpty()) return 0;
+        float baseScore = comments.size() * 5;
+        float totalScore = comments.stream().mapToInt(Comment::getStar).sum();
+        return (totalScore/baseScore) * 10;
+    }
+
+    public List<String> getRecentTalkUserAvatar(int productId, int size) {
+        Set<String> recentTalkUserAvatar = new HashSet<>();
+        int total = this.count(CommonTypeConstant.PRODUCT_TALKING, productId, null);
+        int page = 1 ;
+        while (recentTalkUserAvatar.size() < size){
+            List<Comment> recentlyComments = this.querySelective(CommonTypeConstant.PRODUCT_TALKING, Integer.toString(productId), null,
+                    page, size, "add_time", "desc");
+            Set<String> collect = recentlyComments.stream()
+                    .filter(comment -> !StringUtils.isEmpty(comment.getAvatar()))
+                    .map(Comment::getAvatar).collect(Collectors.toSet());
+            recentTalkUserAvatar.addAll(collect);
+            total -= recentlyComments.size();
+            if (total <=0 ) return new ArrayList<>(recentTalkUserAvatar);
+            page += 1;
+        }
+       return new ArrayList<>(recentTalkUserAvatar);
     }
 }

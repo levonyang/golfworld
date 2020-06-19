@@ -37,7 +37,7 @@ view, text {
     margin-right: auto;
 }
 .grey_background{
-    background-color: #f4f4f4
+    background-color: #f8f8f8
 }
 .border_radio{
    border-radius: 20rpx;
