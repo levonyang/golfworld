@@ -1,0 +1,24 @@
+@import '../../common/index.wxss';
+
+.van-comment{
+    margin: 20rpx;
+}
+.van-comment__img{
+    width: 100rpx;
+    height: 100rpx;
+    margin-right: 28rpx;
+    border-radius: 50%;
+}
+.comment-header{
+    justify-content: space-between;
+}
+.all-talk-title{
+
+}
+.comment-date{
+    color: #999;
+}
+.comment-content{
+    padding: 30rpx;
+    color: #7ba2a8;
+}

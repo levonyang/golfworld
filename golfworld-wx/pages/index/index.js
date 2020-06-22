@@ -49,7 +49,7 @@ Page({
                 if (res.data.newProductList.length > 0) {
                     var newReleaseProduct = res.data.newProductList[0]
                 }
-                console.log(res.data.newProductList)
+                console.log(res.data)
                 that.setData({
                     newProduct: res.data.newProductList,
                     hotProduct: res.data.hotProductList,
@@ -128,7 +128,6 @@ Page({
         let selected = this.data.floorProduct.filter(product => product.id == id);
         let productList = selected[0].productList
         if (productList == undefined) productList = []
-
         this.setData(
             {
                 selectedChannelId: id,

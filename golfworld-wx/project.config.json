@@ -33,6 +33,7 @@
 	"projectname": "litemall-wx",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"appid": "wx32af01c2bc67600f",
 	"condition": {
 		"search": {
 			"current": -1,

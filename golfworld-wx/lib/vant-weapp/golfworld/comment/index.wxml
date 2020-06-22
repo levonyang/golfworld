@@ -1,0 +1,30 @@
+<wxs src="../../wxs/utils.wxs" module="utils"/>
+
+<view class="custom-class van-comment">
+    <view class="flex_row comment-header}">
+        <view class="flex_row">
+            <view class="van-comment__thumb" bind:tap="onClickThumb">
+                <image
+                        src="{{ comment.avatar }}"
+                        lazy-load="{{ lazyLoad }}"
+                        class="van-comment__img thumb-class"
+                />
+            </view>
+            <view class="flex_column">
+                <view>{{comment.nickname}}</view>
+                <van-rate
+                        value="{{ comment.start }}"
+                        size="{{ 19 }}"
+                        count="5"
+                        allow-half
+                        void-color="#eee"
+                        color="#209068"
+                        void-icon="star"
+                        bind:change="onChange"
+                />
+            </view>
+        </view>
+        <view class="comment-date">{{comment.addTime}}</view>
+    </view>
+    <view class="comment-content">{{comment.content}}</view>
+</view>

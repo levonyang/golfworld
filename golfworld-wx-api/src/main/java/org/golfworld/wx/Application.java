@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackages = {"org.golfworld.db", "org.golfworld.core", "org.golfworld.wx"})
+@SpringBootApplication(scanBasePackages = {"org.golfworld.db", "org.golfworld.core", "org.golfworld.wx",
+"org.golfworld.wx.dto.decorator"})
 @MapperScan("org.golfworld.db.dao")
 @EnableTransactionManagement
 @EnableScheduling

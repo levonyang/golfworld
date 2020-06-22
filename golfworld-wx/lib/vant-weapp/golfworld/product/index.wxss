@@ -49,6 +49,7 @@
 }
 
 .van-product__img {
+    border-radius: 20rpx;
     width: 100%;
     height: 100%
 }
@@ -146,4 +147,5 @@
     position: relative;
     left: 150rpx;
 }
+
 

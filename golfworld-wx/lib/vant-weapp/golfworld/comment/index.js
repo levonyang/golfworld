@@ -3,16 +3,11 @@ import {VantComponent} from '../../common/component';
 
 VantComponent({
     classes: [
-        'num-class',
-        'desc-class',
-        'thumb-class',
-        'title-class',
-        'price-class',
-        'origin-price-class',
+
     ],
     mixins: [link],
     props: {
-        product: Object,
+        comment: Object,
         rating: String,
         thumb: String,
         starColor: {

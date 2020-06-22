@@ -1,0 +1,56 @@
+<view class="new-coming-title">
+    <view class="new-coming-desc">
+        <view class="new-coming-name">新品发布</view>
+        <view class="new-coming-label">发现最新最酷的高尔夫球具</view>
+    </view>
+    <image src="/static/images/newrelease@date.png"></image>
+</view>
+<view class="new-release-list">
+    <view class="new-release-list-title">最新上线</view>
+    <block wx:for="{{newProductList}}" wx:key="*this">
+        <van-product title="TITLEEIST TS2 DRIVER" starColor="#209068" custom-class="margin-bottom" product="{{item}}"
+                     isReview="true"/>
+    </block>
+    <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
+        <view class="load-more-text">加载更多</view>
+        <image wx:if="{{loading}}" class="loading" src="/static/images/loading.gif"></image>
+        <van-icon name="arrow-down" wx:if="{{showIcon}}" class="load-more-icon"/>
+    </view>
+</view>
+<view class="new-coming-list">
+    <block wx:for="{{comingProductList}}" wx:key="*this">
+        <view class="{{index==comingProductList.length-1 ? '': 'dash_border'}}">
+            <image class="new-coming-list-icon" src="/static/images/newrelease@icon.png"></image>
+            <view class="new-coming-item">
+                <view class="new-coming-list-title">
+                    <view class="new-coming-item-label flex_row">
+                        <view class="flex_column new-coming-item-text">
+                            <view>上线</view>
+                            <view>时间</view>
+                        </view>
+                        <view class="new-coming-list-title-date">{{item.releaseTimeStr}}</view>
+                    </view>
+                    <view>
+                        <view class="new-coming-list-date">{{item.releaseTimeAfterStr ==0 ? '今天': item.releaseTimeAfterStr+'天后'}}</view>
+                        <image class="new-coming-list-title-date-icon"
+                               src="/static/images/newrelease@datebackgound.png"></image>
+                    </view>
+                </view>
+                <view id="{{item.id}}" class="new-coming-item-desc">
+                    <image src="{{item.picUrl}}" class="new-coming-list-image" mode="widthFix"></image>
+                    <view class="new-coming-talk">
+                        <view>新品Talk</view>
+                        <image src="/static/images/index@newtalk.png"></image>
+                    </view>
+                    <view class="new-coming-list-desc">
+                        <view class="new-coming-list-desc-left">
+                            <view class="new-coming-list-desc-title">{{item.name}}</view>
+                            <view class="new-coming-list-desc-wtl">已有{{item.like}}人期待解锁此球具</view>
+                        </view>
+                        <view class="new-coming-list-desc-like" data-id="{{item.id}}" bindtap="like">想看+1</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </block>
+</view>

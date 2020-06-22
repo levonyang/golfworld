@@ -6,7 +6,7 @@
     <!--        </view>-->
     <!--    </view>-->
     <image src="/static/images/my-background.png"  class="header_background1"></image>
-    <image class="profile_img_bg"   src="/static/images/profile_image_background.png" ></image>
+    <image class="profile_img_bg"   src="/static/images/my@profilebg.png" ></image>
     <image class="avatar"  src="{{userInfo.avatarUrl}}"></image>
     <view class="profile">
         <view wx:if="{{hasLogin}}" bindtap="goProfile" class="description" >

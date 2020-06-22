@@ -1,0 +1,218 @@
+
+.new-coming-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 50rpx;
+}
+
+.new-coming-title image {
+    width: 80rpx;
+    height: 80rpx;
+
+}
+
+.new-coming-desc {
+    flex-direction: row;
+}
+
+.new-coming-name {
+    color: #033840;
+    font-size: 40rpx;
+    font-weight: bold;
+}
+
+.new-coming-label {
+    margin-top: 4rpx;
+    font-size: 22rpx;
+    color: #719ba3;
+}
+
+. green {
+    color: #209068
+}
+
+.new-coming-item {
+    padding-top: 0rpx;
+    padding-bottom: 60rpx;
+}
+
+.new-coming-list {
+    margin-top: 70rpx;
+    margin-left: 50rpx;
+}
+.dash_border {
+    border-left: 3rpx #c9c8c8 dashed;
+
+}
+
+
+.new-coming-item-desc {
+    padding: 0;
+    border-radius: 20rpx;
+    /*border: 1px solid #c9c8c8;*/
+    position: relative;
+    top: -32rpx;
+    margin: 0 30rpx 0rpx 30rpx;
+    width: 600rpx;
+    min-height: 330rpx;
+    max-height: 330rpx;
+    box-shadow: 1px 1px 1px 1px #c9c8c8
+}
+
+.new-coming-list-title {
+    position: relative;
+    top: -60rpx;
+    display: flex;
+    flex-direction: row;
+    margin: 0 50rpx;
+    justify-content: space-between;
+}
+
+.new-coming-list-icon {
+    position: relative;
+    left: -16rpx;
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.new-coming-list-title-date-icon {
+    z-index: -1;
+    position: relative;
+    top: -36rpx;
+    width: 80rpx;
+    height: 50rpx;
+}
+
+.new-coming-list-date {
+    margin-top: 6rpx;
+    margin-left: 12rpx;
+    z-index: 999rpx;
+    color: white;
+    font-size: 24rpx;
+}
+
+.new-coming-list-title-date {
+    padding-top: 12rpx;
+    margin-left: 30rpx;
+    font-weight: bold;
+    color: #033840;
+    font-size: 38rpx;
+
+}
+
+.new-coming-item-text view {
+    font-size: 24rpx;
+    color: #40a17e;
+}
+
+.new-coming-talk {
+    border-top-right-radius: 30rpx;
+    padding: 5rpx;
+    background-color: white;
+    width: 110rpx;
+    height: 30rpx;
+    position: relative;
+    top: -28rpx;
+    display: flex;
+    flex-direction: row;
+}
+
+.new-coming-list-image {
+    border-top-right-radius: 20rpx;
+    border-top-left-radius: 20rpx;
+    padding: 0;
+    /*margin-top: -50rpx;*/
+    max-width: 600rpx;
+    min-width: 600rpx;
+    max-height: 250rpx;
+    min-height: 250rpx;
+}
+
+.new-coming-talk view {
+    margin-right: 8rpx;
+    color: #40a17e;
+    font-size: 18rpx !important;
+}
+
+.new-coming-talk image {
+    margin-top: 7rpx;
+    width: 18rpx;
+    height: 18rpx;
+}
+
+.new-coming-list-desc {
+    background-color: white;
+    padding: 12rpx;
+    position: relative;
+    justify-content: space-between;
+    top: -32rpx;
+    display: flex;
+    flex-direction: row;
+}
+
+.new-coming-list-desc-left {
+    /*padding: 0rpx 0rpx 5rpx 3rpx;*/
+}
+
+.new-coming-list-desc-title {
+    line-height: 26rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 180px;
+    font-size: 24rpx;
+    font-weight: bold;
+}
+
+.new-coming-list-desc-wtl {
+    font-size: 18rpx;
+}
+
+.new-coming-list-desc-like {
+    font-size: 20rpx;
+    color: white;
+    height: 36rpx;
+    margin-top: 12rpx;
+    line-height: 36rpx;
+    padding: 4rpx 8rpx 8rpx 8rpx;
+    background-color: #ff9c02;
+    border-radius: 20rpx;
+}
+
+.new-release-list {
+    background-color: white;
+    margin: 20rpx;
+    border: 1px solid #c9c8c8;
+    border-radius: 20rpx;
+}
+.loading{
+    width: 30rpx;
+    height: 30rpx;
+}
+.new-release-list {
+
+}
+
+.new-release-list-title {
+    margin-top: 20rpx;
+    margin-bottom: 10rpx;
+    padding-left: 40rpx;
+    color: #40a17e;
+    font-weight: bold;
+}
+.margin-bottom{
+   margin-bottom: 20rpx;
+}
+.load-more {
+    border-top: 1px solid #f4f4f4;
+    padding: 20rpx;
+    height: 80rpx;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.load-more-text{
+    margin-right: 8rpx;
+    color: #719ba3;
+}

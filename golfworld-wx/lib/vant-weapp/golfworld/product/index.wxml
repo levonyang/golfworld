@@ -19,23 +19,24 @@
                         size="{{ 19 }}"
                         allow-half
                         void-color="#eee"
+                        color="{{starColor}}"
                         void-icon="star"
                         bind:change="onChange"
                 />
             </view>
             <view class="product_status" wx:if="{{isReview}}">
                 <view class="product__status_item">{{ product.talkingAmount }} 文章</view>
-                <view class="product__status_item">{{product.commonAmount}} 点评</view>
+                <view class="product__status_item">{{product.commentAmount}} 点评</view>
             </view>
             <view class="" wx:if="{{isTalking}}">
                 <view class="avatar-list">
                     <block wx:for="{{product.recentTalkUserAvatar}}" wx:key="index">
                         <view class="avatar-list-item">
-                            <image class="avatar-list-item-image" style="{{'left:'+index*40 +'rpx'}};"
-                                   src="{{item}}"></image>
+                            <image class="avatar-list-item-image" style="{{'left:'+index*40 +'rpx'}};" src="{{item}}"></image>
                         </view>
                     </block>
-                    <view class="product-talking"><label style="color: red ;padding-right: 5rpx">{{product.talkingAmount}}</label>正在讨论
+                    <view class="product-talking"><label style="color: red ;padding-right: 5rpx">
+                        {{product.talkingAmount}}</label>正在讨论
                     </view>
                 </view>
             </view>

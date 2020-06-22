@@ -12,6 +12,7 @@ import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.dto.ProductInfo;
 import org.golfworld.wx.service.HomeCacheManager;
 import org.springframework.beans.BeanUtils;
+import  org.golfworld.wx.dto.decorator.ProductInfoDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,9 @@ public class WxHomeController {
     private AdService adService;
 
     @Autowired
+    private ProductInfoDecorator productInfoDecorator;
+
+    @Autowired
     private ProductService productService;
 
     @Autowired
@@ -50,8 +54,6 @@ public class WxHomeController {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private CommentService commentService;
 
 
     private final static ArrayBlockingQueue<Runnable> WORK_QUEUE = new ArrayBlockingQueue<>(9);
@@ -165,7 +167,7 @@ public class WxHomeController {
             } else {
                 categoryProduct = productService.queryByCategory(l2List, 0, SystemConfig.getCatlogMoreLimit());
             }
-            List<ProductInfo> productInfos = getProductCommonAndTalk(categoryProduct);
+            List<ProductInfo> productInfos =productInfoDecorator.convertList(categoryProduct);
             Map<String, Object> catProduct = new HashMap<>();
             catProduct.put("id", catL1.getId());
             catProduct.put("name", catL1.getName());
@@ -175,22 +177,7 @@ public class WxHomeController {
         return categoryList;
     }
 
-    private List<ProductInfo> getProductCommonAndTalk(List<Product> categoryProduct) {
-        List<ProductInfo> collect = categoryProduct.stream().map(product -> {
-            ProductInfo productInfo = new ProductInfo();
-            Integer productId = product.getId();
-            BeanUtils.copyProperties(product, productInfo);
-            int commonAmount = commentService.count(CommonTypeConstant.PRODUCT_COMMENT, productId);
-            productInfo.setCommentAmount(commonAmount);
-            float score = commentService.countScore(productId);
-            productInfo.setScore(score);
-            int talkingAmount = commentService.count(CommonTypeConstant.PRODUCT_TALKING, productId);
-            productInfo.setTalkingAmount(talkingAmount);
-            productInfo.setRecentTalkUserAvatar(commentService.getRecentTalkUserAvatar(productId, 5));
-            return productInfo;
-        }).collect(Collectors.toList());
-        return collect;
-    }
+
 
     /**
      * 商城介绍信息

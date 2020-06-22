@@ -1,6 +1,6 @@
 package org.golfworld.wx.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductInfo {
@@ -13,14 +13,24 @@ public class ProductInfo {
     private String brief;
     private String picUrl;
     private Boolean isHot;
-    private LocalDateTime releaseTime;
-    private float score ;
-    private int commentAmount ;
-    private int talkingAmount ;
+    private LocalDate releaseTime;
+    private int releaseTimeAfterStr;
+    private float score;
+    private int commentAmount;
+    private int talkingAmount;
+    private int like;
     /**
      * recent five user
      */
     private List<String> recentTalkUserAvatar;
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
 
     public String getBrief() {
         return brief;
@@ -74,6 +84,14 @@ public class ProductInfo {
         return picUrl;
     }
 
+    public int getReleaseTimeAfterStr() {
+        return releaseTimeAfterStr;
+    }
+
+    public void setReleaseTimeAfterStr(int releaseTimeAfterStr) {
+        this.releaseTimeAfterStr = releaseTimeAfterStr;
+    }
+
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
     }
@@ -86,11 +104,11 @@ public class ProductInfo {
         isHot = hot;
     }
 
-    public LocalDateTime getReleaseTime() {
+    public LocalDate getReleaseTime() {
         return releaseTime;
     }
 
-    public void setReleaseTime(LocalDateTime releaseTime) {
+    public void setReleaseTime(LocalDate releaseTime) {
         this.releaseTime = releaseTime;
     }
 

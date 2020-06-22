@@ -26,7 +26,7 @@
     </view>
 </view>
 <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
-    <block wx:for="{{newProduct}}" wx:key="*this">
+    <block wx:for="{{productList}}" wx:key="*this">
         <view id="{{item.id}}" class="scroll-view-item_H">
                 <image src="{{item.picUrl}}" class="new-release-list-image" mode="widthFix"></image>
             <view class="new-release-talk">
@@ -53,7 +53,7 @@
 <scroll-view class="product-menu" scroll-x="true" style="width: 100%">
     <block wx:for="{{channel}}" wx:key="*this">
         <label bindtap="tapChannel" data-id="{{item.id}}"
-               class="product-menu-item {{selectedChannelId==item.id ? 'selectedChannel':'' }}">{{item.nameCn}}
+               class="product-menu-item {{selectedChannelId==item.id ? 'selected-border':'' }}">{{item.nameCn}}
         </label>
     </block>
 </scroll-view>

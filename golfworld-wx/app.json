@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/product/product",
+    "pages/newRelease/newRelease",
     "pages/index/index",
     "pages/ucenter/collect/collect",
     "pages/ucenter/feedback/feedback",
@@ -8,8 +10,6 @@
     "pages/ucenter/attention/attention",
     "pages/ucenter/integral/integral",
     "pages/catalog/catalog",
-    "pages/newProduct/newProduct",
-    "pages/hotProduct/hotProduct",
     "pages/ucenter/address/address",
     "pages/ucenter/addressAdd/addressAdd",
     "pages/ucenter/footprint/footprint",
@@ -31,7 +31,6 @@
     "pages/search/search",
     "pages/category/category",
     "pages/checkout/checkout",
-    "pages/product/product",
     "pages/about/about",
     "pages/groupon/myGroupon/myGroupon",
     "pages/groupon/grouponDetail/grouponDetail",
@@ -44,7 +43,7 @@
   ],
   "window": {
     "navigationBarBackgroundColor": "#FFFFFF",
-    "navigationBarTitleText": "litemall小程序商城",
+    "navigationBarTitleText": "球具通",
     "enablePullDownRefresh": false,
     "navigationBarTextStyle": "black",
     "backgroundColor": "#FFFFFF",
@@ -84,6 +83,8 @@
   },
   "debug": true,
   "usingComponents": {
+    "van-product": "./lib/vant-weapp/golfworld/product/index",
+    "van-comment": "./lib/vant-weapp/golfworld/comment/index",
     "van-cell": "./lib/vant-weapp/cell/index",
     "van-cell-group": "./lib/vant-weapp/cell-group/index",
     "van-picker": "./lib/vant-weapp/picker/index",
@@ -98,7 +99,6 @@
     "van-grid": "./lib/vant-weapp/grid/index",
     "van-grid-item": "./lib/vant-weapp/grid-item/index",
     "van-card": "./lib/vant-weapp/card/index",
-    "van-product": "./lib/vant-weapp/golfworld/product/index",
     "van-rate": "./lib/vant-weapp/rate/index",
     "van-search": "./lib/vant-weapp/search/index",
     "van-col": "./lib/vant-weapp/col/index",

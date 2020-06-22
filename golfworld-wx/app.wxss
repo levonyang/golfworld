@@ -30,15 +30,69 @@ view, text {
 .bottom_border {
     border-bottom: 1px solid #f4f4f4;
 }
-.empty_background{
+
+.empty_background {
     display: block;
     margin-top: 180rpx;
     margin-left: auto;
     margin-right: auto;
 }
-.grey_background{
+
+.selected-border {
+    border-bottom: 5rpx #ff9c02 solid;
+    color: #333 !important;
+}
+
+.top-right-label {
+    line-height: 30rpx;
+    font-size: 15rpx;
+    position: relative;
+    top: -15rpx;
+}
+
+.grey_background {
     background-color: #f8f8f8
 }
-.border_radio{
-   border-radius: 20rpx;
+
+.border_radio {
+    border-radius: 20rpx;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex_row {
+    display: flex;
+    flex-direction: row;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.background-color {
+    background-color: #fbfbfb;
+}
+
+.sub-text-color {
+    color: #7ba2a8;
+}
+
+.margin-right-20rpx {
+    margin-right: 20rpx;
+}
+
+.left-icon {
+    height: 40rpx;
+    width: 50rpx;
 }
