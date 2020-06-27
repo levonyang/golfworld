@@ -1,0 +1,19 @@
+<view style='background:url(/static/images/ballpack-all.png) no-repeat;background-size:cover;width:100%;height:280rpx; background-position:center center;box-shadow: inset  0rpx -80rpx 30rpx -40rpx  white;'></view>
+<view class="title">
+    <view class="more">MORE</view>
+    <view class="title-text">发现大家的球包</view>
+    <view class="title-value">共{{total}}个分享球包</view>
+</view>
+<view class="order-list">
+    <view class="order-item">精选</view>
+    <view class="seleted order-item">最热</view>
+    <view class="order-item">最新</view>
+</view>
+<block wx:for="{{ballPackList}}" wx:key="*this">
+    <van-ballpack ballPack="{{item}}"/>
+</block>
+<view class="load-more flex_row" wx:if="{{loading.showLoadMore}}" bindtap="loadMore">
+    <view class="load-more-text">加载更多</view>
+    <image wx:if="{{loading.onLoading}}" class="loading" src="/static/images/loading.gif"></image>
+    <van-icon name="arrow-down" wx:if="{{loading.showIcon}}" class="load-more-icon"/>
+</view>

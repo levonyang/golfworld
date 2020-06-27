@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import org.golfworld.db.dao.CollectMapper;
 import org.golfworld.db.domain.Collect;
 import org.golfworld.db.domain.CollectExample;
+import org.golfworld.db.domain.Footprint;
+import org.golfworld.db.domain.FootprintExample;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -79,6 +81,21 @@ public class CollectService {
         }
 
         PageHelper.startPage(page, size);
+        return collectMapper.selectByExample(example);
+    }
+
+    public List<Collect> findByUserId(Integer userId) {
+        CollectExample example = new CollectExample();
+        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
+        example.setOrderByClause(Footprint.Column.addTime.desc());
+        return collectMapper.selectByExample(example);
+    }
+
+    public List<Collect> queryByAddTime(Integer userId, Integer page, Integer limit) {
+        CollectExample example = new CollectExample();
+        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
+        example.setOrderByClause(Footprint.Column.addTime.desc());
+        PageHelper.startPage(page, limit);
         return collectMapper.selectByExample(example);
     }
 }

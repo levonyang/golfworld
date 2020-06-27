@@ -13,6 +13,8 @@ public class ProductInfo {
     private String brief;
     private String picUrl;
     private Boolean isHot;
+    private Boolean isLike;
+    private Boolean isCollect;
     private LocalDate releaseTime;
     private int releaseTimeAfterStr;
     private float score;
@@ -30,6 +32,18 @@ public class ProductInfo {
 
     public void setLike(int like) {
         this.like = like;
+    }
+
+    public void setLike(Boolean like) {
+        isLike = like;
+    }
+
+    public Boolean getCollect() {
+        return isCollect;
+    }
+
+    public void setCollect(Boolean collect) {
+        isCollect = collect;
     }
 
     public String getBrief() {

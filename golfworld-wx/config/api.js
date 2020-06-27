@@ -29,6 +29,9 @@ module.exports = {
   ProductCategory: WxApiRoot + 'product/category', //获得分类数据
   ProductDetail: WxApiRoot + 'product/detail', //获得商品的详情
   ProductRelated: WxApiRoot + 'product/related', //商品详情页的关联商品（大家都在看）
+  CollectList: WxApiRoot + 'product/collect', //收藏列表
+  LikeList: WxApiRoot + 'product/like', //关注列表
+  FootprintList: WxApiRoot + 'product/footprint', //用户足迹列表
 
   BrandList: WxApiRoot + 'brand/list', //品牌列表
   BrandDetail: WxApiRoot + 'brand/detail', //品牌详情
@@ -42,7 +45,6 @@ module.exports = {
   CartProductCount: WxApiRoot + 'cart/productcount', // 获取购物车商品件数
   CartCheckout: WxApiRoot + 'cart/checkout', // 下单前信息确认
 
-  CollectList: WxApiRoot + 'collect/list', //收藏列表
   CollectAddOrDelete: WxApiRoot + 'collect/addordelete', //添加或取消收藏
 
   CommentList: WxApiRoot + 'comment/list', //评论列表
@@ -83,10 +85,13 @@ module.exports = {
   AftersaleDetail: WxApiRoot + 'aftersale/detail', // 售后详情
 
   FeedbackAdd: WxApiRoot + 'feedback/submit', //添加反馈
-  FootprintList: WxApiRoot + 'footprint/list', //足迹列表
+  // FootprintList: WxApiRoot + 'footprint/list', //足迹列表
   FootprintDelete: WxApiRoot + 'footprint/delete', //删除足迹
 
   like: WxApiRoot + 'like/submit', //like
+
+  AddBallPack: WxApiRoot + 'ballPack/submit', //球包
+  BallPackList: WxApiRoot + 'ballPack/list', //球包列表
 
   GroupOnList: WxApiRoot + 'groupon/list', //团购列表
   GroupOnMy: WxApiRoot + 'groupon/my', //团购API-我的团购

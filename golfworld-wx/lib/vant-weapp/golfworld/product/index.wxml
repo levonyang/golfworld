@@ -4,20 +4,22 @@
     <view class="{{ utils.bem('product__header', { center: centered }) }}">
         <view class="van-product__thumb" bind:tap="onClickThumb">
             <image
+                    bindtap="goProduct" data-id="{{product.id}}"
                     src="{{ product.picUrl }}"
                     lazy-load="{{ lazyLoad }}"
                     class="van-product__img thumb-class"
             />
         </view>
 
-        <view class="van-product__content">
+        <view bindtap="goProduct" data-id="{{product.id}}" class="van-product__content">
             <view wx:if="{{ product.name }}" class="van-product__title title-class">{{ product.name }}</view>
             <slot wx:else name="title"/>
             <view class="van-product_rate">
                 <van-rate
-                        value="{{ 3.5 }}"
+                        value="{{ product.score/2 }}"
                         size="{{ 19 }}"
                         allow-half
+                        readonly="{{true}}"
                         void-color="#eee"
                         color="{{starColor}}"
                         void-icon="star"
@@ -32,7 +34,8 @@
                 <view class="avatar-list">
                     <block wx:for="{{product.recentTalkUserAvatar}}" wx:key="index">
                         <view class="avatar-list-item">
-                            <image class="avatar-list-item-image" style="{{'left:'+index*40 +'rpx'}};" src="{{item}}"></image>
+                            <image class="avatar-list-item-image" style="{{'left:'+index*40 +'rpx'}};"
+                                   src="{{item}}"></image>
                         </view>
                     </block>
                     <view class="product-talking"><label style="color: red ;padding-right: 5rpx">

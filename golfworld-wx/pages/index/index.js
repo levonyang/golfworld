@@ -16,6 +16,7 @@ Page({
         selectedChannelId: -1,
         selectedChannelProduct: [],
         duration: 500,
+        comingProductList:[],
         newReleaseProduct: ''
     },
 
@@ -69,6 +70,18 @@ Page({
             });
         });
     },
+    likeOrUnlike(e) {
+        let that = this
+        util.request(api.like, {
+            actionType: 1,
+            valueId: e.currentTarget.dataset.id
+        }, 'POST').then(function (res) {
+            if (res.errno === 0) {
+                // that.getProductInfo()
+                that.getComingList()
+            }
+        });
+    },
     onLoad: function (options) {
 
         // 页面初始化 options为页面跳转所带来的参数
@@ -106,10 +119,10 @@ Page({
         }
 
         // 页面初始化 options为页面跳转所带来的参数
-        if (options.goodId) {
+        if (options.id) {
             //这个goodId的值存在则证明首页的开启来源于分享,同时可以通过获取到的goodId的值跳转导航到对应的详情页
             wx.navigateTo({
-                url: '../product/product?id=' + options.goodId
+                url: '../product/product?id=' + options.id
             });
         }
 
@@ -122,6 +135,37 @@ Page({
         }
 
         this.getIndexData();
+        this.getComingList();
+    },
+    goProduct: function (e) {
+        let id = e.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: '../product/product?id=' + id
+        });
+
+    },
+    goNewRelease: function (e) {
+        let id = e.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: '../newRelease/newRelease'
+        });
+
+    },
+    getComingList() {
+        let that = this
+        util.request(api.ProductList, {
+            isNew: true,
+            page: 1,
+            limit: 5,
+            order:'asc',
+            sort:'release_time'
+        }).then(function (res) {
+            if (res.errno === 0) {
+                that.setData({
+                    comingProductList: res.data.list
+                });
+            }
+        });
     },
     tapChannel: function (e) {
         let id = e.currentTarget.dataset.id;

@@ -5,6 +5,10 @@ var user = require('../../utils/user.js');
 
 Page({
     data: {
+        showPopup: false,
+        userHasCollect: 0,
+        userHasLike: 0,
+        userHasUnlike: 0,
         productTalkList: [{
             avatar: 'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
             nickname: 'hugo',
@@ -31,6 +35,7 @@ Page({
             total: '10'
         },
         product: {
+            id: 1181022,
             name: 'TITLEIST TS3 DRIVER',
             picUrl: 'https://qiujutong-1253811604.file.myqcloud.com/thetfafo79mw3jx0ihki.jpg',
             recentTalkUserAvatar: [
@@ -39,15 +44,7 @@ Page({
                 'http://img5.imgtn.bdimg.com/it/u=1145485238,1285470591&fm=11&gp=0.jpg',
                 'http://img3.imgtn.bdimg.com/it/u=3773584324,1413178473&fm=26&gp=0.jpg'
             ],
-            commentList: [
-                {
-                    content: '相当好看',
-                    start: 4.5,
-                    nickname: 'sam',
-                    avatar: 'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
-                    addTime: '2020-06-16'
-                }
-            ],
+
             brief: '杆身最长、杆面角度最小的木杆，主要用来在梯台上开出长距离球。它通常也是球包里最昂贵的球杆，有的高达上万元。职业选手用发球木在梯台上能打出300码左右。 大多数发球木的杆面角度在7度（打出低弹道）至12度（打出高弹道）之间，杆面的甜蜜点有的达到6平方英寸。为了使球击出更远，有些发球木采用了类似蹦床反弹效果的杆面，但这种木杆一般都会被规则禁止使用，比如Callaway ERC发球木就被禁止使用。 R&A是欧洲高尔夫规则的制定机构，他们和美国高尔夫球协会出版了一份关于球杆和球的新规则，就旨在禁止高科技带来的破坏',
             //brief: '测试',
             score: 8,
@@ -55,8 +52,16 @@ Page({
             talkingAmount: 5,
             like: 1
         },
+        commentList: []
+        ,
         showBrief: false,
-        selectedComment:true
+        showLoadMore: true,
+        showIcon: true,
+        loading: false,
+        page: 1,
+        limit: 5,
+        total: 0,
+        selectedComment: true,
     },
 
     // 页面分享
@@ -146,43 +151,24 @@ Page({
         util.request(api.ProductDetail, {
             id: that.data.id
         }).then(function (res) {
+            console.log(res)
             if (res.errno === 0) {
-                //
-                // let _specificationList = res.data.specificationList
-                // // 如果仅仅存在一种货品，那么商品页面初始化时默认checked
-                // if (_specificationList.length == 1) {
-                //     if (_specificationList[0].valueList.length == 1) {
-                //         _specificationList[0].valueList[0].checked = true
-                //
-                //         // 如果仅仅存在一种货品，那么商品价格应该和货品价格一致
-                //         // 这里检测一下
-                //         // let _productPrice = res.data.productList[0].price;
-                //         let _productPrice = res.data.info.retailPrice;
-                //         if (_productPrice != _productPrice) {
-                //             console.error('商品数量价格和货品不一致');
-                //         }
-                //
-                //         that.setData({
-                //             checkedSpecText: _specificationList[0].valueList[0].value,
-                //             tmpSpecText: '已选择：' + _specificationList[0].valueList[0].value,
-                //         });
-                //     }
-                // }
-                //
-                // that.setData({
-                //     product: res.data.info,
-                //     attribute: res.data.attribute,
-                //     issueList: res.data.issue,
-                //     comment: res.data.comment,
-                //     brand: res.data.brand,
-                //     specificationList: res.data.specificationList,
-                //     productList: res.data.productList,
-                //     userHasCollect: res.data.userHasCollect,
-                //     shareImage: res.data.shareImage,
-                //     checkedSpecPrice: res.data.info.retailPrice,
-                //     groupon: res.data.groupon,
-                //     canShare: res.data.share,
-                // });
+                that.setData({
+                    product: res.data.info,
+                    attribute: res.data.attribute,
+                    issueList: res.data.issue,
+                    comment: res.data.comment,
+                    brand: res.data.brand,
+                    userHasCollect: res.data.userHasCollect,
+                    userHasLike: res.data.userHasLike,
+                    userHasUnlike: res.data.userHasUnlike,
+                    //     specificationList: res.data.specificationList,
+                    //     productList: res.data.productList,
+                    //     shareImage: res.data.shareImage,
+                    //     checkedSpecPrice: res.data.info.retailPrice,
+                    //     groupon: res.data.groupon,
+                    //     canShare: res.data.share,
+                });
                 //
                 // //如果是通过分享的团购参加团购，则团购项目应该与分享的一致并且不可更改
                 // if (that.data.isGroupon) {
@@ -211,8 +197,8 @@ Page({
                 // }
                 //
                 // WxParse.wxParse('productDetail', 'html', res.data.info.detail, that);
-                // //获取推荐商品
-                // that.getProductRelated();
+                //获取推荐商品
+                that.getProductRelated();
             }
         });
     },
@@ -230,7 +216,23 @@ Page({
             }
         });
     },
+    likeOrUnlike(e) {
+        let that = this
+        util.request(api.like, {
+            actionType: e.currentTarget.dataset.actionType,
+            valueId: e.currentTarget.dataset.id
+        }, 'POST').then(function (res) {
+            if (res.errno === 0) {
+                that.getProductInfo()
+            }
+        });
 
+    },
+    commentPopup: function () {
+        this.setData({
+            showPopup: true
+        })
+    },
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
         let that = this
@@ -241,13 +243,58 @@ Page({
             productList: that.data.productList,
             ballPack: that.data.ballPack
         })
+        // options.id = 1181022
         if (options.id) {
             this.setData({
                 id: parseInt(options.id)
             });
             this.getProductInfo();
+            this.getProductRelated()
+            this.getCommentList()
         }
 
+
+    },
+    goProduct: function (e) {
+        let id = e.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: '../product/product?id=' + id
+        });
+
+    },
+    goParameter: function () {
+        let that = this
+        console.log(that.data)
+        wx.navigateTo({
+            url: '../product/parameter/parameter?valueId='+that.id+'&parameter='
+                +JSON.stringify(that.data.attribute)
+        });
+    },
+    getCommentList() {
+        let that = this;
+        that.setData({
+            showIcon: false,
+            loading: true
+        })
+        util.request(api.CommentList, {
+            valueId: that.data.id,
+            type: 0,
+            page: that.data.page,
+            limit: that.data.limit
+        }).then(function (res) {
+            if (that.data.page * that.data.limit >= res.data.total) {
+                that.data.showLoadMore = false
+            }
+            if (res.errno === 0) {
+                that.data.commentList.push(...res.data.list)
+                that.setData({
+                    showIcon: true,
+                    loading: false,
+                    showLoadMore: that.data.showLoadMore,
+                    commentList: that.data.commentList,
+                });
+            }
+        });
     },
     onShow: function () {
         // 页面显示
@@ -347,7 +394,30 @@ Page({
 
 
     },
+    goCommentPost: function (e) {
+        let id = e.currentTarget.dataset.id;
+        this.setData({
+            showPopup: false
+        })
+        wx.navigateTo({
+            url: '../commentPost/commentPost?valueId=' + id
+        });
+    },
+    goTalk: function (e) {
+        this.setData({
+            showPopup: false
+        })
+        let id = e.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: '../product/product?id=' + id
+        });
 
+    },
+    onClose: function () {
+        this.setData({
+            showPopup: false
+        })
+    },
     //添加到购物车
     addToCart: function () {
         var that = this;
@@ -456,6 +526,14 @@ Page({
     onReady: function () {
         // 页面渲染完成
 
+    }, loadMore() {
+        let that = this
+        that.data.page += 1
+        this.setData({
+                page: that.data.page,
+            }
+        )
+        this.getCommentList()
     }
 
 

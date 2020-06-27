@@ -74,7 +74,7 @@ public class WxCommentController {
         }
         Boolean hasPicture = comment.getHasPicture();
         if (hasPicture == null || !hasPicture) {
-            comment.setPicUrls(new String[0].toString());
+//            comment.setPicUrls(new String[0].toString());
         }
         return null;
     }
@@ -125,22 +125,22 @@ public class WxCommentController {
      * @param valueId  商品或专题ID。如果type是0，则是商品ID；如果type是1，则是专题ID。
      * @param showType 显示类型。如果是0，则查询全部；如果是1，则查询有图片的评论。
      * @param page     分页页数
-     * @param limit     分页大小
+     * @param limit    分页大小
      * @return 评论列表
      */
     @GetMapping("list")
-    public Object list(@NotNull Byte type,
-                       @NotNull Integer valueId,
-                       @NotNull Integer showType,
+    public Object list(@NotNull Integer valueId,
+                       Integer showType,
+                       Byte type,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit) {
         List<Comment> commentList = commentService.query(type, valueId, showType, page, limit);
-
         List<Map<String, Object>> commentVoList = new ArrayList<>(commentList.size());
         for (Comment comment : commentList) {
             Map<String, Object> commentVo = new HashMap<>();
             commentVo.put("addTime", comment.getAddTime());
             commentVo.put("content", comment.getContent());
+            commentVo.put("star", comment.getStar());
             commentVo.put("adminContent", comment.getAdminContent());
             commentVo.put("picList", comment.getPicUrls());
 

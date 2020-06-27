@@ -10,11 +10,11 @@ Page({
         currentSortType: 'default',
         currentSort: 'release_time',
         currentSortOrder: 'desc',
-        loading: false,
         isNew: false,
         page: 1,
         limit: 3,
         total: 0,
+        loading:false,
         showLoadMore: true,
         showIcon: true,
 
@@ -73,11 +73,19 @@ Page({
     like(e) {
         let that = this
         util.request(api.like, {
+            actionType:  1 ,
             valueId: e.currentTarget.dataset.id
         },'POST').then(function (res) {
             if (res.errno === 0) {
                 that.getComingList()
             }
+        });
+
+    },
+    goProduct: function (e) {
+        let id = e.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: '../product/product?id=' + id
         });
 
     },

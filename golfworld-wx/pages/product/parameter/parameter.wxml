@@ -1,0 +1,12 @@
+<view class="title">亮点参数</view>
+    <block style="align-items: center" wx:for="{{parameter}}" wx:key="*this">
+        <view class="parameter-box">
+            <view class="sub-title">{{item.attribute}}</view>
+            <view>{{item.value}}</view>
+        </view>
+    </block>
+<view class="flex_row feedback">
+   <view class="feedback-label">参数有误?</view>
+    <view bindtap="feedback" class="feedback-btn">我要反馈</view>
+</view>
+

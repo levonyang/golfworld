@@ -7,12 +7,10 @@ import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.Category;
 import org.golfworld.db.domain.Product;
 import org.golfworld.db.service.*;
-import org.golfworld.db.util.CommonTypeConstant;
 import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.dto.ProductInfo;
+import org.golfworld.wx.dto.decorator.ProductInfoDecorator;
 import org.golfworld.wx.service.HomeCacheManager;
-import org.springframework.beans.BeanUtils;
-import  org.golfworld.wx.dto.decorator.ProductInfoDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 
 /**
  * 首页服务
@@ -53,7 +50,6 @@ public class WxHomeController {
 
     @Autowired
     private CategoryService categoryService;
-
 
 
     private final static ArrayBlockingQueue<Runnable> WORK_QUEUE = new ArrayBlockingQueue<>(9);
@@ -92,9 +88,17 @@ public class WxHomeController {
         Callable<List> channelListCallable = () -> categoryService.queryChannel();
 
 
-        Callable<List> newProductListCallable = () -> productService.queryByNew(0, SystemConfig.getNewLimit());
+        Callable<List> newProductListCallable = () -> {
+            List<Product> products = productService.queryByNew(0, SystemConfig.getNewLimit());
+            List<ProductInfo> productInfos = productInfoDecorator.convertList(products);
+            return productInfos;
+        };
 
-        Callable<List> hotProductListCallable = () -> productService.queryByHot(0, SystemConfig.getHotLimit());
+        Callable<List> hotProductListCallable = () -> {
+            List<Product> products = productService.queryByHot(0, SystemConfig.getNewLimit());
+            List<ProductInfo> productInfos = productInfoDecorator.convertList(products);
+            return productInfos;
+        };
 
         Callable<List> brandListCallable = () -> brandService.query(0, SystemConfig.getBrandLimit());
 
@@ -167,7 +171,7 @@ public class WxHomeController {
             } else {
                 categoryProduct = productService.queryByCategory(l2List, 0, SystemConfig.getCatlogMoreLimit());
             }
-            List<ProductInfo> productInfos =productInfoDecorator.convertList(categoryProduct);
+            List<ProductInfo> productInfos = productInfoDecorator.convertList(categoryProduct);
             Map<String, Object> catProduct = new HashMap<>();
             catProduct.put("id", catL1.getId());
             catProduct.put("name", catL1.getName());
@@ -176,7 +180,6 @@ public class WxHomeController {
         }
         return categoryList;
     }
-
 
 
     /**

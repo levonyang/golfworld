@@ -42,11 +42,20 @@ public class WxLikeController {
             return ResponseUtil.badArgument();
         }
         Integer valueId = JacksonUtil.parseInteger(body, "valueId");
+        Integer type = JacksonUtil.parseInteger(body, "actionType");
         if (valueId == null) {
             return ResponseUtil.badArgument();
         }
-        Like like = new Like();
+        Like like = likeService.findByUserIdAndValueId(userId, valueId);
+        if (null != like ) {
+            likeService.deleteById(like.getId());
+            if (like.getActionType().compareTo(type) == 0) {
+                return ResponseUtil.ok();
+            }
+        }
+        like = new Like();
         like.setUserId(userId);
+        like.setActionType(type);
         like.setValueId(valueId);
         likeService.add(like);
         return ResponseUtil.ok(like);

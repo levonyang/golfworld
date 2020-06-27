@@ -27,7 +27,8 @@ public class AdminCommentController {
     @RequiresPermissions("admin:comment:list")
     @RequiresPermissionsDesc(menu = {"产品管理", "评论管理"}, button = "查询")
     @GetMapping("/list")
-    public Object list(String userId, String valueId,byte type,
+    public Object list(String userId, String valueId,
+                       @RequestParam(defaultValue = "0")Byte type,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,

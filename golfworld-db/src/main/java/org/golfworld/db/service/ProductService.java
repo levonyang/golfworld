@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    Column[] columns = new Column[]{Column.id, Column.name, Column.brief, Column.picUrl, Column.isHot, Column.isNew};
+    Column[] columns = new Column[]{Column.id, Column.name, Column.brief, Column.picUrl, Column.isHot, Column.isNew, Column.releaseTime};
     @Resource
     private ProductMapper productMapper;
 
@@ -88,7 +88,7 @@ public class ProductService {
     }
 
 
-    public List<Product> querySelective(Integer catId, Integer brandId, String keywords, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
+    public List<Product> querySelective(Integer catId, Integer brandId, String keywords, String name, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
         ProductExample example = new ProductExample();
         ProductExample.Criteria criteria1 = example.or();
         ProductExample.Criteria criteria2 = example.or();
@@ -112,6 +112,10 @@ public class ProductService {
         if (!StringUtils.isEmpty(keywords)) {
             criteria1.andKeywordsLike("%" + keywords + "%");
             criteria2.andNameLike("%" + keywords + "%");
+        }
+        if (!StringUtils.isEmpty(name)) {
+            criteria1.andNameLike("%" + name + "%");
+            criteria2.andNameLike("%" + name + "%");
         }
         criteria1.andIsOnSaleEqualTo(true);
         criteria2.andIsOnSaleEqualTo(true);

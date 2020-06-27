@@ -1,55 +1,78 @@
 <view class="container">
-  <view class="post-comment">
-    <view class="product">
-      <view class="img">
-        <image src="{{orderProduct.picUrl}}"></image>
-      </view>
-      <view class="info">
-        <view class="t">
-          <text class="name">{{orderProduct.productName}} x{{orderProduct.number}}</text>
-        </view>
-        <view class="attr">{{orderProduct.productSpecificationValues}}</view>
-      </view>
-    </view>
-    <view class="rater">
-      <text class="rater-title">评分</text>
-      <block wx:for="{{stars}}" wx:key="*this" wx:for-item="item">
-        <van-icon name="star" bindtap="selectRater" color="#ab956d" data-star="{{item}}" wx:if="{{item < star}}"/>
-        <van-icon name="star-o" bindtap="selectRater" data-star="{{item}}" wx:else/>
-      </block>
-      <text class="rater-desc">{{starText}}</text>
-    </view>
-    <view class="input-box">
-      <textarea class="content" focus="true" bindinput="bindInputValue" maxlength="140" placeholder="留言经过筛选后，对所有人可见" />
-      <text class="count">{{140 - content.length}}</text>
-    </view>
-
-    <view class="weui-uploader">
-      <view class="weui-uploader__hd">
-        <view class="weui-uploader__title">图片上传</view>
-        <view class="weui-uploader__info">{{picUrls.length}}/{{files.length}}</view>
-      </view>
-      <view class="weui-uploader__bd">
-        <view class="weui-uploader__files" id="uploaderFiles">
-          <block wx:for="{{files}}" wx:key="*this">
-            <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
-              <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-            </view>
-            <!-- <view class="weui-uploader__file weui-uploader__file_status" bindtap="previewImage" id="{{item}}">
-              <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-              <view class="weui-uploader__file-content">50%</view>
-            </view> -->
-          </block>
-          <view class="weui-uploader__input-box">
-            <view class="weui-uploader__input" bindtap="chooseImage"></view>
-          </view>
-        </view>
-      </view>
-    </view>
-
     <view class="btns">
-      <view class="close" bindtap="onClose">取消</view>
-      <view class="post" bindtap="onPost">发表</view>
+        <view class="close white" bindtap="onClose">取消</view>
+        <view class="post white" bindtap="onPost">发表</view>
     </view>
-  </view>
+    <view class="post-comment">
+        <!--    <view class="product">-->
+        <!--      <view class="img">-->
+        <!--        <image src="{{product.picUrl}}"></image>-->
+        <!--      </view>-->
+        <!--      <view class="info">-->
+        <!--        <view class="t">-->
+        <!--          <text class="name">{{product.productName}} </text>-->
+        <!--        </view>-->
+        <!--      </view>-->
+        <!--    </view>-->
+        <view class="rater">
+            <text class="rater-title">轻点星星来评分</text>
+            <van-rate
+                    class="rate-start"
+                    value="{{ comment.score }}"
+                    size="{{ 29 }}"
+                    allow-half
+                    void-color="#eee"
+                    void-icon="star"
+                    bind:change="onChange"
+            />
+            <!--      <block wx:for="{{stars}}" wx:key="*this" wx:for-item="item">-->
+            <!--        <van-icon name="star" bindtap="selectRater" ata-star="{{item}}" wx:if="{{item < star}}"/>-->
+            <!--        <van-icon name="star-o" bindtap="selectRater" data-star="{{item}}" wx:else/>-->
+            <!--      </block>-->
+        </view>
+        <view class="input-box">
+            <textarea class="content fff-background" focus="true" bindinput="bindInputValue" data-type="content" maxlength="140"
+                      placeholder="一句话总结..."/>
+            <text class="count">{{140 - content.length}}</text>
+        </view>
+
+        <view class="input-box">
+            <view>产品亮点</view>
+            <textarea class="content green-backgroud white"  focus="true" bindinput="bindInputValue" data-type="lightspot" maxlength="140"
+                      placeholder="请输入产品亮点..."/>
+            <text class="count">{{140 - lightspot.length}}</text>
+        </view>
+
+        <view class="input-box">
+            <textarea class="content red-backgroud white" focus="true" bindinput="bindInputValue" data-type="drawback" maxlength="140"
+                      placeholder="请输入产品槽点..."/>
+            <text class="count">{{140 - drawback.length}}</text>
+        </view>
+
+
+        <view class="weui-uploader">
+            <view class="weui-uploader__hd">
+                <view class="weui-uploader__title">图片上传</view>
+                <view class="weui-uploader__info">{{picUrls.length}}/{{files.length}}</view>
+            </view>
+            <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                    <block wx:for="{{files}}" wx:key="*this">
+                        <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                            <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+                        </view>
+                        <!-- <view class="weui-uploader__file weui-uploader__file_status" bindtap="previewImage" id="{{item}}">
+                          <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                          <view class="weui-uploader__file-content">50%</view>
+                        </view> -->
+                    </block>
+                    <view class="weui-uploader__input-box">
+                        <view class="weui-uploader__input" bindtap="chooseImage"></view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+
+    </view>
 </view>

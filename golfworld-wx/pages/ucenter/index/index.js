@@ -82,14 +82,14 @@ Page({
     goCollect() {
         if (this.data.hasLogin) {
             wx.navigateTo({
-                url: "/pages/ucenter/collect/attention"
+                url: "/pages/ucenter/collect/collect"
             });
         }
     },
-    goAttention() {
+    goLike() {
         if (this.data.hasLogin) {
             wx.navigateTo({
-                url: "/pages/ucenter/attention/attention"
+                url: "/pages/ucenter/like/like"
             });
         }
     },

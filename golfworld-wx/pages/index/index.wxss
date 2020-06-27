@@ -132,7 +132,8 @@ page {
     display: flex;
     flex-direction: row;
 }
-.new-release-list-desc-left{
+
+.new-release-list-desc-left {
     /*padding: 0rpx 0rpx 5rpx 3rpx;*/
 }
 
@@ -190,6 +191,15 @@ page {
     margin-top: 10rpx;
     display: flex;
     flex-direction: row;
+}
+
+.new-release-list-time-desc-today {
+    color: white;
+    font: 50rpx;
+    font-weight: bold;
+    margin-top: 16rpx;
+    align-items: center;
+    align-content: center;
 }
 
 .new-release-list-time-value {

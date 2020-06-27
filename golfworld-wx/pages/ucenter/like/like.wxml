@@ -1,0 +1,18 @@
+<view wx:if="{{empty}}">
+    <image class="empty_background" src="/static/images/empty.png"></image>
+    <image class="go_search" bindtap="goSearch" src="/static/images/gosearch.png"></image>
+</view>
+<!--<van-product title="product" thumb="/static/images/temp/product1.png"/>-->
+<view wx:for="{{likeList}}" class="product-list" wx:key="index">
+    <van-product custom-class="bottom_border" product="{{item}}" isReview="true"/>
+</view>
+<view class="load-more flex_row" wx:if="{{loading.showLoadMore}}" bindtap="loadMore">
+    <view class="load-more-text">加载更多</view>
+    <image wx:if="{{loading.onLoading}}" class="loading" src="/static/images/loading.gif"></image>
+    <van-icon name="arrow-down" wx:if="{{loading.showIcon}}" class="load-more-icon"/>
+</view>
+
+
+
+
+

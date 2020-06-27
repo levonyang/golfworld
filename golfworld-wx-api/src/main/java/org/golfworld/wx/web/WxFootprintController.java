@@ -35,6 +35,7 @@ public class WxFootprintController {
     private ProductService productService;
 
     /**
+     *
      * 删除用户足迹
      *
      * @param userId 用户ID
@@ -71,18 +72,18 @@ public class WxFootprintController {
      * 用户足迹列表
      *
      * @param page 分页页数
-     * @param limit 分页大小
+     * @param size 分页大小
      * @return 用户足迹列表
      */
     @GetMapping("list")
     public Object list(@LoginUser Integer userId,
                        @RequestParam(defaultValue = "1") Integer page,
-                       @RequestParam(defaultValue = "10") Integer limit) {
+                       @RequestParam(defaultValue = "10") Integer size) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
 
-        List<Footprint> footprintList = footprintService.queryByAddTime(userId, page, limit);
+        List<Footprint> footprintList = footprintService.queryByAddTime(userId, page, size);
 
         List<Object> footprintVoList = new ArrayList<>(footprintList.size());
         for (Footprint footprint : footprintList) {
@@ -104,3 +105,36 @@ public class WxFootprintController {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

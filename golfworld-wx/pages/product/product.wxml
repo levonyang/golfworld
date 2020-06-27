@@ -6,10 +6,11 @@
         </view>
     </block>
 </view>
-<view  class="content">
+<view class="content">
     <view class="flex_row content-header">
         <view class="title">{{product.name}}</view>
-        <image class="collect" src="/static/images/collect.png"></image>
+        <image class="collect" bindtap="addCollectOrNot" data-id="{{product.id}}"
+               src="/static/images/{{userHasCollect == 0 ? 'collect.png':'collect-selected.png'}}"></image>
     </view>
     <view class="score flex_row">
         <view class="flex_row">
@@ -20,9 +21,10 @@
                     <label class="top-right-label">TM</label>
                 </view>
                 <van-rate
-                        value="{{ 3.5 }}"
+                        value="{{ product.score/2 }}"
                         size="{{ 19 }}"
                         allow-half
+                        readonly
                         void-color="#eee"
                         void-icon="star"
                         bind:change="onChange"
@@ -30,8 +32,10 @@
             </view>
         </view>
         <view>
-            <image class="like-icon" src="/static/images/like.png"></image>
-            <image class="unlike-icon" src="/static/images/like.png"></image>
+            <image class="like-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="1"
+                   src="/static/images/{{userHasLike == 0 ? 'like.png':'like-selected.png'}}"></image>
+            <image class="unlike-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="0"
+                   src="/static/images/{{userHasUnlike == 0 ? 'like.png':'unlike-selected.png'}}"></image>
         </view>
     </view>
     <view class="title" style="margin:30rpx auto">| 产品简介</view>
@@ -40,7 +44,7 @@
     <view wx:if="{{showBrief}}" style="margin-left: 600rpx;color: #eee" bindtap="showBrief">[收起]</view>
     <view>
         <view class="flex_row parameter">
-            <view class="flex_row item">
+            <view bindtap="goParameter" class="flex_row item">
                 <image src="/static/images/product-parameter.png"></image>
                 <view>产品参数</view>
                 <van-icon name="arrow" class="load-more-icon"/>
@@ -84,14 +88,15 @@
         </view>
     </view>
     <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
-        <block wx:for="{{productList}}" wx:key="*this">
-            <view id="{{item.id}}" class="scroll-view-item_H">
+        <block wx:for="{{relatedProduct}}" wx:key="*this">
+            <view bindtap="goProduct" data-id="{{item.id}}" id="{{item.id}}" class="scroll-view-item_H">
                 <image src="{{item.picUrl}}" class="" mode="widthFix"></image>
-                <view class="comment">
-                    <view style="width: 220rpx; overflow: hidden">{{item.name}}</view>
+                <view class="related-desc">
+                    <view class="related-desc-name" style="">{{item.name}}</view>
                     <van-rate
-                            value="{{ 3.5 }}"
+                            value="{{ item.score/2 }}"
                             size="{{ 13 }}"
+                            readonly
                             allow-half
                             void-color="#eee"
                             void-icon="star"
@@ -158,9 +163,10 @@
             <view class="score-value">{{product.score}}</view>
             <view>
                 <van-rate
-                        value="{{ 3.5 }}"
+                        value="{{ product.score/2 }}"
                         size="{{ 19 }}"
                         allow-half
+                        readonly
                         void-color="#eee"
                         color="#209068"
                         void-icon="star"
@@ -186,11 +192,32 @@
         </view>
     </view>
     <view class="comment-title">全部点评</view>
-    <block wx:for="{{product.commentList}}" wx:key="*this">
+    <block wx:for="{{commentList}}" wx:key="*this">
         <van-comment comment="{{item}}"/>
     </block>
-    <view class="flex_row justify-around write-comment-btn ">
+    <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
+        <view class="load-more-text">加载更多</view>
+        <image wx:if="{{loading}}" class="loading" src="/static/images/loading.gif"></image>
+        <van-icon name="arrow-down" wx:if="{{showIcon}}" class="load-more-icon"/>
+    </view>
+    <view bindtap="commentPopup" class="flex_row justify-around write-comment-btn ">
         <image class="left-icon" src="/static/images/write-comment.png"></image>
         <view>写评论</view>
     </view>
 </view>
+        <!--<van-popup overlay-style="overlay" round show="{{ }}" custom-style="popup" closeable bind:close="onClose">-->
+        <!--</van-popup>-->
+<van-popup
+        show="{{  showPopup }}"
+        closeable
+        position="bottom"
+        custom-style="height: 20%"
+        bind:close="onClose"
+>
+    <view class="flex_row justify-around comment-pp">
+        <image class="comment-pp-image" bindtap="goCommentPost" data-id="{{product.id}}"
+               src="/static/images/product-comment.png"></image>
+        <image class="comment-pp-image" bindtap="goTalk" data-id="{{product.id}}"
+               src="/static/images/product-talk.png"></image>
+    </view>
+</van-popup>

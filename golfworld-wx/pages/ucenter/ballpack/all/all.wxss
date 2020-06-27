@@ -1,0 +1,55 @@
+.order-list {
+    position: relative;
+    top: -160rpx;
+    /*padding: 10rpx;*/
+    width: 250rpx;
+    height: 58rpx;
+    margin-left: 240px;
+    z-index: 999999;
+    background: #ebebeb !important;
+    display: flex;
+    flex-direction: row;
+    border-radius: 40rpx;
+    justify-content: space-around;
+}
+
+.order-item {
+    padding-top: 10rpx;
+    color: #999;
+    font-size: 25rpx;
+    border-radius: 8rpx;
+    text-align: center;
+    align-items: center;
+}
+
+.seleted {
+    height: 58rpx;
+    width: 90rpx;
+    border-radius: 30rpx;
+    background-color: white;
+    color: red;
+}
+
+.title {
+    position: relative;
+    top: -90rpx;
+    margin-left: 30rpx;
+    display: flex;
+    flex-direction: column;
+}
+
+.more{
+    font-size: 25rpx;
+    color: red;
+    font-weight: bold;
+}
+.title-text {
+    margin-top: 8rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+.title-value {
+    margin-top: 8rpx;
+    color: #619099 ;
+}

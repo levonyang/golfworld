@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -32,7 +33,8 @@ public class ProductInfoDecorator extends ProductService {
         int commonAmount = commentService.count(CommonTypeConstant.PRODUCT_COMMENT, productId);
         productInfo.setCommentAmount(commonAmount);
         float score = commentService.countScore(productId);
-        productInfo.setScore(score);
+        DecimalFormat df = new DecimalFormat("#.0");
+        productInfo.setScore(Float.valueOf(df.format(score)));
         int talkingAmount = commentService.count(CommonTypeConstant.PRODUCT_TALKING, productId);
         productInfo.setTalkingAmount(talkingAmount);
         productInfo.setRecentTalkUserAvatar(commentService.getRecentTalkUserAvatar(productId, 5));

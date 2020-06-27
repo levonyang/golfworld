@@ -1,5 +1,6 @@
 package org.golfworld.db.service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.golfworld.db.dao.FootprintMapper;
 import org.golfworld.db.domain.Footprint;
@@ -18,7 +19,8 @@ public class FootprintService {
 
     public List<Footprint> queryByAddTime(Integer userId, Integer page, Integer size) {
         FootprintExample example = new FootprintExample();
-        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
+        FootprintExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId).andDeletedEqualTo(false);
         example.setOrderByClause(Footprint.Column.addTime.desc());
         PageHelper.startPage(page, size);
         return footprintMapper.selectByExample(example);
@@ -61,6 +63,29 @@ public class FootprintService {
         }
 
         PageHelper.startPage(page, size);
+        return footprintMapper.selectByExample(example);
+    }
+
+    public List<Footprint> findByUserId(Integer userId) {
+        FootprintExample example = new FootprintExample();
+        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
+        example.setOrderByClause(Footprint.Column.addTime.desc());
+        return footprintMapper.selectByExample(example);
+    }
+
+    public List<Footprint> querySelective(Integer userId, Integer page, Integer limit, String sort, String order) {
+              FootprintExample example = new FootprintExample();
+        FootprintExample.Criteria criteria = example.createCriteria();
+
+        if (!StringUtils.isEmpty(userId)) {
+            criteria.andUserIdEqualTo(Integer.valueOf(userId));
+        }
+        criteria.andDeletedEqualTo(false);
+
+        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
+            example.setOrderByClause(sort + " " + order);
+        }
+        PageHelper.startPage(page, limit);
         return footprintMapper.selectByExample(example);
     }
 }

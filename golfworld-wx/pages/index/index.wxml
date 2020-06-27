@@ -7,12 +7,12 @@
     <block wx:for="{{banner}}" wx:key="*this">
         <swiper-item url="{{item.url}}">
             <!--                <image class="image" src="{{item.url}}"/>-->
-            <view style='background:url({{item.url}}) no-repeat;background-size:cover;width:600rpx;height:280rpx;background-position:center center;  border-radius: 30rpx;'></view>
+            <view bindtap="goProduct" data-id="{{item.link}}" style='background:url({{item.url}}) no-repeat;background-size:cover;width:600rpx;height:280rpx;background-position:center center;  border-radius: 30rpx;'></view>
         </swiper-item>
     </block>
 </swiper>
-<van-cell custom-class="new-title" title="新品日历" is-link value="查看更多"/>
-<view class="new-release  grey_background border_radio">
+<van-cell bindtap="goNewRelease" custom-class="new-title" title="新品日历" is-link value="查看更多"/>
+<view bindtap="goProduct" data-id="{{newReleaseProduct.id}}" class="new-release  grey_background border_radio">
     <view class="new-release-desc">
         <view class="new-release-label">
             <image class="new-release-label-icon" src="/static/images/index@new.png"></image>
@@ -26,9 +26,9 @@
     </view>
 </view>
 <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
-    <block wx:for="{{productList}}" wx:key="*this">
+    <block wx:for="{{comingProductList}}" wx:key="*this">
         <view id="{{item.id}}" class="scroll-view-item_H">
-                <image src="{{item.picUrl}}" class="new-release-list-image" mode="widthFix"></image>
+                <image  bindtap="goProduct" data-id="{{item.id}}"   src="{{item.picUrl}}" class="new-release-list-image" mode="widthFix"></image>
             <view class="new-release-talk">
                 <view>新品Talk</view>
                 <image src="/static/images/index@newtalk.png"></image>
@@ -36,15 +36,18 @@
             <view class="new-release-list-desc">
                 <view class="new-release-list-desc-left">
                     <view class="new-release-list-desc-title">{{item.name}}</view>
-                    <view class="new-release-list-desc-wtl">30人想看</view>
+                    <view class="new-release-list-desc-wtl">{{item.like}}人想看</view>
                 </view>
-                <view class="new-release-list-desc-like">想看+1</view>
+                <view class="new-release-list-desc-like" bindtap="likeOrUnlike" data-id="{{item.id}}">想看+1</view>
             </view>
             <view class="new-release-list-time">
                 <view class="new-release-list-time-title">发布时间</view>
-                <view class="new-release-list-time-desc">
-                    <view class="new-release-list-time-value">1</view>
+                <view  wx:if="{{item.releaseTimeAfterStr > 0}}" class="new-release-list-time-desc">
+                    <view  class="new-release-list-time-value">{{item.releaseTimeAfterStr}}</view>
                     <label>天后</label>
+                </view>
+                 <view  wx:if="{{item.releaseTimeAfterStr == 0}}" class="new-release-list-time-desc-today">
+                   今天
                 </view>
             </view>
         </view>
@@ -59,8 +62,7 @@
 </scroll-view>
 <view>
     <view wx:for="{{selectedChannelProduct}}" class="product-list" wx:key="index">
-        <van-product title="TITLEEIST TS3 DRIVER" custom-class="bottom_border" product="{{item}}" isTalking="true"
-                     thumb="/static/images/temp/product1.png"/>
+        <van-product title="TITLEEIST TS3 DRIVER" custom-class="bottom_border" product="{{item}}" isTalking="true" />
     </view>
 </view>
 

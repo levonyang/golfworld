@@ -37,7 +37,7 @@
                     </view>
                 </view>
                 <view id="{{item.id}}" class="new-coming-item-desc">
-                    <image src="{{item.picUrl}}" class="new-coming-list-image" mode="widthFix"></image>
+                    <image  bindtap="goProduct" data-id="{{item.id}}" src="{{item.picUrl}}" class="new-coming-list-image" mode="widthFix"></image>
                     <view class="new-coming-talk">
                         <view>新品Talk</view>
                         <image src="/static/images/index@newtalk.png"></image>

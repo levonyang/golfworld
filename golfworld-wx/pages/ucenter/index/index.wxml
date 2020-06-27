@@ -21,7 +21,7 @@
             </view>
         </view>
         <view class="profile_info">
-            <view bindtap="goAttention" class="user_info_item left_border">
+            <view bindtap="goLike" class="user_info_item left_border">
                 <view>1</view>
                 <view>关注</view>
             </view>

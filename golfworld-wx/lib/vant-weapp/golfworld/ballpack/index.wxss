@@ -1,0 +1,36 @@
+@import '../../common/index.wxss';
+
+.van-product {
+    position: relative;
+    box-sizing: border-box;
+    padding: 8px 16px;
+    font-size: var(--product-font-size, 12px);
+    /*color: #323233;*/
+    /*background-color: #fdfdfd;*/
+    /*background-color: var(--product-background-color, #fafafa)*/
+}
+.ball-pack-item {
+    justify-content: space-around;
+    height: 230rpx;
+    padding-bottom: 30rpx;
+    margin-bottom: 30rpx;
+}
+
+/*.ball-pack-item view {*/
+/*    color: white;*/
+/*}*/
+.ball-pack-title {
+    margin-top: 60rpx;
+    width: 320rpx;
+    margin-left: 260rpx;
+}
+.ball-pack-title-name {
+    max-height: 40rpx;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    word-break: break-all;
+    overflow: hidden;
+
+}

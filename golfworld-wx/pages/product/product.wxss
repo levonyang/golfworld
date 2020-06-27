@@ -156,15 +156,22 @@ page {
     display: inline-block;
     margin: 0rpx 20rpx;
     width: 280rpx;
-    min-height: 280rpx;
-    max-height: 280rpx;
+    min-height: 290rpx;
+    max-height: 290rpx;
     background-color: white;
 }
 
-.scroll-view-item_H .comment {
+.related-desc {
     margin: auto 0;
     padding-left: 20rpx;
     height: 100%;
+}
+
+.related-desc-name {
+    width: 220rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    overflow: hidden;
 }
 
 .scroll-view-item_H image {
@@ -343,13 +350,26 @@ page {
     font-weight: bold;
 
 }
-.write-comment-btn{
-    -webkit-box-shadow: 0px -3px 13px -5px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0px -3px 13px -5px rgba(0,0,0,0.5);
-    box-shadow: 0px -3px 13px -5px rgba(0,0,0,0.5);
+
+.write-comment-btn {
+    -webkit-box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);
     width: 180rpx;
     padding: 10rpx;
     margin-bottom: 50rpx;
     border-radius: 30rpx;
     margin-left: 500rpx;
+}
+.popup{
+    width: 300rpx;
+    width: 500rpx;
+}
+.comment-pp{
+    margin: 70rpx auto;
+}
+.comment-pp-image{
+    border-radius: 50rpx;
+    width: 90rpx;
+    height: 90rpx;
 }

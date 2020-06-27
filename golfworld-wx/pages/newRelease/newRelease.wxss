@@ -186,10 +186,7 @@
     border: 1px solid #c9c8c8;
     border-radius: 20rpx;
 }
-.loading{
-    width: 30rpx;
-    height: 30rpx;
-}
+
 .new-release-list {
 
 }
@@ -203,16 +200,4 @@
 }
 .margin-bottom{
    margin-bottom: 20rpx;
-}
-.load-more {
-    border-top: 1px solid #f4f4f4;
-    padding: 20rpx;
-    height: 80rpx;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-}
-.load-more-text{
-    margin-right: 8rpx;
-    color: #719ba3;
 }

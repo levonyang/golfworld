@@ -8,20 +8,24 @@
           <el-input v-model="product.name" />
         </el-form-item>
         <el-form-item label="市场价" prop="officialPrice">
-          <el-input v-model="product.officialPrice" placeholder="">
-            <template slot="append">元</template>
-          </el-input>
+          <el-input v-model="product.officialPrice" placeholder="" />
         </el-form-item>
         <el-form-item label="折扣价" prop="discountPrice">
-          <el-input v-model="product.discountPrice" placeholder="">
-            <template slot="append">元</template>
-          </el-input>
+          <el-input v-model="product.discountPrice" placeholder="" />
+        </el-form-item>
+        <el-form-item label="货币">
+          <el-select v-model="product.currency" clearable>
+            <el-option v-for="item in currencyList" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
         <el-form-item label="是否新品" prop="isNew">
           <el-radio-group v-model="product.isNew">
             <el-radio :label="true">新品</el-radio>
             <el-radio :label="false">非新品</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="发布时间" prop="releaseTime">
+          <el-date-picker v-model="product.releaseTime" type="date" value-format="yyyy-MM-dd" placeholder="选择时间" />
         </el-form-item>
         <el-form-item label="是否热卖" prop="isHot">
           <el-radio-group v-model="product.isHot">
@@ -238,6 +242,19 @@ export default {
       categoryList: [],
       brandList: [],
       categoryIds: [],
+      currencyList: [
+        {
+          label: '人民币',
+          value: 'RMB'
+        },
+        {
+          label: '新西兰元',
+          value: 'NZD'
+        }, {
+          label: '美元',
+          value: 'USD'
+        }
+      ],
       product: { gallery: [] },
       productVisiable: false,
       productForm: {

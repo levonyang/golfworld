@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import org.golfworld.db.dao.CommentMapper;
 import org.golfworld.db.domain.Comment;
 import org.golfworld.db.domain.CommentExample;
+import org.golfworld.db.domain.User;
 import org.golfworld.db.util.CommonTypeConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +23,9 @@ public class CommentService {
     @Resource
     private CommentMapper commentMapper;
 
+    @Autowired
+    private UserService userService;
+
     public List<Comment> queryProductByGid(Integer id, int offset, int limit) {
         CommentExample example = new CommentExample();
         example.setOrderByClause(Comment.Column.addTime.desc());
@@ -30,14 +35,15 @@ public class CommentService {
     }
 
     public List<Comment> query(Byte type, Integer valueId, Integer showType, Integer offset, Integer limit) {
+        if (null == type)  type = CommonTypeConstant.PRODUCT_COMMENT;
         CommentExample example = new CommentExample();
         example.setOrderByClause(Comment.Column.addTime.desc());
-        if (showType == 0) {
+        if (null == showType) {
+            example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type);
+        } else if (showType == 0) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         } else if (showType == 1) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andHasPictureEqualTo(true).andDeletedEqualTo(false);
-        } else {
-            example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type);
         }
         PageHelper.startPage(offset, limit);
         return commentMapper.selectByExample(example);
@@ -45,7 +51,7 @@ public class CommentService {
 
     public int count(Byte type, Integer valueId, Integer showType) {
         CommentExample example = new CommentExample();
-        if (null ==showType || showType ==0 ){
+        if (null == showType || showType == 0) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         } else if (showType == 1) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andHasPictureEqualTo(true).andDeletedEqualTo(false);
@@ -109,24 +115,26 @@ public class CommentService {
         if (comments.isEmpty()) return 0;
         float baseScore = comments.size() * 5;
         float totalScore = comments.stream().mapToInt(Comment::getStar).sum();
-        return (totalScore/baseScore) * 10;
+        return (totalScore / baseScore) * 10;
     }
 
     public List<String> getRecentTalkUserAvatar(int productId, int size) {
         Set<String> recentTalkUserAvatar = new HashSet<>();
         int total = this.count(CommonTypeConstant.PRODUCT_TALKING, productId, null);
-        int page = 1 ;
-        while (recentTalkUserAvatar.size() < size){
+        int page = 1;
+        while (recentTalkUserAvatar.size() < size) {
             List<Comment> recentlyComments = this.querySelective(CommonTypeConstant.PRODUCT_TALKING, Integer.toString(productId), null,
                     page, size, "add_time", "desc");
             Set<String> collect = recentlyComments.stream()
-                    .filter(comment -> !StringUtils.isEmpty(comment.getAvatar()))
-                    .map(Comment::getAvatar).collect(Collectors.toSet());
+                    .map(comment -> {
+                        User user = userService.findById(comment.getUserId());
+                        return user.getAvatar();
+                    }).collect(Collectors.toSet());
             recentTalkUserAvatar.addAll(collect);
             total -= recentlyComments.size();
-            if (total <=0 ) return new ArrayList<>(recentTalkUserAvatar);
+            if (total <= 0) return new ArrayList<>(recentTalkUserAvatar);
             page += 1;
         }
-       return new ArrayList<>(recentTalkUserAvatar);
+        return new ArrayList<>(recentTalkUserAvatar);
     }
 }

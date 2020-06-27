@@ -33,12 +33,17 @@ VantComponent({
             this.jumpLink('thumbLink');
         },
         changeProduct(val) {
-            console.log('changeProduct')
-            console.log(val)
             this.setData({
                 product: val
             });
-        }
+        },
+        goProduct: function (e) {
+            let id = e.currentTarget.dataset.id;
+            wx.navigateTo({
+                url: '../product/product?id=' + id
+            });
+
+        },
     }
 
 });

@@ -25,6 +25,7 @@
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
     <result column="discount_price" jdbcType="DECIMAL" property="discountPrice" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.golfworld.db.domain.Product">
     <!--
@@ -106,7 +107,7 @@
     -->
     id, `name`, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, 
     pic_url, share_url, is_new, is_hot, official_price, add_time, update_time, deleted, 
-    release_time, discount_price
+    release_time, discount_price, currency
   </sql>
   <sql id="Blob_Column_List">
     <!--
@@ -267,15 +268,15 @@
       is_on_sale, sort_order, pic_url, 
       share_url, is_new, is_hot, official_price, 
       add_time, update_time, deleted, 
-      release_time, discount_price, detail
-      )
+      release_time, discount_price, currency, 
+      detail)
     values (#{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, 
       #{gallery,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, 
       #{isOnSale,jdbcType=BIT}, #{sortOrder,jdbcType=SMALLINT}, #{picUrl,jdbcType=VARCHAR}, 
       #{shareUrl,jdbcType=VARCHAR}, #{isNew,jdbcType=BIT}, #{isHot,jdbcType=BIT}, #{officialPrice,jdbcType=DECIMAL}, 
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
-      #{releaseTime,jdbcType=TIMESTAMP}, #{discountPrice,jdbcType=DECIMAL}, #{detail,jdbcType=LONGVARCHAR}
-      )
+      #{releaseTime,jdbcType=TIMESTAMP}, #{discountPrice,jdbcType=DECIMAL}, #{currency,jdbcType=VARCHAR}, 
+      #{detail,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.golfworld.db.domain.Product">
     <!--
@@ -341,6 +342,9 @@
       <if test="discountPrice != null">
         discount_price,
       </if>
+      <if test="currency != null">
+        currency,
+      </if>
       <if test="detail != null">
         detail,
       </if>
@@ -399,6 +403,9 @@
       </if>
       <if test="discountPrice != null">
         #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null">
+        #{currency,jdbcType=VARCHAR},
       </if>
       <if test="detail != null">
         #{detail,jdbcType=LONGVARCHAR},
@@ -479,6 +486,9 @@
       <if test="record.discountPrice != null">
         discount_price = #{record.discountPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.currency != null">
+        currency = #{record.currency,jdbcType=VARCHAR},
+      </if>
       <if test="record.detail != null">
         detail = #{record.detail,jdbcType=LONGVARCHAR},
       </if>
@@ -512,6 +522,7 @@
       deleted = #{record.deleted,jdbcType=BIT},
       release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
       discount_price = #{record.discountPrice,jdbcType=DECIMAL},
+      currency = #{record.currency,jdbcType=VARCHAR},
       detail = #{record.detail,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -541,7 +552,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT},
       release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
-      discount_price = #{record.discountPrice,jdbcType=DECIMAL}
+      discount_price = #{record.discountPrice,jdbcType=DECIMAL},
+      currency = #{record.currency,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -607,6 +619,9 @@
       <if test="discountPrice != null">
         discount_price = #{discountPrice,jdbcType=DECIMAL},
       </if>
+      <if test="currency != null">
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
       <if test="detail != null">
         detail = #{detail,jdbcType=LONGVARCHAR},
       </if>
@@ -637,6 +652,7 @@
       deleted = #{deleted,jdbcType=BIT},
       release_time = #{releaseTime,jdbcType=TIMESTAMP},
       discount_price = #{discountPrice,jdbcType=DECIMAL},
+      currency = #{currency,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -663,7 +679,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
       release_time = #{releaseTime,jdbcType=TIMESTAMP},
-      discount_price = #{discountPrice,jdbcType=DECIMAL}
+      discount_price = #{discountPrice,jdbcType=DECIMAL},
+      currency = #{currency,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectOneByExample" parameterType="org.golfworld.db.domain.ProductExample" resultMap="BaseResultMap">

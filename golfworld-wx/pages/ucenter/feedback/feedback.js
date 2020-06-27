@@ -87,11 +87,11 @@ Page({
         });
     },
     allowContactInput: function (e) {
-       if (e.detail.value[0]) {
-        this.setData({
-            allowContactIn48H: e.detail.value[0]
-        });
-       }
+        if (e.detail.value[0]) {
+            this.setData({
+                allowContactIn48H: e.detail.value[0]
+            });
+        }
     },
 
     contentInput: function (e) {
@@ -179,6 +179,9 @@ Page({
         });
     },
     onLoad: function (options) {
+        this.setData({
+            valueId: options.valueId,
+        })
 
     },
     onReady: function () {

@@ -1,0 +1,24 @@
+<wxs src="../../wxs/utils.wxs" module="utils"/>
+
+<view class="custom-class van-product">
+    <view class="ball-pack-item flex_row {{index==ballPack.length-1 ? '': 'border-bottom'}}">
+        <view>
+            <block wx:for="{{3}}" wx:for-item="url" wx:key="*this">
+                <image wx:if="{{index == 0}}" class=""
+                       style="{{'position:absolute;left:'+index*20 +'rpx;margin-left:30rpx;margin-top:'+index*15 +'rpx;width:250rpx;max-height:'+(200-index*15)+'rpx;z-index:'+(100-index)+'; border-radius:20rpx;'}}"
+                       src="{{ballPack.picUrl}}" mode="widthFix"></image>
+                  <image wx:if="{{index == 1}}" class=""
+                       style="{{'background-color:#9999 ;position:absolute;left:'+index*20 +'rpx;margin-left:30rpx;margin-top:'+index*15 +'rpx;width:250rpx;max-height:'+(200-index*15)+'rpx;z-index:'+(100-index)+'; border-radius:20rpx;'}}"
+                       src="" mode="widthFix"></image>
+                         <image wx:if="{{index == 2}}" class=""
+                       style="{{'background-color: #f8f8f8;position:absolute;left:'+index*20 +'rpx;margin-left:30rpx;margin-top:'+index*15 +'rpx;width:250rpx;max-height:'+(200-index*15)+'rpx;z-index:'+(100-index)+'; border-radius:20rpx;'}}"
+                       src="" mode="widthFix"></image>
+            </block>
+        </view>
+        <view class="flex_column ball-pack-title">
+            <view class="ball-pack-title-name">{{ballPack.title}}</view>
+            <view style="color:#666;">全部共{{ballPack.total}}</view>
+        </view>
+        <van-icon name="arrow" style="margin-bottom: 24rpx;"/>
+    </view>
+</view>

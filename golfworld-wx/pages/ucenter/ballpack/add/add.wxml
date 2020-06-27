@@ -1,0 +1,70 @@
+<view class="container">
+    <view wx:if="{{!addProduct}}">
+        <view class="btns bottom_border">
+            <view class="close" bindtap="onClose">取消</view>
+            <view class="post" bindtap="onPost">发表</view>
+        </view>
+        <input class="padding-15px margin-top" type="input" bind:input="inputTitle" placeholder="请输入标题　(20字以内)"/>
+        <input class="padding-15px " type="textarea" bind:input="inputDesc" placeholder="清单简介,向其他人介绍这个清单的特点"/>
+        <block wx:for="{{checkedList}}" wx:key="*this">
+            <view class="flex_column product background-color">
+                <view class="flex_row  border_radio justify-between">
+                    <van-product starColor="#209068" custom-class="margin-bottom"
+                                 product="{{item}}"
+                                 isReview="true"/>
+                    <image bindtap="deleteProduct" data-id="{{item.id}}" class="selected-btn-image"
+                           src="/static/images/product-delete.png"></image>
+                </view>
+                <textarea type="textarea" rows="3" class="product-reason" value="{{item.reason}}"
+                          bind:input="inputProductReason" data-id="{{item.id}}"
+                          placeholder="请输入推荐理由(60字以内)"></textarea>
+            </view>
+        </block>
+        <view bindtap="addProduct" class="add-btn flex_row">
+            <image class="product-add-btn" src="/static/images/product-add.png"></image>
+            <view>添加产品</view>
+        </view>
+        <view class="note">注意:创建球包至少添加3个，最多20个</view>
+    </view>
+</view>
+<van-popup
+        show="{{  showAddProduct }}"
+        position="bottom"
+        custom-class="search-popup"
+        custom-style="height: 90%"
+>
+    <view class="add-product">
+        <view class="flex_row">
+            <van-search bindsearch="searchName" clearable="false" custom-class="search-input"
+                        shape="round"></van-search>
+            <view bindtap="ok" class="finish-btn flex_row">完成{{ productIds.length>0 ? '('+productIds.length+')':''}}
+            </view>
+        </view>
+        <view>
+            <block wx:for="{{searchProductList}}" wx:key="*this">
+                <view class="flex_row search-list">
+                    <van-product starColor="#209068" custom-class="margin-bottom"
+                                 product="{{item}}"
+                                 isReview="true"/>
+                    <view bindtap="checkedProduct" data-id="{{item.id}}" wx:if="{{!item.selected}}"
+                          class="un-select-btn flex_row">
+                        <image class="selected-btn-image" src="/static/images/product-add.png"></image>
+                        <view class="red  unselect-btn-name">选择</view>
+                    </view>
+                    <view bindtap="uncheckedProduct" data-id="{{item.id}}" wx:if="{{item.selected}}"
+                          class="c999 selected-btn flex_row">
+                        已选
+                    </view>
+                </view>
+            </block>
+            <view></view>
+        </view>
+        <view class="load-more flex_row" wx:if="{{loading.showLoadMore}}" bindtap="loadMore">
+            <view class="load-more-text">加载更多</view>
+            <image wx:if="{{loading.onLoading}}" class="loading" src="/static/images/loading.gif"></image>
+            <van-icon name="arrow-down" wx:if="{{loading.showIcon}}" class="load-more-icon"/>
+        </view>
+
+    </view>
+</van-popup>
+
