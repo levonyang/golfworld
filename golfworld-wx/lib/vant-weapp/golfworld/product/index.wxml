@@ -14,7 +14,7 @@
         <view bindtap="goProduct" data-id="{{product.id}}" class="van-product__content">
             <view wx:if="{{ product.name }}" class="van-product__title title-class">{{ product.name }}</view>
             <slot wx:else name="title"/>
-            <view class="van-product_rate">
+            <view class="van-product_rate flex_row">
                 <van-rate
                         value="{{ product.score/2 }}"
                         size="{{ 19 }}"
@@ -25,10 +25,16 @@
                         void-icon="star"
                         bind:change="onChange"
                 />
+                <view class="rate-value">{{ product.score }}</view>
             </view>
             <view class="product_status" wx:if="{{isReview}}">
                 <view class="product__status_item">{{ product.talkingAmount }} 文章</view>
                 <view class="product__status_item">{{product.commentAmount}} 点评</view>
+            </view>
+            <view class="flex_row" wx:if="{{isTag}}">
+                 <block wx:for="{{product.tag}}" wx:key="index">
+                        <view class="tag-item">{{item}} </view>
+                    </block>
             </view>
             <view class="" wx:if="{{isTalking}}">
                 <view class="avatar-list">

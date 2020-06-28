@@ -22,6 +22,7 @@ VantComponent({
         lazyLoad: Boolean,
         isReview: Boolean,
         isTalking: Boolean,
+        isTag: Boolean,
         originPrice: String,
         thumbMode: {
             type: String,

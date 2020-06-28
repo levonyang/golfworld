@@ -38,11 +38,12 @@
     flex-direction: column;
 }
 
-.more{
+.more {
     font-size: 25rpx;
     color: red;
     font-weight: bold;
 }
+
 .title-text {
     margin-top: 8rpx;
     font-size: 30rpx;
@@ -51,5 +52,10 @@
 
 .title-value {
     margin-top: 8rpx;
-    color: #619099 ;
+    color: #619099;
+}
+
+.ballpack-list {
+    position: relative;
+    top: -80rpx
 }

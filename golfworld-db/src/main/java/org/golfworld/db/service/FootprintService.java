@@ -3,6 +3,8 @@ package org.golfworld.db.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.golfworld.db.dao.FootprintMapper;
+import org.golfworld.db.domain.Collect;
+import org.golfworld.db.domain.CollectExample;
 import org.golfworld.db.domain.Footprint;
 import org.golfworld.db.domain.FootprintExample;
 import org.springframework.stereotype.Service;
@@ -87,5 +89,12 @@ public class FootprintService {
         }
         PageHelper.startPage(page, limit);
         return footprintMapper.selectByExample(example);
+    }
+
+    public int countByUserId(Integer userId) {
+        FootprintExample example = new FootprintExample();
+        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
+        List<Footprint> footprints= footprintMapper.selectByExample(example);
+        return footprints.size();
     }
 }

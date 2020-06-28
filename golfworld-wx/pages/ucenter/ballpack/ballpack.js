@@ -24,7 +24,9 @@ Page({
 
     },
     goSearch: function () {
-
+        wx.navigateTo({
+            url: 'all/all'
+        })
     },
     getBallPack: function () {
         let that = this;
@@ -45,6 +47,11 @@ Page({
     onAdd: function (e) {
         wx.navigateTo({
             url: '/pages/ucenter/ballpack/add/add'
+        })
+    },
+    goBallPackDetail(e) {
+        wx.navigateTo({
+            url: 'detail/detail?id=' + e.currentTarget.dataset.id
         })
     }
 });

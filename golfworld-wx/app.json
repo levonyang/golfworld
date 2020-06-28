@@ -1,13 +1,14 @@
 {
   "pages": [
-    "pages/ucenter/ballpack/all/all",
+    "pages/ucenter/index/index",
     "pages/ucenter/ballpack/ballpack",
+    "pages/ucenter/ballpack/all/all",
+    "pages/ucenter/ballpack/detail/detail",
     "pages/ucenter/ballpack/add/add",
     "pages/index/index",
     "pages/ucenter/like/like",
     "pages/ucenter/collect/collect",
     "pages/ucenter/footprint/footprint",
-    "pages/ucenter/index/index",
     "pages/product/product",
     "pages/product/parameter/parameter",
     "pages/commentPost/commentPost",

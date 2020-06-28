@@ -21,6 +21,7 @@ public class ProductInfo {
     private int commentAmount;
     private int talkingAmount;
     private int like;
+    private String reason;
     /**
      * recent five user
      */
@@ -156,5 +157,13 @@ public class ProductInfo {
 
     public void setRecentTalkUserAvatar(List<String> recentTalkUserAvatar) {
         this.recentTalkUserAvatar = recentTalkUserAvatar;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }

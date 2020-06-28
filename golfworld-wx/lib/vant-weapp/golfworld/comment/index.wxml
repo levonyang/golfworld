@@ -12,7 +12,7 @@
             </view>
             <view class="flex_column">
                 <view>{{comment.userInfo.nickName}}</view>
-                <van-rate
+                <van-rate wx:if="{{hasStar}}"
                         value="{{ comment.star }}"
                         size="{{ 19 }}"
                         readonly="{{true}}"

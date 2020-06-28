@@ -66,6 +66,13 @@
     padding-top: 10rpx !important;
 }
 
+.rate-value {
+    color: #999;
+    font-size: 36rpx;
+    margin-left: 10rpx;
+    /*margin-top: 8rpx;*/
+}
+
 .van-product__title {
     margin-top: 30rpx;
     font-weight: 700;
@@ -133,19 +140,30 @@
     justify-content: start;
 }
 
-.avatar-list-item{
+.avatar-list-item {
     position: absolute;
 }
+
 .avatar-list-item-image {
-    position:absolute;
+    position: absolute;
     border-radius: 50rpx;
     width: 50rpx;
     height: 50rpx;
 }
-.product-talking{
+
+.product-talking {
     color: #666;
     position: relative;
     left: 150rpx;
+}
+
+.tag-item {
+    border-radius: 6rpx;
+    border: 1px solid #9a9a9a;
+    margin: 10rpx;
+    font-size: 24rpx;
+    color: #999;
+    padding: 3rpx;
 }
 
 

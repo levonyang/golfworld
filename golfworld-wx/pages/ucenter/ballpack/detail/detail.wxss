@@ -1,0 +1,210 @@
+.content {
+    padding: 30rpx;
+    background-color: #20916d;
+    height: 100%;
+}
+
+.header {
+    height: 200rpx;
+    justify-content: space-around;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 40rpx;
+    color: white;
+}
+
+.color-white {
+    color: white;
+}
+
+.color-fbfbfb {
+    color: #fbfbfb;
+}
+
+.color-9a9a9a {
+    color: #9a9a9a;
+}
+
+.nickname {
+    margin-left: 20rpx;
+    line-height: 50rpx;
+    color: #fbfbfb;
+}
+
+.update-time {
+    color: #c5cdca;
+}
+
+.edit {
+    text-align: center;
+    width: 120rpx;
+    font-size: 25rpx;
+    padding: 5rpx;
+    background-color: white;
+    border-radius: 20rpx;
+}
+
+.desc {
+    margin-top: 30rpx;
+    margin-bottom: 50rpx;
+    color: #c5cdca;
+}
+
+.total {
+    color: #c5cdca;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 50rpx;
+    height: 50rpx;
+}
+
+.product {
+    background-color: white;
+    border-radius: 20rpx;
+}
+
+.reason {
+    padding: 10rpx;
+    background-color: #eeeeee;
+    color: #9a9a9a;
+    border-bottom-left-radius: 20rpx;
+    border-bottom-right-radius: 20rpx;
+}
+
+.note {
+    margin-top: 30rpx;
+}
+
+.note view {
+    align-items: center;
+    text-align: center;
+    font-size: 18rpx;
+}
+
+.note-link {
+    margin-bottom: 20rpx;
+    color: #9a9a9a;
+    margin-top: 12rpx;
+    text-decoration: underline;
+}
+
+.title2 {
+    position: relative;
+    top: -170rpx;
+    margin-left: 30rpx;
+    display: flex;
+    flex-direction: column;
+}
+
+.more {
+    font-size: 25rpx;
+    color: red;
+    font-weight: bold;
+}
+
+.title-text {
+    color: white;
+    margin-top: 8rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+.title-value {
+    margin-top: 8rpx;
+    color: #619099;
+}
+
+.more-ballpack {
+    margin-top: 20rpx;
+    font-size: 26rpx;
+    background-color: #4d4d4d;
+    color: white;
+    align-items: center;
+    text-align: center;
+    padding: 6rpx;
+    width: 160rpx;
+    border-radius: 20rpx;
+}
+
+.add-ballpack {
+    position: relative;
+    top: -100rpx;
+    padding: 12rpx;
+    border-radius: 8rpx;
+    background-color: #63b299;
+    width: 100%;
+}
+
+.add-ballpack view {
+    color: white;
+}
+
+.add-ballpack image {
+    margin-right: 20rpx;
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.van-comment {
+    margin: 20rpx;
+}
+
+.comment-img {
+    width: 100rpx;
+    height: 100rpx;
+    margin-right: 28rpx;
+    border-radius: 50%;
+}
+
+.comment {
+    margin-top: 40rpx;
+}
+
+.comment-header {
+    margin-top: 20rpx;
+    justify-content: space-between;
+}
+
+.all-talk-title {
+
+}
+
+.comment-date {
+    color: #999;
+}
+
+.comment-content {
+    padding: 10rpx;
+}
+
+.comment-btn{
+    margin-top: 10rpx;
+    margin-bottom: 30rpx;
+}
+.comment-btn image {
+    margin-top: 8rpx;
+    margin-right: 10rpx;
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.btn-like{
+    margin-right: 60rpx;
+}
+
+.like-number {
+    line-height: 30rpx;
+    font-size: 20rpx;
+    position: relative;
+    top: -10rpx;
+}
+.comment_border {
+    border-bottom: 1px solid #9a9a9a;
+}
+.product-list{
+    margin-bottom: 50rpx;
+}

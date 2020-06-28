@@ -92,6 +92,7 @@ module.exports = {
 
   AddBallPack: WxApiRoot + 'ballPack/submit', //球包
   BallPackList: WxApiRoot + 'ballPack/list', //球包列表
+  BallPackDetail: WxApiRoot + 'ballPack/detail', //球包详情
 
   GroupOnList: WxApiRoot + 'groupon/list', //团购列表
   GroupOnMy: WxApiRoot + 'groupon/my', //团购API-我的团购

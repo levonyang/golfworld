@@ -9,12 +9,9 @@ Page({
             nickName: '点击登录',
             avatarUrl: ''
         },
-        order: {
-            unpaid: 0,
-            unship: 0,
-            unrecv: 0,
-            uncomment: 0
-        },
+        like: 0,
+        collect: 0,
+        footPrint: 0,
         hasLogin: false
     },
     onLoad: function (options) {
@@ -34,13 +31,15 @@ Page({
             });
 
             let that = this;
-            // util.request(api.UserIndex).then(function(res) {
-            //   if (res.errno === 0) {
-            //     that.setData({
-            //       order: res.data.order
-            //     });
-            //   }
-            // });
+            util.request(api.UserIndex).then(function (res) {
+                if (res.errno === 0) {
+                    that.setData({
+                        like: res.data.like,
+                        collect: res.data.collect,
+                        footPrint: res.data.footPrint
+                    });
+                }
+            });
         }
 
     },
@@ -58,8 +57,8 @@ Page({
             });
         }
     },
-    goProfile(){
-           if (this.data.hasLogin) {
+    goProfile() {
+        if (this.data.hasLogin) {
             wx.navigateTo({
                 url: "/pages/ucenter/profile/profile"
             });
@@ -201,6 +200,11 @@ Page({
             });
         }
         ;
+    },
+    goBallPack() {
+        wx.navigateTo({
+            url: "/pages/ucenter/ballpack/ballpack"
+        });
     },
     goAddress() {
         if (this.data.hasLogin) {

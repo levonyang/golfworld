@@ -22,15 +22,15 @@
         </view>
         <view class="profile_info">
             <view bindtap="goLike" class="user_info_item left_border">
-                <view>1</view>
+                <view>{{like}}</view>
                 <view>关注</view>
             </view>
             <view bindtap="goCollect"  class="user_info_item left_border">
-                <view>1</view>
+                <view>{{collect}}</view>
                 <view>收藏的清单</view>
             </view>
             <view bindtap="goFootprint" class="user_info_item">
-                <view>1</view>
+                <view>{{footPrint}}</view>
                 <view>足迹</view>
             </view>
         </view>
@@ -47,7 +47,7 @@
                 <view class="user_column_item_text">我的动态</view>
                 <image class="user_column_item_image" src="/static/images/my@news.png"></image>
             </view>
-            <view class="user_column bottom_border ">
+            <view class="user_column bottom_border" bindtap="goBallPack">
                 <view class="user_column_item_text">我的球包</view>
                 <image class="user_column_item_image" src="/static/images/my@golfbag.png"></image>
             </view>

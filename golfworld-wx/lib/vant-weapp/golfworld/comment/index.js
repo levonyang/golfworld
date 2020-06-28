@@ -2,12 +2,14 @@ import {link} from '../../mixins/link';
 import {VantComponent} from '../../common/component';
 
 VantComponent({
-    classes: [
-
-    ],
+    classes: [],
     mixins: [link],
     props: {
         comment: Object,
+        hasStar: {
+            type: Boolean,
+            value: true
+        },
         rating: String,
         thumb: String,
         starColor: {

@@ -98,4 +98,11 @@ public class CollectService {
         PageHelper.startPage(page, limit);
         return collectMapper.selectByExample(example);
     }
+
+    public int countByUserId(Integer userId) {
+        CollectExample example = new CollectExample();
+        example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
+        List<Collect> collects = collectMapper.selectByExample(example);
+        return collects.size();
+    }
 }

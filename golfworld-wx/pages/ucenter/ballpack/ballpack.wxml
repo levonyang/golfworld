@@ -5,7 +5,7 @@
 <view wx:if="{{!empty}}">
     <view class="post" bindtap="onAdd">新建</view>
     <block wx:for="{{ballPackList}}" wx:key="*this">
-        <van-ballpack ballPack="{{item}}"/>
+        <van-ballpack ballPack="{{item}}" bindtap="goBallPackDetail" data-id="{{item.id}}"/>
     </block>
 </view>
         <!--<view bindtap="goAddBallPack" class="flex_row justify-around write-comment-btn ">-->

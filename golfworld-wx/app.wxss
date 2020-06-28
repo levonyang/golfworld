@@ -128,3 +128,6 @@ view, text {
     width: 30rpx;
     height: 30rpx;
 }
+.font-bold{
+    font-weight: bold;
+}

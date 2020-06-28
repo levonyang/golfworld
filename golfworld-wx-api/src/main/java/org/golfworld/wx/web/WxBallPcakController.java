@@ -1,6 +1,7 @@
 package org.golfworld.wx.web;
 
 import com.github.pagehelper.PageInfo;
+import com.sun.istack.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.util.JacksonUtil;
@@ -8,9 +9,11 @@ import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.BallPack;
 import org.golfworld.db.domain.BallPackProduct;
 import org.golfworld.db.domain.Product;
+import org.golfworld.db.domain.UserVo;
 import org.golfworld.db.service.BallPackProductService;
 import org.golfworld.db.service.BallPackService;
 import org.golfworld.db.service.ProductService;
+import org.golfworld.db.service.UserService;
 import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.dto.ProductInfo;
 import org.golfworld.wx.dto.decorator.ProductInfoDecorator;
@@ -44,6 +47,9 @@ public class WxBallPcakController {
 
     @Autowired
     private ProductInfoDecorator productInfoDecorator;
+
+    @Autowired
+    private UserService userService;
 
     /**
      *
@@ -101,7 +107,7 @@ public class WxBallPcakController {
     }
 
     /**
-     * 帮助中心
+     * 　我的球包列表
      */
     @RequestMapping("/list")
     public Object list(@LoginUser Integer userId,
@@ -124,13 +130,39 @@ public class WxBallPcakController {
                 ballPackVo.setPicUrl(picUrl);
             }
             BeanUtils.copyProperties(ballPack, ballPackVo);
+
             return ballPackVo;
         }).collect(Collectors.toList());
         Map<String, Object> entity = new HashMap<>();
         entity.put("list", collect);
         entity.put("pages", ballPackPagedList.getPages());
+        entity.put("total", ballPackPagedList.getTotal());
         return ResponseUtil.ok(entity);
     }
 
+    /**
+     *
+     */
+    @GetMapping("/detail")
+    public Object detail(@LoginUser Integer userId, @NotNull Integer id) {
+        BallPack ballPack = ballPackService.findById(id);
+        List<BallPackProduct> list = ballPackProductService.findByBallPackId(ballPack.getId());
+        PageInfo<BallPackProduct> pagedList = PageInfo.of(list);
+        BallPackVo ballPackVo = new BallPackVo();
+        BeanUtils.copyProperties(ballPack, ballPackVo);
+        ballPackVo.setTotal(pagedList.getTotal());
+        List<ProductInfo> productList = list.stream().map(ballPackProduct -> {
+            Product product = productService.findById(ballPackProduct.getValueId());
+            ProductInfo productInfo = productInfoDecorator.convert(product);
+            productInfo.setReason(ballPackProduct.getReason());
+            return productInfo;
+        }).collect(Collectors.toList());
+        UserVo userInfo = userService.findUserVoById(ballPack.getUserId());
+        Map<String, Object> entity = new HashMap<>();
+        entity.put("ballPack", ballPackVo);
+        entity.put("productList", productList);
+        entity.put("userInfo", userInfo);
+        return ResponseUtil.ok(entity);
+    }
 
 }

@@ -10,6 +10,7 @@ Page({
             showIcon: true,
         },
         ballPackList: [],
+        total: 0,
         page: 1,
         limit: 5,
         totalPages: 1
@@ -40,13 +41,15 @@ Page({
             limit: that.data.limit,
             all: true
         }).then(function (res) {
-            that.hideLoading()
+            console.log(res)
             if (that.data.page >= res.data.pages) {
                 that.data.loading.showLoadMore = false
             }
+            that.hideLoading()
             if (res.errno === 0) {
                 that.setData({
                     ballPackList: that.data.ballPackList.concat(res.data.list),
+                    total: res.data.total,
                 });
             }
         });
@@ -59,6 +62,13 @@ Page({
             }
         )
         this.getBallPack()
+    },
+    goBallPackDetail(e) {
+        console.log(e)
+        console.log(e.currentTarget.dataset.id)
+        wx.navigateTo({
+            url: '../detail/detail?id=' + e.currentTarget.dataset.id
+        })
     }
 })
 ;

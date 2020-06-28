@@ -1,6 +1,7 @@
 package org.golfworld.wx.vo;
 
 public class BallPackVo {
+    private Integer id;
     private String title;
     private String desc;
     private String picUrl;
@@ -36,5 +37,13 @@ public class BallPackVo {
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
