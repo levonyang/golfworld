@@ -169,7 +169,7 @@
     font-size: 18rpx;
 }
 
-.new-coming-list-desc-like {
+.new-release-list-desc-like {
     font-size: 20rpx;
     color: white;
     height: 36rpx;
@@ -180,6 +180,26 @@
     border-radius: 20rpx;
 }
 
+.new-release-list-desc-has-like {
+    font-size: 20rpx;
+    color: white;
+    height: 36rpx;
+    margin-top: 12rpx;
+    line-height: 36rpx;
+    padding: 4rpx 8rpx 8rpx 8rpx;
+    background-color: gray;
+    border-radius: 20rpx;
+}
+
+.like-info-text {
+    color: white;
+    /*opacity: 0.1;*/
+    padding: 10rpx;
+    background:rgba(0,0,0,0.5);
+    text-align: center;
+    border-radius: 10rpx;
+    width:550rpx;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+}
 .new-release-list {
     background-color: white;
     margin: 20rpx;

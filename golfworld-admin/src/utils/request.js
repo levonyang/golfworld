@@ -30,7 +30,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-
     if (res.errno === 501) {
       MessageBox.alert('系统未登录，请重新登录', '错误', {
         confirmButtonText: '确定',

@@ -90,19 +90,18 @@ public class WxHomeController {
 
         Callable<List> newProductListCallable = () -> {
             List<Product> products = productService.queryByNew(0, SystemConfig.getNewLimit());
-            List<ProductInfo> productInfos = productInfoDecorator.convertList(products);
+            List<ProductInfo> productInfos = productInfoDecorator.convertList(products,userId);
             return productInfos;
         };
 
         Callable<List> hotProductListCallable = () -> {
             List<Product> products = productService.queryByHot(0, SystemConfig.getNewLimit());
-            List<ProductInfo> productInfos = productInfoDecorator.convertList(products);
+            List<ProductInfo> productInfos = productInfoDecorator.convertList(products,userId);
             return productInfos;
         };
 
-        Callable<List> brandListCallable = () -> brandService.query(0, SystemConfig.getBrandLimit());
-
-        Callable<List> topicListCallable = () -> topicService.queryList(0, SystemConfig.getTopicLimit());
+//        Callable<List> brandListCallable = () -> brandService.query(0, SystemConfig.getBrandLimit());
+//        Callable<List> topicListCallable = () -> topicService.queryList(0, SystemConfig.getTopicLimit());
 
 
         Callable<List> floorProductListCallable = this::getCategoryList;
@@ -111,26 +110,27 @@ public class WxHomeController {
         FutureTask<List> channelTask = new FutureTask<>(channelListCallable);
         FutureTask<List> newProductListTask = new FutureTask<>(newProductListCallable);
         FutureTask<List> hotProductListTask = new FutureTask<>(hotProductListCallable);
-        FutureTask<List> brandListTask = new FutureTask<>(brandListCallable);
-        FutureTask<List> topicListTask = new FutureTask<>(topicListCallable);
+//        FutureTask<List> brandListTask = new FutureTask<>(brandListCallable);
+//        FutureTask<List> topicListTask = new FutureTask<>(topicListCallable);
         FutureTask<List> floorProductListTask = new FutureTask<>(floorProductListCallable);
 
+
         executorService.submit(bannerTask);
+//        executorService.submit(brandListTask);
+//        executorService.submit(topicListTask);
         executorService.submit(channelTask);
         executorService.submit(newProductListTask);
         executorService.submit(hotProductListTask);
-        executorService.submit(brandListTask);
-        executorService.submit(topicListTask);
         executorService.submit(floorProductListTask);
 
         Map<String, Object> entity = new HashMap<>();
         try {
             entity.put("banner", bannerTask.get());
+//            entity.put("brandList", brandListTask.get());
+//            entity.put("topicList", topicListTask.get());
             entity.put("channel", channelTask.get());
             entity.put("newProductList", newProductListTask.get());
             entity.put("hotProductList", hotProductListTask.get());
-            entity.put("brandList", brandListTask.get());
-            entity.put("topicList", topicListTask.get());
             entity.put("floorProductList", floorProductListTask.get());
             //缓存数据
             HomeCacheManager.loadData(HomeCacheManager.INDEX, entity);

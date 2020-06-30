@@ -351,25 +351,45 @@ page {
 
 }
 
-.write-comment-btn {
-    -webkit-box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);
-    width: 180rpx;
-    padding: 10rpx;
-    margin-bottom: 50rpx;
-    border-radius: 30rpx;
-    margin-left: 500rpx;
+.product-icon {
+    width: 70rpx;
+    height: 70rpx;
 }
-.popup{
+
+.write-comment-btn {
+    background-color: black;
+    color: red;
+    position: fixed;
+    float: right;
+    bottom: 20px;
+    right: 10px;
+    /*-webkit-box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);*/
+    /*-moz-box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);*/
+    /*box-shadow: 0px -3px 13px -5px rgba(0, 0, 0, 0.5);*/
+    width: 86rpx;
+    height: 190rpx;
+    padding: 8rpx;
+    border-radius: 30rpx;
+}
+
+.popup {
     width: 300rpx;
     width: 500rpx;
 }
-.comment-pp{
-    margin: 70rpx auto;
+
+.comment-pp {
+    width: 500rpx;
+    height: 300rpx;
 }
-.comment-pp-image{
+
+.comment-pp-image {
+    margin: auto;
     border-radius: 50rpx;
     width: 90rpx;
     height: 90rpx;
+}
+
+.commentPopup {
+    width: 500rpx;
+    height: 300rpx;
 }

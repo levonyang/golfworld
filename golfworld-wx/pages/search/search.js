@@ -31,7 +31,6 @@ Page({
     });
   },
   onLoad: function() {
-
     this.getSearchKeyword();
   },
 

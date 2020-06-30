@@ -1,3 +1,10 @@
+.home-page {
+    height: 160rpx;
+    width: 100%;
+    border: 1rpx solid red;
+    font-size: 60rpx;
+}
+
 page {
     height: 100%;
 }
@@ -5,8 +12,25 @@ page {
 .index-header {
     background-color: #E86E35;
     align-content: center;
-    padding-top: 30rpx;
-    height: 240rpx;
+    padding-top: 10rpx;
+    height: 220rpx;
+}
+
+.name {
+    line-height: 26rpx;
+    max-height: 26rpx;
+    max-width: 400rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.brief {
+    overflow: hidden;
+    max-width: 400rpx;
+    max-height: 70rpx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .search {
@@ -18,7 +42,7 @@ page {
 
 .banner {
     position: relative;
-    top: -80rpx;
+    top: -70rpx;
     border-radius: 30rpx
 }
 
@@ -32,10 +56,16 @@ page {
 }
 
 .new-title {
-    top: -50rpx;
+    top: -100rpx;
+}
+.new-title-name {
+    font-weight: bold;
 }
 
+
 .new-release {
+    position: relative;
+    top: -80rpx;
     padding: 20rpx;
     margin: 0rpx 30rpx;
     display: flex;
@@ -73,7 +103,8 @@ page {
 }
 
 .scroll-view_H {
-    margin-top: 40rpx;
+    position: relative;
+    top: -40rpx;
     white-space: nowrap;
 }
 
@@ -88,8 +119,8 @@ page {
     display: inline-block;
     margin: 0rpx 20rpx;
     width: 280rpx;
-    min-height: 280rpx;
-    max-height: 280rpx;
+    min-height: 330rpx;
+    max-height: 330rpx;
 }
 
 .new-release-talk {
@@ -108,8 +139,8 @@ page {
     border-top-right-radius: 20rpx;
     border-top-left-radius: 20rpx;
     max-width: 276rpx;
-    max-height: 200rpx;
-    min-height: 200rpx;
+    max-height: 230rpx;
+    min-height: 230rpx;
 }
 
 .new-release-talk view {
@@ -128,7 +159,7 @@ page {
     padding: 12rpx;
     position: relative;
     justify-content: space-between;
-    top: -32rpx;
+    top: -22rpx;
     display: flex;
     flex-direction: row;
 }
@@ -142,7 +173,7 @@ page {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 96px;
+    width: 160rpx;
     font-size: 24rpx;
     font-weight: bold;
 }
@@ -162,6 +193,17 @@ page {
     border-radius: 20rpx;
 }
 
+.new-release-list-desc-has-like {
+    font-size: 20rpx;
+    color: white;
+    height: 36rpx;
+    margin-top: 12rpx;
+    line-height: 36rpx;
+    padding: 4rpx 8rpx 8rpx 8rpx;
+    background-color: gray;
+    border-radius: 20rpx;
+}
+
 .new-release-list-time {
     padding: 5rpx;
     text-align: center;
@@ -171,22 +213,24 @@ page {
     /*opacity: 0.8;*/
     background-color: #595959;
     border-radius: 20rpx;
-    width: 100rpx;
-    height: 130rpx;
+    width: 90rpx;
+    height: 100rpx;
     position: relative;
-    top: -298rpx;
+    top: -330rpx;
     left: 12rpx;
 }
 
 .new-release-list-time-title {
     color: #d7d2d2;
-    font-size: 20rpx;
+    font-size: 17rpx;
 }
 
 .new-release-list-time-desc {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     color: white;
     margin-top: 10rpx;
     display: flex;
@@ -195,9 +239,9 @@ page {
 
 .new-release-list-time-desc-today {
     color: white;
-    font: 50rpx;
+    font: 28rpx;
     font-weight: bold;
-    margin-top: 16rpx;
+    margin-top: 10rpx;
     align-items: center;
     align-content: center;
 }
@@ -205,7 +249,7 @@ page {
 .new-release-list-time-value {
     color: white;
     font-weight: bold;
-    font-size: 60rpx;
+    font-size: 42rpx;
 }
 
 .new-release-list-time label {
@@ -215,13 +259,28 @@ page {
 }
 
 .product-menu {
-    margin-left: 30rpx;
+    position: relative;
+    top: -30rpx;
     white-space: nowrap;
 }
 
-.product-menu-item {
-    color: #999;
-    margin: 0 6rpx;
+.product-list {
+    min-height: 500rpx;
 }
 
+.product-menu-item {
+    font-weight: bold;
+    color: #999;
+    margin: 0 13rpx;
+}
+
+.like-info-text {
+    color: white;
+    /*opacity: 0.1;*/
+    padding: 10rpx;
+    background:rgba(0,0,0,0.5);
+    text-align: center;
+    border-radius: 10rpx;
+    width:550rpx;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+}
 

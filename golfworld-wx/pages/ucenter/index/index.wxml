@@ -1,4 +1,3 @@
-<view class="container">
     <!--    <view class="profile-info" bindtap="goLogin">-->
     <!--        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>-->
     <!--        <view class="info">-->
@@ -176,4 +175,3 @@
     <!--  <view class='separate'></view>-->
 
     <view class="logout" wx:if="{{hasLogin}}" bindtap="exitLogin">退出登录</view>
-</view>

@@ -5,6 +5,7 @@ import org.golfworld.db.service.CommentService;
 import org.golfworld.db.service.LikeService;
 import org.golfworld.db.service.ProductService;
 import org.golfworld.db.util.CommonTypeConstant;
+import org.golfworld.db.util.LikeTypeConstant;
 import org.golfworld.wx.dto.ProductInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ProductInfoDecorator extends ProductService {
     private LikeService likeService;
 
 
-    public ProductInfo convert(Product product) {
+    public ProductInfo convert(Product product, Integer userId) {
         ProductInfo productInfo = new ProductInfo();
         Integer productId = product.getId();
         BeanUtils.copyProperties(product, productInfo);
@@ -38,6 +39,11 @@ public class ProductInfoDecorator extends ProductService {
         int talkingAmount = commentService.count(CommonTypeConstant.PRODUCT_TALKING, productId);
         productInfo.setTalkingAmount(talkingAmount);
         productInfo.setRecentTalkUserAvatar(commentService.getRecentTalkUserAvatar(productId, 5));
+        Integer userHasLike = 0;
+        if (userId != null) {
+            userHasLike = likeService.count(userId, productId, LikeTypeConstant.LIKE);
+        }
+        productInfo.setUserHaslike(userHasLike);
         if (null != product.getReleaseTime()) {
             Period duration = Period.between(LocalDate.now(), productInfo.getReleaseTime());
             productInfo.setReleaseTimeAfterStr((int) duration.getDays());
@@ -46,9 +52,16 @@ public class ProductInfoDecorator extends ProductService {
         return productInfo;
     }
 
-    public List<ProductInfo> convertList(List<Product> productList) {
+    public List<ProductInfo> convertList(List<Product> productList, Integer userId) {
         List<ProductInfo> collect = productList.stream().map(product -> {
-            ProductInfo productInfo = this.convert(product);
+            ProductInfo productInfo = this.convert(product, userId);
+            return productInfo;
+        }).collect(Collectors.toList());
+        return collect;
+    }
+       public List<ProductInfo> convertList(List<Product> productList) {
+        List<ProductInfo> collect = productList.stream().map(product -> {
+            ProductInfo productInfo = this.convert(product,null);
             return productInfo;
         }).collect(Collectors.toList());
         return collect;

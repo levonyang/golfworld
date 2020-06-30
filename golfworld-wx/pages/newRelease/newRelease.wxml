@@ -47,10 +47,18 @@
                             <view class="new-coming-list-desc-title">{{item.name}}</view>
                             <view class="new-coming-list-desc-wtl">已有{{item.like}}人期待解锁此球具</view>
                         </view>
-                        <view class="new-coming-list-desc-like" data-id="{{item.id}}" bindtap="like">想看+1</view>
-                    </view>
+                        <view class="new-release-list-desc-like" wx:if="{{item.userHaslike == 0}}" bindtap="like" data-id="{{item.id}}" data-is-like="{{true}}">想看+0</view>
+                        <view class="new-release-list-desc-has-like" wx:if="{{item.userHaslike > 0}}" bindtap="like" data-id="{{item.id}}" data-is-like="{{false}}">已想看</view>                    </view>
                 </view>
             </view>
         </view>
     </block>
 </view>
+
+<van-popup  overlay="{{false}}" show="{{showInfoLike}}"
+            custom-style="popup"    bind:close="onClose"   >
+    <view class="like-info-text">
+        已关注产品,上线后会马上通知你！
+    </view>
+</van-popup>
+

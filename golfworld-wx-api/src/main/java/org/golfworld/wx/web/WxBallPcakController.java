@@ -85,7 +85,9 @@ public class WxBallPcakController {
      * 商品详情页面“用户关注”商品
      */
     @GetMapping("ballPack/product/list")
-    public Object ballPack(Integer valueId,
+    public Object ballPack(
+                            @LoginUser Integer userId ,
+                            Integer valueId,
                            @RequestParam(defaultValue = "1") Integer page,
                            @RequestParam(defaultValue = "10") Integer limit) {
 
@@ -95,7 +97,7 @@ public class WxBallPcakController {
         List<ProductInfo> list = ballPackProducts.stream().map(ballPack -> {
             Product product = productService.findById(ballPack.getId());
             if (null != product) {
-                ProductInfo productInfo = productInfoDecorator.convert(product);
+                ProductInfo productInfo = productInfoDecorator.convert(product,userId);
                 return productInfo;
             }
             return null;
@@ -153,7 +155,7 @@ public class WxBallPcakController {
         ballPackVo.setTotal(pagedList.getTotal());
         List<ProductInfo> productList = list.stream().map(ballPackProduct -> {
             Product product = productService.findById(ballPackProduct.getValueId());
-            ProductInfo productInfo = productInfoDecorator.convert(product);
+            ProductInfo productInfo = productInfoDecorator.convert(product,userId);
             productInfo.setReason(ballPackProduct.getReason());
             return productInfo;
         }).collect(Collectors.toList());

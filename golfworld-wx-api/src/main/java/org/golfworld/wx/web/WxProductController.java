@@ -114,27 +114,27 @@ public class WxProductController {
         };
 
         // 评论
-        Callable<Map> commentsCallable = () -> {
-            List<Comment> comments = commentService.queryProductByGid(id, 0, 2);
-            List<Map<String, Object>> commentsVo = new ArrayList<>(comments.size());
-            long commentCount = PageInfo.of(comments).getTotal();
-            for (Comment comment : comments) {
-                Map<String, Object> c = new HashMap<>();
-                c.put("id", comment.getId());
-                c.put("addTime", comment.getAddTime());
-                c.put("content", comment.getContent());
-                c.put("adminContent", comment.getAdminContent());
-                User user = userService.findById(comment.getUserId());
-                c.put("nickname", user == null ? "" : user.getNickname());
-                c.put("avatar", user == null ? "" : user.getAvatar());
-                c.put("picList", comment.getPicUrls());
-                commentsVo.add(c);
-            }
-            Map<String, Object> commentList = new HashMap<>();
-            commentList.put("count", commentCount);
-            commentList.put("data", commentsVo);
-            return commentList;
-        };
+//        Callable<Map> commentsCallable = () -> {
+//            List<Comment> comments = commentService.queryProductByGid(id, 0, 2);
+//            List<Map<String, Object>> commentsVo = new ArrayList<>(comments.size());
+//            long commentCount = PageInfo.of(comments).getTotal();
+//            for (Comment comment : comments) {
+//                Map<String, Object> c = new HashMap<>();
+//                c.put("id", comment.getId());
+//                c.put("addTime", comment.getAddTime());
+//                c.put("content", comment.getContent());
+//                c.put("adminContent", comment.getAdminContent());
+//                User user = userService.findById(comment.getUserId());
+//                c.put("nickname", user == null ? "" : user.getNickname());
+//                c.put("avatar", user == null ? "" : user.getAvatar());
+//                c.put("picList", comment.getPicUrls());
+//                commentsVo.add(c);
+//            }
+//            Map<String, Object> commentList = new HashMap<>();
+//            commentList.put("count", commentCount);
+//            commentList.put("data", commentsVo);
+//            return commentList;
+//        };
 
 
         // 用户收藏
@@ -157,23 +157,23 @@ public class WxProductController {
         }
         FutureTask<List> productAttributeListTask = new FutureTask<>(productAttributeListCallable);
         FutureTask<List> issueCallableTask = new FutureTask<>(issueCallable);
-        FutureTask<Map> commentsCallableTsk = new FutureTask<>(commentsCallable);
+//        FutureTask<Map> commentsCallableTsk = new FutureTask<>(commentsCallable);
         FutureTask<Brand> brandCallableTask = new FutureTask<>(brandCallable);
 
         executorService.submit(productAttributeListTask);
         executorService.submit(issueCallableTask);
-        executorService.submit(commentsCallableTsk);
+//        executorService.submit(commentsCallableTsk);
         executorService.submit(brandCallableTask);
 
         Map<String, Object> data = new HashMap<>();
-        ProductInfo productInfo = productInfoDecorator.convert(info);
+        ProductInfo productInfo = productInfoDecorator.convert(info, userId);
         try {
             data.put("info", productInfo);
             data.put("userHasCollect", userHasCollect);
             data.put("userHasLike", userHasLike);
             data.put("userHasUnlike", userHasUnlike);
             data.put("issue", issueCallableTask.get());
-            data.put("comment", commentsCallableTsk.get());
+//            data.put("comment", commentsCallableTsk.get());
             data.put("attribute", productAttributeListTask.get());
             data.put("brand", brandCallableTask.get());
             //SystemConfig.isAutoCreateShareImage()
@@ -242,13 +242,14 @@ public class WxProductController {
             Boolean isNew,
             Boolean isHot,
             @LoginUser Integer userId,
+            @RequestParam(defaultValue = "false") Boolean addSearchHistory,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer limit,
             @Sort(accepts = {"release_time", "add_time", "retail_price", "name"}) @RequestParam(defaultValue = "add_time") String sort,
             @OrderValidateInterface @RequestParam(defaultValue = "desc") String order) {
 
         //添加到搜索历史
-        if (userId != null && !StringUtils.isNullOrEmpty(keyword)) {
+        if (userId != null && !StringUtils.isNullOrEmpty(keyword) && addSearchHistory) {
             SearchHistory searchHistoryVo = new SearchHistory();
             searchHistoryVo.setKeyword(keyword);
             searchHistoryVo.setUserId(userId);
@@ -256,28 +257,32 @@ public class WxProductController {
             searchHistoryService.save(searchHistoryVo);
         }
 
+        List<Integer> catL2IdList = new ArrayList<>();
+        if (null != categoryId && categoryId != 0) {
+            List<Category> catL2List = categoryService.queryByPid(categoryId);
+            catL2IdList = catL2List.stream().map(Category::getId).collect(Collectors.toList());
+        }
         //查询列表数据
-        List<Product> productList = productService.querySelective(categoryId, brandId, keyword, name, isHot, isNew, page, limit, sort, order);
+
+        List<Product> productList = productService.querySelective(catL2IdList, brandId, keyword, name, isHot, isNew, page, limit, sort, order);
 
         // 查询商品所属类目列表。
-        List<Integer> productCatIds = productService.getCatIds(brandId, keyword, isHot, isNew);
-        List<Category> categoryList = null;
-        if (productCatIds.size() != 0) {
-            categoryList = categoryService.queryL2ByIds(productCatIds);
-        } else {
-            categoryList = new ArrayList<>(0);
-        }
+//        List<Integer> productCatIds = productService.getCatIds(brandId, keyword, isHot, isNew);
+//        List<Category> categoryList = null;
+//        if (productCatIds.size() != 0) {
+//            categoryList = categoryService.queryL2ByIds(productCatIds);
+//        } else {
+//            categoryList = new ArrayList<>(0);
+//        }
 
         PageInfo<Product> pagedList = PageInfo.of(productList);
-        List<ProductInfo> list = productInfoDecorator.convertList(productList);
+        List<ProductInfo> list = productInfoDecorator.convertList(productList, userId);
         Map<String, Object> entity = new HashMap<>();
         entity.put("list", list);
         entity.put("total", pagedList.getTotal());
         entity.put("page", pagedList.getPageNum());
         entity.put("limit", pagedList.getPageSize());
         entity.put("pages", pagedList.getPages());
-        entity.put("filterCategoryList", categoryList);
-        // 因为这里需要返回额外的filterCategoryList参数，因此不能方便使用ResponseUtil.okList
         return ResponseUtil.ok(entity);
     }
 
@@ -298,7 +303,7 @@ public class WxProductController {
         List<ProductInfo> list = likes.stream().map(like -> {
             Product product = productService.findById(like.getValueId());
             if (null != product) {
-                ProductInfo productInfo = productInfoDecorator.convert(product);
+                ProductInfo productInfo = productInfoDecorator.convert(product, userId);
                 return productInfo;
             }
             return null;
@@ -325,7 +330,7 @@ public class WxProductController {
         List<ProductInfo> list = collects.stream().map(collect -> {
             Product product = productService.findById(collect.getValueId());
             if (null != product) {
-                ProductInfo productInfo = productInfoDecorator.convert(product);
+                ProductInfo productInfo = productInfoDecorator.convert(product, userId);
                 return productInfo;
             }
             return null;
@@ -354,7 +359,7 @@ public class WxProductController {
         List<ProductInfo> list = footprints.stream().map(footprint -> {
             Product product = productService.findById(footprint.getProductId());
             if (null != product) {
-                ProductInfo productInfo = productInfoDecorator.convert(product);
+                ProductInfo productInfo = productInfoDecorator.convert(product, userId);
                 return productInfo;
             }
             return null;

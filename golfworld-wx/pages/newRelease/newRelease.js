@@ -9,13 +9,14 @@ Page({
         categoryId: 0,
         currentSortType: 'default',
         currentSort: 'release_time',
-        currentSortOrder: 'desc',
+        currentSortOrder: 'asc',
         isNew: false,
         page: 1,
         limit: 3,
         total: 0,
         loading:false,
         showLoadMore: true,
+        showInfoLike: false,
         showIcon: true,
 
     },
@@ -72,11 +73,20 @@ Page({
     },
     like(e) {
         let that = this
+        let isLike = e.currentTarget.dataset.isLike
         util.request(api.like, {
             actionType:  1 ,
             valueId: e.currentTarget.dataset.id
         },'POST').then(function (res) {
             if (res.errno === 0) {
+                 if (isLike) {
+                    that.setData({
+                        showInfoLike: true,
+                    })
+                    setTimeout((function callback(){
+                        that.setData({ showInfoLike: false});
+                    }).bind(that),2999);
+                }
                 that.getComingList()
             }
         });

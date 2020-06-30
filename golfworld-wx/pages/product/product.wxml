@@ -1,3 +1,4 @@
+<!--<navBar title-text="自定义导航栏" background="#f2f2f2" bindback="back"/>-->
 <view style='background:url({{product.picUrl}}) no-repeat;background-size:cover;width:100%;height:280rpx; background-position:center center;box-shadow: inset  0rpx -80rpx 30rpx -30rpx  #3b4350;'></view>
 <view class="avatar-list">
     <block wx:for="{{product.recentTalkUserAvatar}}" wx:key="index">
@@ -200,9 +201,11 @@
         <image wx:if="{{loading}}" class="loading" src="/static/images/loading.gif"></image>
         <van-icon name="arrow-down" wx:if="{{showIcon}}" class="load-more-icon"/>
     </view>
-    <view bindtap="commentPopup" class="flex_row justify-around write-comment-btn ">
-        <image class="left-icon" src="/static/images/write-comment.png"></image>
-        <view>写评论</view>
+    <view bindtap="commentPopup" class="flex_column justify-between write-comment-btn ">
+        <button open-type="share">
+            <image class="product-icon" src="/static/images/product@share.png"></image>
+        </button>
+        <image class="product-icon" bindtap="commentPopup" src="/static/images/product@comment.png"></image>
     </view>
 </view>
         <!--<van-popup overlay-style="overlay" round show="{{ }}" custom-style="popup" closeable bind:close="onClose">-->
@@ -210,11 +213,11 @@
 <van-popup
         show="{{  showPopup }}"
         closeable
-        position="bottom"
-        custom-style="height: 20%"
+        round
+        custom-style=""
         bind:close="onClose"
 >
-    <view class="flex_row justify-around comment-pp">
+    <view class="flex_row justify-around comment-pp ">
         <image class="comment-pp-image" bindtap="goCommentPost" data-id="{{product.id}}"
                src="/static/images/product-comment.png"></image>
         <image class="comment-pp-image" bindtap="goTalk" data-id="{{product.id}}"

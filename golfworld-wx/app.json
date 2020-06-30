@@ -1,15 +1,15 @@
 {
   "pages": [
+    "pages/product/product",
+    "pages/index/index",
     "pages/ucenter/index/index",
     "pages/ucenter/ballpack/ballpack",
     "pages/ucenter/ballpack/all/all",
     "pages/ucenter/ballpack/detail/detail",
     "pages/ucenter/ballpack/add/add",
-    "pages/index/index",
     "pages/ucenter/like/like",
     "pages/ucenter/collect/collect",
     "pages/ucenter/footprint/footprint",
-    "pages/product/product",
     "pages/product/parameter/parameter",
     "pages/commentPost/commentPost",
     "pages/newRelease/newRelease",
@@ -81,10 +81,10 @@
     ]
   },
   "networkTimeout": {
-    "request": 10000,
-    "connectSocket": 10000,
-    "uploadFile": 10000,
-    "downloadFile": 10000
+    "request": 20000,
+    "connectSocket": 20000,
+    "uploadFile": 20000,
+    "downloadFile": 20000
   },
   "debug": true,
   "usingComponents": {

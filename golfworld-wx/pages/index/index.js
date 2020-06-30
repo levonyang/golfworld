@@ -16,7 +16,11 @@ Page({
         selectedChannelId: -1,
         selectedChannelProduct: [],
         duration: 500,
-        comingProductList:[],
+        comingProductList: [],
+        newProduct: [],
+        showInfoLike: false,
+        newProductIndex: 0,
+        newProductTotal: 0,
         newReleaseProduct: ''
     },
 
@@ -36,8 +40,12 @@ Page({
     },
 
     getIndexData: function () {
+        wx.showLoading({
+            title: '加载中...',
+        });
         let that = this;
         util.request(api.IndexUrl).then(function (res) {
+            wx.hideLoading();
             if (res.errno === 0) {
                 res.data.channel.splice(0, 0, {
                     id: -1,
@@ -50,9 +58,11 @@ Page({
                 if (res.data.newProductList.length > 0) {
                     var newReleaseProduct = res.data.newProductList[0]
                 }
-                console.log(res.data)
+
                 that.setData({
                     newProduct: res.data.newProductList,
+                    newProductIndex: 0,
+                    newProductTotal: res.data.newProductList.length,
                     hotProduct: res.data.hotProductList,
                     topics: res.data.topicList,
                     brands: res.data.brandList,
@@ -62,6 +72,20 @@ Page({
                     selectedChannelProduct: res.data.hotProductList,
                     newReleaseProduct: newReleaseProduct
                 });
+
+                if (res.data.newProductList.length > 0) {
+                    setInterval((function callback() {
+                        let newProductIndex = that.data.newProductIndex + 1
+                        let newReleaseProduct = res.data.newProductList[that.data.newProductIndex]
+                        if (newProductIndex >= res.data.newProductList.length) {
+                            newProductIndex = 0
+                        }
+                        that.setData({
+                            newReleaseProduct: newReleaseProduct,
+                            newProductIndex: newProductIndex
+                        })
+                    }).bind(that), 5000);
+                }
             }
         });
         util.request(api.ProductCount).then(function (res) {
@@ -72,18 +96,35 @@ Page({
     },
     likeOrUnlike(e) {
         let that = this
+        let isLike = e.currentTarget.dataset.isLike
+        let id = e.currentTarget.dataset.id;
         util.request(api.like, {
             actionType: 1,
-            valueId: e.currentTarget.dataset.id
+            valueId: id
         }, 'POST').then(function (res) {
             if (res.errno === 0) {
-                // that.getProductInfo()
+                if (isLike) {
+                    that.setData({
+                        showInfoLike: true,
+                    })
+                    setTimeout((function callback() {
+                        that.setData({showInfoLike: false});
+                    }).bind(that), 2999);
+                }
                 that.getComingList()
             }
         });
     },
     onLoad: function (options) {
 
+        wx.setNavigationBarColor({
+            frontColor: '#ffffff',
+            backgroundColor: '#E86E35',
+            animation: {
+                duration: 0,
+                timingFunc: 'linear'
+            }
+        })
         // 页面初始化 options为页面跳转所带来的参数
         if (options.scene) {
             //这个scene的值存在则证明首页的开启来源于朋友圈分享的图,同时可以通过获取到的goodId的值跳转导航到对应的详情页
@@ -157,8 +198,8 @@ Page({
             isNew: true,
             page: 1,
             limit: 5,
-            order:'asc',
-            sort:'release_time'
+            order: 'asc',
+            sort: 'release_time'
         }).then(function (res) {
             if (res.errno === 0) {
                 that.setData({
@@ -170,24 +211,47 @@ Page({
     tapChannel: function (e) {
         let id = e.currentTarget.dataset.id;
         let selected = this.data.floorProduct.filter(product => product.id == id);
-        let productList = selected[0].productList
-        if (productList == undefined) productList = []
-        this.setData(
-            {
+        let productList = []
+
+
+        if (selected[0] != undefined && selected.length > 0) {
+            productList = selected[0].productList
+            this.setData({
                 selectedChannelId: id,
                 selectedChannelProduct: productList,
+            })
+        } else {
+            this.getProductByCategory(id)
+        }
+    },
+
+    getProductByCategory: function (id) {
+        let that = this
+        util.request(api.ProductList, {
+            isNew: false,
+            categoryId: id,
+            page: 1,
+            limit: 5,
+        }).then(function (res) {
+            if (res.errno === 0) {
+                that.setData({
+                    selectedChannelId: id,
+                    selectedChannelProduct: res.data.list
+                });
             }
-        )
+        });
     },
     onReady: function () {
         // 页面渲染完成
     },
     onShow: function () {
         // 页面显示
-    },
+    }
+    ,
     onHide: function () {
         // 页面隐藏
-    },
+    }
+    ,
     onUnload: function () {
         // 页面关闭
     }

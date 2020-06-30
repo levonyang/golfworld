@@ -41,7 +41,7 @@ VantComponent({
         goProduct: function (e) {
             let id = e.currentTarget.dataset.id;
             wx.navigateTo({
-                url: '../product/product?id=' + id
+                url: '/pages/product/product?id=' + id
             });
 
         },

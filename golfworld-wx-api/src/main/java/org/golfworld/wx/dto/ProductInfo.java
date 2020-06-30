@@ -22,6 +22,7 @@ public class ProductInfo {
     private int talkingAmount;
     private int like;
     private String reason;
+    private int userHaslike;
     /**
      * recent five user
      */
@@ -165,5 +166,13 @@ public class ProductInfo {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public int getUserHaslike() {
+        return userHaslike;
+    }
+
+    public void setUserHaslike(int userHaslike) {
+        this.userHaslike = userHaslike;
     }
 }
