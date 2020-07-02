@@ -2,17 +2,25 @@ var WxParse = require('../../lib/wxParse/wxParse.js');
 var util = require('../../utils/util.js');
 var api = require('../../config/api.js');
 var user = require('../../utils/user.js');
+// import Wxml2Canvas from '../../utils/Wml2Canvas/index';
+const {wxml, style} = require('./demo.js')
+
 const app = getApp();
+import Poster from '../../lib/canvas/poster/poster';
+
 
 Page({
     data: {
+        src: '',
         nvabarData: {
             showCapsule: 1, //是否显示左上角图标   1表示显示    0表示不显示
             title: '我的主页', //导航栏 中间的标题
         },
+        shareUrl: '',
         // 此页面 页面内容距最顶部的距离
         height: app.globalData.height * 2 + 20,
         showPopup: false,
+        showShare: false,
         userHasCollect: 0,
         userHasLike: 0,
         userHasUnlike: 0,
@@ -57,10 +65,11 @@ Page({
             score: 8,
             commentAmount: 7,
             talkingAmount: 5,
+            shareUrl: 'https://lc-i0j7ktvk.cn-n1.lcfile.com/d719fdb289c955627735.jpg',
             like: 1
         },
-        commentList: []
-        ,
+        commentList: [],
+        shareImage: '',
         showBrief: false,
         showLoadMore: true,
         showIcon: true,
@@ -70,6 +79,120 @@ Page({
         total: 0,
         selectedComment: true,
     },
+    /**
+     * 异步生成海报
+     */
+    onCreatePoster() {
+        if (!app.globalData.hasLogin) {
+            this.goLogin()
+            return
+        }
+        let posterConfig = this.posterConfig()
+        console.log(posterConfig)
+        this.setData({posterConfig: posterConfig}, () => {
+            Poster.create(true);    // 入参：true为抹掉重新生成
+        });
+    },
+    posterConfig() {
+        let userInfo = wx.getStorageSync('userInfo')
+        const posterConfig = {
+            width: 670,
+            height: 800,
+            backgroundColor: '#fff',
+            debug: false,
+            pixelRatio: 1,
+            texts: [
+                {
+                    zIndex: 3,
+                    x: 187,
+                    y: 95,
+                    baseLine: 'middle',
+                    text: userInfo.nickName,
+                    fontSize: 32,
+                    color: '#150c0c',
+                },
+                {
+                    zIndex: 3,
+                    x: 187,
+                    y: 146,
+                    baseLine: 'top',
+                    text: '向你推荐一个产品',
+                    fontSize: 28,
+                    color: '#150c0c',
+                },
+                {
+                    x: 40,
+                    y: 488,
+                    fontSize: 48,
+                    baseLine: 'middle',
+                    text: this.data.product.name,
+                    width: 444,
+                    lineNum: 1,
+                    color: '#150c0c',
+                    zIndex: 200,
+                },
+                {
+                    x: 293,
+                    y: 705,
+                    baseLine: 'top',
+                    text: '长按识别小程序码查看产品',
+                    fontSize: 23,
+                    color: '#5C8D96',
+                },
+            ],
+            images: [
+                {
+                    zIndex: 3,
+                    width: 102,
+                    height: 102,
+                    x: 71,
+                    y: 71,
+                    borderRadius: 102,
+                    url: userInfo.avatarUrl,
+                },
+                {
+                    width: 112,
+                    height: 32,
+                    x: 293,
+                    y: 659,
+                    url: '/static/images/logo.png',
+                },
+                {
+                    width: 726,
+                    height: 600,
+                    x: 0,
+                    y: 0,
+                    url: this.data.product.picUrl,
+                },
+                {
+                    width: 104,
+                    height: 102,
+                    x: 160,
+                    y: 645,
+                    url: this.data.product.shareUrl,
+                },
+            ]
+        }
+        return posterConfig
+    },
+
+    onCreateOtherPoster() {
+        this.setData({posterConfig: posterConfig.jdConfig}, () => {
+            Poster.create(true);    // 入参：true为抹掉重新生成
+        });
+    },
+    onPosterSuccess(e) {
+        const {detail} = e;
+        this.setData({
+            showShare: true,
+            shareImage: detail
+        })
+        // wx.previewImage({
+        //     current: detail,
+        //     urls: [detail]
+        // })
+    },
+
 
     // 页面分享
     onShareAppMessage: function () {
@@ -136,13 +259,17 @@ Page({
                             confirmColor: '#a78845',
                             success: function (res) {
                                 if (res.confirm) {
-                                    console.log('用户点击确定');
+                                    that.setData({
+                                        showShare: false
+                                    })
                                 }
                             }
                         })
                     },
                     fail: function (res) {
-                        console.log('fail')
+                        that.setData({
+                            showShare: false
+                        })
                     }
                 })
             },
@@ -235,12 +362,149 @@ Page({
         });
 
     },
+    goLogin() {
+        wx.navigateTo({
+            url: "/pages/auth/login/login"
+        });
+    },
     commentPopup: function () {
         this.setData({
             showPopup: true
         })
     },
+    eventDraw() {
+        let that = this
+        if (!app.globalData.hasLogin) {
+            this.goLogin()
+            return
+        }
+        let userInfo = wx.getStorageSync('userInfo')
+        wx.showLoading({
+            title: '加载中...',
+            mask: true
+        })
+
+        console.log(userInfo)
+        console.log(that.data.product)
+        that.setData({
+            painting: {
+                width: 375,
+                height: 555,
+                clear: true,
+                views: [
+                    {
+                        type: 'image',
+                        url: userInfo.avatarUrl,
+                        zIndex: 13,
+                        top: 27.5,
+                        left: 29,
+                        width: 55,
+                        height: 55
+                    },
+                    {
+                        type: 'image',
+                        url: 'https://qiujutong-1253811604.file.myqcloud.com/96fiwe7kg85xk4ryzinr.jpeg',
+                        top: 27.5,
+                        left: 29,
+                        width: 55,
+                        height: 55
+                    },
+                    {
+                        type: 'text',
+                        content: userInfo.nickName,
+                        fontSize: 16,
+                        color: '#402D16',
+                        textAlign: 'left',
+                        top: 33,
+                        left: 96,
+                        bolder: true
+                    },
+                    {
+                        type: 'text',
+                        content: '向你推荐一个产品',
+                        fontSize: 15,
+                        color: '#563D20',
+                        textAlign: 'left',
+                        top: 59.5,
+                        left: 96
+                    },
+                    {
+                        type: 'image',
+                        url: that.data.product.picUrl,
+                        top: 0,
+                        left: 42.5,
+                        width: 600,
+                        height: 400
+                    },
+                    {
+                        type: 'image',
+                        url: 'https://qiujutong-1253811604.file.myqcloud.com/96fiwe7kg85xk4ryzinr.jpeg',
+                        top: 443,
+                        left: 85,
+                        width: 68,
+                        height: 68
+                    },
+                    {
+                        type: 'text',
+                        content: that.data.product.name,
+                        fontSize: 16,
+                        lineHeight: 21,
+                        color: '#383549',
+                        textAlign: 'left',
+                        top: 336,
+                        left: 44,
+                        width: 287,
+                        MaxLineNumber: 2,
+                        breakWord: true,
+                        bolder: true
+                    },
+                    {
+                        type: 'text',
+                        content: '长按识别图中二维码帮我砍个价呗~',
+                        fontSize: 14,
+                        color: '#383549',
+                        textAlign: 'left',
+                        top: 460,
+                        left: 165.5,
+                        lineHeight: 20,
+                        MaxLineNumber: 2,
+                        breakWord: true,
+                        width: 125
+                    }
+                ]
+            }
+        })
+        setTimeout((function callback() {
+            this.setData({
+                showShare: true
+            });
+        }).bind(this), 600);
+    },
+    eventSave() {
+        wx.saveImageToPhotosAlbum({
+            filePath: this.data.shareImage,
+            success(res) {
+                wx.showToast({
+                    title: '保存图片成功',
+                    icon: 'success',
+                    duration: 2000
+                })
+            }
+        })
+    },
+    eventGetImage(event) {
+        let that = this
+        wx.hideLoading()
+        const {tempFilePath, errMsg} = event.detail
+        if (errMsg === 'canvasdrawer:ok') {
+            that.setData({
+                showShare: true,
+                shareImage: tempFilePath
+            })
+        }
+    },
     onLoad: function (options) {
+        this.widget = this.selectComponent('.widget')
         // 页面初始化 options为页面跳转所带来的参数
         let that = this
         that.data.productList = [that.data.product, that.data.product, that.data.product]
@@ -250,7 +514,7 @@ Page({
             productList: that.data.productList,
             ballPack: that.data.ballPack
         })
-        options.id = 1181022
+        // options.id = 1181022
         if (options.id) {
             this.setData({
                 id: parseInt(options.id)
@@ -273,8 +537,8 @@ Page({
         let that = this
         console.log(that.data)
         wx.navigateTo({
-            url: '../product/parameter/parameter?valueId='+that.id+'&parameter='
-                +JSON.stringify(that.data.attribute)
+            url: '../product/parameter/parameter?valueId=' + that.id + '&parameter='
+                + JSON.stringify(that.data.attribute)
         });
     },
     getCommentList() {
@@ -338,6 +602,79 @@ Page({
             });
 
     },
+    drawImage1() {
+        let self = this;
+        self.drawImage1 = new Wxml2Canvas({
+            width: 340, // 宽， 以iphone6为基准，传具体数值，其他机型自动适配
+            height: 210, // 高
+            element: 'canvas1',
+            background: '#f0f0f0',
+            progress(percent) {
+            },
+            finish(url) {
+                console.log(url)
+                // let imgUrl = self.data.imgUrl;
+                // imgUrl.push(url);
+
+                self.setData({
+                    imgUrl: url
+                })
+            },
+            error(res) {
+            }
+        });
+
+        let data = {
+            list: [{
+                type: 'wxml',
+                class: '.share__canvas1 .draw_canvas', // draw_canvas指定待绘制的元素
+                limit: '.share__canvas1', // 限定绘制元素的范围，取指定元素与它的相对位置
+                x: 0,
+                y: 0
+            }]
+        }
+
+        this.drawImage1.draw(data);
+    },
+    drawCanvas() {
+        let self = this;
+        const systemInfo = wx.getSystemInfoSync();
+        console.log(systemInfo);
+        this.drawImage1 = new Wxml2Canvas({
+            width: systemInfo.screenWidth, // 宽， 以iphone6为基准，传具体数值，其他机型自动适配
+            height: systemInfo.screenHeight, // 高
+            element: 'canvas1',
+            background: '#fff',
+            progress(percent) {
+            },
+            finish(url) {
+                console.log(url);
+                wx.saveImageToPhotosAlbum({
+                    filePath: url,
+                    success(res) {
+                        wx.showToast({
+                            title: '名片已经保存到相册中',
+                        })
+                    },
+                    fail: function (err) {
+                        console.log(err);
+                    }
+                })
+            },
+            error(res) {
+            }
+        });
+        let data = {
+            list: [{
+                type: 'wxml',
+                class: '.share__canvas1 .draw_canvas', // draw_canvas指定待绘制的元素
+                limit: '.share__canvas1', // 限定绘制元素的范围，取指定元素与它的相对位置
+                x: 0,
+                y: 0
+            }]
+        }
+        this.drawImage1.draw(data);
+    },
 
     goCommentPost: function (e) {
         let id = e.currentTarget.dataset.id;
@@ -363,70 +700,70 @@ Page({
             showPopup: false
         })
     },
-    //添加到购物车
-    addToCart: function () {
-        var that = this;
-        if (this.data.openAttr == false) {
-            //打开规格选择窗口
-            this.setData({
-                openAttr: !this.data.openAttr
-            });
-        } else {
-
-            //提示选择完整规格
-            if (!this.isCheckedAllSpec()) {
-                util.showErrorToast('请选择完整规格');
-                return false;
-            }
-
-            //根据选中的规格，判断是否有对应的sku信息
-            let checkedProductArray = this.getCheckedProductItem(this.getCheckedSpecKey());
-            if (!checkedProductArray || checkedProductArray.length <= 0) {
-                //找不到对应的product信息，提示没有库存
-                util.showErrorToast('没有库存');
-                return false;
-            }
-
-            let checkedProduct = checkedProductArray[0];
-            //验证库存
-            if (checkedProduct.number <= 0) {
-                util.showErrorToast('没有库存');
-                return false;
-            }
-
-            //添加到购物车
-            util.request(api.CartAdd, {
-                productId: this.data.product.id,
-                number: this.data.number,
-                productId: checkedProduct.id
-            }, "POST")
-                .then(function (res) {
-                    let _res = res;
-                    if (_res.errno == 0) {
-                        wx.showToast({
-                            title: '添加成功'
-                        });
-                        that.setData({
-                            openAttr: !that.data.openAttr,
-                            cartProductCount: _res.data
-                        });
-                        if (that.data.userHasCollect == 1) {
-                            that.setData({
-                                collect: true
-                            });
-                        } else {
-                            that.setData({
-                                collect: false
-                            });
-                        }
-                    } else {
-                        util.showErrorToast(_res.errmsg);
-                    }
-
-                });
-        }
-
-    },
+    // //添加到购物车
+    // addToCart: function () {
+    //     var that = this;
+    //     if (this.data.openAttr == false) {
+    //         //打开规格选择窗口
+    //         this.setData({
+    //             openAttr: !this.data.openAttr
+    //         });
+    //     } else {
+    //
+    //         //提示选择完整规格
+    //         if (!this.isCheckedAllSpec()) {
+    //             util.showErrorToast('请选择完整规格');
+    //             return false;
+    //         }
+    //
+    //         //根据选中的规格，判断是否有对应的sku信息
+    //         let checkedProductArray = this.getCheckedProductItem(this.getCheckedSpecKey());
+    //         if (!checkedProductArray || checkedProductArray.length <= 0) {
+    //             //找不到对应的product信息，提示没有库存
+    //             util.showErrorToast('没有库存');
+    //             return false;
+    //         }
+    //
+    //         let checkedProduct = checkedProductArray[0];
+    //         //验证库存
+    //         if (checkedProduct.number <= 0) {
+    //             util.showErrorToast('没有库存');
+    //             return false;
+    //         }
+    //
+    //         //添加到购物车
+    //         util.request(api.CartAdd, {
+    //             productId: this.data.product.id,
+    //             number: this.data.number,
+    //             productId: checkedProduct.id
+    //         }, "POST")
+    //             .then(function (res) {
+    //                 let _res = res;
+    //                 if (_res.errno == 0) {
+    //                     wx.showToast({
+    //                         title: '添加成功'
+    //                     });
+    //                     that.setData({
+    //                         openAttr: !that.data.openAttr,
+    //                         cartProductCount: _res.data
+    //                     });
+    //                     if (that.data.userHasCollect == 1) {
+    //                         that.setData({
+    //                             collect: true
+    //                         });
+    //                     } else {
+    //                         that.setData({
+    //                             collect: false
+    //                         });
+    //                     }
+    //                 } else {
+    //                     util.showErrorToast(_res.errmsg);
+    //                 }
+    //
+    //             });
+    //     }
+    //
+    // },
 
     cutNumber: function () {
         this.setData({
@@ -460,7 +797,7 @@ Page({
     },
     closeShare: function () {
         this.setData({
-            openShare: false,
+            showShare: false,
         });
     },
     openCartPage: function () {

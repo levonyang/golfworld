@@ -30,8 +30,8 @@ page {
     padding-top: 15rpx;
     width: 290rpx;
     height: 78rpx;
-    margin-left: 240px;
-    z-index: 999999;
+    margin-left: 200px;
+    z-index: 99;
     background: #afb2b8 !important;
     display: flex;
     flex-direction: row;
@@ -392,4 +392,71 @@ page {
 .commentPopup {
     width: 500rpx;
     height: 300rpx;
+}
+.share-popup{
+    background: black;
+    /*background:rgba(0,0,0,1);*/
+    /*opacity:0.8;*/
+    width: 670rpx;
+    min-height: 967rpx;
+}
+.widget {
+
+}
+
+.poster{
+    z-index: 10000000;
+    background-color: rgba(0,0,0,.7);
+    /*background-color: var(--overlay-background-color,rgba(0,0,0,.7));*/
+}
+.shareImage{
+    width: 670rpx;
+    height:772rpx;
+}
+.poster-btn{
+    background: transparent; /*完全透明*/
+}
+.share-image {
+    z-index: 10000000;
+    width: 670rpx;
+    height: 789rpx;
+    margin: 50rpx 30rpx 100rpx 30rpx;
+    /*margin: 0 75rpx;*/
+}
+.share-btn{
+    margin: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width:400rpx;
+    height:86rpx;
+    background:rgba(241,59,2,1);
+    border-radius:50rpx;
+}
+.share-btn-icon{
+    margin-top: 18rpx;
+    line-height:86rpx;
+    width:50rpx;
+    height:50rpx;
+}
+.close-share{
+    /*background: black;*/
+    position: absolute;
+    top: 0rpx;
+    right: 0rpx;
+    width: 60rpx;
+    height:  60rpx;
+}
+.share-btn-text{
+    line-height:86rpx;
+    width:128rpx;
+    height:86rpx;
+    font-size:32rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color: #FFFFFF;
+}
+button {
+    margin-top: 20rpx;
 }

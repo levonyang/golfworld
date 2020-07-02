@@ -88,14 +88,14 @@ public class ProductService {
     }
 
 
-    public List<Product> querySelective(Integer catId, Integer brandId, String keywords, String name, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
+    public List<Product> querySelective(List catIdList, Integer brandId, String keywords, String name, Boolean isHot, Boolean isNew, Integer offset, Integer limit, String sort, String order) {
         ProductExample example = new ProductExample();
         ProductExample.Criteria criteria1 = example.or();
         ProductExample.Criteria criteria2 = example.or();
 
-        if (!StringUtils.isEmpty(catId) && catId != 0) {
-            criteria1.andCategoryIdEqualTo(catId);
-            criteria2.andCategoryIdEqualTo(catId);
+        if (catIdList.size() > 0) {
+            criteria1.andCategoryIdIn(catIdList);
+            criteria2.andCategoryIdIn(catIdList);
         }
         if (!StringUtils.isEmpty(brandId)) {
             criteria1.andBrandIdEqualTo(brandId);

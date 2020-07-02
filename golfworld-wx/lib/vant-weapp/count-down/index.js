@@ -1,7 +1,7 @@
 import { VantComponent } from '../common/component';
 import { isSameSecond, parseFormat, parseTimeData } from './utils';
 function simpleTick(fn) {
-    return setTimeout(fn, 30);
+    return productIdsmeout(fn, 30);
 }
 VantComponent({
     props: {
