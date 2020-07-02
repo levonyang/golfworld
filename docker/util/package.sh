@@ -24,5 +24,5 @@ cnpm install
 cnpm run build:dep
 
 cd $golfworld_HOME
-mvn clean package
+mvn -T 10 clean package
 cp -f $golfworld_HOME/golfworld-all/target/golfworld-all-*-exec.jar $golfworld_HOME/docker/golfworld/golfworld.jar
