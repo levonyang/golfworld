@@ -1,4 +1,5 @@
 <view class="container">
+    <navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />
     <image src="/static/images/my@card.png" class="card_background"></image>
     <view class="card">
         <view class="explanation" bindtap="showExplanation">

@@ -13,6 +13,7 @@ VantComponent({
     mixins: [link],
     props: {
         ballPack: Object,
+        border:Boolean,
         rating: String,
         thumb: String,
         starColor: {
@@ -37,10 +38,11 @@ VantComponent({
                 ballPack: val
             });
         },
+
         goBallPack: function (e) {
             let id = e.currentTarget.dataset.id;
             wx.navigateTo({
-                url: '../ballPack/ballPack?id=' + id
+                url: '/pages/ucenter/ballpack/detail/detail?id=' + id
             });
 
         },

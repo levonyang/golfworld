@@ -1,5 +1,6 @@
 package org.golfworld.wx.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class ProductInfo {
     private String gallery;
     private String brief;
     private String picUrl;
+    private String shareUrl;
+    private BigDecimal officialPrice;
     private Boolean isHot;
     private Boolean isLike;
     private Boolean isCollect;
@@ -174,5 +177,21 @@ public class ProductInfo {
 
     public void setUserHaslike(int userHaslike) {
         this.userHaslike = userHaslike;
+    }
+
+    public BigDecimal getOfficialPrice() {
+        return officialPrice;
+    }
+
+    public void setOfficialPrice(BigDecimal officialPrice) {
+        this.officialPrice = officialPrice;
+    }
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
     }
 }

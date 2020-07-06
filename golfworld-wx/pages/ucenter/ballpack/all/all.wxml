@@ -1,4 +1,5 @@
-<view style='background:url(/static/images/ballpack-all.png) no-repeat;background-size:cover;width:100%;height:280rpx; background-position:center center;box-shadow: inset  0rpx -160rpx 100rpx -80rpx  white;'></view>
+<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
+<view style='background:url(/static/images/ballpack-all.png) no-repeat;background-size:cover;width:100%;height:400rpx; background-position:center center; position: relative;top:-200rpx ;z-index: -100;box-shadow: inset  0rpx -160rpx 100rpx -80rpx  white;'></view>
 <view class="title">
     <view class="more">MORE</view>
     <view class="title-text">发现大家的球包</view>
@@ -10,8 +11,14 @@
     <view class="order-item">最新</view>
 </view>
 <view class="ballpack-list">
+
+
     <block wx:for="{{ballPackList}}" wx:key="*this">
-        <van-ballpack ballPack="{{item}}" bindtap="goBallPackDetail" data-id="{{item.id}}"/>
+
+        <van-ballpack bindtap="goBallPackDetail" ballPack="{{item}}" border="{{index!=ballPackList.length-1}}" data-id="{{item.id}}"/>
+        <!--        <van-ballpack ballPack="{{item}}" data-id="{{item.id}}"/>-->
+<!--            <van-ballpack bindtap="goBallPackDetail"-->
+<!--                          ballPack="{{ballPackList}}" data-id="{{item.id}}"/>-->
     </block>
     <view class="load-more flex_row" wx:if="{{loading.showLoadMore}}" bindtap="loadMore">
         <view class="load-more-text">加载更多</view>

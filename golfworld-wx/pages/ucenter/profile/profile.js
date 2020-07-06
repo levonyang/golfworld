@@ -61,7 +61,6 @@ Page({
     },
     save: function () {
         let that = this;
-        console.log(that.data.userInfo)
         util.request(api.UpdateAccount, that.data.userInfo
             , 'POST').then(function (res) {
             console.log(res)

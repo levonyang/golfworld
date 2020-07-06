@@ -76,4 +76,11 @@ public class BrandService {
         example.or().andDeletedEqualTo(false);
         return brandMapper.selectByExample(example);
     }
+
+    public List<Brand> queryByKeyword(String keyword) {
+        BrandExample example = new BrandExample();
+        keyword = "%" + keyword + "%";
+        example.or().andNameLike(keyword).andDeletedEqualTo(false);
+        return brandMapper.selectByExample(example);
+    }
 }

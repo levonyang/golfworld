@@ -138,3 +138,10 @@ view, text {
 .font-bold{
     font-weight: bold;
 }
+.icon-40{
+    width: 40rpx;
+    height: 40rpx;
+}
+.nav-bar{
+    position: relative;
+}

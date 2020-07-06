@@ -116,7 +116,6 @@ Page({
         });
     },
     onLoad: function (options) {
-
         wx.setNavigationBarColor({
             frontColor: '#ffffff',
             backgroundColor: '#E86E35',
@@ -177,6 +176,11 @@ Page({
 
         this.getIndexData();
         this.getComingList();
+    },
+    goSearch:function(e){
+        wx.navigateTo({
+            url: '../search/search'
+        });
     },
     goProduct: function (e) {
         let id = e.currentTarget.dataset.id;

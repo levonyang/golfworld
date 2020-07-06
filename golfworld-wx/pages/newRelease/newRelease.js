@@ -71,7 +71,7 @@ Page({
             }
         });
     },
-    like(e) {
+    productIds(e) {
         let that = this
         let isLike = e.currentTarget.dataset.isLike
         util.request(api.like, {

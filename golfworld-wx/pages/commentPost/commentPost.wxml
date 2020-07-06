@@ -1,7 +1,8 @@
-<view class="container">
+<view class="container" style="background-color: #eef0f3">
+    <navBar title="{{product.name}}" background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
     <view class="btns">
-        <view class="close white" bindtap="onClose">取消</view>
-        <view class="post white" bindtap="onPost">发表</view>
+        <view class="close" bindtap="onClose">取消</view>
+        <view class="post" bindtap="onPost">发表</view>
     </view>
     <view class="post-comment">
         <!--    <view class="product">-->
@@ -21,7 +22,7 @@
                     value="{{ comment.score }}"
                     size="{{ 29 }}"
                     allow-half
-                    void-color="#eee"
+                    void-color="#dadbde"
                     void-icon="star"
                     bind:change="onChange"
             />
@@ -31,20 +32,23 @@
             <!--      </block>-->
         </view>
         <view class="input-box">
-            <textarea class="content fff-background" focus="true" bindinput="bindInputValue" data-type="content" maxlength="140"
+            <textarea class="content fff-background" focus="{{true}}" bindinput="bindInputValue" data-type="content"
+                      maxlength="140"
                       placeholder="一句话总结..."/>
             <text class="count">{{140 - content.length}}</text>
         </view>
 
         <view class="input-box">
             <view>产品亮点</view>
-            <textarea class="content green-backgroud white"  focus="true" bindinput="bindInputValue" data-type="lightspot" maxlength="140"
+            <textarea class="content green-backgroud white" focus="true" bindinput="bindInputValue"
+                      data-type="lightspot" maxlength="140"
                       placeholder="请输入产品亮点..."/>
             <text class="count">{{140 - lightspot.length}}</text>
         </view>
 
         <view class="input-box">
-            <textarea class="content red-backgroud white" focus="true" bindinput="bindInputValue" data-type="drawback" maxlength="140"
+            <textarea class="content red-backgroud white" focus="true" bindinput="bindInputValue" data-type="drawback"
+                      maxlength="140"
                       placeholder="请输入产品槽点..."/>
             <text class="count">{{140 - drawback.length}}</text>
         </view>
@@ -52,8 +56,6 @@
 
         <view class="weui-uploader">
             <view class="weui-uploader__hd">
-                <view class="weui-uploader__title">图片上传</view>
-                <view class="weui-uploader__info">{{picUrls.length}}/{{files.length}}</view>
             </view>
             <view class="weui-uploader__bd">
                 <view class="weui-uploader__files" id="uploaderFiles">
@@ -61,13 +63,13 @@
                         <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
                             <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
                         </view>
-                        <!-- <view class="weui-uploader__file weui-uploader__file_status" bindtap="previewImage" id="{{item}}">
-                          <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-                          <view class="weui-uploader__file-content">50%</view>
-                        </view> -->
                     </block>
                     <view class="weui-uploader__input-box">
-                        <view class="weui-uploader__input" bindtap="chooseImage"></view>
+                        <!--                        <view class="weui-uploader__input" bindtap="chooseImage"></view>-->
+                        <view bindtap="chooseImage">
+                            <image src="/static/images/comment@add-photo.png"></image>
+                            <view class="add-image-text">添加图片</view>
+                        </view>
                     </view>
                 </view>
             </view>

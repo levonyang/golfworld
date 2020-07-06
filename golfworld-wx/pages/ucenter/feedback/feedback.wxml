@@ -1,5 +1,5 @@
 <view class="container">
-
+    <navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />
     <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
         <view class="picker">
             <view class="fb-type">

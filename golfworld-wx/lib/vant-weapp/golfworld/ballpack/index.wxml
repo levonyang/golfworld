@@ -1,7 +1,7 @@
 <wxs src="../../wxs/utils.wxs" module="utils"/>
 
 <view class="custom-class van-product">
-    <view class="ball-pack-item flex_row {{index==ballPack.length-1 ? '': 'border-bottom'}}">
+    <view  data-id="{{item.id}}" bindtap="goBallPack" class="ball-pack-item flex_row {{border ? '': 'border-bottom'}}">
         <view>
             <block wx:for="{{3}}" wx:for-item="url" wx:key="*this">
                 <image wx:if="{{index == 0}}" class=""

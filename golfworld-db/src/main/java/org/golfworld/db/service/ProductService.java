@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    Column[] columns = new Column[]{Column.id, Column.name, Column.brief, Column.picUrl, Column.isHot, Column.isNew, Column.releaseTime};
+    Column[] columns = new Column[]{Column.id, Column.name, Column.brief, Column.picUrl, Column.shareUrl, Column.isHot, Column.isNew, Column.releaseTime, Column.officialPrice};
     @Resource
     private ProductMapper productMapper;
 
@@ -256,6 +256,14 @@ public class ProductService {
     public List<Product> queryByIds(Integer[] ids) {
         ProductExample example = new ProductExample();
         example.or().andIdIn(Arrays.asList(ids)).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
+        return productMapper.selectByExampleSelective(example, columns);
+    }
+
+    public List<Product> queryBrandId(int brnadId, int offset, int limit) {
+        ProductExample example = new ProductExample();
+        example.or().andBrandIdEqualTo(brnadId).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
+        example.setOrderByClause("add_time desc");
+        PageHelper.startPage(offset, limit);
         return productMapper.selectByExampleSelective(example, columns);
     }
 }

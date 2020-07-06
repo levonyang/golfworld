@@ -11,6 +11,15 @@ import Poster from '../../lib/canvas/poster/poster';
 
 Page({
     data: {
+        title: '',
+        barBg: '',//#ff6600
+        fixed: false,
+        color: '#000000',//#ffffff
+        touchStartY: 0,//触摸开始的Y坐标
+        toggleBarShow: false,
+        backStyle: 'normal',
+        backEvent: false,
+        backHomeEvent: false,
         src: '',
         nvabarData: {
             showCapsule: 1, //是否显示左上角图标   1表示显示    0表示不显示
@@ -38,36 +47,30 @@ Page({
             }
         ],
         productList: [],
-        ballPack: [],
-        pack: {
-            picUrls: [
-                'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
-                'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2443852970,3855863032&fm=26&gp=0.jpg',
-                'http://img5.imgtn.bdimg.com/it/u=1145485238,1285470591&fm=11&gp=0.jpg',
+        ballPackList: [],
+        product: {},
+        type: '0',
+        // product: {
+        //     id: 1181022,
+        //     name: 'TITLEIST TS3 DRIVER',
+        //     picUrl: 'https://qiujutong-1253811604.file.myqcloud.com/thetfafo79mw3jx0ihki.jpg',
+        //     recentTalkUserAvatar: [
+        //         'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
+        //         'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2443852970,3855863032&fm=26&gp=0.jpg',
+        //         'http://img5.imgtn.bdimg.com/it/u=1145485238,1285470591&fm=11&gp=0.jpg',
+        //         'http://img3.imgtn.bdimg.com/it/u=3773584324,1413178473&fm=26&gp=0.jpg'
+        //     ],
+        //
+        //     brief: '杆身最长、杆面角度最小的木杆，主要用来在梯台上开出长距离球。它通常也是球包里最昂贵的球杆，有的高达上万元。职业选手用发球木在梯台上能打出300码左右。 大多数发球木的杆面角度在7度（打出低弹道）至12度（打出高弹道）之间，杆面的甜蜜点有的达到6平方英寸。为了使球击出更远，有些发球木采用了类似蹦床反弹效果的杆面，但这种木杆一般都会被规则禁止使用，比如Callaway ERC发球木就被禁止使用。 R&A是欧洲高尔夫规则的制定机构，他们和美国高尔夫球协会出版了一份关于球杆和球的新规则，就旨在禁止高科技带来的破坏',
+        //     //brief: '测试',
+        //     score: 8,
+        //     commentAmount: 7,
+        //     talkingAmount: 5,
+        //     price: 3888,
+        //     shareUrl: 'https://lc-i0j7ktvk.cn-n1.lcfile.com/d719fdb289c955627735.jpg',
+        //     like: 1
+        // },
 
-            ],
-            name: '2020最受欢迎的高尔夫球杆',
-            total: '10'
-        },
-        product: {
-            id: 1181022,
-            name: 'TITLEIST TS3 DRIVER',
-            picUrl: 'https://qiujutong-1253811604.file.myqcloud.com/thetfafo79mw3jx0ihki.jpg',
-            recentTalkUserAvatar: [
-                'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
-                'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2443852970,3855863032&fm=26&gp=0.jpg',
-                'http://img5.imgtn.bdimg.com/it/u=1145485238,1285470591&fm=11&gp=0.jpg',
-                'http://img3.imgtn.bdimg.com/it/u=3773584324,1413178473&fm=26&gp=0.jpg'
-            ],
-
-            brief: '杆身最长、杆面角度最小的木杆，主要用来在梯台上开出长距离球。它通常也是球包里最昂贵的球杆，有的高达上万元。职业选手用发球木在梯台上能打出300码左右。 大多数发球木的杆面角度在7度（打出低弹道）至12度（打出高弹道）之间，杆面的甜蜜点有的达到6平方英寸。为了使球击出更远，有些发球木采用了类似蹦床反弹效果的杆面，但这种木杆一般都会被规则禁止使用，比如Callaway ERC发球木就被禁止使用。 R&A是欧洲高尔夫规则的制定机构，他们和美国高尔夫球协会出版了一份关于球杆和球的新规则，就旨在禁止高科技带来的破坏',
-            //brief: '测试',
-            score: 8,
-            commentAmount: 7,
-            talkingAmount: 5,
-            shareUrl: 'https://lc-i0j7ktvk.cn-n1.lcfile.com/d719fdb289c955627735.jpg',
-            like: 1
-        },
         commentList: [],
         shareImage: '',
         showBrief: false,
@@ -86,15 +89,28 @@ Page({
         if (!app.globalData.hasLogin) {
             this.goLogin()
             return
+        } else {
+            let userInfo = wx.getStorageSync('userInfo');
+            this.setData({
+                userInfo: userInfo,
+            });
         }
         let posterConfig = this.posterConfig()
-        console.log(posterConfig)
         this.setData({posterConfig: posterConfig}, () => {
             Poster.create(true);    // 入参：true为抹掉重新生成
         });
     },
+    goBallPack() {
+        wx.navigateTo({
+            url: "/pages/ucenter/ballpack/ballpack"
+        });
+    },
+    goSearch: function (e) {
+        wx.navigateTo({
+            url: '/pages/search/search?brandId=' + this.data.product.brandId
+        });
+    },
     posterConfig() {
-        let userInfo = wx.getStorageSync('userInfo')
         const posterConfig = {
             width: 670,
             height: 800,
@@ -107,7 +123,7 @@ Page({
                     x: 187,
                     y: 95,
                     baseLine: 'middle',
-                    text: userInfo.nickName,
+                    text: this.data.userInfo.nickName,
                     fontSize: 32,
                     color: '#150c0c',
                 },
@@ -148,7 +164,7 @@ Page({
                     x: 71,
                     y: 71,
                     borderRadius: 102,
-                    url: userInfo.avatarUrl,
+                    url: this.data.userInfo.avatarUrl,
                 },
                 {
                     width: 112,
@@ -241,45 +257,102 @@ Page({
             })
         }
     },
-    // 保存分享图
-    saveShare: function () {
-        let that = this;
-        wx.downloadFile({
-            url: that.data.shareImage,
-            success: function (res) {
-                console.log(res)
-                wx.saveImageToPhotosAlbum({
-                    filePath: res.tempFilePath,
-                    success: function (res) {
-                        wx.showModal({
-                            title: '生成海报成功',
-                            content: '海报已成功保存到相册，可以分享到朋友圈了',
-                            showCancel: false,
-                            confirmText: '好的',
-                            confirmColor: '#a78845',
-                            success: function (res) {
-                                if (res.confirm) {
-                                    that.setData({
-                                        showShare: false
-                                    })
-                                }
-                            }
-                        })
+    saveTap: function () {
+        var self = this
+        wx.getSetting({
+            success(res) {
+                //判断是否已授权
+                if (!res.authSetting['scope.writePhotosAlbum']) {
+                    wx.authorize({
+                        scope: 'scope.writePhotosAlbum',
+                        success() {
+                            //授权成功
+                            self.saveShare()
+                        },
+                        fail: function () {
+                            //未授权
+                            self.imageErrorAuth()
+                        }
+                    })
+                } else {
+                    //已授权直接保存图片
+                    self.saveShare()
+                }
+            },
+        })
+    },
+    imageErrorAuth() {
+        //打开设置必须在按钮点击事件中所以搞一个modal
+        wx.showModal({
+            title: '提示',
+            content: '需要您授权保存至相册',
+            showCancel: false,
+            success: modalSuccess => {
+                wx.openSetting({
+                    success(settingData) {
+                        if (settingData.authSetting['scope.writePhotosAlbum']) {
+                            wx.showModal({
+                                title: '提示',
+                                content: '获取权限成功,再次保存图片即可',
+                                showCancel: false
+                            })
+                        } else {
+                            wx.showModal({
+                                title: '提示',
+                                content: '获取权限失败，将无法保存到相册',
+                                showCancel: false
+                            })
+                        }
                     },
-                    fail: function (res) {
-                        that.setData({
-                            showShare: false
-                        })
+                    fail(failData) {
+                        console.log("failData", failData)
+                    },
+                    complete(finishData) {
+                        console.log("finishData", finishData)
                     }
                 })
-            },
-            fail: function () {
-                console.log('fail')
             }
         })
     },
-
-    // 获取商品信息
+    // 保存分享图
+    saveShare: function () {
+        let that = this;
+        wx.saveImageToPhotosAlbum({
+            filePath: that.data.shareImage,
+            success: function (res) {
+                wx.showModal({
+                    title: '生成海报成功',
+                    content: '海报已成功保存到相册，可以分享到朋友圈了',
+                    showCancel: false,
+                    confirmText: '好的',
+                    confirmColor: '#a78845',
+                    success: function (res) {
+                        if (res.confirm) {
+                            that.setData({
+                                showShare: false
+                            })
+                        }
+                    }
+                })
+            },
+            fail: function (res) {
+                that.setData({
+                    showShare: false
+                })
+            }
+        })
+    },
+    handlerGobackClick: function () {
+        wx.navigateBack()
+    }
+    ,
+    handlerGohomeClick: function () {
+        wx.switchTab({
+            url: "/pages/index/index"
+        });
+    }
+    ,
+// 获取商品信息
     getProductInfo: function () {
         let that = this;
         util.request(api.ProductDetail, {
@@ -287,6 +360,7 @@ Page({
         }).then(function (res) {
             console.log(res)
             if (res.errno === 0) {
+                res.data.info.officialPrice = that.formatMoney(res.data.info.officialPrice)
                 that.setData({
                     product: res.data.info,
                     attribute: res.data.attribute,
@@ -335,9 +409,10 @@ Page({
                 that.getProductRelated();
             }
         });
-    },
+    }
+    ,
 
-    // 获取推荐商品
+// 获取推荐商品
     getProductRelated: function () {
         let that = this;
         util.request(api.ProductRelated, {
@@ -349,7 +424,8 @@ Page({
                 });
             }
         });
-    },
+    }
+    ,
     likeOrUnlike(e) {
         let that = this
         util.request(api.like, {
@@ -361,158 +437,37 @@ Page({
             }
         });
 
-    },
+    }
+    ,
     goLogin() {
         wx.navigateTo({
             url: "/pages/auth/login/login"
         });
-    },
+    }
+    ,
     commentPopup: function () {
         this.setData({
             showPopup: true
         })
     },
-    eventDraw() {
-        let that = this
-        if (!app.globalData.hasLogin) {
-            this.goLogin()
-            return
-        }
-        let userInfo = wx.getStorageSync('userInfo')
-        wx.showLoading({
-            title: '加载中...',
-            mask: true
-        })
-
-        console.log(userInfo)
-        console.log(that.data.product)
-        that.setData({
-            painting: {
-                width: 375,
-                height: 555,
-                clear: true,
-                views: [
-                    {
-                        type: 'image',
-                        url: userInfo.avatarUrl,
-                        zIndex: 13,
-                        top: 27.5,
-                        left: 29,
-                        width: 55,
-                        height: 55
-                    },
-                    {
-                        type: 'image',
-                        url: 'https://qiujutong-1253811604.file.myqcloud.com/96fiwe7kg85xk4ryzinr.jpeg',
-                        top: 27.5,
-                        left: 29,
-                        width: 55,
-                        height: 55
-                    },
-                    {
-                        type: 'text',
-                        content: userInfo.nickName,
-                        fontSize: 16,
-                        color: '#402D16',
-                        textAlign: 'left',
-                        top: 33,
-                        left: 96,
-                        bolder: true
-                    },
-                    {
-                        type: 'text',
-                        content: '向你推荐一个产品',
-                        fontSize: 15,
-                        color: '#563D20',
-                        textAlign: 'left',
-                        top: 59.5,
-                        left: 96
-                    },
-                    {
-                        type: 'image',
-                        url: that.data.product.picUrl,
-                        top: 0,
-                        left: 42.5,
-                        width: 600,
-                        height: 400
-                    },
-                    {
-                        type: 'image',
-                        url: 'https://qiujutong-1253811604.file.myqcloud.com/96fiwe7kg85xk4ryzinr.jpeg',
-                        top: 443,
-                        left: 85,
-                        width: 68,
-                        height: 68
-                    },
-                    {
-                        type: 'text',
-                        content: that.data.product.name,
-                        fontSize: 16,
-                        lineHeight: 21,
-                        color: '#383549',
-                        textAlign: 'left',
-                        top: 336,
-                        left: 44,
-                        width: 287,
-                        MaxLineNumber: 2,
-                        breakWord: true,
-                        bolder: true
-                    },
-                    {
-                        type: 'text',
-                        content: '长按识别图中二维码帮我砍个价呗~',
-                        fontSize: 14,
-                        color: '#383549',
-                        textAlign: 'left',
-                        top: 460,
-                        left: 165.5,
-                        lineHeight: 20,
-                        MaxLineNumber: 2,
-                        breakWord: true,
-                        width: 125
-                    }
-                ]
-            }
-        })
-        setTimeout((function callback() {
-            this.setData({
-                showShare: true
-            });
-        }).bind(this), 600);
-    },
-    eventSave() {
-        wx.saveImageToPhotosAlbum({
-            filePath: this.data.shareImage,
-            success(res) {
-                wx.showToast({
-                    title: '保存图片成功',
-                    icon: 'success',
-                    duration: 2000
-                })
-            }
-        })
-    },
-    eventGetImage(event) {
-        let that = this
-        wx.hideLoading()
-        const {tempFilePath, errMsg} = event.detail
-        if (errMsg === 'canvasdrawer:ok') {
-            that.setData({
-                showShare: true,
-                shareImage: tempFilePath
-            })
-        }
-    },
     onLoad: function (options) {
-        this.widget = this.selectComponent('.widget')
+        // this.data.product.price = this.formatMoney(this.data.product.price)
+        // this.setData({
+        //     product: this.data.product
+        // })
+
         // 页面初始化 options为页面跳转所带来的参数
+        wx.showToast({
+            title: '加载中...',
+            icon: 'loading',
+            duration: 2000
+        });
         let that = this
         that.data.productList = [that.data.product, that.data.product, that.data.product]
-        that.data.ballPack = [that.data.pack, that.data.pack, that.data.pack]
-        // that.data.ballPack = [that.data.pack]
+        // let type = options.type == undefined ? 0 : options.type
         this.setData({
+            // type: type,
             productList: that.data.productList,
-            ballPack: that.data.ballPack
         })
         // options.id = 1181022
         if (options.id) {
@@ -521,18 +476,43 @@ Page({
             });
             this.getProductInfo();
             this.getProductRelated()
+            this.getBallPack()
             this.getCommentList()
+            wx.hideToast();
+        }
+        if (app.globalData.hasLogin) {
+            let userInfo = wx.getStorageSync('userInfo');
+            this.setData({
+                userInfo: userInfo,
+            });
         }
 
+    }
+    ,
+    getBallPack: function () {
+        let that = this;
+        util.request(api.BallPackList, {
+            page: 1,
+            limit: 3
+        }).then(function (res) {
 
-    },
+            if (res.errno === 0) {
+                that.setData({
+                    ballPackList: res.data.list,
+                });
+
+            }
+        });
+    }
+    ,
     goProduct: function (e) {
         let id = e.currentTarget.dataset.id;
         wx.navigateTo({
             url: '../product/product?id=' + id
         });
 
-    },
+    }
+    ,
     goParameter: function () {
         let that = this
         console.log(that.data)
@@ -540,7 +520,8 @@ Page({
             url: '../product/parameter/parameter?valueId=' + that.id + '&parameter='
                 + JSON.stringify(that.data.attribute)
         });
-    },
+    }
+    ,
     getCommentList() {
         let that = this;
         that.setData({
@@ -549,7 +530,7 @@ Page({
         })
         util.request(api.CommentList, {
             valueId: that.data.id,
-            type: 0,
+            type: that.data.type,
             page: that.data.page,
             limit: that.data.limit
         }).then(function (res) {
@@ -557,16 +538,22 @@ Page({
                 that.data.showLoadMore = false
             }
             if (res.errno === 0) {
-                that.data.commentList.push(...res.data.list)
+                let commentList = res.data.list
+                if (that.data.commentList.length > 0) {//is same type
+                    if (that.data.commentList[0].type == type) {
+                        commentList.push(that.data.commentList)
+                    }
+                }
                 that.setData({
                     showIcon: true,
                     loading: false,
                     showLoadMore: that.data.showLoadMore,
-                    commentList: that.data.commentList,
+                    commentList: commentList,
                 });
             }
         });
-    },
+    }
+    ,
     onShow: function () {
         // 页面显示
         var that = this;
@@ -577,9 +564,10 @@ Page({
         //             });
         //         }
         //     });
-    },
+    }
+    ,
 
-    //添加或是取消收藏
+//添加或是取消收藏
     addCollectOrNot: function () {
         let that = this;
         util.request(api.CollectAddOrDelete, {
@@ -602,80 +590,6 @@ Page({
             });
 
     },
-    drawImage1() {
-        let self = this;
-        self.drawImage1 = new Wxml2Canvas({
-            width: 340, // 宽， 以iphone6为基准，传具体数值，其他机型自动适配
-            height: 210, // 高
-            element: 'canvas1',
-            background: '#f0f0f0',
-            progress(percent) {
-            },
-            finish(url) {
-                console.log(url)
-                // let imgUrl = self.data.imgUrl;
-                // imgUrl.push(url);
-
-                self.setData({
-                    imgUrl: url
-                })
-            },
-            error(res) {
-            }
-        });
-
-        let data = {
-            list: [{
-                type: 'wxml',
-                class: '.share__canvas1 .draw_canvas', // draw_canvas指定待绘制的元素
-                limit: '.share__canvas1', // 限定绘制元素的范围，取指定元素与它的相对位置
-                x: 0,
-                y: 0
-            }]
-        }
-
-        this.drawImage1.draw(data);
-    },
-    drawCanvas() {
-        let self = this;
-        const systemInfo = wx.getSystemInfoSync();
-        console.log(systemInfo);
-        this.drawImage1 = new Wxml2Canvas({
-            width: systemInfo.screenWidth, // 宽， 以iphone6为基准，传具体数值，其他机型自动适配
-            height: systemInfo.screenHeight, // 高
-            element: 'canvas1',
-            background: '#fff',
-            progress(percent) {
-            },
-            finish(url) {
-                console.log(url);
-                wx.saveImageToPhotosAlbum({
-                    filePath: url,
-                    success(res) {
-                        wx.showToast({
-                            title: '名片已经保存到相册中',
-                        })
-                    },
-                    fail: function (err) {
-                        console.log(err);
-                    }
-                })
-            },
-            error(res) {
-            }
-        });
-        let data = {
-            list: [{
-                type: 'wxml',
-                class: '.share__canvas1 .draw_canvas', // draw_canvas指定待绘制的元素
-                limit: '.share__canvas1', // 限定绘制元素的范围，取指定元素与它的相对位置
-                x: 0,
-                y: 0
-            }]
-        }
-        this.drawImage1.draw(data);
-    },
-
     goCommentPost: function (e) {
         let id = e.currentTarget.dataset.id;
         this.setData({
@@ -684,131 +598,129 @@ Page({
         wx.navigateTo({
             url: '../commentPost/commentPost?valueId=' + id
         });
-    },
+    }
+    ,
     goTalk: function (e) {
         this.setData({
             showPopup: false
         })
         let id = e.currentTarget.dataset.id;
         wx.navigateTo({
-            url: '../product/product?id=' + id
+            url: '../talk/talk?valueId=' + id
         });
 
+    },
+    changeComment: function (e) {
+        let type = e.currentTarget.dataset.type
+        this.setData({
+            type: type,
+            commentList: [],
+            page: 1,
+            total: 0,
+            limit: 5
+        })
+        this.getCommentList()
     },
     onClose: function () {
         this.setData({
             showPopup: false
         })
-    },
-    // //添加到购物车
-    // addToCart: function () {
-    //     var that = this;
-    //     if (this.data.openAttr == false) {
-    //         //打开规格选择窗口
-    //         this.setData({
-    //             openAttr: !this.data.openAttr
-    //         });
-    //     } else {
-    //
-    //         //提示选择完整规格
-    //         if (!this.isCheckedAllSpec()) {
-    //             util.showErrorToast('请选择完整规格');
-    //             return false;
-    //         }
-    //
-    //         //根据选中的规格，判断是否有对应的sku信息
-    //         let checkedProductArray = this.getCheckedProductItem(this.getCheckedSpecKey());
-    //         if (!checkedProductArray || checkedProductArray.length <= 0) {
-    //             //找不到对应的product信息，提示没有库存
-    //             util.showErrorToast('没有库存');
-    //             return false;
-    //         }
-    //
-    //         let checkedProduct = checkedProductArray[0];
-    //         //验证库存
-    //         if (checkedProduct.number <= 0) {
-    //             util.showErrorToast('没有库存');
-    //             return false;
-    //         }
-    //
-    //         //添加到购物车
-    //         util.request(api.CartAdd, {
-    //             productId: this.data.product.id,
-    //             number: this.data.number,
-    //             productId: checkedProduct.id
-    //         }, "POST")
-    //             .then(function (res) {
-    //                 let _res = res;
-    //                 if (_res.errno == 0) {
-    //                     wx.showToast({
-    //                         title: '添加成功'
-    //                     });
-    //                     that.setData({
-    //                         openAttr: !that.data.openAttr,
-    //                         cartProductCount: _res.data
-    //                     });
-    //                     if (that.data.userHasCollect == 1) {
-    //                         that.setData({
-    //                             collect: true
-    //                         });
-    //                     } else {
-    //                         that.setData({
-    //                             collect: false
-    //                         });
-    //                     }
-    //                 } else {
-    //                     util.showErrorToast(_res.errmsg);
-    //                 }
-    //
-    //             });
-    //     }
-    //
-    // },
+    }
+    ,
+// //添加到购物车
+// addToCart: function () {
+//     var that = this;
+//     if (this.data.openAttr == false) {
+//         //打开规格选择窗口
+//         this.setData({
+//             openAttr: !this.data.openAttr
+//         });
+//     } else {
+//
+//         //提示选择完整规格
+//         if (!this.isCheckedAllSpec()) {
+//             util.showErrorToast('请选择完整规格');
+//             return false;
+//         }
+//
+//         //根据选中的规格，判断是否有对应的sku信息
+//         let checkedProductArray = this.getCheckedProductItem(this.getCheckedSpecKey());
+//         if (!checkedProductArray || checkedProductArray.length <= 0) {
+//             //找不到对应的product信息，提示没有库存
+//             util.showErrorToast('没有库存');
+//             return false;
+//         }
+//
+//         let checkedProduct = checkedProductArray[0];
+//         //验证库存
+//         if (checkedProduct.number <= 0) {
+//             util.showErrorToast('没有库存');
+//             return false;
+//         }
+//
+//         //添加到购物车
+//         util.request(api.CartAdd, {
+//             productId: this.data.product.id,
+//             number: this.data.number,
+//             productId: checkedProduct.id
+//         }, "POST")
+//             .then(function (res) {
+//                 let _res = res;
+//                 if (_res.errno == 0) {
+//                     wx.showToast({
+//                         title: '添加成功'
+//                     });
+//                     that.setData({
+//                         openAttr: !that.data.openAttr,
+//                         cartProductCount: _res.data
+//                     });
+//                     if (that.data.userHasCollect == 1) {
+//                         that.setData({
+//                             collect: true
+//                         });
+//                     } else {
+//                         that.setData({
+//                             collect: false
+//                         });
+//                     }
+//                 } else {
+//                     util.showErrorToast(_res.errmsg);
+//                 }
+//
+//             });
+//     }
+//
+// },
 
-    cutNumber: function () {
-        this.setData({
-            number: (this.data.number - 1 > 1) ? this.data.number - 1 : 1
-        });
-    },
-    addNumber: function () {
-        this.setData({
-            number: this.data.number + 1
-        });
-    },
     onHide: function () {
         // 页面隐藏
 
-    },
+    }
+    ,
     onUnload: function () {
         // 页面关闭
 
-    },
-    switchAttrPop: function () {
-        if (this.data.openAttr == false) {
-            this.setData({
-                openAttr: !this.data.openAttr
-            });
-        }
-    },
-    closeAttr: function () {
-        this.setData({
-            openAttr: false,
-        });
     },
     closeShare: function () {
         this.setData({
             showShare: false,
         });
-    },
-    openCartPage: function () {
-        wx.switchTab({
-            url: '/pages/cart/cart'
-        });
+    }
+    ,
+    goBallPackDetail(e) {
+        console.log(e)
+        console.log(e.currentTarget.dataset.id)
+        wx.navigateTo({
+
+            url: '../ucenter/ballpack/detail/detail?id=' + e.currentTarget.dataset.id
+        })
     },
     onReady: function () {
         // 页面渲染完成
 
-    }, loadMore() {
+    }
+    ,
+    loadMore() {
         let that = this
         that.data.page += 1
         this.setData({
@@ -816,6 +728,22 @@ Page({
             }
         )
         this.getCommentList()
+    }
+    ,
+    formatMoney: function (amount, decimalCount = 0, decimal = ".", thousands = ",") {
+        try {
+            decimalCount = Math.abs(decimalCount);
+            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+            const negativeSign = amount < 0 ? "-" : "";
+
+            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+            let j = (i.length > 3) ? i.length % 3 : 0;
+
+            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+            console.log(e)
+        }
     }
 
 

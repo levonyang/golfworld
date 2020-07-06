@@ -48,13 +48,13 @@ public class WxCommentController {
             return ResponseUtil.badArgument();
         }
 
-        Short star = comment.getStar();
-        if (star == null) {
-            return ResponseUtil.badArgument();
-        }
-        if (star < 0 || star > 5) {
-            return ResponseUtil.badArgumentValue();
-        }
+//        Short star = comment.getStar();
+//        if (star == null) {
+//            return ResponseUtil.badArgument();
+//        }
+//        if (star < 0 || star > 5) {
+//            return ResponseUtil.badArgumentValue();
+//        }
 
         Byte type = comment.getType();
         Integer valueId = comment.getValueId();
@@ -66,9 +66,9 @@ public class WxCommentController {
                 return ResponseUtil.badArgumentValue();
             }
         } else if (type == 1) {
-            if (topicService.findById(valueId) == null) {
-                return ResponseUtil.badArgumentValue();
-            }
+//            if (topicService.findById(valueId) == null) {
+//                return ResponseUtil.badArgumentValue();
+//            }
         } else {
             return ResponseUtil.badArgumentValue();
         }

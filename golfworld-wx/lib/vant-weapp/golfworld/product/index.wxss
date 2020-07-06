@@ -55,7 +55,7 @@
 }
 
 .van-product__content {
-    margin-left: 60rpx;
+    margin-left: 30rpx;
 }
 
 .van-product__desc, .van-product__title {

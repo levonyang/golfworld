@@ -1,8 +1,21 @@
 .post {
+    font-size: 24rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    width: 92rpx;
+    height: 44rpx;
+    background: rgba(247, 118, 62, 1);
+    border-radius: 28rpx;
 }
 
 .close {
     color: #999;
+}
+
+.add-input {
+    margin-top: 20rpx;
 }
 
 .btns {
@@ -12,14 +25,19 @@
     height: 68rpx;
 }
 
+.desc {
+    height: 100rpx;
+}
+
 .container {
-    padding: 30rpx;
+    /*padding: 30rpx;*/
 }
 
 .product-add-btn {
-    padding-right: 6rpx;
-    width: 60rpx;
-    height: 60rpx;
+    margin-top: 20rpx;
+    margin-right: 20rpx;
+    width: 36rpx;
+    height: 36rpx;
 }
 
 .search-popup {
@@ -30,14 +48,22 @@
 
 .add-btn {
     margin: 20rpx auto;
-    height: 70rpx;
-    line-height: 70rpx;
+    height: 76rpx;
+    line-height: 76rpx;
     text-align: center;
     background-color: white;
     justify-content: center;
-    width: 600rpx;
+    width: 574rpx;
     border-radius: 30rpx;
     border: 1px solid #999;
+}
+
+.add-btn view {
+    font-size: 24rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 76rpx;
 }
 
 .finish-btn {
@@ -47,7 +73,7 @@
     width: 160rpx;
     line-height: 70rpx;
     height: 70rpx;
-    color: red;
+    color: #F7763E;
 
 }
 
@@ -60,33 +86,48 @@
 }
 
 .un-select-btn {
-    border-radius: 20rpx;
-    padding: 5rpx;
-    border: solid 2px red;
-    min-width: 140rpx;
+    display: flex;
+    justify-content: center;
+    width: 94rpx;
+    height: 42rpx;
+    padding-bottom: 7rpx;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 29rpx;
+    border: 2px solid rgba(247, 118, 62, 1);
+    font-size: 20rpx;
+    min-width: 94rpx;
     margin: auto 20rpx;
-    color: red;
+    color: #F7763E;
 }
 
 .unselect-btn-name {
-    color: red;
+    font-size: 20rpx;
+    color: #F7763E;
 }
 
 .selected-btn-image {
-    width: 50rpx;
-    height: 50rpx;
+    padding-top: 5rpx;
+    padding-right: 5rpx;
+    width: 22rpx;
+    height: 22rpx;
 }
 
 .selected-btn {
-    border-radius: 20rpx;
-    padding: 5rpx;
-    border: solid 2px #999;
-    color: #999;
-    padding-left: 35rpx;
+    width: 94rpx;
+    height: 42rpx;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 15px;
+    border: 1px solid rgba(207, 207, 207, 1);
+    padding-top: 6rpx;
+    padding-left: 26rpx;
     text-align: center;
     align-items: center;
-    min-width: 140rpx;
     margin: auto 20rpx;
+    font-size: 20rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(207, 207, 207, 1);
+    line-height: 42rpx;
 }
 
 .product {
@@ -100,7 +141,8 @@
     height: 100rpx;
     background-color: white;
 }
-.note{
+
+.note {
     text-align: center;
     margin: 40rpx auto;
     width: 100%;

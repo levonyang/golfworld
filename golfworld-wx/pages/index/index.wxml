@@ -1,5 +1,6 @@
 <view class="index-header">
     <van-search value="{{ value }}" shape="round" custom-class="search" field-class="field" input-class="input"
+                bindtap="goSearch"
                 background=" #E86E35" placeholder="请输入搜索关键词"/>
 </view>
 <swiper previous-margin="75rpx" next-margin="40rpx" class="banner" i3dicator-dots="{{false}}" autoplay="{{true}}"
@@ -14,7 +15,8 @@
 </swiper>
 <view class="container">
 
-    <van-cell bindtap="goNewRelease" custom-class="new-title" title-class="new-title-name" title="新品日历" is-link value="查看更多"/>
+    <van-cell bindtap="goNewRelease" custom-class="new-title" title-class="new-title-name" title="新品日历" is-link
+              value="查看更多"/>
     <view bindtap="goProduct" data-id="{{newReleaseProduct.id}}" class="new-release  grey_background border_radio">
         <view class="new-release-desc">
             <view class="new-release-label">
@@ -42,8 +44,12 @@
                         <view class="new-release-list-desc-title">{{item.name}}</view>
                         <view class="new-release-list-desc-wtl">{{item.like}}人想看</view>
                     </view>
-                    <view class="new-release-list-desc-like" wx:if="{{item.userHaslike == 0}}" bindtap="likeOrUnlike" data-id="{{item.id}}" data-is-like="{{true}}">想看+1</view>
-                    <view class="new-release-list-desc-has-like" wx:if="{{item.userHaslike > 0}}" bindtap="likeOrUnlike" data-id="{{item.id}}" data-is-like="{{false}}">已想看</view>
+                    <view class="new-release-list-desc-like" wx:if="{{item.userHaslike == 0}}" bindtap="likeOrUnlike"
+                          data-id="{{item.id}}" data-is-like="{{true}}">想看+1
+                    </view>
+                    <view class="new-release-list-desc-has-like" wx:if="{{item.userHaslike > 0}}" bindtap="likeOrUnlike"
+                          data-id="{{item.id}}" data-is-like="{{false}}">已想看
+                    </view>
                 </view>
                 <view class="new-release-list-time">
                     <view class="new-release-list-time-title">发布时间</view>
@@ -67,12 +73,12 @@
     </scroll-view>
     <view class="product-list">
         <view wx:for="{{selectedChannelProduct}}" wx:key="index">
-            <van-product title="TITLEEIST TS3 DRIVER" custom-class="bottom_border" product="{{item}}" isTalking="true"/>
+            <van-product custom-class="bottom_border" product="{{item}}" isTalking="true"/>
         </view>
     </view>
 </view>
-<van-popup  overlay="{{false}}" show="{{showInfoLike}}"
-            custom-style="popup"    bind:close="onClose"   >
+<van-popup overlay="{{false}}" show="{{showInfoLike}}"
+           custom-style="popup" bind:close="onClose">
     <view class="like-info-text">
         已关注产品,上线后会马上通知你！
     </view>

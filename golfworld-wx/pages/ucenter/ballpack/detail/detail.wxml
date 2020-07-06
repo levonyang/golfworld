@@ -1,4 +1,5 @@
-<view style='background:url(/static/images/ballpack-all.png) no-repeat;background-size:cover;width:100%;height:280rpx; background-position:center center;box-shadow: inset  0rpx -160rpx 100rpx -80rpx  #20916d;'></view>
+<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />k
+<view style='background:url(/static/images/ballpack-all.png) no-repeat;background-size:cover;width:100%;height:400rpx; background-position:center center;box-shadow: inset  0rpx -160rpx 100rpx -80rpx  #20916d;position: relative;top:-200rpx ; margin-bottom:-200rpx;z-index: -100;'></view>
 <view class="content">
     <view class="header  flex_column">
         <view class="edit">编辑清单</view>

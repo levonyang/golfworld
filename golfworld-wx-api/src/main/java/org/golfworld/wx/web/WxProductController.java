@@ -263,7 +263,15 @@ public class WxProductController {
             catL2IdList = catL2List.stream().map(Category::getId).collect(Collectors.toList());
         }
         //查询列表数据
-
+        Brand brand = null;
+        if (brandId != null && brandId != 0) {
+            brand = brandService.findById(brandId);
+        } else if (!StringUtils.isNullOrEmpty(keyword)) {
+            List<Brand> brands = brandService.queryByKeyword(keyword);
+            if (brands.size() > 0) {
+                brand = brands.get(0);
+            }
+        }
         List<Product> productList = productService.querySelective(catL2IdList, brandId, keyword, name, isHot, isNew, page, limit, sort, order);
 
         // 查询商品所属类目列表。
@@ -281,6 +289,7 @@ public class WxProductController {
         entity.put("list", list);
         entity.put("total", pagedList.getTotal());
         entity.put("page", pagedList.getPageNum());
+        entity.put("brand", brand);
         entity.put("limit", pagedList.getPageSize());
         entity.put("pages", pagedList.getPages());
         return ResponseUtil.ok(entity);
@@ -386,11 +395,11 @@ public class WxProductController {
         }
 
         // 目前的商品推荐算法仅仅是推荐同类目的其他商品
-        int cid = product.getCategoryId();
+        int brandId = product.getBrandId();
 
         // 查找六个相关商品
         int related = 6;
-        List<Product> productList = productService.queryByCategory(cid, 0, related);
+        List<Product> productList = productService.queryBrandId(brandId, 0, related);
         productList = productList.stream()
                 .filter(product1 -> Integer.compare(product1.getId(), product.getId()) != 0)
                 .collect(Collectors.toList());

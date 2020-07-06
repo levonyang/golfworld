@@ -1,114 +1,40 @@
-/*page, .container {*/
-/*    height: 100%;*/
-/*    background: #eef0f3;*/
-/*}*/
+page, .container {
+    height: 100%;
+    background: #eef0f3;
+}
 
-.post-comment {
+.talk {
     position: relative;
     top: -30rpx;
-    width: 750rpx;
+    width: 690rpx;
     height: auto;
     overflow: hidden;
     background: #eef0f3;
 }
 
-.post-comment .product {
-    display: flex;
-    align-items: center;
-    height: 199rpx;
-    margin-left: 31.25rpx;
+.product-title {
+    margin: 30rpx 0;
+    font-size: 16rpx;
+    font-family: PingFangSC-Light, PingFang SC;
+    font-weight: 300;
+    color: rgba(153, 153, 153, 1);
+    line-height: 22rpx;
 }
 
-.post-comment .product .img {
-    height: 145.83rpx;
-    width: 145.83rpx;
-    background: #202020;
-}
-
-.post-comment .product .img image {
-    height: 145.83rpx;
-    width: 145.83rpx;
-}
-
-.post-comment .product .info {
-    height: 145.83rpx;
-    flex: 1;
-    padding-left: 20rpx;
-}
-
-.post-comment .product .name {
+.content {
+    width: 100%;
     margin-top: 30rpx;
+}
+
+
+.talk .input-box .count {
+    /*bottom: 20rpx;*/
+    /*right: 20rpx;*/
     display: block;
-    height: 44rpx;
-    line-height: 44rpx;
-    color: #333;
-    font-size: 30rpx;
-}
-
-.post-comment .product .number {
-    display: block;
-    height: 37rpx;
-    line-height: 37rpx;
-    color: #666;
-    font-size: 25rpx;
-}
-
-.post-comment .product .status {
-    width: 105rpx;
-    color: #b4282d;
-    font-size: 25rpx;
-}
-
-.post-comment .rater {
-    display: flex;
-    width: 690rpx;
-    text-align: center;
-    align-content: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 160rpx;
-}
-
-.post-comment .rater .rater-title {
-    text-align: center;
-    color: #5E8D95;
-    font-size: 29rpx;
-    padding-right: 10rpx;
-    margin-bottom: 20rpx;
-}
-
-
-.post-comment .rater image {
-    padding-left: 5rpx;
-    height: 50rpx;
+    height: 30rpx;
     width: 50rpx;
-}
-
-.post-comment .rater .rater-desc {
     font-size: 29rpx;
-    padding-left: 10rpx;
-}
-
-.post-comment .input-box {
-
-    background: #eef0f3;
-    height: 337.5rpx;
-    width: 690rpx;
-    position: relative;
-    /*background: #202020;*/
-}
-
-.post-comment .input-box .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    border-radius: 20rpx;
-    font-size: 29rpx;
-    /*border: 5px solid #f4f4f4;*/
-    height: 220rpx;
-    width: 650rpx;
-    padding: 20rpx;
+    color: #999;
 }
 
 .fff-background {
@@ -123,18 +49,8 @@
     background: #433030;
 }
 
-.post-comment .input-box .count {
-    /*bottom: 20rpx;*/
-    /*right: 20rpx;*/
-    display: block;
-    height: 30rpx;
-    width: 50rpx;
-    font-size: 29rpx;
-    color: #999;
-}
 
 .btns {
-    /*margin: 50rpx 30rpx ;*/
     color: #999999;
     display: flex;
     justify-content: space-between;

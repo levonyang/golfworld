@@ -1,0 +1,39 @@
+<view class="container" style="background-color: #eef0f3">
+    <navBar title="发布讨论" background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
+    <view class="btns">
+        <view class="close" bindtap="onClose">取消</view>
+        <view class="post" bindtap="onPost">发表</view>
+    </view>
+    <view class="talk">
+        <text class="product-title">{{product.name}}</text>
+        <view class="input-box">
+            <textarea class="content" focus="{{true}}" bindinput="bindInputValue" data-type="content"
+                      maxlength="1000"
+                      placeholder="描述讨论内容，字数少于1000字"/>
+            <text class="count">{{comment.content.length}}/1000</text>
+        </view>
+        <view class="weui-uploader">
+            <view class="weui-uploader__hd">
+                <!--                <view class="weui-uploader__info">{{picUrls.length}}/{{files.length}}</view>-->
+            </view>
+            <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                    <block wx:for="{{files}}" wx:key="*this">
+                        <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                            <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+                        </view>
+                    </block>
+                    <view class="weui-uploader__input-box">
+                        <!--                        <view class="weui-uploader__input" bindtap="chooseImage"></view>-->
+                        <view bindtap="chooseImage">
+                            <image src="/static/images/comment@add-photo.png"></image>
+                            <view class="add-image-text">添加图片</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+
+    </view>
+</view>

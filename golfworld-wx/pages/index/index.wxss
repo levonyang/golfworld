@@ -12,8 +12,8 @@ page {
 .index-header {
     background-color: #E86E35;
     align-content: center;
-    padding-top: 10rpx;
-    height: 220rpx;
+    padding-top: 110rpx;
+    height: 320rpx;
 }
 
 .name {
@@ -42,7 +42,7 @@ page {
 
 .banner {
     position: relative;
-    top: -70rpx;
+    top: -60rpx;
     border-radius: 30rpx
 }
 
@@ -94,7 +94,7 @@ page {
 }
 
 .new-release-image {
-    width: 200rpx;
+    width: 150rpx;
     height: 150rpx;
 }
 
@@ -129,6 +129,7 @@ page {
     background-color: white;
     width: 110rpx;
     height: 30rpx;
+    margin-right: 30rpx;
     position: relative;
     top: -28rpx;
     display: flex;

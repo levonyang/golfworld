@@ -1,6 +1,6 @@
 .order-list {
     position: relative;
-    top: -160rpx;
+    top: -200rpx;
     /*padding: 10rpx;*/
     width: 250rpx;
     height: 58rpx;
@@ -12,7 +12,9 @@
     border-radius: 40rpx;
     justify-content: space-around;
 }
-
+.border {
+    border-bottom: 1px solid #999;
+}
 .order-item {
     padding-top: 10rpx;
     color: #999;
@@ -32,9 +34,10 @@
 
 .title {
     position: relative;
-    top: -90rpx;
+    top: -290rpx;
     margin-left: 30rpx;
     display: flex;
+    margin-bottom: -200rpx;
     flex-direction: column;
 }
 

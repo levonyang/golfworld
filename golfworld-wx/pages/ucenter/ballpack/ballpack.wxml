@@ -1,4 +1,5 @@
-<view class="post" bindtap="onAdd">新建</view>
+<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />
+<!--<view class="post" bindtap="onAdd">新建</view>-->
 <view wx:if="{{empty}}">
     <image class="empty_background" src="/static/images/empty.png"></image>
     <image class="go_search" bindtap="goSearch" src="/static/images/gosearch.png"></image>

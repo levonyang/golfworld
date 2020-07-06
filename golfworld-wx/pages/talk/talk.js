@@ -8,24 +8,18 @@ Page({
             star: 3,
             valueId: 0,
             content: '1',
-            type:0,
+            type: 1,
             lightspot: '',
             drawback: '',
             hasPicture: false,
             picUrls: []
         },
+        files: [],
+        content: '',
         orderId: 0,
         type: 0,
         valueId: 0,
-        orderProduct: {},
-        content: '',
-        lightspot: '',
-        drawback: '',
-        stars: [0, 1, 2, 3, 4],
-        star: 5,
-        starText: '十分满意',
-        picUrls: [],
-        files: []
+        picUrls: []
     },
     chooseImage: function (e) {
         if (this.data.files.length >= 5) {
@@ -44,13 +38,6 @@ Page({
                 });
                 that.upload(res);
             }
-        })
-    },
-    onChange: function (e) {
-        let that = this
-        that.data.comment.star = e.detail
-        that.setData({
-            comment: that.data.comment
         })
     },
     upload: function (res) {
@@ -92,26 +79,7 @@ Page({
             urls: this.data.files // 需要预览的图片http链接列表
         })
     },
-    selectRater: function (e) {
-        var star = e.currentTarget.dataset.star + 1;
-        var starText;
-        if (star == 1) {
-            starText = '很差';
-        } else if (star == 2) {
-            starText = '不太满意';
-        } else if (star == 3) {
-            starText = '满意';
-        } else if (star == 4) {
-            starText = '比较满意';
-        } else {
-            starText = '十分满意'
-        }
-        this.setData({
-            star: star,
-            starText: starText
-        })
 
-    },
     onLoad: function (options) {
         let that = this;
         // options.valueId = 1181448
@@ -135,24 +103,14 @@ Page({
             }
         })
     },
-    getOrderProduct: function () {
-        let that = this;
-        util.request(api.OrderProduct, {
-            orderId: that.data.orderId,
-            productId: that.data.valueId
-        }).then(function (res) {
-            if (res.errno === 0) {
-                that.setData({
-                    orderProduct: res.data,
-                });
-            }
-        });
-    }
-    ,
     onClose: function () {
+        var pages = getCurrentPages();
+        var prevPage = pages[pages.length - 2]; //上一个页面
+        prevPage.setData({
+            type: '1',
+        })
         wx.navigateBack();
-    }
-    ,
+    },
     onPost: function () {
         let that = this;
         if (!this.data.comment.content &&
@@ -160,9 +118,9 @@ Page({
             util.showErrorToast('请填写评论')
             return false;
         }
-        if (that.data.comment.picUrls.length >0 ) {
+        if (that.data.comment.picUrls.length > 0) {
             that.data.comment.picUrls = JSON.stringify(that.data.comment.picUrls)
-        }else {
+        } else {
             that.data.comment.picUrls = '[]'
         }
         console.log(that.data.comment)
@@ -186,12 +144,10 @@ Page({
         let that = this
         let value = event.detail.value;
         let type = event.currentTarget.dataset.type;
-        if (value && value.length > 140) {
+        if (value && value.length > 1000) {
             return false;
         }
         if (type == 'content') that.data.comment.content = event.detail.value
-        if (type == 'lightspot') that.data.comment.lightspot = event.detail.value
-        if (type == 'drawback') that.data.comment.drawback = event.detail.value
         this.setData({
             comment: that.data.comment
         })

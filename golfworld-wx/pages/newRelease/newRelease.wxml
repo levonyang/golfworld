@@ -1,3 +1,4 @@
+<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />
 <view class="new-coming-title">
     <view class="new-coming-desc">
         <view class="new-coming-name">新品发布</view>
@@ -37,7 +38,7 @@
                     </view>
                 </view>
                 <view id="{{item.id}}" class="new-coming-item-desc">
-                    <image  bindtap="goProduct" data-id="{{item.id}}" src="{{item.picUrl}}" class="new-coming-list-image" mode="widthFix"></image>
+                    <image  bindtap="goProduct" data-id="{{item.id}}" src="{{item.picUrl}}" class="new-coming-list-image" mode="aspectFit"></image>
                     <view class="new-coming-talk">
                         <view>新品Talk</view>
                         <image src="/static/images/index@newtalk.png"></image>

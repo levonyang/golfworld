@@ -1,254 +1,273 @@
-<!--<navBar title-text="自定义导航栏" background="#f2f2f2" bindback="back"/>-->
-        <!--index.wxml-->
-<poster id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess">
-</poster>
-<view style='background:url({{product.picUrl}}) no-repeat;background-size:cover;width:100%;height:280rpx; background-position:center center;box-shadow: inset  0rpx -80rpx 30rpx -30rpx  #3b4350;'></view>
-<view class="avatar-list">
-    <block wx:for="{{product.recentTalkUserAvatar}}" wx:key="index">
-        <view class="avatar-list-item">
-            <image class="avatar-list-item-image" src="{{item}}"></image>
-        </view>
-    </block>
-</view>
-<view class="content">
-    <view class="flex_row content-header">
-        <view class="title">{{product.name}}</view>
-        <image class="collect" bindtap="addCollectOrNot" data-id="{{product.id}}"
-               src="/static/images/{{userHasCollect == 0 ? 'collect.png':'collect-selected.png'}}"></image>
-    </view>
-    <view class="score flex_row">
-        <view class="flex_row">
-            <view class="score-value white">{{product.score}}</view>
-            <view class="flex_column rate">
-                <view class="rate-label">
-                    欢迎指数
-                    <label class="top-right-label">TM</label>
-                </view>
-                <van-rate
-                        value="{{ product.score/2 }}"
-                        size="{{ 19 }}"
-                        allow-half
-                        readonly
-                        void-color="#eee"
-                        void-icon="star"
-                        bind:change="onChange"
-                />
-            </view>
-        </view>
-        <view>
-            <image class="like-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="1"
-                   src="/static/images/{{userHasLike == 0 ? 'like.png':'like-selected.png'}}"></image>
-            <image class="unlike-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="0"
-                   src="/static/images/{{userHasUnlike == 0 ? 'like.png':'unlike-selected.png'}}"></image>
-        </view>
-    </view>
-    <view class="title" style="margin:30rpx auto">| 产品简介</view>
-    <view class="brief" style="height:{{showBrief ? 'auto' :'100rpx'}}">{{product.brief}}</view>
-    <view wx:if="{{!showBrief}}" style="margin-left: 600rpx;color: #eee" bindtap="showBrief">[展开]</view>
-    <view wx:if="{{showBrief}}" style="margin-left: 600rpx;color: #eee" bindtap="showBrief">[收起]</view>
-    <view>
-        <view class="flex_row parameter">
-            <view bindtap="goParameter" class="flex_row item">
-                <image src="/static/images/product-parameter.png"></image>
-                <view>产品参数</view>
-                <van-icon name="arrow" class="load-more-icon"/>
-            </view>
-            <view class="flex_row item">
-                <image src="/static/images/message.png"></image>
-                <view>新品Talk</view>
-                <van-icon name="arrow" class="load-more-icon"/>
-            </view>
-        </view>
-    </view>
-    <!--    <van-cell title-class="title" custom-class="title-background" title="| 测评怎么看" is-link value="全部文章"/>-->
-    <view class="flex_row sub-title justify-between">
-        <view class="title white">| 测评怎么看</view>
-        <view class="flex_row sub-title-link">
-            <view>全部文章</view>
-            <van-icon name="arrow"/>
-        </view>
-    </view>
-    <view class="flex_column">
-        <block wx:for="{{productTalkList}}" wx:key="*this">
-            <view class="talk flex_row {{index==productTalkList.length-1 ? '': 'border-bottom'}}">
-                <view class="flex_column justify-around">
-                    <view class="white  talk-title">{{item.title}}</view>
-                    <view class="flex_row">
-                        <image class="avatar" src="{{item.avatar}}"></image>
-                        <view class="white talk-user-nickname">{{item.nickname}}</view>
-                    </view>
-                </view>
-                <image mode="widthFix" class="talk-image" src="{{item.picUrl}}"></image>
+<view>
+    <navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
+
+    <poster id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess"></poster>
+    <!--<view style='background:url({{product.picUrl}}) no-repeat;background-size:cover;width:100%;height:280rpx; background-position:center center;box-shadow: inset  0rpx -80rpx 30rpx -30rpx  #3b4350;'></view>-->
+    <view style='background:url({{product.picUrl}}) no-repeat;background-size:cover;width:100%;height:498rpx; position: relative;top:-200rpx ;z-index: -100;background-position:center center; box-shadow: inset  0rpx -80rpx 50rpx -28rpx  #3b4350;'></view>
+    <!--<image class="header-image" src="{{product.picUrl}}"></image>-->
+    <view class="header-image-border"></view>
+    <view class="avatar-list">
+        <block wx:for="{{product.recentTalkUserAvatar}}" wx:key="index">
+            <view class="avatar-list-item">
+                <image class="avatar-list-item-image" src="{{item}}"></image>
             </view>
         </block>
     </view>
-
-    <!--    <van-cell title-class="title" custom-class="title-background" title="| 相关产品" is-link value="全部球包"/>-->
-    <view class="flex_row sub-title justify-between">
-        <view class="title white">| 相关产品</view>
-        <view class="flex_row sub-title-link">
-            <view>全部球包</view>
-            <van-icon name="arrow"/>
+    <view class="content">
+        <view class="flex_row content-header">
+            <view class="title">{{product.name}}</view>
+            <image class="collect" bindtap="addCollectOrNot" data-id="{{product.id}}"
+                   src="/static/images/{{userHasCollect == 0 ? 'collect.png':'collect-selected.png'}}"></image>
         </view>
-    </view>
-    <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
-        <block wx:for="{{relatedProduct}}" wx:key="*this">
-            <view bindtap="goProduct" data-id="{{item.id}}" id="{{item.id}}" class="scroll-view-item_H">
-                <image src="{{item.picUrl}}" class="" mode="widthFix"></image>
-                <view class="related-desc">
-                    <view class="related-desc-name" style="">{{item.name}}</view>
+        <view class="score-container flex_row">
+            <view class="flex_row">
+                <view class="score-value white"
+                      style="{{product.score==10 ? 'margin-right: 30rpx;' :''}}">{{product.score}}
+                </view>
+                <view class="flex_column  rate">
+                    <view class="rate-label">
+                        欢迎指数
+                        <label class="top-right-label">TM</label>
+                    </view>
                     <van-rate
-                            value="{{ item.score/2 }}"
-                            size="{{ 13 }}"
-                            readonly
+                            custom-style="star"
+                            value="{{ product.score/2 }}"
+                            size="{{ 8 }}"
                             allow-half
+                            readonly
                             void-color="#eee"
                             void-icon="star"
                             bind:change="onChange"
                     />
-                    <label>{{item.score}}</label>
                 </view>
-
             </view>
-        </block>
-    </scroll-view>
-
-    <!--    <van-cell title-class="title" custom-class="title-background" title="| 我的球包" is-link value="全部球包"/>-->
-    <view class="flex_row sub-title justify-between">
-        <view class="title white">| 我的球包</view>
-        <view class="flex_row sub-title-link">
-            <view>全部球包</view>
-            <van-icon name="arrow"/>
-        </view>
-    </view>
-    <view class="ball-pack">
-        <block wx:for="{{ballPack}}" wx:key="*this">
-            <view class="ball-pack-item flex_row {{index==ballPack.length-1 ? '': 'border-bottom'}}">
-                <view>
-                    <block wx:for="{{item.picUrls}}" wx:for-item="url" wx:key="*this">
-                        <image class=""
-                               style="{{'position:absolute;left:'+index*20 +'rpx;margin-left:30rpx;margin-top:'+index*15 +'rpx;width:250rpx;max-height:'+(200-index*15)+'rpx;z-index:'+(100-index)+'; border-radius:20rpx;'}}"
-                               src="{{url}}" mode="widthFix"></image>
-                    </block>
-                </view>
-                <view class="flex_column ball-pack-title">
-                    <view class="ball-pack-title-name">{{item.name}}</view>
-                    <view style="color:#666;">全部共{{item.total}}</view>
-                </view>
-                <van-icon name="arrow" style="color: white; margin-bottom: 24rpx;"/>
-            </view>
-        </block>
-    </view>
-</view>
-
-<view class="comment flex_column">
-    <view class="flex_row  justify-between comment-menu border-bottom">
-        <view class="flex_row">
-            <view class="flex_row comment-menu-item ">
-                <view class="comment-menu-item-label {{selectedComment ? 'selected-border':'' }}">点评</view>
-                <view class="top-right-label">{{product.commentAmount}}</view>
-            </view>
-            <view class="flex_row comment-menu-item">
-                <view class=" comment-menu-item-label {{!selectedComment ? 'selected-border':'' }}">讨论</view>
-                <view class="top-right-label">{{product.talkingAmount}}</view>
-            </view>
-        </view>
-        <view class="comment-menu-button"></view>
-        <view class="flex_row justify-around share">
-            <image src="/static/images/wechat.png"></image>
-            <view class="white">分享</view>
-        </view>
-    </view>
-    <view class="flex_row justify-around ">
-        <view class="flex_column playground  border_radio background-color">
-            <view style="font-weight: bold;">球场指数
-                <label class="top-right-label">TM</label>
-            </view>
-            <view class="score-value">{{product.score}}</view>
             <view>
-                <van-rate
-                        value="{{ product.score/2 }}"
-                        size="{{ 19 }}"
-                        allow-half
-                        readonly
-                        void-color="#eee"
-                        color="#209068"
-                        void-icon="star"
-                        bind:change="onChange"
-                />
-            </view>
-            <view class="flex_row ">
-                <view class="sub-text-color margin-right-20rpx">5用户</view>
-                <view class="sub-text-color">1测评机构</view>
+                <image class="like-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="1"
+                       src="/static/images/{{userHasLike == 0 ? 'like.png':'like-selected.png'}}"></image>
+                <image class="unlike-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="0"
+                       src="/static/images/{{userHasUnlike == 0 ? 'like.png':'unlike-selected.png'}}"></image>
             </view>
         </view>
-        <view class="flex_column  background-color all-talk border_radio">
-            <view class="flex_row  justify-between background-color">
-                <view class="sub-text-color">大家说</view>
-                <van-icon name="arrow" color="#999"/>
+        <view class="product-brief">
+            <view class="title" style="margin-bottom:20rpx">| 产品简介</view>
+            <view class="brief" style="height:{{showBrief ? '120rpx' :'auto'}}">{{product.brief}}</view>
+            <view wx:if="{{!showBrief}}" style="margin-left: 600rpx;color: #eee" bindtap="showBrief">[展开]</view>
+            <view wx:if="{{showBrief}}" style="margin-left: 600rpx;color: #eee" bindtap="showBrief">[收起]</view>
+            <view>
+                <view class="flex_row parameter">
+                    <view bindtap="goParameter" class="flex_row item">
+                        <image src="/static/images/product-parameter.png"></image>
+                        <view>产品参数</view>
+                        <van-icon name="arrow" class="load-more-icon"/>
+                    </view>
+                    <view class="flex_row item" style="margin-right: 30rpx">
+                        <image src="/static/images/message.png"></image>
+                        <view>新品Talk</view>
+                        <van-icon name="arrow" class="load-more-icon"/>
+                    </view>
+                </view>
             </view>
-            <view class="flex_row all-talk-content ">
-                <view class="sub-text-color topic">球杆</view>
-                <view class="background-color">球杆</view>
-                <view class="background-color">球杆</view>
-                <view class="background-color">球杆</view>
+            <view class="price flex_row justify-between">
+                <view class="flex_row">
+                    <image class="icon-40" src="/static/images/product@price.png"></image>
+                    <view class="color-cf price-label">官方价格</view>
+                </view>
+                <view class="product-value">{{product.officialPrice == 0? '-':product.officialPrice }}</view>
+            </view>
+            <view class="flex_row sub-title justify-between">
+                <view class="title white">| 测评怎么看</view>
+                <view class="flex_row sub-title-link">
+                    <view>全部文章</view>
+                    <van-icon name="arrow"/>
+                </view>
+            </view>
+            <view class="flex_column justify-between">
+                <block wx:for="{{productTalkList}}" wx:key="*this">
+                    <view class="talk flex_row {{index==productTalkList.length-1 ? '': 'border-bottom'}}">
+                        <view class="flex_column justify-between">
+                            <view class="white  talk-title">{{item.title}}</view>
+                            <view class="flex_row talk-avatar">
+                                <image class="avatar" src="{{item.avatar}}"></image>
+                                <view class="white talk-user-nickname">{{item.nickname}}</view>
+                            </view>
+                        </view>
+                        <image mode="widthFix" class="talk-image" src="{{item.picUrl}}"></image>
+                    </view>
+                </block>
+            </view>
+
+            <!--    <van-cell title-class="title" custom-class="title-background" title="| 相关产品" is-link value="全部球包"/>-->
+            <view bindtap="goSearch" class="flex_row sub-title justify-between">
+                <view class="title white">| 相关产品</view>
+                <view class="flex_row sub-title-link">
+                    <view>全部产品</view>
+                    <van-icon name="arrow"/>
+                </view>
+            </view>
+            <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
+                <block wx:for="{{relatedProduct}}" wx:key="*this">
+                    <view bindtap="goProduct" data-id="{{item.id}}" id="{{item.id}}" class="scroll-view-item_H">
+                        <image src="{{item.picUrl}}" class="" mode="widthFix"></image>
+                        <view class="related-desc">
+                            <view class="related-desc-name" style="">{{item.name}}</view>
+                            <van-rate
+                                    value="{{ item.score/2 }}"
+                                    size="{{ 13 }}"
+                                    readonly
+                                    allow-half
+                                    void-color="#eee"
+                                    void-icon="star"
+                                    bind:change="onChange"
+                            />
+                            <label>{{item.score}}</label>
+                        </view>
+
+                    </view>
+                </block>
+            </scroll-view>
+
+            <!--    <van-cell title-class="title" custom-class="title-background" title="| 我的球包" is-link value="全部球包"/>-->
+            <view bindtap="goBallPack" class="flex_row sub-title justify-between">
+                <view class="title white">| 我的球包</view>
+                <view class="flex_row sub-title-link">
+                    <view>全部球包</view>
+                    <van-icon name="arrow"/>
+                </view>
+            </view>
+            <view class="ball-pack">
+                <block wx:for="{{ballPackList}}" wx:key="*this">
+                    <van-ballpack ballPack="{{item}}" bindtap="goBallPGackDetail"
+                                  border="{{index!=ballPackList.length-1}}"
+                                  data-id="{{item.id}}"/>
+                    <!--                    <view class="ball-pack-item flex_row {{index==ballPackList.length-1 ? '': 'border-bottom'}}">-->
+                    <!--                        <view>-->
+                    <!--                            <block wx:for="{{item.picUrls}}" wx:for-item="url" wx:key="*this">-->
+                    <!--                                <image class=""-->
+                    <!--                                       style="{{'position:absolute;left:'+(index-1)*20 +'rpx;margin-left:30rpx;margin-top:'+index*15 +'rpx;width:250rpx;max-height:'+(200-index*15)+'rpx;z-index:'+(100-index)+'; border-radius:20rpx;'}}"-->
+                    <!--                                       src="{{url}}" mode="widthFix"></image>-->
+                    <!--                            </block>-->
+                    <!--                        </view>-->
+                    <!--                        <view class="flex_column ball-pack-title">-->
+                    <!--                            <view class="ball-pack-title-name">{{item.name}}</view>-->
+                    <!--                            <view style="color:#666;">全部共{{item.total}}</view>-->
+                    <!--                        </view>-->
+                    <!--                        <van-icon name="arrow" style="color: white; margin-bottom: 24rpx;"/>-->
+                    <!--                    </view>-->
+                </block>
             </view>
         </view>
     </view>
-    <view class="comment-title">全部点评</view>
-    <block wx:for="{{commentList}}" wx:key="*this">
-        <van-comment comment="{{item}}"/>
-    </block>
-    <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
-        <view class="load-more-text">加载更多</view>
-        <image wx:if="{{loading}}" class="loading" src="/static/images/loading.gif"></image>
-        <van-icon name="arrow-down" wx:if="{{showIcon}}" class="load-more-icon"/>
+    <view class="comment flex_column">
+        <view class="flex_row  justify-between comment-menu border-bottom">
+            <view class="flex_row">
+                <view class="flex_row comment-menu-item ">
+                    <view bindtap="changeComment" data-type="0"
+                          class="comment-menu-item-label {{type==0 ? 'selected-border':'' }}">点评
+                    </view>
+                    <view class="top-right-label">{{product.commentAmount}}</view>
+                </view>
+                <view bindtap="changeComment" data-type="1" class="flex_row comment-menu-item">
+                    <view class=" comment-menu-item-label {{type==1 ? 'selected-border':'' }}">讨论</view>
+                    <view class="top-right-label">{{product.talkingAmount}}</view>
+                </view>
+            </view>
+            <view class="comment-menu-button"></view>
+            <view class="flex_row justify-around share">
+                <!--            <image src="/static/images/wechat.png"></image>-->
+                <!--            <view class="white">分享</view>-->
+            </view>
+        </view>
+        <view class="flex_row justify-around ">
+            <view class="flex_column playground  border_radio background-color">
+                <view style="font-weight: bold;">球场指数
+                    <label class="top-right-label">TM</label>
+                </view>
+                <view class="score-value">{{product.score}}</view>
+                <view>
+                    <van-rate
+                            value="{{ product.score/2 }}"
+                            size="{{ 19 }}"
+                            allow-half
+                            readonly
+                            void-color="#eee"
+                            color="#209068"
+                            void-icon="star"
+                            bind:change="onChange"
+                    />
+                </view>
+                <view class="flex_row ">
+                    <view class="sub-text-color margin-right-20rpx">5用户</view>
+                    <view class="sub-text-color">1测评机构</view>
+                </view>
+            </view>
+            <view class="flex_column  background-color all-talk border_radio">
+                <view class="flex_row  justify-between background-color">
+                    <view class="sub-text-color">大家说</view>
+                    <van-icon name="arrow" color="#999"/>
+                </view>
+                <view class="flex_row all-talk-content ">
+                    <view class="sub-text-color topic">球杆</view>
+                    <view class="background-color">球杆</view>
+                    <view class="background-color">球杆</view>
+                    <view class="background-color">球杆</view>
+                </view>
+            </view>
+        </view>
+        <view class="comment-title">全部{{type==0?'点评':'讨论'}}</view>
+        <view style="min-height: 200rpx">
+            <block wx:for="{{commentList}}" wx:key="*this">
+                <van-comment hasStar="{{type==0}}" comment="{{item}}"/>
+            </block>
+        </view>
+        <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
+            <view class="load-more-text">加载更多</view>
+            <image wx:if="{{loading}}" class="loading" src="/static/images/loading.gif"></image>
+            <van-icon name="arrow-down" wx:if="{{showIcon}}" class="load-more-icon"/>
+        </view>
+        <view class="flex_column justify-between write-comment-btn ">
+            <image class="product-icon" bindtap="onCreatePoster" src="/static/images/product@share.png"></image>
+            <image class="product-icon" bindtap="commentPopup" src="/static/images/product@comment.png"></image>
+        </view>
     </view>
-    <view class="flex_column justify-between write-comment-btn ">
-        <!--            <button open-type="share">-->
-        <!--                <image class="product-icon" src="/static/images/product@share.png"></image>-->
-        <!--            </button>-->
+    <van-popup
+            show="{{  showPopup }}"
+            closeable
+            round
+            custom-style=""
+            bind:close="onClose"
+    >
+        <view class="flex_column comment-pp justify-around ">
+            <view class="comment-popup-title">请选择你要进行的操作</view>
+            <view class=" flex_row comment-popup-meue  justify-around">
+                <view class="comment-popup-item flex_column justify-around">
+                    <image class="comment-pp-image" bindtap="goCommentPost" data-id="{{product.id}}"
+                           src="/static/images/product-comment.png"></image>
+                    <view>写短评</view>
+                </view>
+                <view class="talk-popup-item flex_column justify-around">
+                    <image class="comment-pp-image" bindtap="goTalk" data-id="{{product.id}}"
+                           src="/static/images/product-talk.png"></image>
+                    <view>发讨论</view>
+                </view>
+            </view>
+        </view>
+    </van-popup>
+    <view wx:if="{{ showShare }}">
+        <van-overlay
 
-        <!--        <image class="product-icon" bindtap="eventDraw" src="/static/images/product@share.png"></image>-->
-        <image class="product-icon" bindtap="onCreatePoster" src="/static/images/product@share.png"></image>
+                show="{{ showShare }}"
+                z-index="{{1}}"
+                bind:click="closeShare"
+        />
 
-        <image class="product-icon" bindtap="commentPopup" src="/static/images/product@comment.png"></image>
+        <image bindtap="closeShare" class="close-share" mode="aspectFit"
+               src="/static/images/share-close.png"></image>
+        <view class="flex_column share-popup van-popup van-popup--center ">
+            <image class="shareImage" mode="aspectFit" src="{{shareImage}}"></image>
+            <view class="share-btn flex_row">
+                <image class="share-btn-icon" src="/static/images/share-download.png"></image>
+                <view class="share-btn-text" bindtap="saveTap">保存图片</view>
+            </view>
+        </view>
     </view>
 </view>
-        <!--<van-popup overlay-style="overlay" round show="{{ }}" custom-style="popup" closeable bind:close="onClose">-->
-        <!--</van-popup>-->
-<van-popup
-        show="{{  showPopup }}"
-        closeable
-        round
-        custom-style=""
-        bind:close="onClose"
->
-    <view class="flex_row justify-around comment-pp ">
-        <image class="comment-pp-image" bindtap="goCommentPost" data-id="{{product.id}}"
-               src="/static/images/product-comment.png"></image>
-        <image class="comment-pp-image" bindtap="goTalk" data-id="{{product.id}}"
-               src="/static/images/product-talk.png"></image>
-    </view>
-</van-popup>
-<van-popup
-        show="{{showShare}}"
-        class="share-popup"
-        close-on-click-overlay
-        bind:close="closeShare"
-
->
-    <!--    <van-image width="446" height="385" src="{{shareUrl}}" />-->
-<!--    <image  bindtap="closeShare"  class="close-share" mode="aspectFit" src="/static/images/share-close.png"></image>-->
-    <view class="flex_column share-popup">
-        <image class="shareImage" mode="aspectFit" src="{{shareImage}}"></image>
-        <view class="share-btn flex_row">
-            <image class="share-btn-icon" src="/static/images/share-download.png"></image>
-            <view class="share-btn-text" bindtap="saveShare">保存图片</view>
-        </view>
-    </view>
-    <!--    <view class="share-popup">-->
-
-    <!--    </view>-->
-</van-popup>
-
