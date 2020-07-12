@@ -1,0 +1,21 @@
+<view class="header-less-content">
+    <swiper previous-margin="75rpx" next-margin="40rpx" class="banner" i3dicator-dots="{{false}}" autoplay="{{true}}"
+            interval="5000" duration="{{duration}}" circular="{{true}}" easing-function="easeInOutCubic"
+            spaceBetween="40rpx">
+        <block wx:for="{{banner}}" wx:key="*this">
+            <swiper-item url="{{item.url}}">
+                <view bindtap="goProduct" data-id="{{item.link}}"
+                      style='background:url({{item.url}}) no-repeat;background-size:cover;width:600rpx;height:280rpx;background-position:center center;  border-radius: 30rpx;'></view>
+            </swiper-item>
+        </block>
+    </swiper>
+
+    <van-cell bindtap="goAll" border="{{false}}" custom-class="title" title-class="title-name" title="用户测评">
+        <view class="title-link-button">全部测评</view>
+    </van-cell>
+
+    <view>
+         <evaluation total="{{total}}" evaluationList="{{evaluationList}}" ></evaluation>
+    </view>
+
+</view>

@@ -164,6 +164,7 @@ public class WxAuthController {
             userInfo.setAddress(user.getAddress());
             userInfo.setProvince(user.getProfession());
             userInfo.setDesc(user.getDesc());
+            userInfo.setUserId(user.getId());
         }
 
         // token

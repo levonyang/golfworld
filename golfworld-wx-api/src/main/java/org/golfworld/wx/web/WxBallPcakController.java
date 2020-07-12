@@ -10,10 +10,7 @@ import org.golfworld.db.domain.BallPack;
 import org.golfworld.db.domain.BallPackProduct;
 import org.golfworld.db.domain.Product;
 import org.golfworld.db.domain.UserVo;
-import org.golfworld.db.service.BallPackProductService;
-import org.golfworld.db.service.BallPackService;
-import org.golfworld.db.service.ProductService;
-import org.golfworld.db.service.UserService;
+import org.golfworld.db.service.*;
 import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.dto.ProductInfo;
 import org.golfworld.wx.dto.decorator.ProductInfoDecorator;
@@ -23,6 +20,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +50,13 @@ public class WxBallPcakController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CollectService collectService;
+
+    @Autowired
+    private CommentService commentService;
+
+
     /**
      *
      */
@@ -62,9 +68,6 @@ public class WxBallPcakController {
         if (body == null) {
             return ResponseUtil.badArgument();
         }
-
-//        String title = JacksonUtil.parseString(body, "title");
-//        String desc = JacksonUtil.parseString(body, "desc");
         BallProductVo ballPackVo = JacksonUtil.parseObject(body, "backPack", BallProductVo.class);
         if (ballPackVo.getTitle() == null) {
             return ResponseUtil.badArgument();
@@ -80,16 +83,44 @@ public class WxBallPcakController {
         return ResponseUtil.ok(ballPack);
     }
 
+    /**
+     *
+     */
+    @PostMapping("/update")
+    public Object update(@LoginUser Integer userId, @RequestBody String body) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+        if (body == null) {
+            return ResponseUtil.badArgument();
+        }
+        BallProductVo ballPackVo = JacksonUtil.parseObject(body, "backPack", BallProductVo.class);
+        if (ballPackVo.getTitle() == null) {
+            return ResponseUtil.badArgument();
+        }
+        BallPack ballPack = ballPackService.findById(ballPackVo.getId());
+        ballPack.setDesc(ballPackVo.getDesc());
+        ballPack.setTitle(ballPackVo.getTitle());
+        ballPack.setUpdateTime(LocalDateTime.now());
+        ballPackService.update(ballPack);
+        ballPackProductService.deleteByValueId(ballPack.getId());
+        for (BallPackProduct ballPackProduct : ballPackVo.getProductList()) {
+            ballPackProduct.setBallPackId(ballPack.getId());
+            ballPackProductService.add(ballPackProduct);
+        }
+        return ResponseUtil.ok(ballPack);
+    }
+
 
     /**
      * 商品详情页面“用户关注”商品
      */
     @GetMapping("ballPack/product/list")
     public Object ballPack(
-                            @LoginUser Integer userId ,
-                            Integer valueId,
-                           @RequestParam(defaultValue = "1") Integer page,
-                           @RequestParam(defaultValue = "10") Integer limit) {
+            @LoginUser Integer userId,
+            Integer valueId,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer limit) {
 
         List<BallPackProduct> ballPackProducts = ballPackProductService.queryByAddTime(valueId, page, limit);
         PageInfo<BallPackProduct> pagedList = PageInfo.of(ballPackProducts);
@@ -97,7 +128,7 @@ public class WxBallPcakController {
         List<ProductInfo> list = ballPackProducts.stream().map(ballPack -> {
             Product product = productService.findById(ballPack.getId());
             if (null != product) {
-                ProductInfo productInfo = productInfoDecorator.convert(product,userId);
+                ProductInfo productInfo = productInfoDecorator.convert(product, userId);
                 return productInfo;
             }
             return null;
@@ -153,9 +184,16 @@ public class WxBallPcakController {
         BallPackVo ballPackVo = new BallPackVo();
         BeanUtils.copyProperties(ballPack, ballPackVo);
         ballPackVo.setTotal(pagedList.getTotal());
+        Integer userHasCollect = 0;
+        if (null != userId) {
+            userHasCollect = collectService.count(userId, id);
+        }
+        Integer collectAmount = collectService.countByValue(id);
+        ballPackVo.setUserHasCollect(userHasCollect);
+        ballPackVo.setCollectAmount(collectAmount);
         List<ProductInfo> productList = list.stream().map(ballPackProduct -> {
             Product product = productService.findById(ballPackProduct.getValueId());
-            ProductInfo productInfo = productInfoDecorator.convert(product,userId);
+            ProductInfo productInfo = productInfoDecorator.convert(product, userId);
             productInfo.setReason(ballPackProduct.getReason());
             return productInfo;
         }).collect(Collectors.toList());
@@ -165,6 +203,33 @@ public class WxBallPcakController {
         entity.put("productList", productList);
         entity.put("userInfo", userInfo);
         return ResponseUtil.ok(entity);
+    }
+
+    /**
+     * 删除球包
+     */
+    @PostMapping("delete")
+    public Object delete(@LoginUser Integer userId,
+                         @RequestBody String body) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+        Integer id = JacksonUtil.parseInteger(body, "id");
+        if (id == null) {
+            return ResponseUtil.badArgument();
+        }
+        BallPack ballPack = ballPackService.findById(id);
+        if (ballPack.getUserId().compareTo(userId) != 0) {
+            return ResponseUtil.fail(500,
+                    "only the ball pack owner can delete the ball pack");
+        }
+        if (null == ballPack) {
+            return ResponseUtil.fail(404, "ballPack not exist");
+        }
+        ballPackService.deleteById(ballPack.getId());
+        commentService.deleteByValueId(ballPack.getId());
+        collectService.deleteByValueId(ballPack.getUserId());
+        return ResponseUtil.ok();
     }
 
 }

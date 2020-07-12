@@ -56,7 +56,7 @@ page {
 }
 
 .new-title {
-    top: -100rpx;
+    top: -80rpx;
 }
 .new-title-name {
     font-weight: bold;
@@ -65,7 +65,7 @@ page {
 
 .new-release {
     position: relative;
-    top: -80rpx;
+    top: -60rpx;
     padding: 20rpx;
     margin: 0rpx 30rpx;
     display: flex;

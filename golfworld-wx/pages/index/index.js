@@ -7,8 +7,19 @@ const app = getApp();
 
 Page({
     data: {
-        background: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
-        item: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
+        productTalkList: [{
+            avatar: 'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
+            nickname: 'hugo',
+            title: '透過Ball Fitting可以找出最適合你的高爾夫球',
+            picUrl: 'https://qiujutong-1253811604.file.myqcloud.com/w6lga6f7wpisvyxz03il.jpg'
+        },
+            {
+                avatar: 'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
+                nickname: 'hugo',
+                title: '透過Ball Fitting可以找出最適合你的高爾夫球',
+                picUrl: 'https://qiujutong-1253811604.file.myqcloud.com/mgyk2it0d878prsdp4bc.jpg'
+            }
+        ],
         indicatorDots: true,
         vertical: false,
         autoplay: false,
@@ -51,14 +62,9 @@ Page({
                     id: -1,
                     nameCn: '精选'
                 })
-                res.data.floorProductList.push({
-                    id: -1,
-                    productList: res.data.hotProductList
-                })
                 if (res.data.newProductList.length > 0) {
                     var newReleaseProduct = res.data.newProductList[0]
                 }
-
                 that.setData({
                     newProduct: res.data.newProductList,
                     newProductIndex: 0,
@@ -103,6 +109,7 @@ Page({
             valueId: id
         }, 'POST').then(function (res) {
             if (res.errno === 0) {
+                that.getComingList()
                 if (isLike) {
                     that.setData({
                         showInfoLike: true,
@@ -111,7 +118,6 @@ Page({
                         that.setData({showInfoLike: false});
                     }).bind(that), 2999);
                 }
-                that.getComingList()
             }
         });
     },
@@ -177,7 +183,7 @@ Page({
         this.getIndexData();
         this.getComingList();
     },
-    goSearch:function(e){
+    goSearch: function (e) {
         wx.navigateTo({
             url: '../search/search'
         });
@@ -214,19 +220,26 @@ Page({
     },
     tapChannel: function (e) {
         let id = e.currentTarget.dataset.id;
-        let selected = this.data.floorProduct.filter(product => product.id == id);
-        let productList = []
-
-
-        if (selected[0] != undefined && selected.length > 0) {
-            productList = selected[0].productList
+        if (id == -1) {
             this.setData({
                 selectedChannelId: id,
-                selectedChannelProduct: productList,
+                selectedChannelProduct: this.data.hotProduct,
             })
         } else {
             this.getProductByCategory(id)
         }
+
+        // let selected = this.data.floorProduct.filter(product => product.id == id);
+        // let productList = []
+        // if (selected[0] != undefined && selected.length > 0) {
+        //     productList = selected[0].productList
+        //     this.setData({
+        //         selectedChannelId: id,
+        //         selectedChannelProduct: productList,
+        //     })
+        // } else {
+        //     this.getProductByCategory(id)
+        // }
     },
 
     getProductByCategory: function (id) {

@@ -115,6 +115,7 @@
 .selected-btn {
     width: 94rpx;
     height: 42rpx;
+    min-width: 94rpx;
     background: rgba(255, 255, 255, 1);
     border-radius: 15px;
     border: 1px solid rgba(207, 207, 207, 1);

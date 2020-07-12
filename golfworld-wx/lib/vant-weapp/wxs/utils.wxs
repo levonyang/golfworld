@@ -1,7 +1,25 @@
 var bem = require('./bem.wxs').bem;
 var memoize = require('./memoize.wxs').memoize;
 
+var formatDate = function (addTime) {
+    var addDateTime = addTime.split(' ')
+    var date = addDateTime[0].split('-')
+    var dateStr = date[1] + '月' + date[2] + '号'
+    var time = addDateTime[1].split(':')
+    var timeStr = time[0] + ':' + time[1]
+    var dateTimeStr = dateStr + ' ' + timeStr
+    return dateTimeStr
+}
+var inArray = function (val, array) {
+    console.log(val,array)
+    return array.indexOf(val) > -1;
+}
+
+
 module.exports = {
-  bem: memoize(bem),
-  memoize: memoize
+    bem: memoize(bem),
+    formatDate: formatDate,
+    memoize: memoize,
+    inArray: inArray
+
 };

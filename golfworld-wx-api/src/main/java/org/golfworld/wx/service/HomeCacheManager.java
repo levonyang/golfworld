@@ -33,7 +33,7 @@ public class HomeCacheManager {
         cacheData.putAll(data);
         cacheData.put("isCache", "true");
         //设置缓存有效期为10分钟
-        cacheData.put("expireTime", LocalDateTime.now().plusMinutes(10));
+        cacheData.put("expireTime", LocalDateTime.now().plusDays(10));
         cacheDataList.put(cacheKey, cacheData);
     }
 

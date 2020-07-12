@@ -43,7 +43,8 @@ public class WxUserController {
     @GetMapping("index")
     public Object list(@LoginUser Integer userId) {
         if (userId == null) {
-            return ResponseUtil.unlogin();
+           return ResponseUtil.unAuthorized();
+//            return ResponseUtil.unlogin();
         }
 
         Map<Object, Object> data = new HashMap<Object, Object>();

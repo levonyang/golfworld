@@ -48,8 +48,8 @@
                             <view class="new-coming-list-desc-title">{{item.name}}</view>
                             <view class="new-coming-list-desc-wtl">已有{{item.like}}人期待解锁此球具</view>
                         </view>
-                        <view class="new-release-list-desc-like" wx:if="{{item.userHaslike == 0}}" bindtap="like" data-id="{{item.id}}" data-is-like="{{true}}">想看+0</view>
-                        <view class="new-release-list-desc-has-like" wx:if="{{item.userHaslike > 0}}" bindtap="like" data-id="{{item.id}}" data-is-like="{{false}}">已想看</view>                    </view>
+                        <view class="new-release-list-desc-like" wx:if="{{item.userHaslike == 0}}" bindtap="likeOrUnlike" data-id="{{item.id}}" data-is-like="{{true}}">想看+1</view>
+                        <view class="new-release-list-desc-has-like" wx:if="{{item.userHaslike > 0}}" bindtap="likeOrUnlike" data-id="{{item.id}}" data-is-like="{{false}}">已想看</view>                    </view>
                 </view>
             </view>
         </view>

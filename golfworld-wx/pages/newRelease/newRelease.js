@@ -20,6 +20,27 @@ Page({
         showIcon: true,
 
     },
+     likeOrUnlike(e) {
+        let that = this
+        let isLike = e.currentTarget.dataset.isLike
+        let id = e.currentTarget.dataset.id;
+        util.request(api.like, {
+            actionType: 1,
+            valueId: id
+        }, 'POST').then(function (res) {
+            if (res.errno === 0) {
+                that.getComingList()
+                if (isLike) {
+                    that.setData({
+                        showInfoLike: true,
+                    })
+                    setTimeout((function callback() {
+                        that.setData({showInfoLike: false});
+                    }).bind(that), 2999);
+                }
+            }
+        });
+    },
     onLoad: function (options) {
         this.getNewList()
         this.getComingList()
@@ -103,7 +124,6 @@ Page({
         let productList = []
         list.forEach(product => {
             if (product.releaseTime) {
-                console.log(product.releaseTime)
                 let releaseTime = product.releaseTime.split('-')
                 let releaseTimeStr = releaseTime[1] + '月' + releaseTime[2] + '号'
                 Object.assign(product, {releaseTimeStr: releaseTimeStr})

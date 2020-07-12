@@ -50,32 +50,11 @@ Page({
         ballPackList: [],
         product: {},
         type: '0',
-        // product: {
-        //     id: 1181022,
-        //     name: 'TITLEIST TS3 DRIVER',
-        //     picUrl: 'https://qiujutong-1253811604.file.myqcloud.com/thetfafo79mw3jx0ihki.jpg',
-        //     recentTalkUserAvatar: [
-        //         'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
-        //         'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2443852970,3855863032&fm=26&gp=0.jpg',
-        //         'http://img5.imgtn.bdimg.com/it/u=1145485238,1285470591&fm=11&gp=0.jpg',
-        //         'http://img3.imgtn.bdimg.com/it/u=3773584324,1413178473&fm=26&gp=0.jpg'
-        //     ],
-        //
-        //     brief: '杆身最长、杆面角度最小的木杆，主要用来在梯台上开出长距离球。它通常也是球包里最昂贵的球杆，有的高达上万元。职业选手用发球木在梯台上能打出300码左右。 大多数发球木的杆面角度在7度（打出低弹道）至12度（打出高弹道）之间，杆面的甜蜜点有的达到6平方英寸。为了使球击出更远，有些发球木采用了类似蹦床反弹效果的杆面，但这种木杆一般都会被规则禁止使用，比如Callaway ERC发球木就被禁止使用。 R&A是欧洲高尔夫规则的制定机构，他们和美国高尔夫球协会出版了一份关于球杆和球的新规则，就旨在禁止高科技带来的破坏',
-        //     //brief: '测试',
-        //     score: 8,
-        //     commentAmount: 7,
-        //     talkingAmount: 5,
-        //     price: 3888,
-        //     shareUrl: 'https://lc-i0j7ktvk.cn-n1.lcfile.com/d719fdb289c955627735.jpg',
-        //     like: 1
-        // },
-
         commentList: [],
         shareImage: '',
         showBrief: false,
-        showLoadMore: true,
-        showIcon: true,
+        showLoadMore: false,
+        showIcon: false,
         loading: false,
         page: 1,
         limit: 5,
@@ -203,10 +182,6 @@ Page({
             showShare: true,
             shareImage: detail
         })
-        // wx.previewImage({
-        //     current: detail,
-        //     urls: [detail]
-        // })
     },
 
 
@@ -358,7 +333,6 @@ Page({
         util.request(api.ProductDetail, {
             id: that.data.id
         }).then(function (res) {
-            console.log(res)
             if (res.errno === 0) {
                 res.data.info.officialPrice = that.formatMoney(res.data.info.officialPrice)
                 that.setData({
@@ -469,7 +443,7 @@ Page({
             // type: type,
             productList: that.data.productList,
         })
-        // options.id = 1181022
+        // options.id = 1181449
         if (options.id) {
             this.setData({
                 id: parseInt(options.id)
@@ -524,36 +498,60 @@ Page({
     ,
     getCommentList() {
         let that = this;
-        that.setData({
-            showIcon: false,
-            loading: true
-        })
+        // that.setData({
+        //     showIcon: false,
+        //     loading: true
+        // })
         util.request(api.CommentList, {
             valueId: that.data.id,
             type: that.data.type,
-            page: that.data.page,
-            limit: that.data.limit
+            // page: that.data.page,
+            // limit: that.data.limit
         }).then(function (res) {
-            if (that.data.page * that.data.limit >= res.data.total) {
-                that.data.showLoadMore = false
-            }
+            // if (that.data.page * that.data.limit >= res.data.total) {
+            //     that.data.showLoadMore = false
+            // }
             if (res.errno === 0) {
                 let commentList = res.data.list
-                if (that.data.commentList.length > 0) {//is same type
-                    if (that.data.commentList[0].type == type) {
-                        commentList.push(that.data.commentList)
-                    }
-                }
+                // if (that.data.commentList.length > 0) {//is same type
+                //     if (that.data.commentList[0].type == that.data.type) {
+                //         commentList.push.apply(...that.data.commentList)
+                //     }
+                // }
                 that.setData({
-                    showIcon: true,
-                    loading: false,
+                    // showIcon: true,
+                    // loading: false,
                     showLoadMore: that.data.showLoadMore,
                     commentList: commentList,
                 });
             }
         });
-    }
-    ,
+    },
+    refreshComment:function(){
+       this.getCommentList();
+    },
+    convertCommentDate: function (list, isChinese) {
+        let commentList = []
+        list.forEach(item => {
+            let comment = JSON.parse(JSON.stringify(item))
+            if (comment.addTime) {
+                let addDateTime = comment.addTime.split(' ')
+                let date = addDateTime[0].split('-')
+                let dateStr = date[1] + '月' + date[2] + '号'
+                let time = addDateTime[1].split(':')
+                let timeStr = time[0] + ':' + time[1]
+                let dateTimeStr = dateStr + ' ' + timeStr
+                Object.assign(comment, {addTime: dateTimeStr})
+            }
+            if (comment.hasOwnProperty('replyList')
+                && comment.replyList.length > 0) {
+                let replyList = this.convertCommentDate(comment.replyList)
+                Object.assign(comment, {replyList: replyList})
+            }
+            commentList.push(comment)
+        })
+        return commentList
+    },
     onShow: function () {
         // 页面显示
         var that = this;
@@ -717,7 +715,6 @@ Page({
     },
     onReady: function () {
         // 页面渲染完成
-
     }
     ,
     loadMore() {

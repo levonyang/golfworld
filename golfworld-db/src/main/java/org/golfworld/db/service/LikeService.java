@@ -2,7 +2,6 @@ package org.golfworld.db.service;
 
 import com.github.pagehelper.PageHelper;
 import org.golfworld.db.dao.LikeMapper;
-import org.golfworld.db.domain.Footprint;
 import org.golfworld.db.domain.Like;
 import org.golfworld.db.domain.LikeExample;
 import org.golfworld.db.util.LikeTypeConstant;
@@ -94,7 +93,7 @@ public class LikeService {
     public List<Like> findByUserId(Integer userId) {
         LikeExample example = new LikeExample();
         example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        example.setOrderByClause(Footprint.Column.addTime.desc());
+        example.setOrderByClause(Like.Column.addTime.desc());
         return likeMapper.selectByExample(example);
     }
 
@@ -103,5 +102,12 @@ public class LikeService {
         example.or().andUserIdEqualTo(userId).andActionTypeEqualTo(LikeTypeConstant.LIKE).andDeletedEqualTo(false);
         List<Like> likes = likeMapper.selectByExample(example);
         return likes.size();
+    }
+
+    public List<Like> findByValueId(Integer id) {
+        LikeExample example = new LikeExample();
+        example.or().andValueIdEqualTo(id).andDeletedEqualTo(false);
+        example.setOrderByClause(Like.Column.addTime.desc());
+        return likeMapper.selectByExample(example);
     }
 }

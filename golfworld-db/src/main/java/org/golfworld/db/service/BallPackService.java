@@ -88,11 +88,11 @@ public class BallPackService {
         return ballPackMapper.selectByExample(example);
     }
 
-    public List<BallPack> queryByAddTime(Integer userId, boolean all,Integer page, Integer size) {
+    public List<BallPack> queryByAddTime(Integer userId, boolean all, Integer page, Integer size) {
         BallPackExample example = new BallPackExample();
-        if (!all){
+        if (!all) {
             example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
-        }else {
+        } else {
             example.or().andDeletedEqualTo(false);
         }
         example.setOrderByClause(BallPack.Column.addTime.desc());
@@ -100,4 +100,7 @@ public class BallPackService {
         return ballPackMapper.selectByExample(example);
     }
 
+    public void update(BallPack ballPack) {
+        ballPackMapper.updateByPrimaryKey(ballPack);
+    }
 }

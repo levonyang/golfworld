@@ -1,13 +1,29 @@
-<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />k
+<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>k
 <view style='background:url(/static/images/ballpack-all.png) no-repeat;background-size:cover;width:100%;height:400rpx; background-position:center center;box-shadow: inset  0rpx -160rpx 100rpx -80rpx  #20916d;position: relative;top:-200rpx ; margin-bottom:-200rpx;z-index: -100;'></view>
+<poster id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess"></poster>
 <view class="content">
     <view class="header  flex_column">
-        <view class="edit">编辑清单</view>
+        <view wx:if="{{userInfo.userId == ballPackCreator.userId}}" class="edit" bindtap="edit">编辑清单</view>
+        <view>
+            <van-popup
+                    show="{{  showEditOption }}"
+                    custom-style="border-radius: 10rpx; position:fixed;top:630rpx;left:160rpx;width:240rpx;height:136rpx;"
+                    close-on-click-overlay="{{true}}"
+                    overlay-style="background: transparent;"
+                    bind:close="onClose"
+            >
+                <view class="comment-option">
+                    <view class="edit-btn bottom_border" bindtap="goEdit">编辑清单 </view>
+                    <view class="delete-btn" bindtap="deleteBallPack">删除清单</view>
+                </view>
+            </van-popup>
+        </view>
         <view class="title">{{ballPack.title}}</view>
         <view class="flex_row justify-between">
             <view class="flex_row">
-                <image class="avatar" src="{{userInfo.avatar}}"></image>
-                <view class="nickname white-color">{{userInfo.nickname}}</view>
+
+                <image class="avatar" src="{{ballPackCreator.avatar}}"></image>
+                <view class="nickname white-color">{{ballPackCreator.nickname}}</view>
                 <view class="update-time">更新于{{ballPack.updateTime}}</view>
             </view>
             <view class="total">共{{ballPack.total}}款产品</view>
@@ -44,40 +60,51 @@
         <view class="top-right-label color-fbfbfb">{{ballPack.commentAmount}}</view>
     </view>
     <view class="comment">
-        <block wx:for="{{commentList}}" wx:key="*this">
-            <view class=" {{index==commentList.length-1 ? '': 'comment_border'}}">
-                <view class="flex_row comment-header ">
-                    <view class="flex_row">
-                        <view class="van-comment__thumb" bind:tap="onClickThumb">
-                            <image
-                                    src="{{item.userInfo.avatarUrl }}"
-                                    lazy-load="{{ lazyLoad }}"
-                                    class="comment-img "
-                            />
-                        </view>
-                        <view class="flex_column ">
-                            <view class="color-white">{{item.userInfo.nickName}}</view>
-                            <view class="comment-date">{{item.addTime}}</view>
-                        </view>
-                    </view>
-                </view>
-                <view class="comment-content color-white">{{item.content}}</view>
-
-                <view class="flex_row justify-between comment-btn">
-                    <view class="flex_row">
-                        <view class="flex_row btn-like">
-                            <image src="/static/images/ballpack-like.png"></image>
-                            <view wx:if="{{item.like==0}}" class="color-9a9a9a">有用</view>
-                            <view wx:if="{{item.like>0}}" class="like-number  color-9a9a9a">{{item.like}}</view>
-                        </view>
-                        <view class="flex_row">
-                            <image src="/static/images/ballpack-comment.png"></image>
-                            <view class="color-9a9a9a">回复</view>
-                        </view>
-                    </view>
-                    <image src="/static/images/ballpcak-more.png"></image>
-                </view>
-            </view>
-        </block>
+        <view style="min-height: 200rpx">
+            <van-comment hasReply bindrefreshcommentevent="refreshComment" commentList="{{commentList}}"/>
+        </view>
+        <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
+            <view class="load-more-text">加载更多</view>
+            <image wx:if="{{loading}}" class="loading" src="/static/images/loading.gif"></image>
+            <van-icon name="arrow-down" wx:if="{{showIcon}}" class="load-more-icon"/>
+        </view>
     </view>
 </view>
+<view class="ballpack-btn">
+    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <input type="text" confirm-type="send" bindconfirm="submitReply"
+           bind:input="inputContent"
+           data-value-id="{{ballPack.id}}"
+           placeholder-class="input-placeholder" placeholder="评论ta的球包"></input>
+    <view class="flex_row justify-between">
+        <view bindtap="addCollectOrNot" class="collect btn">
+            <image src="/static/images/{{ballPack.userHasCollect>0?'ballpack@collected.png':'ballpack@collect.png'}}"></image>
+            <view style="{{ballPack.userHasCollect>0?'color:#f4ea2a':''}}">
+                {{ballPack.userHasCollect>0?'已收藏':'收藏'}}{{ballPack.collectAmount>0?'('+ballPack.collectAmount+')':''}}
+            </view>
+        </view>
+        <view bindtap="onCreatePoster" class="share btn">
+            <image src="/static/images/ballpack@share.png"></image>
+            <view>分享</view>
+        </view>
+    </view>
+</view>
+<view wx:if="{{ showShare }}">
+    <van-overlay
+
+            show="{{ showShare }}"
+            z-index="{{1}}"
+            bind:click="onClose"
+    />
+
+    <image bindtap="onClose" class="close-share" mode="aspectFit"
+           src="/static/images/share-close.png"></image>
+    <view class="flex_column share-popup van-popup van-popup--center ">
+        <image class="shareImage" mode="aspectFit" src="{{shareImage}}"></image>
+        <view class="share-btn flex_row">
+            <image class="share-btn-icon" src="/static/images/share-download.png"></image>
+            <view class="share-btn-text" bindtap="saveTap">保存图片</view>
+        </view>
+    </view>
+</view>
+

@@ -105,14 +105,13 @@ public class WxHomeController {
 
 
         Callable<List> floorProductListCallable = this::getCategoryList;
-
         FutureTask<List> bannerTask = new FutureTask<>(bannerListCallable);
         FutureTask<List> channelTask = new FutureTask<>(channelListCallable);
         FutureTask<List> newProductListTask = new FutureTask<>(newProductListCallable);
         FutureTask<List> hotProductListTask = new FutureTask<>(hotProductListCallable);
 //        FutureTask<List> brandListTask = new FutureTask<>(brandListCallable);
 //        FutureTask<List> topicListTask = new FutureTask<>(topicListCallable);
-        FutureTask<List> floorProductListTask = new FutureTask<>(floorProductListCallable);
+//        FutureTask<List> floorProductListTask = new FutureTask<>(floorProductListCallable);
 
 
         executorService.submit(bannerTask);
@@ -121,7 +120,7 @@ public class WxHomeController {
         executorService.submit(channelTask);
         executorService.submit(newProductListTask);
         executorService.submit(hotProductListTask);
-        executorService.submit(floorProductListTask);
+//        executorService.submit(floorProductListTask);
 
         Map<String, Object> entity = new HashMap<>();
         try {
@@ -131,7 +130,7 @@ public class WxHomeController {
             entity.put("channel", channelTask.get());
             entity.put("newProductList", newProductListTask.get());
             entity.put("hotProductList", hotProductListTask.get());
-            entity.put("floorProductList", floorProductListTask.get());
+//            entity.put("floorProductList", floorProductListTask.get());
             //缓存数据
             HomeCacheManager.loadData(HomeCacheManager.INDEX, entity);
         } catch (Exception e) {

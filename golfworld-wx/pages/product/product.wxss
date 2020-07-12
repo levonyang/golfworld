@@ -123,11 +123,20 @@ page {
 }
 
 .score-value {
-    width: 60rpx;
+    width: auto;
     font-size: 80rpx;
+    margin-right: 15rpx;
     font-family: DINCondensed-Bold, DINCondensed;
     font-weight: bold;
     color: rgba(255, 255, 255, 1);
+}
+.ball-value {
+    width: auto;
+    font-size: 80rpx;
+    margin-right: 15rpx;
+    font-family: DINCondensed-Bold, DINCondensed;
+    font-weight: bold;
+    color: #00414C;
 }
 
 .score-text {
@@ -400,6 +409,9 @@ page {
 }
 
 .playground {
+    justify-content: center;
+    text-align: center;
+    align-items: center;
     /*width: 500rpx;*/
     margin: 30rpx 0;
     padding: 30rpx;

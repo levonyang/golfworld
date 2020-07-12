@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import org.golfworld.db.dao.CommentMapper;
 import org.golfworld.db.domain.Comment;
 import org.golfworld.db.domain.CommentExample;
+import org.golfworld.db.domain.Like;
 import org.golfworld.db.domain.User;
 import org.golfworld.db.util.CommonTypeConstant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LikeService likeService;
+
     public List<Comment> queryProductByGid(Integer id, int offset, int limit) {
         CommentExample example = new CommentExample();
         example.setOrderByClause(Comment.Column.addTime.desc());
@@ -35,17 +39,28 @@ public class CommentService {
     }
 
     public List<Comment> query(Byte type, Integer valueId, Integer showType, Integer offset, Integer limit) {
-        if (null == type)  type = CommonTypeConstant.PRODUCT_COMMENT;
+        if (null == type) type = CommonTypeConstant.PRODUCT_COMMENT;
         CommentExample example = new CommentExample();
         example.setOrderByClause(Comment.Column.addTime.desc());
         if (null == showType) {
-            example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type);
+            example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         } else if (showType == 0) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andDeletedEqualTo(false);
         } else if (showType == 1) {
             example.or().andValueIdEqualTo(valueId).andTypeEqualTo(type).andHasPictureEqualTo(true).andDeletedEqualTo(false);
         }
-        PageHelper.startPage(offset, limit);
+        if (null !=limit &&!StringUtils.isEmpty(String.valueOf(limit))
+            &&null !=offset &&!StringUtils.isEmpty(String.valueOf(offset))) {
+            PageHelper.startPage(offset, limit);
+        }
+        return commentMapper.selectByExample(example);
+    }
+
+    public List<Comment> queryReply(Integer valueId) {
+        CommentExample example = new CommentExample();
+        example.setOrderByClause(Comment.Column.addTime.asc());
+        example.or().andValueIdEqualTo(valueId).andDeletedEqualTo(false);
+//        PageHelper.startPage(offset, limit);
         return commentMapper.selectByExample(example);
     }
 
@@ -97,6 +112,10 @@ public class CommentService {
     }
 
     public void deleteById(Integer id) {
+        List<Like> likes = likeService.findByValueId(id);
+        for (Like like : likes) {
+            likeService.deleteById(like.getId());
+        }
         commentMapper.logicalDeleteByPrimaryKey(id);
     }
 
@@ -136,5 +155,24 @@ public class CommentService {
             page += 1;
         }
         return new ArrayList<>(recentTalkUserAvatar);
+    }
+
+    public void deleteByValueId(Integer valueId) {
+        deleteByReply(valueId);
+        CommentExample example = new CommentExample();
+        example.or().andValueIdEqualTo(valueId);
+        commentMapper.deleteByExample(example);
+
+    }
+
+    public void deleteByReply(Integer valueId) {
+        CommentExample qeury = new CommentExample();
+        qeury.or().andValueIdEqualTo(valueId);
+        List<Comment> comments = commentMapper.selectByExample(qeury);
+        if (comments.size() == 0) return ;
+        List<Integer> ids = comments.stream().map(Comment::getId).collect(Collectors.toList());
+        CommentExample example = new CommentExample();
+        example.or().andValueIdIn(ids);
+        commentMapper.deleteByExample(example);
     }
 }

@@ -1,12 +1,13 @@
 {
   "pages": [
+    "pages/evaluation/index",
     "pages/index/index",
-    "pages/talk/talk",
-    "pages/commentPost/commentPost",
     "pages/ucenter/ballpack/detail/detail",
     "pages/ucenter/ballpack/all/all",
-    "pages/search/search",
     "pages/product/product",
+    "pages/talk/talk",
+    "pages/commentPost/commentPost",
+    "pages/search/search",
     "pages/ucenter/ballpack/add/add",
     "pages/ucenter/index/index",
     "pages/ucenter/ballpack/ballpack",
@@ -54,7 +55,7 @@
     "navigationBarTextStyle": "black",
     "backgroundColor": "#FFFFFF",
     "backgroundTextStyle": "dark",
-    "navigationStyle":"custom"
+    "navigationStyle": "custom"
   },
   "tabBar": {
     "backgroundColor": "#fafafa",
@@ -67,12 +68,6 @@
         "iconPath": "static/images/home.png",
         "selectedIconPath": "static/images/home@selected.png",
         "text": "发现"
-      },
-      {
-        "pagePath": "pages/catalog/catalog",
-        "iconPath": "static/images/review.png",
-        "selectedIconPath": "static/images/review@selected.png",
-        "text": "测评"
       },
       {
         "pagePath": "pages/ucenter/index/index",

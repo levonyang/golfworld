@@ -6,8 +6,10 @@
             <view class="post" bindtap="onPost">发表</view>
         </view>
         <view class="add-input">
-            <input class=" margin-top" type="input" bind:input="inputTitle" placeholder="请输入标题　(20字以内)"/>
-            <textarea class="margin-top desc" rows="1" type="textarea" bind:input="inputDesc" placeholder="清单简介,向其他人介绍这个清单的特点"/>
+            <input class=" margin-top" type="input" value="{{ballPack.title}}" bind:input="inputTitle"
+                   placeholder="请输入标题　(20字以内)"/>
+            <textarea class="margin-top desc" rows="1" value="{{ballPack.desc}}" type="textarea" bind:input="inputDesc"
+                      placeholder="清单简介,向其他人介绍这个清单的特点"/>
         </view>
         <block wx:for="{{checkedList}}" wx:key="*this">
             <view class="flex_column product background-color">
@@ -23,9 +25,9 @@
                           placeholder="请输入推荐理由(60字以内)"></textarea>
             </view>
         </block>
-    <view bindtap="addProduct" class="add-btn flex_row justify-center">
+        <view bindtap="addProduct" class="add-btn flex_row justify-center">
             <image class="product-add-btn" src="/static/images/ballpack@add.png"></image>
-            <view >添加产品</view>
+            <view>添加产品</view>
         </view>
         <view class="note">注意:创建球包至少添加3个，最多20个</view>
     </view>

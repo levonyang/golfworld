@@ -3,6 +3,7 @@ var util = require('../../../../utils/util.js');
 var user = require('../../../../utils/user.js');
 Page({
     data: {
+        id: "",
         productIds: [],
         ballPack: {
             title: '',
@@ -24,6 +25,7 @@ Page({
         page: 1,
         limit: 3,
         total: 0,
+        edit: false,
         checkedList: []
     },
     isSelected(e) {
@@ -158,6 +160,31 @@ Page({
         this.setData({
             productIds: []
         })
+        if (options.id != undefined) {
+            this.setData({
+                id: options.id
+            })
+            this.getBallPack()
+        }
+    },
+    getBallPack() {
+        let that = this
+        util.request(api.BallPackDetail, {
+            id: that.data.id
+        }).then(function (res) {
+            if (res.errno === 0) {
+                let ids = []
+                res.data.productList.forEach(product => {
+                    ids.push(product.id)
+                })
+                that.setData({
+                    edit: true,
+                    checkedList: res.data.productList,
+                    productIds: ids,
+                    ballPack: res.data.ballPack,
+                });
+            }
+        });
     },
     inputTitle(e) {
         let that = this
@@ -218,8 +245,10 @@ Page({
         that.data.checkedList.forEach(product => {
             productList.push({valueId: product.id, reason: product.reason})
         })
-        util.request(api.AddBallPack, {
+        let url = that.data.edit ? api.UpdateBallPack : api.AddBallPack
+        util.request(url, {
             backPack: {
+                id: that.data.id,
                 title: that.data.ballPack.title,
                 desc: that.data.ballPack.desc,
                 productList: productList

@@ -4,7 +4,7 @@
                 background=" #E86E35" placeholder="请输入搜索关键词"/>
 </view>
 <swiper previous-margin="75rpx" next-margin="40rpx" class="banner" i3dicator-dots="{{false}}" autoplay="{{true}}"
-        interval="5000" duration="{{duration}}" circular="{{true}}" spaceBetween="40rpx">
+        interval="5000" duration="{{duration}}" circular="{{true}}" easing-function="easeInOutCubic" spaceBetween="40rpx">
     <block wx:for="{{banner}}" wx:key="*this">
         <swiper-item url="{{item.url}}">
             <!--                <image class="image" src="{{item.url}}"/>-->
@@ -15,8 +15,7 @@
 </swiper>
 <view class="container">
 
-    <van-cell bindtap="goNewRelease" custom-class="new-title" title-class="new-title-name" title="新品日历" is-link
-              value="查看更多"/>
+    <van-cell bindtap="goNewRelease" custom-class="new-title" title-class="new-title-name" title="新品日历" is-link value="查看更多"/>
     <view bindtap="goProduct" data-id="{{newReleaseProduct.id}}" class="new-release  grey_background border_radio">
         <view class="new-release-desc">
             <view class="new-release-label">

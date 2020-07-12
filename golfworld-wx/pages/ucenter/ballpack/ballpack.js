@@ -4,24 +4,16 @@ const user = require('../../../utils/user.js');
 
 Page({
     data: {
-        pack: {
-            picUrl: 'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2482891506,3188782599&fm=26&gp=0.jpg',
-            name: '2020最受欢迎的高尔夫球杆',
-            total: '10'
-        },
+        pack: { },
         ballPackList: [],
         productIds: []
 
     },
     onLoad: function (options) {
-        // if (null != options.productIds) {
-        //     this.setData(
-        //         {
-        //             productIds: JSON.parse(options.productIds)
-        //         })
-        // }
-        this.getBallPack()
 
+    },
+    onShow: function () {
+        this.getBallPack()
     },
     goSearch: function () {
         wx.navigateTo({
@@ -50,6 +42,7 @@ Page({
         })
     },
     goBallPackDetail(e) {
+        console.log(e.currentTarget.dataset.id)
         wx.navigateTo({
             url: 'detail/detail?id=' + e.currentTarget.dataset.id
         })

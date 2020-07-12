@@ -22,7 +22,7 @@
         <view class="score-container flex_row">
             <view class="flex_row">
                 <view class="score-value white"
-                      style="{{product.score==10 ? 'margin-right: 30rpx;' :''}}">{{product.score}}
+                      style="">{{product.score}}
                 </view>
                 <view class="flex_column  rate">
                     <view class="rate-label">
@@ -139,20 +139,6 @@
                     <van-ballpack ballPack="{{item}}" bindtap="goBallPGackDetail"
                                   border="{{index!=ballPackList.length-1}}"
                                   data-id="{{item.id}}"/>
-                    <!--                    <view class="ball-pack-item flex_row {{index==ballPackList.length-1 ? '': 'border-bottom'}}">-->
-                    <!--                        <view>-->
-                    <!--                            <block wx:for="{{item.picUrls}}" wx:for-item="url" wx:key="*this">-->
-                    <!--                                <image class=""-->
-                    <!--                                       style="{{'position:absolute;left:'+(index-1)*20 +'rpx;margin-left:30rpx;margin-top:'+index*15 +'rpx;width:250rpx;max-height:'+(200-index*15)+'rpx;z-index:'+(100-index)+'; border-radius:20rpx;'}}"-->
-                    <!--                                       src="{{url}}" mode="widthFix"></image>-->
-                    <!--                            </block>-->
-                    <!--                        </view>-->
-                    <!--                        <view class="flex_column ball-pack-title">-->
-                    <!--                            <view class="ball-pack-title-name">{{item.name}}</view>-->
-                    <!--                            <view style="color:#666;">全部共{{item.total}}</view>-->
-                    <!--                        </view>-->
-                    <!--                        <van-icon name="arrow" style="color: white; margin-bottom: 24rpx;"/>-->
-                    <!--                    </view>-->
                 </block>
             </view>
         </view>
@@ -182,7 +168,7 @@
                 <view style="font-weight: bold;">球场指数
                     <label class="top-right-label">TM</label>
                 </view>
-                <view class="score-value">{{product.score}}</view>
+                <view class="ball-value">{{product.score}}</view>
                 <view>
                     <van-rate
                             value="{{ product.score/2 }}"
@@ -215,9 +201,7 @@
         </view>
         <view class="comment-title">全部{{type==0?'点评':'讨论'}}</view>
         <view style="min-height: 200rpx">
-            <block wx:for="{{commentList}}" wx:key="*this">
-                <van-comment hasStar="{{type==0}}" comment="{{item}}"/>
-            </block>
+            <van-comment hasReply="{{type==1}}" bindrefreshcommentevent="refreshComment"  commentList="{{commentList}}"/>
         </view>
         <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
             <view class="load-more-text">加载更多</view>

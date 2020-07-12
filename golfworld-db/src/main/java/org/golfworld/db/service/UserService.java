@@ -26,6 +26,7 @@ public class UserService {
         UserVo userVo = new UserVo();
         userVo.setNickname(user.getNickname());
         userVo.setAvatar(user.getAvatar());
+        userVo.setUserId(user.getId());
         return userVo;
     }
 

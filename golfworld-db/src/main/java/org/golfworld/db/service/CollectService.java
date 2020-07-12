@@ -5,7 +5,6 @@ import org.golfworld.db.dao.CollectMapper;
 import org.golfworld.db.domain.Collect;
 import org.golfworld.db.domain.CollectExample;
 import org.golfworld.db.domain.Footprint;
-import org.golfworld.db.domain.FootprintExample;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -104,5 +103,18 @@ public class CollectService {
         example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);
         List<Collect> collects = collectMapper.selectByExample(example);
         return collects.size();
+    }
+
+    public Integer countByValue(Integer id) {
+        CollectExample example = new CollectExample();
+        example.or().andValueIdEqualTo(id).andDeletedEqualTo(false);
+        List<Collect> collects = collectMapper.selectByExample(example);
+        return collects.size();
+    }
+
+    public void deleteByValueId(Integer valueId) {
+        CollectExample example = new CollectExample();
+        example.or().andValueIdEqualTo(valueId);
+        collectMapper.deleteByExample(example);
     }
 }

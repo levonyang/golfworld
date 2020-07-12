@@ -1,0 +1,57 @@
+<wxs src="../../wxs/utils.wxs" module="utils"/>
+
+<view class="van-evaluation">
+    <block wx:if="{{evaluationList.length > 0}}" wx:for="{{evaluationList}}" wx:key="*this">
+        <view class="custom-class evaluation-item {{item.status == 0 ? (item.hasPrize? 'has-prize-background':'no-prize-background'):''}}">
+            <view class=""></view>
+            <!--                <image class="evaluation-image {{ item.status == 0 ?  item.hasPrize? 'has-prize-border':'no-prize-border':''}}"-->
+            <!--                       src="{{ item.picUrl }}"></image>-->
+            <view class="evaluation-image {{ item.status == 0 ?  item.hasPrize? 'has-prize-border':'no-prize-border':''}}"
+                  style='background:url({{item.picUrl}});no-repeat;  background-size: cover;'></view>
+            <view class="evaluation-content">
+                <view wx:if="{{item.status==0}}" class="no-started"
+                      style=" {{ !item.hasPrize?'top:-30rpx; height:140rpx':''}} ">
+                    <view class="period-num ">第{{total-index}}期</view>
+                    <view class="evaluation-title title white-color">{{item.title}}</view>
+                    <view wx:if="{{item.hasPrize}}" class="period-label period-background">
+                        <view class="prize-background">
+                            <image src="/static/images/evaluation@prize.png"></image>
+                        </view>
+                        <view class="period-label-text">有奖测评</view>
+                    </view>
+                </view>
+                <view wx:if="{{item.status>0}}">
+                    <view wx:if="{{item.hasPrize}}" class="period ">
+                        <view class="period-num">第{{total-index}}期</view>
+                        <view class="period-label">
+                            <view class="prize-background">
+                                <image src="/static/images/evaluation@prize.png"></image>
+                            </view>
+                            <view>有奖测评</view>
+                        </view>
+                    </view>
+                    <view class="evaluation-status" style="color: {{item.status>2?'#209169':'#999999'}}">
+                        <label class="circle"></label>
+                        {{item.statusText}}
+                    </view>
+                    <view class="evaluation-title">{{item.title}}</view>
+                    <view class="evaluation-p-q">
+                        <view class="price">价格{{item.officialPrice}}</view>
+                        <view class="quota">名额{{item.quota}}人</view>
+                    </view>
+                </view>
+                <view class="avatar">
+                    <block wx:for="{{item.recentTalkUserAvatar}}" wx:key="index">
+                        <view class="avatar-item">
+                            <image class="avatar-item-image" style="{{'left:'+index*18 +'rpx'}};"
+                                   src="{{item}}"></image>
+                        </view>
+                    </block>
+                    <view class="evaluation-talking" style="color: {{item.status>0?'#6666':'#E8E8E8'}}">
+                        {{item.talkingAmount}}正在讨论
+                    </view>
+                </view>
+            </view>
+        </view>
+    </block>
+</view>

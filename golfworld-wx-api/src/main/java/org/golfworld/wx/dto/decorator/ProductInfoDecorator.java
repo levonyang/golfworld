@@ -53,14 +53,14 @@ public class ProductInfoDecorator extends ProductService {
     }
 
     public List<ProductInfo> convertList(List<Product> productList, Integer userId) {
-        List<ProductInfo> collect = productList.stream().map(product -> {
+        List<ProductInfo> collect = productList.stream().parallel().map(product -> {
             ProductInfo productInfo = this.convert(product, userId);
             return productInfo;
         }).collect(Collectors.toList());
         return collect;
     }
        public List<ProductInfo> convertList(List<Product> productList) {
-        List<ProductInfo> collect = productList.stream().map(product -> {
+        List<ProductInfo> collect = productList.stream().parallel().map(product -> {
             ProductInfo productInfo = this.convert(product,null);
             return productInfo;
         }).collect(Collectors.toList());

@@ -59,7 +59,12 @@
 }
 
 .van-product__desc, .van-product__title {
-    word-wrap: break-word
+    word-wrap: break-word;
+    width:320rpx;
+    height: 40rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .van-product_rate, .van-product__bottom {

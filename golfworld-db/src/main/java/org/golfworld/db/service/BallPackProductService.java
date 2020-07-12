@@ -78,8 +78,9 @@ public class BallPackProductService {
         return ballPackProductMapper.selectByExample(example);
     }
 
-    public int deleteByUserIdAndValueId(Integer userId, Integer valueId) {
+    public int deleteByValueId(Integer ballPackId) {
         BallPackProductExample example = new BallPackProductExample();
+        example.or().andBallPackIdEqualTo(ballPackId);
         return ballPackProductMapper.deleteByExample(example);
     }
 
@@ -103,7 +104,7 @@ public class BallPackProductService {
 
     public List<BallPackProduct> findByBallPackId(Integer ballPackId) {
         BallPackProductExample example = new BallPackProductExample();
-        example.or().andBallPackIdEqualTo(ballPackId);
+        example.or().andBallPackIdEqualTo(ballPackId).andDeletedEqualTo(false);
         example.setOrderByClause(Footprint.Column.addTime.desc());
         return ballPackProductMapper.selectByExample(example);
     }

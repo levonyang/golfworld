@@ -113,6 +113,12 @@ public class ResponseUtil {
         return fail(401, "参数不对");
     }
 
+
+    public static Object unAuthorized() {
+        return fail(401, "用户未登录");
+    }
+
+
     public static Object badArgumentValue() {
         return fail(402, "参数值不对");
     }
