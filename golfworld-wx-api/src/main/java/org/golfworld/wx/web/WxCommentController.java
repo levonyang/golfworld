@@ -1,5 +1,6 @@
 package org.golfworld.wx.web;
 
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,6 +15,7 @@ import org.golfworld.db.util.CommonTypeConstant;
 import org.golfworld.wx.annotation.LoginUser;
 import org.golfworld.wx.dto.CommentInfo;
 import org.golfworld.wx.dto.decorator.CommentDecorator;
+import org.golfworld.wx.service.SensitiveValidateService;
 import org.golfworld.wx.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -46,6 +48,9 @@ public class WxCommentController {
 
     @Autowired
     private CommentDecorator commentDecorator;
+
+    @Autowired
+    private SensitiveValidateService sensitiveValidateService;
 
 
     private Object validate(Comment comment) {
@@ -87,9 +92,14 @@ public class WxCommentController {
      * @return 发表评论操作结果
      */
     @PostMapping("post")
-    public Object post(@LoginUser Integer userId, @RequestBody Comment comment) {
+    public Object post(@LoginUser Integer userId, @RequestBody Comment comment) throws WxErrorException {
         if (userId == null) {
             return ResponseUtil.unlogin();
+        }
+        if (!sensitiveValidateService.validateText(comment.getContent())
+                || !sensitiveValidateService.validateText(comment.getDrawback())
+                || !sensitiveValidateService.validateText(comment.getLightspot())) {
+            return ResponseUtil.sensitiveValue();
         }
         Object error = validate(comment);
         if (error != null) {
@@ -110,7 +120,7 @@ public class WxCommentController {
      */
     @PostMapping("delete")
     public Object delete(@LoginUser Integer userId,
-                         @RequestBody String body ){
+                         @RequestBody String body) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -125,7 +135,7 @@ public class WxCommentController {
         commentService.deleteById(comment.getId());
         List<Comment> comments = commentService.queryReply(id); //delete reply
         for (Comment reply : comments) {
-                commentService.deleteById(reply.getId());
+            commentService.deleteById(reply.getId());
         }
         return ResponseUtil.ok();
     }

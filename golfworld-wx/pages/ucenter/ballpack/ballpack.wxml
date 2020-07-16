@@ -1,12 +1,16 @@
-<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />
-<!--<view class="post" bindtap="onAdd">新建</view>-->
+<navBar title='我的球包' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
+        <!--<view class="post" bindtap="onAdd">新建</view>-->
 <view wx:if="{{empty}}">
     <image class="empty_background" src="/static/images/empty.png"></image>
+    <view class="empty-text flex_column justify-center">
+        <view>暂无动态~</view>
+        <view>世界未来等待你去探索</view>
+    </view>
     <image class="go_search" bindtap="goSearch" src="/static/images/gosearch.png"></image>
 </view>
 <view wx:if="{{!empty}}">
     <block wx:for="{{ballPackList}}" wx:key="*this">
-        <van-ballpack ballPack="{{item}}"  data-id="{{item.id}}"/>
+        <van-ballpack ballPack="{{item}}" data-id="{{item.id}}"/>
     </block>
 </view>
         <!--<view bindtap="goAddBallPack" class="flex_row justify-around write-comment-btn ">-->

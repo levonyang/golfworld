@@ -19,6 +19,33 @@
     color: rgba(0, 0, 0, 1);
     line-height: 44rpx;
 }
+.more-hot{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin: 60rpx auto;
+    flex-direction: row;
+    width:200rpx;
+    height:40rpx;
+    background:rgba(255,255,255,1);
+    border-radius:20rpx;
+    border:2rpx solid rgba(207,207,207,1);
+}
+.more-hot-text{
+    font-size:20rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color: #CFCFCF;
+}
+.more-hot-title{
+    width:200rpx;
+    height:40rpx;
+    background:rgba(255,255,255,1);
+    border-radius:20rpx;
+    border:2rpx solid rgba(207,207,207,1);
+}
 
 .title-link-button {
     float: right;

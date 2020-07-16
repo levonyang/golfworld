@@ -1,12 +1,15 @@
 {
   "pages": [
-    "pages/evaluation/index",
+    "pages/evaluation/detail/detail",
     "pages/index/index",
+    "pages/ucenter/integral/integral",
+    "pages/ucenter/profile/profile",
     "pages/ucenter/ballpack/detail/detail",
+    "pages/commentPost/commentPost",
+    "pages/evaluation/index",
     "pages/ucenter/ballpack/all/all",
     "pages/product/product",
     "pages/talk/talk",
-    "pages/commentPost/commentPost",
     "pages/search/search",
     "pages/ucenter/ballpack/add/add",
     "pages/ucenter/index/index",
@@ -17,8 +20,6 @@
     "pages/product/parameter/parameter",
     "pages/newRelease/newRelease",
     "pages/ucenter/feedback/feedback",
-    "pages/ucenter/profile/profile",
-    "pages/ucenter/integral/integral",
     "pages/catalog/catalog",
     "pages/ucenter/address/address",
     "pages/ucenter/addressAdd/addressAdd",
@@ -68,6 +69,12 @@
         "iconPath": "static/images/home.png",
         "selectedIconPath": "static/images/home@selected.png",
         "text": "发现"
+      },
+      {
+        "pagePath": "pages/evaluation/index",
+        "iconPath": "static/images/evaluation.png",
+        "selectedIconPath": "static/images/evaluation@selected.png",
+        "text": "测评"
       },
       {
         "pagePath": "pages/ucenter/index/index",

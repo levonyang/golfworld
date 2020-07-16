@@ -31,7 +31,7 @@ public class SystemConfigService {
 
     public Map<String, String> listMail() {
         SystemExample example = new SystemExample();
-        example.or().andKeyNameLike("litemall_mall_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("mall_%").andDeletedEqualTo(false);
         List<System> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(System system : systemList){
@@ -42,7 +42,7 @@ public class SystemConfigService {
 
     public Map<String, String> listWx() {
         SystemExample example = new SystemExample();
-        example.or().andKeyNameLike("litemall_wx_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("wx_%").andDeletedEqualTo(false);
         List<System> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(System system : systemList){
@@ -53,7 +53,7 @@ public class SystemConfigService {
 
     public Map<String, String> listOrder() {
         SystemExample example = new SystemExample();
-        example.or().andKeyNameLike("litemall_order_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("order_%").andDeletedEqualTo(false);
         List<System> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(System system : systemList){
@@ -64,7 +64,7 @@ public class SystemConfigService {
 
     public Map<String, String> listExpress() {
         SystemExample example = new SystemExample();
-        example.or().andKeyNameLike("litemall_express_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("express_%").andDeletedEqualTo(false);
         List<System> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(System system : systemList){

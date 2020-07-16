@@ -1,5 +1,6 @@
 package org.golfworld.wx.web;
 
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.golfworld.core.storage.StorageService;
@@ -7,6 +8,7 @@ import org.golfworld.core.util.CharUtil;
 import org.golfworld.core.util.ResponseUtil;
 import org.golfworld.db.domain.StorageInfo;
 import org.golfworld.db.service.InternalStorageService;
+import org.golfworld.wx.service.SensitiveValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +33,8 @@ public class WxStorageController {
     private StorageService storageService;
     @Autowired
     private InternalStorageService litemallStorageService;
+    @Autowired
+    private SensitiveValidateService sensitiveValidateService;
 
     private String generateKey(String originalFilename) {
         int index = originalFilename.lastIndexOf('.');
@@ -41,7 +45,7 @@ public class WxStorageController {
 
         do {
             key = CharUtil.getRandomString(20) + suffix;
-            storageInfo =litemallStorageService.findByKey(key);
+            storageInfo = litemallStorageService.findByKey(key);
         }
         while (storageInfo != null);
 
@@ -49,7 +53,11 @@ public class WxStorageController {
     }
 
     @PostMapping("/upload")
-    public Object upload(@RequestParam("file") MultipartFile file) throws IOException {
+    public Object upload(@RequestParam("file") MultipartFile file) throws IOException, WxErrorException {
+        Boolean isPass= sensitiveValidateService.validateImage(file);
+        if(!isPass){
+           return ResponseUtil.sensitiveValue();
+        }
         String originalFilename = file.getOriginalFilename();
         StorageInfo litemallStorage = storageService.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename);
         return ResponseUtil.ok(litemallStorage);
@@ -63,7 +71,7 @@ public class WxStorageController {
      */
     @GetMapping("/fetch/{key:.+}")
     public ResponseEntity<Resource> fetch(@PathVariable String key) {
-        StorageInfo storageInfo= litemallStorageService.findByKey(key);
+        StorageInfo storageInfo = litemallStorageService.findByKey(key);
         if (key == null) {
             return ResponseEntity.notFound().build();
         }
@@ -88,7 +96,7 @@ public class WxStorageController {
      */
     @GetMapping("/download/{key:.+}")
     public ResponseEntity<Resource> download(@PathVariable String key) {
-        StorageInfo storageInfo= litemallStorageService.findByKey(key);
+        StorageInfo storageInfo = litemallStorageService.findByKey(key);
         if (key == null) {
             return ResponseEntity.notFound().build();
         }

@@ -158,6 +158,7 @@ public class AdminProductService {
         }
 
         Product product = productAllinone.getProduct();
+        product.setDeleted(false);
         ProductAttribute[] attributes = productAllinone.getAttributes();
 
         String name = product.getName();

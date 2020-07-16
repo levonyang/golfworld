@@ -1,7 +1,7 @@
 @import '../../common/index.wxss';
 
 .van-comment {
-    margin: 20rpx;
+    margin: 20rpx 0 20rpx 20rpx;
 }
 
 .van-comment__img {
@@ -29,13 +29,35 @@
 }
 
 .comment-content {
-    padding: 30rpx;
+    margin-top: 10rpx;
     color: #7ba2a8;
+}
+
+
+.comment-image {
+    margin-top: 32rpx;
+    margin-bottom: 42rpx;
+    display: flex;
+    min-width: 670rpx;
+    text-align: center;
+    align-items: center;
+    flex-basis: 30rpx;
+    flex-flow: row wrap;
+    align-content: flex-start;
+}
+
+.comment-image image {
+    width: 198rpx;
+    height: 198rpx;
+    margin-bottom: 30rpx;
+    margin-right: 30rpx;
+    border-radius: 10rpx;
 }
 
 .comment-btn {
     margin-top: 18rpx;
     margin-bottom: 30rpx;
+    margin-right: 20rpx;
 }
 
 .comment-btn image {
@@ -80,9 +102,6 @@
     padding-top: 3rpx;
     background-color: #07c160;
     color: white;
-    /*height: 52rpx;*/
-    /*margin-bottom: 10rpx !important;*/
-    /*margin-left: 10rpx !important;*/
 }
 
 .reply-to {

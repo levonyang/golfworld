@@ -16,7 +16,7 @@ function formatTime(date) {
 }
 
 function convertDate(date, isChinese) {
-    let datas =date.split('-')
+    let datas = date.split('-')
     let dateTimeStr = datas[1] + '月' + datas[2] + '号'
     return dateTimeStr
 }
@@ -92,7 +92,24 @@ function showErrorToast(msg) {
     })
 }
 
+function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
+    try {
+        decimalCount = Math.abs(decimalCount);
+        decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+        const negativeSign = amount < 0 ? "-" : "";
+
+        let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+        let j = (i.length > 3) ? i.length % 3 : 0;
+
+        return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 module.exports = {
+    formatMoney,
     formatTime,
     request,
     redirect,

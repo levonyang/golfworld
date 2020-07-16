@@ -9,16 +9,17 @@ Component({
             value: ''
         },
         // background: {
-        //   type: String,
-        //   value: 'rgba(255, 255, 255, 1)',
-        //   observer: '_showChange'
+        //     type: String,
+        //     value: 'transparent',
+        //     // value: 'rgba(255, 255, 255, 1)',
+        //     observer: '_showChange'
         // },
-        // backgroundColorTop: {
-        //   type: String,
-        //   // value: 'rgba(255, 255, 255, 1)',
-        //   value: 'transparent',
-        //   observer: '_showChangeBackgroundColorTop'
-        // },
+        backgroundColorTop: {
+            type: String,
+            // value: 'rgba(255, 255, 255, 1)',
+            value: 'transparent',
+            observer: '_showChangeBackgroundColorTop'
+        },
         color: {
             type: String,
             value: 'rgba(0, 0, 0, 1)'

@@ -37,7 +37,7 @@ VantComponent({
         goEvaluation: function (e) {
             let id = e.currentTarget.dataset.id;
             wx.navigateTo({
-                url: '/pages/evaluation/evaluation?id=' + id
+                url: '/pages/evaluation/detail/detail?id=' + id
             });
 
         },

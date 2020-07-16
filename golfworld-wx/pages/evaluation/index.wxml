@@ -15,7 +15,17 @@
     </van-cell>
 
     <view>
-         <evaluation total="{{total}}" evaluationList="{{evaluationList}}" ></evaluation>
+        <evaluation total="{{total}}" evaluationList="{{evaluationList}}"></evaluation>
     </view>
+
+
+    <!--    <van-cell  custom-class="more-hot" title-class="more-hot-title" title="更多热门" is-link />-->
+    <view class="more-hot">
+        <view class="more-hot-text">更多测评</view>
+        <van-icon size="10" color="#CFCFCF" name="arrow"/>
+    </view>
+
+    <view class="more-content">更多内容</view>
+
 
 </view>

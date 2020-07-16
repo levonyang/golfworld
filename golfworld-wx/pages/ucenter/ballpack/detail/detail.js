@@ -134,7 +134,7 @@ Page({
                     url: this.data.userInfo.avatarUrl,
                 },
                 {
-                    width: 112,
+                    width: 142,
                     height: 32,
                     x: 293,
                     y: 659,
@@ -374,8 +374,7 @@ Page({
                 that.getBallPack()
             });
 
-    }
-    ,
+    } ,
     getCommentList() {
         let that = this;
 
@@ -387,11 +386,7 @@ Page({
         }).then(function (res) {
             if (res.errno === 0) {
                 let commentList = res.data.list
-                // if (that.data.commentList.length > 0) {//is same type
-                //     if (that.data.commentList[0].type == that.data.type) {
-                //         commentList.push.apply(...that.data.commentList)
-                //     }
-                // }
+
                 that.setData({
 
                     showLoadMore: that.data.showLoadMore,

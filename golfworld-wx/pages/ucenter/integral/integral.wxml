@@ -1,5 +1,5 @@
 <view class="container">
-    <navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}" />
+    <navBar title='我的积分' background='rgba(243,243,243,1)'  color="rgba(243,243,243,1)" back="{{true}}" home="{{true}}" />
     <image src="/static/images/my@card.png" class="card_background"></image>
     <view class="card">
         <view class="explanation" bindtap="showExplanation">
@@ -16,8 +16,6 @@
         <van-cell title-class="item" value-class="golden_text" title="系统奖励_历史使用累计积分" value="+100" size="large"
                   label="2020.2.13"/>
     </view>
-
-
 </view>
 <van-popup overlay-style="overlay" round show="{{ showPopup }}"  custom-style="popup" closeable   bind:close="onClose"   >
     <view class="popup_table">

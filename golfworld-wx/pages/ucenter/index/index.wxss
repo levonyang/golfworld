@@ -138,7 +138,6 @@ page {
 
 .user_row {
     background: white;
-    border-bottom: 1px solid #fafafa;
 }
 
 .user_row_left {

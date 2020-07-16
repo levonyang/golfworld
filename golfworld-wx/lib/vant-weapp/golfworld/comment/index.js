@@ -26,9 +26,32 @@ VantComponent({
             type: Boolean,
             value: false
         },
+        nameWithDate: {
+            type: Boolean,
+            value: false
+        },
+        nameWithStar: {
+            type: Boolean,
+            value: true
+        },
         hasReply: Boolean,
         total: Number,
-        commentList: Array,
+        commentList: {
+            type: Array,
+            // observer: function (newVal, oldV, changePath) {
+            //     let that = this
+            //     if (!that.data.showImage) return
+            //     let commentList = []
+            //     newVal.forEach(comment => {
+            //         comment.picUrls = JSON.parse(comment.picUrls)
+            //         commentList.push(comment)
+            //     })
+            //     console.log(commentList)
+            //     that.setData({
+            //         commentList: commentList
+            //     })
+            // }
+        },
         replyId: String,
         content: String,
         hasStar: {
@@ -39,7 +62,10 @@ VantComponent({
             type: Boolean,
             value: false
         },
-
+        showImage: {
+            type: Boolean,
+            value: false
+        },
         showReply: {
             type: Boolean,
             value: false
@@ -61,40 +87,41 @@ VantComponent({
             value: 'aspectFit'
         }
     },
-    // watch: {
-    //     commentList(commentList, oldV) {
-    //         console.log('c cl')
-    //         console.log(commentList)
-    //         let that = this
-    //         let likeList = []
-    //         commentList.forEach(comment => {
-    //             if (comment.userHasLike > 0) {
-    //                 likeList.push(comment.id)
-    //             }
-    //             comment.replyList.forEach(reply => {
-    //                 if (reply.userHasLike > 0) {
-    //                     likeList.push(reply.id)
-    //                 }
-    //             })
-    //             console.log(likeList)
-    //         })
-    //         that.setData({
-    //             likeList: that.data.likeList
-    //         })
-    //     }
-    // },
+//     observers
+// :
+// {
+//     'commentList'
+// :
+//
+//     function (newVal, oldV) {
+//         let that = this
+//         if (!that.data.showImage) return
+//         let commentList = []
+//         newVal.forEach(comment => {
+//             comment.picUrls = JSON.parse(comment.picUrls)
+//             commentList.push(comment)
+//         })
+//         console.log(commentList)
+//         that.setData({
+//             commentList: commentList
+//         })
+//     }
+// }
     methods: {
         onClickThumb() {
             this.jumpLink('thumbLink');
-        },
+        }
+        ,
         onClose() {
             showPopup: false
-        },
+        }
+        ,
         changeProduct(val) {
             this.setData({
                 product: val
             });
-        },
+        }
+        ,
         likeOrUnlike(e) {
             let that = this
             if (that.data.inProgress) {
@@ -109,20 +136,24 @@ VantComponent({
             let userHasLike = isLike ? 1 : 0
             let like = userHasLike > 0 ? 1 : -1
             let commentList = []
+            console.log(that.data.commentList)
             that.data.commentList.forEach(comment => {
                 if (id == comment.id) {
                     comment.userHasLike = userHasLike
                     comment.like = comment.like + like
                 }
                 let replyList = []
-                comment.replyList.forEach(reply => {
-                    if (reply.id == id) {
-                        reply.userHasLike = userHasLike
-                        reply.like = reply.like + like
-                    }
-                    replyList.push(reply)
-                })
-                comment.replyList = replyList
+                if (comment.replyList) {
+                    comment.replyList.forEach(reply => {
+                        if (reply.id == id) {
+                            reply.userHasLike = userHasLike
+                            reply.like = reply.like + like
+                        }
+                        replyList.push(reply)
+                    })
+                    comment.replyList = replyList
+
+                }
                 commentList.push(comment)
             })
             that.setData({
@@ -140,24 +171,28 @@ VantComponent({
                     // that.triggerEvent('refreshcommentevent');
                 }
             });
-        },
+        }
+        ,
         closeReply() {
             this.setData({
                 replyId: ''
             });
-        },
+        }
+        ,
         reply(e) {
             this.setData({
                 replyTo: e.currentTarget.dataset.replyId,
                 replyId: e.currentTarget.dataset.id
             });
-        },
+        }
+        ,
         inputContent(e) {
             console.log(e)
             this.setData({
                 content: e.detail.value
             });
-        },
+        }
+        ,
         submitReply(e) {
             let that = this;
             if (!that.data.content) {
@@ -170,7 +205,6 @@ VantComponent({
             that.data.comment.content = that.data.content
             that.data.comment.picUrls = '[]'
             util.request(api.CommentPost, that.data.comment, 'POST').then(function (res) {
-                console.log(res)
                 if (res.errno === 0) {
                     wx.showToast({
                         title: '评论成功',
@@ -182,8 +216,17 @@ VantComponent({
                         }
                     })
                 }
+                if (res.errno === 415) {
+                    wx.showToast(
+                        {
+                            icon: "none",
+                            title: res.errmsg
+                        }
+                    )
+                }
             });
-        },
+        }
+        ,
         moreOption(e) {
             console.log(e)
             this.setData({
@@ -191,7 +234,8 @@ VantComponent({
                 id: e.currentTarget.dataset.id,
                 content: e.currentTarget.dataset.content
             })
-        },
+        }
+        ,
         copyComment(e) {
             let that = this
             wx.setClipboardData({
@@ -210,7 +254,8 @@ VantComponent({
                     })
                 }
             })
-        },
+        }
+        ,
         deleteComment(e) {
             let that = this
             util.request(api.CommentDelete,
@@ -235,7 +280,8 @@ VantComponent({
                 showPopup: false,
             })
 
-        },
+        }
+        ,
         cancel(e) {
             this.setData({
                 content: '',
@@ -243,5 +289,7 @@ VantComponent({
                 showPopup: false,
             })
         }
-    },
-});
+    }
+    ,
+})
+;

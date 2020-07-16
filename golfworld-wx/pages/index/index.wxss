@@ -36,7 +36,7 @@ page {
 .search {
     padding-top: 1rpx auto;
     margin: 10rpx auto;
-    width: 500rpx;
+    width: 640rpx;
     height: 90rpx;
 }
 

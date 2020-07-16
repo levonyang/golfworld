@@ -45,7 +45,7 @@
                 <image class="like-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="1"
                        src="/static/images/{{userHasLike == 0 ? 'like.png':'like-selected.png'}}"></image>
                 <image class="unlike-icon" bindtap='likeOrUnlike' data-id="{{product.id}}" data-action-type="0"
-                       src="/static/images/{{userHasUnlike == 0 ? 'like.png':'unlike-selected.png'}}"></image>
+                       src="/static/images/{{userHasUnlike == 0 ? 'like.png':'like-selected.png'}}"></image>
             </view>
         </view>
         <view class="product-brief">
@@ -201,7 +201,7 @@
         </view>
         <view class="comment-title">全部{{type==0?'点评':'讨论'}}</view>
         <view style="min-height: 200rpx">
-            <van-comment hasReply="{{type==1}}" bindrefreshcommentevent="refreshComment"  commentList="{{commentList}}"/>
+            <van-comment hasReply="{{type==1}}" starColor="#209068" hasStar="{{type==0}}" bindrefreshcommentevent="refreshComment"  commentList="{{commentList}}"/>
         </view>
         <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
             <view class="load-more-text">加载更多</view>

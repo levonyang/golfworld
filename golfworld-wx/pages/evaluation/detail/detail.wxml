@@ -1,0 +1,144 @@
+<poster id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess"></poster>
+<view style='background:url({{evaluation.picUrl}}) no-repeat;background-size:cover;width:100%;height:588rpx; position: relative;top:-200rpx ;margin-bottom:-200rpx;z-index: -100;background-position:center center; box-shadow: inset  0rpx -80rpx 50rpx -28rpx   #979797;'></view>
+<view class="content">
+    <navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
+    <view class="term">第{{evaluation.term}}期</view>
+    <view class="title">{{evaluation.title}}</view>
+    <view class="desc">{{evaluation.desc}}</view>
+
+    <view class="more-product">
+        <view class="more-product-text">查看产品</view>
+        <van-icon size="14" color="#CFCFCF" custom-class="more-product-icon" name="arrow"/>
+    </view>
+
+    <view class="detail ">
+        <view class="item  bottom_border">
+            <view class="flex_row">
+                <image class="icon-30" src="/static/images/evalluation@detail.png"></image>
+                <view class="title">众测详情</view>
+            </view>
+            <view>
+                <view class="avatar">
+                    <block wx:for="{{evaluation.recentTalkUserAvatar}}" wx:key="index">
+                        <view class="avatar-item">
+                            <image class="avatar-item-image" style="{{'left:'+index*18 +'rpx'}};"
+                                   src="{{item}}"></image>
+                        </view>
+                    </block>
+                    <view class="evaluation-talking sub-color">
+                        {{evaluation.talkingAmount}}正在讨论
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="item bottom_border">
+            <view class="flex_row">
+                <image class="icon-30" src="/static/images/evaluation@quote.png"></image>
+                <view class="title">众测名额</view>
+            </view>
+            <view>
+                <view class="sub-color">{{evaluation.quota}}人</view>
+            </view>
+        </view>
+        <view class="item">
+            <view class="flex_row">
+                <image class="icon-30" src="/static/images/evaluation@price.png"></image>
+                <view class="title">市场价格</view>
+            </view>
+            <view>
+                <view class="sub-color">¥ {{evaluation.officialPrice}}</view>
+            </view>
+        </view>
+    </view>
+    <!--show when EXPERIENCING END-->
+    <view wx:if="{{evaluation.status == 3 || evaluation.status ==4}}">
+        <view class="experiencer-title">| 体验师说</view>
+        <view class="experiencer">
+            <block wx:for="{{experiencerList}}" wx:key="index">
+                <view class="experiencer-item">
+                    <image src="{{item.avatarUrl}}"></image>
+                    <view class="nickname">{{item.nickname}}</view>
+                    <view class="profession">{{item.profession}}</view>
+                </view>
+            </block>
+        </view>
+    </view>
+</view>
+
+        <!--申请中 code:1-->
+<view class="evaluation-applying" wx:if="{{evaluation.status==1}}">
+    <view class="evaluation-applying-item "
+          style="{{more ? 'height: auto !important' :''}}">
+        <view class="evaluation-applying-title">
+            <view></view>
+            <view>本期众测</view>
+        </view>
+        <view class="evaluation-applying-content"
+              style="{{more?'':'-webkit-line-clamp: 4'}};height:{{more ? 'auto' :'136rpx'}}">
+            {{evaluation.content}}
+            <!--            <view >{{evaluation.content}}</view>-->
+        </view>
+        <view class="more" bindtap="more">{{more?'[展开]':'[收起]'}}</view>
+        <view class="evaluation-applying-btn">
+            立即参与
+        </view>
+        <view class="minutes bottom_border">仅剩{{evaluation.effectiveTime}}有效</view>
+        <view class="evaluation-applying-avatar ">
+            <block wx:for="{{evaluation.recentTalkUserAvatar}}" wx:key="index">
+                <view class="avatar-item">
+                    <image class="avatar-item-image" style="{{'left:'+index*18 +'rpx'}};"
+                           src="{{item}}"></image>
+                </view>
+            </block>
+            <view class="evaluation-applying-talking ">
+                <view style="">{{evaluation.talkingAmount}}</view>
+                <view class="sub-color">正在讨论</view>
+            </view>
+        </view>
+    </view>
+    <view class="evaluation-applying-item">
+        <view class="evaluation-applying-title">
+            <view></view>
+            <view>众测流程</view>
+        </view>
+        <view>
+          <view>
+                <view>
+                    <view class="evaluation-applying-round">1</view>
+                </view>
+          </view>
+        </view>
+
+
+    </view>
+</view>
+
+        <!--体验中 code:3-->
+<view class="evaluation-in-progress" wx:if="{{evaluation.status==3}}">
+    <view class="progress-title">全部测评</view>
+    <view class="task" style="color: #3FB98E">
+        <view class="task-all">全部</view>
+        <block wx:for="{{taskList}}" wx:key="index">
+            <view bindtap="tapTask" data-id="{{item.id}}"
+                  class=" task-item {{item.id== selected.id? 'selected' : 'noselected'}}">
+                <view class="task-date-range-week">{{item.fromWeek}}-{{item.toWeek}}</view>
+                <view class="task-date-range">{{item.from}}-{{item.to}}</view>
+                <view class="task-title">{{item.title}}</view>
+            </view>
+        </block>
+    </view>
+    <view class="task-content">
+        <view class="justify-between flex_row">
+            <view class="task-content-date">
+                <view class="round"></view>
+                <view>{{selected.fromDateWithMon}} ~ {{selected.toDateWithMon}}</view>
+            </view>
+            <view class="task-content-title-value">{{selected.title}}</view>
+        </view>
+        <view class="task-content-value">{{selected.content}}</view>
+    </view>
+    <view>
+        <van-comment hasReply showImage="{{true}}" bindrefreshcommentevent="refreshComment"
+                     commentList="{{commentList}}"/>
+    </view>
+</view>

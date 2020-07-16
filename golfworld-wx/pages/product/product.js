@@ -99,8 +99,8 @@ Page({
             texts: [
                 {
                     zIndex: 3,
-                    x: 187,
-                    y: 95,
+                    x: 146,
+                    y: 54,
                     baseLine: 'middle',
                     text: this.data.userInfo.nickName,
                     fontSize: 32,
@@ -108,8 +108,8 @@ Page({
                 },
                 {
                     zIndex: 3,
-                    x: 187,
-                    y: 146,
+                    x: 146,
+                    y: 105,
                     baseLine: 'top',
                     text: '向你推荐一个产品',
                     fontSize: 28,
@@ -140,13 +140,13 @@ Page({
                     zIndex: 3,
                     width: 102,
                     height: 102,
-                    x: 71,
-                    y: 71,
+                    x: 30,
+                    y: 30,
                     borderRadius: 102,
                     url: this.data.userInfo.avatarUrl,
                 },
                 {
-                    width: 112,
+                    width: 142,
                     height: 32,
                     x: 293,
                     y: 659,

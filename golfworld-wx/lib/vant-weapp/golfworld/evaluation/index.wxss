@@ -1,7 +1,7 @@
 @import '../../common/index.wxss';
 
 .van-evaluation {
-    padding: 40rpx;
+    padding: 20rpx 40rpx;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -17,7 +17,7 @@
     width: 320rpx;
     height: 370rpx;
     border-radius: 20rpx;
-    margin-bottom: 90rpx;
+    margin-bottom: 30rpx;
     /*background: rgba(199, 199, 199, 1);*/
     box-shadow: 0px 8px 12px 0px rgba(0, 0, 0, 0.1);
 }
@@ -209,11 +209,13 @@ evaluation-content-started {
 }
 
 .period-background {
+    flex-basis: 10rpx;
+    padding: 5rpx 8rpx;
     width: 146rpx;
     height: 32rpx;
-    background: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 15rpx;
-    opacity: 0.6;
+    /*opacity: 0.6;*/
     margin-bottom: 20rpx;
 }
 
@@ -246,7 +248,10 @@ evaluation-content-started {
 }
 
 .period-label-text {
-    color: white;
+    /*color: red !important;*/
+    line-height: 30rpx;
+    margin-left: 8rpx;
+    color: #FFFFFF !important;
     font-size: 20rpx;
 }
 
@@ -256,6 +261,7 @@ evaluation-content-started {
 }
 
 .period view {
+    margin-left: 8rpx;
     font-size: 20rpx;
     font-family: PingFangSC-Medium, PingFang SC;
     font-weight: 500;

@@ -123,9 +123,7 @@ Page({
         } else {
             that.data.comment.picUrls = '[]'
         }
-        console.log(that.data.comment)
         util.request(api.CommentPost, that.data.comment, 'POST').then(function (res) {
-            console.log(res)
             if (res.errno === 0) {
                 wx.showToast({
                     title: '评论成功',
@@ -136,6 +134,14 @@ Page({
                         })
                     }
                 })
+            }
+            if (res.errno === 415) {
+                wx.showToast(
+                    {
+                        icon: "none",
+                        title: res.errmsg
+                    }
+                )
             }
         });
     }

@@ -61,7 +61,7 @@
     </view>
     <view class="comment">
         <view style="min-height: 200rpx">
-            <van-comment hasReply bindrefreshcommentevent="refreshComment" commentList="{{commentList}}"/>
+            <van-comment hasReply hasStar="{{false}}" bindrefreshcommentevent="refreshComment" commentList="{{commentList}}"/>
         </view>
         <view class="load-more flex_row" wx:if="{{showLoadMore}}" bindtap="loadMore">
             <view class="load-more-text">加载更多</view>

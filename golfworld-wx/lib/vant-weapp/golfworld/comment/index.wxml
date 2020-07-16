@@ -13,15 +13,15 @@
                 </view>
                 <view class="flex_column">
                     <view class="font-color">{{item.userInfo.nickName}}</view>
-                    <text wx:if="{{hasReply}}" class="talk-date date-color">{{utils.formatDate(item.addTime)}}</text>
-                    <van-rate wx:if="{{!hasReply}}"
+                    <text wx:if="{{!hasStar}}" class="talk-date date-color">{{utils.formatDate(item.addTime)}}</text>
+                    <van-rate wx:if="{{hasStar}}"
                               value="{{ item.star }}"
                               size="{{ 19 }}"
                               readonly="{{true}}"
                               count="5"
                               allow-half
                               void-color="#eee"
-                              color="#209068"
+                              color="{{starColor}}"
                               void-icon="star"
                               bind:change="onChange"
                     />
@@ -31,6 +31,9 @@
         </view>
         <view class="comment-content flex_column">
             <view class="font-color content-text">{{item.content}}</view>
+            <view class="comment-image" wx:if="{{showImage}}">
+                <image class="img" wx:for="{{item.picUrls}}" wx:key="*this" wx:for-item="url" src="{{url}}"></image>
+            </view>
             <view wx:if="{{hasReply}}" class="flex_row justify-between comment-btn">
                 <view class="flex_row">
                     <view class="flex_row btn-like">
@@ -41,14 +44,14 @@
                         <image wx:if="{{item.userHasLike > 0}}" bindtap="likeOrUnlike"
                                data-is-like="{{false}}" data-id="{{item.id}}"
                                src="/static/images/comment@liked1.png"></image>
-                        <view wx:if="{{item.userHasLike == 0}}"  bindtap="likeOrUnlike"
+                        <view wx:if="{{item.userHasLike == 0}}" bindtap="likeOrUnlike"
                               data-is-like="{{true}}" data-id="{{item.id}}" class="font-color">有用
                         </view>
                         <view wx:if="{{item.like>0}}"
                               class="like-number  font-color">{{item.like}}
                         </view>
                     </view>
-                    <view class="flex_row"  bindtap="reply"  data-reply-to="{{item.userId}}" data-id="{{item.id}}">
+                    <view class="flex_row" bindtap="reply" data-reply-to="{{item.userId}}" data-id="{{item.id}}">
                         <image src="/static/images/comment@reply.png"></image>
                         <view class="font-color">回复</view>
                     </view>
@@ -110,7 +113,7 @@
                                 </view>
                                 <view class="flex_row" bindtap="reply" data-id="{{reply.id}}">
                                     <image src="/static/images/comment@reply.png"></image>
-                                    <view class="font-color" >回复</view>
+                                    <view class="font-color">回复</view>
                                 </view>
                             </view>
                             <image
@@ -139,8 +142,7 @@
         position="bottom"
         custom-style="height:395rpx"
         close-on-click-overlay="{{true}}"
-        bind:close="onClose"
->
+        bind:close="onClose">
     <view class="comment-more-option">
         <view class="comment-more-option-item bottom_border" bindtap="copyComment">复制</view>
         <view class="comment-more-option-item bottom_border" bindtap="deleteComment">删除</view>

@@ -8,7 +8,7 @@ Page({
             star: 3,
             valueId: 0,
             content: '1',
-            type:0,
+            type: 0,
             lightspot: '',
             drawback: '',
             hasPicture: false,
@@ -151,8 +151,7 @@ Page({
     ,
     onClose: function () {
         wx.navigateBack();
-    }
-    ,
+    },
     onPost: function () {
         let that = this;
         if (!this.data.comment.content &&
@@ -160,12 +159,11 @@ Page({
             util.showErrorToast('请填写评论')
             return false;
         }
-        if (that.data.comment.picUrls.length >0 ) {
+        if (that.data.comment.picUrls.length > 0) {
             that.data.comment.picUrls = JSON.stringify(that.data.comment.picUrls)
-        }else {
+        } else {
             that.data.comment.picUrls = '[]'
         }
-        console.log(that.data.comment)
         util.request(api.CommentPost, that.data.comment, 'POST').then(function (res) {
             console.log(res)
             if (res.errno === 0) {
@@ -178,6 +176,14 @@ Page({
                         })
                     }
                 })
+            }
+            if (res.errno === 415) {
+                wx.showToast(
+                    {
+                        icon: "none",
+                        title: res.errmsg
+                    }
+                )
             }
         });
     }

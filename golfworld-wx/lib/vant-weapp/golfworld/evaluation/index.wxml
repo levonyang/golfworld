@@ -2,7 +2,7 @@
 
 <view class="van-evaluation">
     <block wx:if="{{evaluationList.length > 0}}" wx:for="{{evaluationList}}" wx:key="*this">
-        <view class="custom-class evaluation-item {{item.status == 0 ? (item.hasPrize? 'has-prize-background':'no-prize-background'):''}}">
+        <view bindtap="goEvaluation" class="custom-class evaluation-item {{item.status == 0 ? (item.hasPrize? 'has-prize-background':'no-prize-background'):''}}">
             <view class=""></view>
             <!--                <image class="evaluation-image {{ item.status == 0 ?  item.hasPrize? 'has-prize-border':'no-prize-border':''}}"-->
             <!--                       src="{{ item.picUrl }}"></image>-->
@@ -10,7 +10,7 @@
                   style='background:url({{item.picUrl}});no-repeat;  background-size: cover;'></view>
             <view class="evaluation-content">
                 <view wx:if="{{item.status==0}}" class="no-started"
-                      style=" {{ !item.hasPrize?'top:-30rpx; height:140rpx':''}} ">
+                      style=" {{ !item.hasPrize?'top:-30rpx; height:130rpx':''}} ">
                     <view class="period-num ">第{{total-index}}期</view>
                     <view class="evaluation-title title white-color">{{item.title}}</view>
                     <view wx:if="{{item.hasPrize}}" class="period-label period-background">

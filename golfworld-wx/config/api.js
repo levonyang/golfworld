@@ -1,13 +1,14 @@
 // 以下是业务服务器API地址
 // 本机开发时使用
+var WxApiRoot = 'http://localhost:8080/wx/';
 // 局域网测试使用
 // var WxApiRoot = 'http://192.168.0.104:8080/wx/';
 // 云平台部署时使用
-// var WxApiRoot = 'http://122.51.199.160:8080/wx/';
+// var WxApiRoot = 'http://119.45.125.190:8080/wx/';
 // 云平台上线时使用
-
-var WxApiRoot = 'http://localhost:8080/wx/';
+// var WxApiRoot = 'http://119.45.149.113:8080/wx/';
 // var WxApiRoot = 'https://qiujutong.com/wx/';
+
 
 module.exports = {
   IndexUrl: WxApiRoot + 'home/index', //首页数据接口
@@ -51,6 +52,7 @@ module.exports = {
   CommentList: WxApiRoot + 'comment/list', //评论列表
   CommentCount: WxApiRoot + 'comment/count', //评论总数
   CommentPost: WxApiRoot + 'comment/post', //发表评论
+  CommentDelete: WxApiRoot + 'comment/delete', //删除评论
 
   TopicList: WxApiRoot + 'topic/list', //专题列表
   TopicDetail: WxApiRoot + 'topic/detail', //专题详情
@@ -92,8 +94,10 @@ module.exports = {
   like: WxApiRoot + 'like/submit', //like
 
   AddBallPack: WxApiRoot + 'ballPack/submit', //球包
+  UpdateBallPack: WxApiRoot + 'ballPack/update', //球包更新
   BallPackList: WxApiRoot + 'ballPack/list', //球包列表
   BallPackDetail: WxApiRoot + 'ballPack/detail', //球包详情
+  BallPackDelete: WxApiRoot + 'ballPack/delete', //球包删除
 
   GroupOnList: WxApiRoot + 'groupon/list', //团购列表
   GroupOnMy: WxApiRoot + 'groupon/my', //团购API-我的团购

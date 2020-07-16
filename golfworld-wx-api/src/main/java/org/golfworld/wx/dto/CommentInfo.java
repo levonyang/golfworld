@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class CommentInfo {
-    private Integer id ;
-    private Integer userId ;
+    private Integer id;
+    private Integer userId;
     private UserInfo userInfo;
     private UserInfo replyTo;
     private List<CommentInfo> replyList;
@@ -20,11 +20,12 @@ public class CommentInfo {
     private LocalDateTime updateTime;
     private String lightspot;
     private Integer userHasLike;
+    private String picUrls;
+
     /**
      * comment like total
      */
     private Integer like;
-
 
 
     public Integer getValueId() {
@@ -163,5 +164,13 @@ public class CommentInfo {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getPicUrls() {
+        return picUrls;
+    }
+
+    public void setPicUrls(String picUrls) {
+        this.picUrls = picUrls;
     }
 }

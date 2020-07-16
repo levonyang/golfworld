@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "evaluation": "../../../lib/vant-weapp/golfworld/evaluation",
+    "poster": "../../../lib/canvas/poster"
+  }
+}
