@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/evaluation/detail/detail",
+    "pages/evaluation/detail/more/more",
+    "pages/evaluation/detail/rule/rule",
     "pages/index/index",
     "pages/ucenter/integral/integral",
     "pages/ucenter/profile/profile",

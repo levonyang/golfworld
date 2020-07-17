@@ -24,7 +24,7 @@
         </view>
         <view class='lxy-nav-bar__center'>
             <block wx:if="{{title}}">
-                <text class='lxy-nav-bar__center-title'>{{title}}</text>
+                <text class='lxy-nav-bar__center-title' style="color: {{color}}">{{title}}</text>
             </block>
             <view class='lxy-nav-bar-search' style="height:{{capsulePosition.height}}px;" wx:elif="{{searchBar}}"
                   bindtap="search">

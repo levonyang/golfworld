@@ -1,0 +1,108 @@
+@import "../detail.wxss";
+page {
+    background-color: #333333;
+}
+
+.more-title {
+    display: flex;
+    flex-direction: row;
+}
+
+.more-sub-title {
+    margin-top: 36rpx;
+    margin-bottom: -21rpx;
+    font-size: 28rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(247, 118, 62, 1);
+    line-height: 40rpx;
+}
+
+.more-title :first-child {
+    width: 4rpx;
+    height: 30rpx;
+    background: rgba(247, 118, 62, 1);
+    margin-right: 8rpx;
+}
+
+.more-title :nth-child(2) {
+    height: 40rpx;
+    font-size: 28rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 40rpx;
+}
+
+.more-item {
+    margin: 40rpx;
+    padding: 34rpx 0rpx 30rpx 40rpx;
+    width: 670rpx;
+    /*height: 560rpx;*/
+    height: auto;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 20rpx;
+}
+
+.more-avatars {
+    position: relative;
+    top: 20rpx;
+    left: -20rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.more-avatars > image {
+    flex: 0 0 14%;
+    text-align: center;
+    margin: 18rpx;
+    height: 80rpx;
+    width: 80rpx;
+    border-radius: 50%;
+}
+
+.more-load-more {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 60rpx;
+    height: 34rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    line-height: 34rpx;
+}
+
+.more-load-more view {
+    color: rgba(153, 153, 153, 1);
+}
+
+.more-content {
+    /*margin: 22rpx 0rpx;*/
+    margin-top: 0rpx;
+    width: 590rpx;
+    /*height: 170rpx;*/
+    font-size: 24rpx;
+    color: #999999;
+    display: block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 34rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+}
+
+.more-content text {
+    /*height: 170rpx;*/
+    font-size: 24rpx;
+    color: #999999;
+    line-height: 34rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+}
+
+/*display:inline-block;*/

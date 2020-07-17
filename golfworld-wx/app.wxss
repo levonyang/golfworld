@@ -3,6 +3,8 @@ pages {
     /*position: relative;*/
     width: 100%;
     z-index: 9999998;
+    /*font-size: 24rpx;*/
+    font-family:PingFangSC-Regular,PingFang SC;
     background: #fff;
 }
 .container {

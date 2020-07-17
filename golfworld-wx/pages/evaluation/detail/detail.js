@@ -12,20 +12,20 @@ const app = getApp();
 Page({
     data: {
         evaluation: {
-            statusText: STATUS.APPLYING.text,
+            statusText: STATUS.CONFIRMING.text,
             // status:STATUS.APPLYING.code,
-            status:STATUS.APPLYING.code,
+            status: STATUS.CONFIRMING.code,
             term: 28,
             title: "INOVAI 6.0 Crescent Neck Left Handed Putter",
             desc: '描述描述描述描述描述描述',
-            content:'本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4',
+            content: '本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准； 本次众测产品含魅族17、魅族17Pro共4',
             hasPrize: false,
             picUrl: 'https://qiujutong-1253811604.file.myqcloud.com/umxr20ypyu12bafzcmx2.jpg',
             quota: 5,
             officialPrice: 6666,
-            effectiveTime:'11:11',
+            effectiveTime: '11:11',
             talkingAmount: 9999,
-            more:false,
+            more: false,
             recentTalkUserAvatar: [
                 'https://qiujutong-1253811604.file.myqcloud.com/hjjwe1fzjr2x9unzq8f3.jpg',
                 'https://qiujutong-1253811604.file.myqcloud.com/hjjwe1fzjr2x9unzq8f3.jpg',
@@ -184,8 +184,13 @@ Page({
     more: function () {
         let more = !this.data.more
         this.setData({
-            more:more
+            more: more
         })
 
     },
+    goRule: function () {
+        wx.navigateTo({
+            url: "./rule/rule"
+        });
+    }
 })

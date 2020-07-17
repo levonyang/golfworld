@@ -47,6 +47,7 @@
 }
 
 .more-product {
+
     display: flex;
     align-content: center;
     align-items: center;
@@ -202,6 +203,7 @@
 
 /*申请中*/
 .evaluation-applying {
+    padding: 40rpx;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -212,8 +214,9 @@
     width: 100%;
 }
 
-.evaluation-applying-item {
-    margin: 40rpx;
+.evaluation-desc-item {
+    /*margin: 40rpx;*/
+    margin-bottom: 40rpx;
     padding: 34rpx 40rpx 30rpx 40rpx;
     width: 670rpx;
     height: 560rpx;
@@ -221,20 +224,32 @@
     border-radius: 20rpx;
 }
 
-.evaluation-applying-title {
-    display: flex;
-    flex-direction: row;
-
+.evaluation-applying-progress {
+    margin-top: 42rpx;
 }
 
-.evaluation-applying-title :first-child {
+.downarrow {
+
+    margin-left: 16rpx;
+    margin-top: 10rpx ];
+    float: left;
+    width: 26rpx;
+    height: 34rpx;
+}
+
+.evaluation-desc-title {
+    display: flex;
+    flex-direction: row;
+}
+
+.evaluation-desc-title :first-child {
     width: 4rpx;
     height: 30rpx;
     background: rgba(247, 118, 62, 1);
     margin-right: 8rpx;
 }
 
-.evaluation-applying-title :nth-child(2) {
+.evaluation-desc-title :nth-child(2) {
     width: 112rpx;
     height: 40rpx;
     font-size: 28rpx;
@@ -335,6 +350,7 @@
 
 .evaluation-applying-round {
     text-align: center;
+    margin-right: 10rpx;
     align-items: center;
     padding-top: 8rpx;
     border-radius: 50%;
@@ -348,6 +364,111 @@
     color: rgba(255, 255, 255, 1);
 }
 
+.evaluation-applying-progress-item {
+    margin-top: 46rpx;
+    margin-bottom: 5rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.evaluation-applying-progress-item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+}
+
+.evaluation-applying-progress-item-text :first-child {
+    text-align: left;
+    height: 34rpx;
+    font-size: 24rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 34rpx;
+}
+
+.active-rule {
+    width: 120rpx;
+    height: 34rpx;
+    font-size: 24rpx;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 34rpx;
+}
+
+.evaluation-applying-progress-item-text :nth-child(2) {
+    height: 28rpx;
+    font-size: 20rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+    line-height: 28rpx;
+}
+
+/*确认中*/
+.evaluation-confirming {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: #979797;
+    padding: 40rpx;
+}
+
+.evaluation-confirming-image {
+    margin: 44rpx auto;
+    width: 204rpx;
+    height: 148rpx;
+}
+
+.evaluation-confirming-title {
+    height: 44rpx;
+    font-size: 32rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 44rpx;
+}
+
+.evaluation-confirming-desc {
+    width: 402rpx;
+    height: 68rpx;
+    font-size: 24rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 34rpx;
+}
+
+.evaluation-confirming-btn {
+    margin: 0 auto;
+    margin-top: 66rpx;
+    text-align: center;
+    align-items: center;
+    width: 366rpx;
+    height: 80rpx;
+    background: rgba(207, 207, 207, 1);
+    box-shadow: 0rpx 8rpx 12rpx 0rpx rgba(0, 0, 0, 0.1);
+    border-radius: 49rpx;
+    width: 168px;
+    font-size: 24rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 80rpx;
+}
+.evaluation-confirming-time{
+    margin-top: 44rpx;
+    height:28rpx;
+    font-size:20rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    font-weight:400;
+    color:rgba(153,153,153,1);
+    line-height:28rpx;
+}
 
 /* 体验中 */
 .evaluation-in-progress {

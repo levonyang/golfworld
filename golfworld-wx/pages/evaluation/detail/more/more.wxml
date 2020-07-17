@@ -1,0 +1,80 @@
+
+<navBar title='本期众测详情' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
+<view class="more-item">
+    <view class="flex_row justify-between">
+        <view class="more-title">
+            <view></view>
+            <view>众测流程</view>
+        </view>
+    </view>
+    <view class="more-content">
+        <text>
+            本期的众测产品是「魅族17系列」，魅族17系列5G梦想旗舰，在工业设计、硬件性能和影像拍摄等方面都设定了新标准；
+
+            本次众测产品含魅族17、魅族17Pro共4台，机型随机寄出；入选者将收取799元押金，完成众测后押金将原路退还；众测任务时间为5月20号-6月3号；
+
+            按时上传众测动态，完成众测报告后，后台会根据所有体验师的配合完成度和众测内容质量，选择优秀体验师免费送出，但不排除对赠送产品的数量酌情增减~
+        </text>
+    </view>
+</view>
+<view class="more-item" style="margin-top:50rpx;min-height:690rpx ">
+    <view class="flex_row justify-between">
+        <view class="more-title">
+            <view></view>
+            <view>众测流程</view>
+        </view>
+    </view>
+    <view class="more-avatars mc">
+        <block wx:for="{{participants}}">
+            <image src="{{item.avatarUrl}}"></image>
+        </block>
+    </view>
+    <view class="more-load-more">
+        <view>加载更多</view>
+        <van-icon name="arrow-down"/>
+    </view>
+</view>
+<view class="evaluation-desc-item">
+    <view class="flex_row justify-between">
+        <view class="evaluation-desc-title">
+            <view></view>
+            <view>众测流程</view>
+        </view>
+        <view bindtap="goRule" class="active-rule">
+            活动规则 >
+        </view>
+    </view>
+    <view class="evaluation-applying-progress">
+        <view class="evaluation-applying-progress-item">
+            <view class="evaluation-applying-round">1</view>
+            <view class="evaluation-applying-progress-item-text">
+                <view>开放申请</view>
+                <view>申请人类型不限(资深工作者,老师,学生等)</view>
+            </view>
+        </view>
+        <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+        <view class="evaluation-applying-progress-item">
+            <view class="evaluation-applying-round">2</view>
+            <view class="evaluation-applying-progress-item-text">
+                <view>申请人筛选</view>
+                <view>申请之后会在12个工作日处理完毕</view>
+            </view>
+        </view>
+        <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+        <view class="evaluation-applying-progress-item">
+            <view class="evaluation-applying-round">3</view>
+            <view class="evaluation-applying-progress-item-text">
+                <view>任务式众测评测</view>
+                <view>测评期间后台会给你发布不同的测评任务</view>
+            </view>
+        </view>
+        <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+        <view class="evaluation-applying-progress-item">
+            <view class="evaluation-applying-round">4</view>
+            <view class="evaluation-applying-progress-item-text">
+                <view>众测报告采集</view>
+                <view>上传众测报告，后台审核后发布</view>
+            </view>
+        </view>
+    </view>
+</view>

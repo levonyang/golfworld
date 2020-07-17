@@ -1,4 +1,5 @@
 <poster id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess"></poster>
+<navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
 <view style='background:url({{evaluation.picUrl}}) no-repeat;background-size:cover;width:100%;height:588rpx; position: relative;top:-200rpx ;margin-bottom:-200rpx;z-index: -100;background-position:center center; box-shadow: inset  0rpx -80rpx 50rpx -28rpx   #979797;'></view>
 <view class="content">
     <navBar title='' background='rgba(255,255,255,1)' color="white" back="{{true}}" home="{{true}}"/>
@@ -67,9 +68,9 @@
 
         <!--申请中 code:1-->
 <view class="evaluation-applying" wx:if="{{evaluation.status==1}}">
-    <view class="evaluation-applying-item "
+    <view class="evaluation-desc-item "
           style="{{more ? 'height: auto !important' :''}}">
-        <view class="evaluation-applying-title">
+        <view class="evaluation-desc-title">
             <view></view>
             <view>本期众测</view>
         </view>
@@ -96,20 +97,113 @@
             </view>
         </view>
     </view>
-    <view class="evaluation-applying-item">
-        <view class="evaluation-applying-title">
-            <view></view>
-            <view>众测流程</view>
+    <view class="evaluation-desc-item">
+        <view class="flex_row justify-between">
+            <view class="evaluation-desc-title">
+                <view></view>
+                <view>众测流程</view>
+            </view>
+            <view bindtap="goRule" class="active-rule">
+                活动规则 >
+            </view>
         </view>
-        <view>
-          <view>
-                <view>
-                    <view class="evaluation-applying-round">1</view>
+        <view class="evaluation-applying-progress">
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">1</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>开放申请</view>
+                    <view>申请人类型不限(资深工作者,老师,学生等)</view>
                 </view>
-          </view>
+            </view>
+            <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">2</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>申请人筛选</view>
+                    <view>申请之后会在12个工作日处理完毕</view>
+                </view>
+            </view>
+            <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">3</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>任务式众测评测</view>
+                    <view>测评期间后台会给你发布不同的测评任务</view>
+                </view>
+            </view>
+            <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">4</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>众测报告采集</view>
+                    <view>上传众测报告，后台审核后发布</view>
+                </view>
+            </view>
         </view>
+    </view>
+</view>
 
+        <!--确认中 code:2-->
+<view class="evaluation-confirming" wx:if="{{evaluation.status==2}}">
+    <view class="evaluation-desc-item "
+          style="height: 744rpx">
+        <view class="evaluation-desc-title">
+            <view></view>
+            <view>申请状态</view>
+        </view>
+        <image class="evaluation-confirming-image" src="/static/images/evaluation@confrimming.png"></image>
+        <view class="evaluation-confirming-title">众测名单确认中</view>
+        <text class="evaluation-confirming-desc">
+            不要着急哦，系统正在筛选候选人，
+            审核结果第一时间通知你
+        </text>
+        <view class="evaluation-confirming-btn">试用名单确认中</view>
+        <view  class="evaluation-confirming-time">2020年5月31日前公布</view>
+    </view>
 
+    <view class="evaluation-desc-item">
+        <view class="flex_row justify-between">
+            <view class="evaluation-desc-title">
+                <view></view>
+                <view>众测流程</view>
+            </view>
+            <view bindtap="goRule" class="active-rule">
+                活动规则 >
+            </view>
+        </view>
+        <view class="evaluation-applying-progress">
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">1</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>开放申请</view>
+                    <view>申请人类型不限(资深工作者,老师,学生等)</view>
+                </view>
+            </view>
+            <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">2</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>申请人筛选</view>
+                    <view>申请之后会在12个工作日处理完毕</view>
+                </view>
+            </view>
+            <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">3</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>任务式众测评测</view>
+                    <view>测评期间后台会给你发布不同的测评任务</view>
+                </view>
+            </view>
+            <image class="downarrow" src="/static/images/evaluation@downarraw.png"></image>
+            <view class="evaluation-applying-progress-item">
+                <view class="evaluation-applying-round">4</view>
+                <view class="evaluation-applying-progress-item-text">
+                    <view>众测报告采集</view>
+                    <view>上传众测报告，后台审核后发布</view>
+                </view>
+            </view>
+        </view>
     </view>
 </view>
 
